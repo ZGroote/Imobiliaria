@@ -1,0 +1,446 @@
+[
+  {
+    "subsolo_disponivel": 75.0,
+    "cap": 1285.7,
+    "perm_min": 74.75,
+    "n": 14,
+    "natural": {
+      "area_construida_m2": 1535.0,
+      "area_computavel_m2": 1255.0,
+      "area_nao_computavel_m2": 280.0,
+      "area_privativa_m2": 840.0,
+      "area_acima_ca_basico_m2": 956.0,
+      "area_garagem_m2": 135.0,
+      "vagas": 5,
+      "area_permeavel_m2": 177.68,
+      "ca_usado": 4.197,
+      "to_usada": 0.268,
+      "pavimentos": 14,
+      "unidades_estimadas": 14,
+      "vgv_estimado": null
+    },
+    "natural_cabe": true,
+    "ajuste_chamado": false,
+    "retorno_busca": {
+      "area_construida_m2": 1535.0,
+      "area_computavel_m2": 1255.0,
+      "area_nao_computavel_m2": 280.0,
+      "area_privativa_m2": 840.0,
+      "area_acima_ca_basico_m2": 956.0,
+      "area_garagem_m2": 135.0,
+      "vagas": 5,
+      "area_permeavel_m2": 177.68,
+      "ca_usado": 4.197,
+      "to_usada": 0.268,
+      "pavimentos": 14,
+      "unidades_estimadas": 14,
+      "vgv_estimado": null
+    },
+    "amostras_viaveis": [],
+    "mesmo_predio_anterior_reavaliado": {
+      "metricas": {
+        "area_construida_m2": 1535.0,
+        "area_computavel_m2": 1255.0,
+        "area_nao_computavel_m2": 280.0,
+        "area_privativa_m2": 840.0,
+        "area_acima_ca_basico_m2": 956.0,
+        "area_garagem_m2": 135.0,
+        "vagas": 5,
+        "area_permeavel_m2": 177.68,
+        "ca_usado": 4.197,
+        "to_usada": 0.268,
+        "pavimentos": 14,
+        "unidades_estimadas": 14,
+        "vgv_estimado": null
+      },
+      "avisos": [
+        "Faltam vagas: precisa de 14, 2 subsolo(s) comportam 5. Em metricas.vagas ficam as 5."
+      ],
+      "cabe": true,
+      "garagens": [
+        {
+          "base_utm": [
+            [
+              205008.8088,
+              7564018.8088
+            ],
+            [
+              205008.8088,
+              7564004.1912
+            ],
+            [
+              205004.1912,
+              7564004.1912
+            ],
+            [
+              205004.1912,
+              7564018.8088
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        },
+        {
+          "base_utm": [
+            [
+              205008.8088,
+              7564018.8088
+            ],
+            [
+              205008.8088,
+              7564004.1912
+            ],
+            [
+              205004.1912,
+              7564004.1912
+            ],
+            [
+              205004.1912,
+              7564018.8088
+            ]
+          ],
+          "z0_m": -6.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ]
+    },
+    "regra": "antes"
+  },
+  {
+    "subsolo_disponivel": 75.0,
+    "cap": 1285.7,
+    "perm_min": 74.75,
+    "n": 14,
+    "natural": {
+      "area_construida_m2": 1535.0,
+      "area_computavel_m2": 1255.0,
+      "area_nao_computavel_m2": 280.0,
+      "area_privativa_m2": 840.0,
+      "area_acima_ca_basico_m2": 956.0,
+      "area_garagem_m2": 135.0,
+      "vagas": 5,
+      "area_permeavel_m2": 177.68,
+      "ca_usado": 4.197,
+      "to_usada": 0.268,
+      "pavimentos": 14,
+      "unidades_estimadas": 14,
+      "vgv_estimado": null
+    },
+    "natural_cabe": true,
+    "ajuste_chamado": false,
+    "retorno_busca": {
+      "area_construida_m2": 1535.0,
+      "area_computavel_m2": 1255.0,
+      "area_nao_computavel_m2": 280.0,
+      "area_privativa_m2": 840.0,
+      "area_acima_ca_basico_m2": 956.0,
+      "area_garagem_m2": 135.0,
+      "vagas": 5,
+      "area_permeavel_m2": 177.68,
+      "ca_usado": 4.197,
+      "to_usada": 0.268,
+      "pavimentos": 14,
+      "unidades_estimadas": 14,
+      "vgv_estimado": null
+    },
+    "amostras_viaveis": [],
+    "mesmo_predio_anterior_reavaliado": {
+      "metricas": {
+        "area_construida_m2": 1535.0,
+        "area_computavel_m2": 1255.0,
+        "area_nao_computavel_m2": 280.0,
+        "area_privativa_m2": 840.0,
+        "area_acima_ca_basico_m2": 956.0,
+        "area_garagem_m2": 135.0,
+        "vagas": 5,
+        "area_permeavel_m2": 177.68,
+        "ca_usado": 4.197,
+        "to_usada": 0.268,
+        "pavimentos": 14,
+        "unidades_estimadas": 14,
+        "vgv_estimado": null
+      },
+      "avisos": [
+        "Faltam vagas: precisa de 14, 2 subsolo(s) comportam 5. Em metricas.vagas ficam as 5."
+      ],
+      "cabe": true,
+      "garagens": [
+        {
+          "base_utm": [
+            [
+              205004.1912,
+              7564018.8088
+            ],
+            [
+              205008.8088,
+              7564018.8088
+            ],
+            [
+              205008.8088,
+              7564004.1912
+            ],
+            [
+              205004.1912,
+              7564004.1912
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        },
+        {
+          "base_utm": [
+            [
+              205004.1912,
+              7564018.8088
+            ],
+            [
+              205008.8088,
+              7564018.8088
+            ],
+            [
+              205008.8088,
+              7564004.1912
+            ],
+            [
+              205004.1912,
+              7564004.1912
+            ]
+          ],
+          "z0_m": -6.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ]
+    },
+    "regra": "antes"
+  },
+  {
+    "subsolo_disponivel": 175.0,
+    "cap": 1285.7,
+    "perm_min": 74.75,
+    "n": 14,
+    "natural": {
+      "area_construida_m2": 1589.0,
+      "area_computavel_m2": 1309.0,
+      "area_nao_computavel_m2": 280.0,
+      "area_privativa_m2": 840.0,
+      "area_acima_ca_basico_m2": 1010.0,
+      "area_garagem_m2": 189.0,
+      "vagas": 7,
+      "area_permeavel_m2": 199.0,
+      "ca_usado": 4.378,
+      "to_usada": 0.268,
+      "pavimentos": 14,
+      "unidades_estimadas": 14,
+      "vgv_estimado": null
+    },
+    "natural_cabe": false,
+    "ajuste_chamado": true,
+    "retorno_busca": {
+      "area_construida_m2": 1489.0,
+      "area_computavel_m2": 1229.0,
+      "area_nao_computavel_m2": 260.0,
+      "area_privativa_m2": 780.0,
+      "area_acima_ca_basico_m2": 930.0,
+      "area_garagem_m2": 189.0,
+      "vagas": 7,
+      "area_permeavel_m2": 199.0,
+      "ca_usado": 4.11,
+      "to_usada": 0.268,
+      "pavimentos": 13,
+      "unidades_estimadas": 13,
+      "vgv_estimado": null
+    },
+    "amostras_viaveis": [],
+    "mesmo_predio_anterior_reavaliado": {
+      "metricas": {
+        "area_construida_m2": 1589.0,
+        "area_computavel_m2": 1309.0,
+        "area_nao_computavel_m2": 280.0,
+        "area_privativa_m2": 840.0,
+        "area_acima_ca_basico_m2": 1010.0,
+        "area_garagem_m2": 189.0,
+        "vagas": 7,
+        "area_permeavel_m2": 199.0,
+        "ca_usado": 4.378,
+        "to_usada": 0.268,
+        "pavimentos": 14,
+        "unidades_estimadas": 14,
+        "vgv_estimado": null
+      },
+      "avisos": [
+        "Faltam vagas: precisa de 14, 2 subsolo(s) comportam 7. Em metricas.vagas ficam as 7."
+      ],
+      "cabe": false,
+      "garagens": [
+        {
+          "base_utm": [
+            [
+              205001.6394,
+              7564017.6106
+            ],
+            [
+              205011.3606,
+              7564017.6106
+            ],
+            [
+              205011.3606,
+              7564007.8894
+            ],
+            [
+              205001.6394,
+              7564007.8894
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        },
+        {
+          "base_utm": [
+            [
+              205001.6394,
+              7564017.6106
+            ],
+            [
+              205011.3606,
+              7564017.6106
+            ],
+            [
+              205011.3606,
+              7564007.8894
+            ],
+            [
+              205001.6394,
+              7564007.8894
+            ]
+          ],
+          "z0_m": -6.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ]
+    },
+    "regra": "depois"
+  },
+  {
+    "subsolo_disponivel": 175.0,
+    "cap": 1285.7,
+    "perm_min": 74.75,
+    "n": 14,
+    "natural": {
+      "area_construida_m2": 1589.0,
+      "area_computavel_m2": 1309.0,
+      "area_nao_computavel_m2": 280.0,
+      "area_privativa_m2": 840.0,
+      "area_acima_ca_basico_m2": 1010.0,
+      "area_garagem_m2": 189.0,
+      "vagas": 7,
+      "area_permeavel_m2": 199.0,
+      "ca_usado": 4.378,
+      "to_usada": 0.268,
+      "pavimentos": 14,
+      "unidades_estimadas": 14,
+      "vgv_estimado": null
+    },
+    "natural_cabe": false,
+    "ajuste_chamado": true,
+    "retorno_busca": {
+      "area_construida_m2": 1489.0,
+      "area_computavel_m2": 1229.0,
+      "area_nao_computavel_m2": 260.0,
+      "area_privativa_m2": 780.0,
+      "area_acima_ca_basico_m2": 930.0,
+      "area_garagem_m2": 189.0,
+      "vagas": 7,
+      "area_permeavel_m2": 199.0,
+      "ca_usado": 4.11,
+      "to_usada": 0.268,
+      "pavimentos": 13,
+      "unidades_estimadas": 13,
+      "vgv_estimado": null
+    },
+    "amostras_viaveis": [],
+    "mesmo_predio_anterior_reavaliado": {
+      "metricas": {
+        "area_construida_m2": 1589.0,
+        "area_computavel_m2": 1309.0,
+        "area_nao_computavel_m2": 280.0,
+        "area_privativa_m2": 840.0,
+        "area_acima_ca_basico_m2": 1010.0,
+        "area_garagem_m2": 189.0,
+        "vagas": 7,
+        "area_permeavel_m2": 199.0,
+        "ca_usado": 4.378,
+        "to_usada": 0.268,
+        "pavimentos": 14,
+        "unidades_estimadas": 14,
+        "vgv_estimado": null
+      },
+      "avisos": [
+        "Faltam vagas: precisa de 14, 2 subsolo(s) comportam 7. Em metricas.vagas ficam as 7."
+      ],
+      "cabe": false,
+      "garagens": [
+        {
+          "base_utm": [
+            [
+              205001.6394,
+              7564017.6106
+            ],
+            [
+              205011.3606,
+              7564017.6106
+            ],
+            [
+              205011.3606,
+              7564007.8894
+            ],
+            [
+              205001.6394,
+              7564007.8894
+            ]
+          ],
+          "z0_m": -3.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        },
+        {
+          "base_utm": [
+            [
+              205001.6394,
+              7564017.6106
+            ],
+            [
+              205011.3606,
+              7564017.6106
+            ],
+            [
+              205011.3606,
+              7564007.8894
+            ],
+            [
+              205001.6394,
+              7564007.8894
+            ]
+          ],
+          "z0_m": -6.0,
+          "altura_m": 3.0,
+          "pavimentos": 1,
+          "uso": "garagem"
+        }
+      ]
+    },
+    "regra": "depois"
+  }
+]

@@ -1,0 +1,5308 @@
+[
+  {
+    "id": "retangulo-gc0-simetrico",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 3,
+        "recuo_fundos_m": 3,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 1.5,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc0-fundos",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 8,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc0-frontal",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 7,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 3,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc0-CA",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 2.7,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc0-TO",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.24,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc0-altura",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 22.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc0-permeabilidade",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.58,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.22,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc1-simetrico",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 3,
+        "recuo_fundos_m": 3,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 1.5,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc1-fundos",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 8,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc1-frontal",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 7,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 3,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc1-CA",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 2.7,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc1-TO",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.24,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc1-altura",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 22.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "retangulo-gc1-permeabilidade",
+    "lote": {
+      "id": "rev1-retangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ],
+        [
+          205023,
+          7564037
+        ],
+        [
+          205000,
+          7564037
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205023,
+          7564000
+        ]
+      ],
+      "area_m2": 851.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.58,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.22,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc0-simetrico",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 3,
+        "recuo_fundos_m": 3,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 1.5,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc0-fundos",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 8,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc0-frontal",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 7,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 3,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc0-CA",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 2.7,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc0-TO",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.24,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc0-altura",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 22.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc0-permeabilidade",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.58,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.22,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc1-simetrico",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 3,
+        "recuo_fundos_m": 3,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 1.5,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc1-fundos",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 8,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc1-frontal",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 7,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 3,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc1-CA",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 2.7,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc1-TO",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.24,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc1-altura",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 22.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "estreito-gc1-permeabilidade",
+    "lote": {
+      "id": "rev1-estreito",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ],
+        [
+          205013.5,
+          7564044
+        ],
+        [
+          205000,
+          7564044
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205013.5,
+          7564000
+        ]
+      ],
+      "area_m2": 594.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.58,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.22,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc0-simetrico",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 3,
+        "recuo_fundos_m": 3,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 1.5,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc0-fundos",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 8,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc0-frontal",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 7,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 3,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc0-CA",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 2.7,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc0-TO",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.24,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc0-altura",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 22.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc0-permeabilidade",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.58,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.22,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc1-simetrico",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 3,
+        "recuo_fundos_m": 3,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 1.5,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc1-fundos",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 8,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc1-frontal",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 7,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 3,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc1-CA",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 2.7,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc1-TO",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.24,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc1-altura",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 22.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "L-gc1-permeabilidade",
+    "lote": {
+      "id": "rev1-L",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ],
+        [
+          205034,
+          7564018
+        ],
+        [
+          205019,
+          7564018
+        ],
+        [
+          205019,
+          7564043
+        ],
+        [
+          205000,
+          7564043
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205034,
+          7564000
+        ]
+      ],
+      "area_m2": 1087.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.58,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.22,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc0-simetrico",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 3,
+        "recuo_fundos_m": 3,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 1.5,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc0-fundos",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 8,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc0-frontal",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 7,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 3,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc0-CA",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 2.7,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc0-TO",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.24,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc0-altura",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 22.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc0-permeabilidade",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.58,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.22,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc1-simetrico",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 3,
+        "recuo_fundos_m": 3,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 1.5,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc1-fundos",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 8,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc1-frontal",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 7,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 3,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc1-CA",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 2.7,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc1-TO",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.24,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc1-altura",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 22.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "trapezio-gc1-permeabilidade",
+    "lote": {
+      "id": "rev1-trapezio",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ],
+        [
+          205025,
+          7564042
+        ],
+        [
+          205004,
+          7564042
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205031,
+          7564000
+        ]
+      ],
+      "area_m2": 1092.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.58,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.22,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc0-simetrico",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 3,
+        "recuo_fundos_m": 3,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 1.5,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc0-fundos",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 8,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc0-frontal",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 7,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 3,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc0-CA",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 2.7,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc0-TO",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.24,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc0-altura",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 22.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc0-permeabilidade",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.58,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.22,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": false
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc1-simetrico",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 3,
+        "recuo_fundos_m": 3,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 1.5,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc1-fundos",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 8,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc1-frontal",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 7,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 3,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc1-CA",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 2.7,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc1-TO",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.24,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc1-altura",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 22.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.25,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  },
+  {
+    "id": "triangulo-gc1-permeabilidade",
+    "lote": {
+      "id": "rev1-triangulo",
+      "poligono_utm": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ],
+        [
+          205017,
+          7564047
+        ]
+      ],
+      "frente": [
+        [
+          205000,
+          7564000
+        ],
+        [
+          205038,
+          7564000
+        ]
+      ],
+      "area_m2": 893.0,
+      "zona_id": "REV1",
+      "zona_origem": "teste",
+      "zona_conferida": false
+    },
+    "antes": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.58,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "depois": {
+      "id": "REV1",
+      "nome": "Sintética de revisão",
+      "conferido": false,
+      "fontes": [],
+      "parametros": {
+        "ca_basico": 1,
+        "ca_maximo": 4.3,
+        "taxa_ocupacao": 0.62,
+        "taxa_permeabilidade": 0.22,
+        "recuo_frontal_m": 4,
+        "recuo_lateral_m": 1.5,
+        "recuo_fundos_m": 2,
+        "altura_max_m": 43.5,
+        "pavimentos_max": null,
+        "garagem_computavel": true
+      }
+    },
+    "premissas": {}
+  }
+]

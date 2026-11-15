@@ -1,0 +1,21 @@
+{
+  "referencias/0.8.0/motor.py": "b31fa44877fbb93a6bb5a907e5640abe45c19104d36e749fdf6e3377b333971b",
+  "referencias/0.8.1/gerar.py": "c96824a0d7ede98bb17743b031065a52f79ef998c9a4239141c97762cdaf44c3",
+  "referencias/0.8.1/gerar_pilotos.py": "f927775bc7f834f04964ae37f77a408e0856af46fd023d98f89eb0118bf24984",
+  "referencias/0.8.1/medir_tempo.py": "a9d10d4e1d94e6243e6386691f11925c1d7fb1d030cce4c0ac9af322c80c801b",
+  "referencias/0.8.1/motor.py": "e378f002775f3217ec37918b9aee6788ec5dd32efb2b81027ec6288395ae762c",
+  "referencias/0.8.1/preparar_exemplo.py": "cdf65224af3d27e5150c3c491f691edecedfb99d4e0743c98268f1334089c7a4",
+  "referencias/0.8.1/test_motor.py": "7f0dad9ebe2ef960909b73742081921860f1cad93441061fef4ce46d6c98baa2",
+  "referencias/0.8.1/utm.py": "456c4397be33589b165488e0999216597fb78d6816e5d79e6c9158251d750e5d",
+  "referencias/0.8.1/exemplos/estudo-exemplo.json": "435c5c4ee3b2705b89036bb8af50777a8d3833e5d96d0566064b3c87aa3015a3",
+  "referencias/0.8.1/exemplos/linha-de-base-0.7.1.json": "8c1c55d6090983c3dfd16f0ec9473085401e051b1cbb83b7ed7934e02b8fed79",
+  "referencias/0.8.1/exemplos/lote-exemplo.json": "726c439697d30a7de65c58dd16f3a981aa34d8348e955f4bab56d06051be77e6",
+  "referencias/0.8.1/exemplos/zona-exemplo.json": "e1d21376c0f3185d6374d21da292a97f4dabf79bac9fc18b23e52267c87af813",
+  "referencias/0.8.1/exemplos/pilotos/SC-completo-22421.json": "52305594a11f736c42eaeb5d4b6cf7b65df89afa3cee555f830c42e186807027",
+  "referencias/0.8.1/exemplos/pilotos/SC-completo-22426.json": "eaa1d3a0fe236dcc44a4efb4242265bc062113a643bfe3a5142628b6cde42552",
+  "referencias/0.8.1/exemplos/pilotos/SC-completo-25297.json": "de8bbe8a5792bc5576bc41c1b7025721f9587a2092021cbb62e10359eb199a41",
+  "referencias/0.8.1/exemplos/pilotos/SC-completo-30516.json": "397881e59ef89509273a5688ac820f06f67d15278af8b6dfb02114fc10096f0c",
+  "referencias/0.8.1/exemplos/pilotos/SC-completo-37607.json": "c55f5e3d0e93a4b77567dbd7ec7f03442d3294de14c0e39136fd7d5cef092cf5",
+  "referencias/0.8.1/exemplos/pilotos/SC-completo-q1382-11984-11988.json": "9a853bba76b04e9ff9ab2ce986078ff83b86a32fc28bfea3c2a35fe0343190b6",
+  "referencias/0.8.1/exemplos/pilotos/SC-completo-remembramento-75352-75354.json": "00273b5f93472da3b05e8db0b0108018fa265d23bb05b51d5a733581a51a290a"
+}
