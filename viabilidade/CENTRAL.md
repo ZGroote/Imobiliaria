@@ -42,6 +42,7 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - Relatório da IA: 1 linha + `RELATORIO.md` na pasta (regra no README).
 - IA parada não gasta: só mandar tarefa quando a dependência estiver resolvida.
 - Lembrete automático da central: de hora em hora (as IAs acordam a central quando entregam).
+- **Cotas, Passo 1 (autorizado 15/11):** o lembrete horário (cron `96cb1419`, :17, só desta sessão, expira em 7 dias) roda `imobiliaria-artefatos/capacidade/amostrar.py`: lê `~/.maestri/usage/providers/.status.json` e anexa uma linha em `capacidade/dados/amostras-AAAA-MM.jsonl` (fora do git). Critério do degrau: 24 amostras/dia por 3 dias sem erro. Degrau 2 (registro de tarefas) só com nova autorização.
 - **Repo público:** o usuário decidiu (14/11) manter público. Commit + push a cada entrega.
 
 ## Armadilhas já vistas
