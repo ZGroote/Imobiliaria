@@ -94,24 +94,27 @@ function summarize(runs) {
   return results;
 }
 
-function report(date, results) {
+function report(date, rotulo, arquivo, results) {
   const lines = [
-    '# Medição de desempenho da maquete volumétrica', '',
-    `Data: ${date}. Medianas de 3 execuções independentes por estudo e perfil.`,
-    'Primeira maquete: `performance.now()` no primeiro `renderer.render()` com volumes; tempo relativo à navegação.',
-    'Bytes: `Network.loadingFinished.encodedDataLength` acumulado até o primeiro desenho (inclui HTML, estudo e dependências).',
-    'Órbita: rotação automática por 5 s, um giro completo; FPS = chamadas de renderização / duração observada.',
-    'Celular: viewport 390×844, escala 3, CPU 4× mais lenta e perfil Fast 3G (150 ms, 1,6 Mbps/750 Kbps). Desktop: 1366×768.',
-    'Memória: fotografia de `performance.memory` após a órbita e a troca de opção; `n/d` quando indisponível.', '',
+    `## Medição ${date} — ${rotulo}`,
+    `JSON: \`medicao/${arquivo}\``,
     '| Estudo | Perfil | Primeira maquete (ms) | Transferidos (bytes) | Órbita (FPS) | Troca A→B (ms) | Heap usado (MB) |',
     '|---|---|---:|---:|---:|---:|---:|',
   ];
   for (const row of results) lines.push(`| ${row.estudo} | ${row.perfil} | ${row.primeiraMaqueteMs?.toFixed(0) ?? 'n/d'} | ${row.bytesTransferidos ?? 'n/d'} | ${row.fpsOrbita5s?.toFixed(1) ?? 'n/d'} | ${row.trocaOpcaoMs?.toFixed(0) ?? (row.opcoesDisponiveis < 2 ? 'n/d (sem B)' : 'n/d')} | ${bytesToMb(row.heapUsadoBytes)} |`);
-  lines.push('', 'Observações: valores são medições deste ambiente, sem metas de aprovação e sem otimizações nesta tarefa.', '');
   return lines.join('\n');
 }
 
 (async () => {
+  const date = process.env.MEDICAO_DATA || new Date().toISOString().slice(0, 10);
+  const hourMinute = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date()).replace(':', '');
+  const label = process.env.MEDIR_ROTULO || `hora-${hourMinute}`;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error('MEDICAO_DATA deve usar AAAA-MM-DD.');
+  if (!/^[A-Za-z0-9][A-Za-z0-9_-]{0,39}$/.test(label)) throw new Error('MEDIR_ROTULO deve ter até 40 caracteres alfanuméricos, hífen ou sublinhado.');
+  const directory = path.join(__dirname, 'medicao');
+  const filename = `${date}-${label}.json`;
+  const outputPath = path.join(directory, filename);
+  if (fs.existsSync(outputPath)) throw new Error(`Medição já existe: ${filename}. Escolha outro MEDIR_ROTULO.`);
   const browser = await chromium.launch({
     ...(fs.existsSync(chromePath) ? { executablePath: chromePath } : {}),
     headless: true, args: ['--enable-unsafe-swiftshader'],
@@ -126,12 +129,10 @@ function report(date, results) {
   } finally {
     await browser.close();
   }
-  const date = process.env.MEDICAO_DATA || new Date().toISOString().slice(0, 10);
   const results = summarize(runs);
   assert.equal(runs.length, studies.length * profiles.length * 3, 'Cada estudo e perfil precisa de 3 execuções.');
   assert(results.every(row => runs.filter(sample => sample.estudo === row.estudo && sample.perfil === row.perfil).length === 3), 'Cada mediana precisa de 3 amostras.');
-  const directory = path.join(__dirname, 'medicao');
   fs.mkdirSync(directory, { recursive: true });
-  fs.writeFileSync(path.join(directory, `${date}.json`), JSON.stringify({ status: 'concluida', data: date, repeticoes: 3, execucoes: runs, medianas: results }, null, 2) + '\n');
-  fs.writeFileSync(path.join(__dirname, 'MEDICAO.md'), report(date, results));
+  fs.writeFileSync(outputPath, JSON.stringify({ status: 'concluida', data: date, rotulo: label, repeticoes: 3, execucoes: runs, medianas: results }, null, 2) + '\n', { flag: 'wx' });
+  console.log(report(date, label, filename, results));
 })().catch(error => { console.error(error); process.exitCode = 1; });
