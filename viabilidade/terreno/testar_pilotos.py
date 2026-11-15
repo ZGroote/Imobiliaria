@@ -153,6 +153,10 @@ def main():
     zonas = {z["id"] for z in ler(AQUI.parent / "lei/zonas.json")}
     preparar = runpy.run_path(str(AQUI / "preparar_zonas.py"))["preparar"]
     assert preparar(copy.deepcopy(lotes), anotacoes, zonas) == lotes
+    zona_por_id = {l["id"]: l["zona_id"] for l in lotes}
+    for a in anotacoes:  # T19: a reconferência mora só na anotação; o preparar_zonas não a leva ao lote
+        assert a["reconferencia"]["zona_confirmada"] == zona_por_id[a["id"]] and a["reconferencia"]["data"] == "2026-11-15", a["id"]
+        assert "reconferencia" not in next(l for l in lotes if l["id"] == a["id"])["anotacao_zoneamento"], a["id"]
     relevo = {l["id"]: l for l in ler(AQUI / "dados/relevo-pilotos.json")["lotes"]}
     assert set(relevo) == {l["id"] for l in lotes}
     for lote in lotes:
