@@ -30,6 +30,8 @@ TESTES = {
 }
 EVIDENCIAS_VISUAL = "viabilidade/visual/evidencias"
 TEMPO_MAX = 900
+# única exceção fora de viabilidade/: o workflow que roda este script no GitHub
+FORA_PERMITIDO = [":(exclude)viabilidade", ":(exclude).github/workflows/viabilidade.yml"]
 
 
 def git(*args):
@@ -91,8 +93,8 @@ def fora_do_modulo(base):
     cod, mb = git("merge-base", base, "HEAD")
     if cod:
         return "nao_executado", [], f"referência '{base}' não encontrada (git fetch?)"
-    _, commitados = git("diff", "--name-only", mb, "HEAD", "--", ".", ":(exclude)viabilidade")
-    _, soltos = git("status", "--porcelain", "--", ".", ":(exclude)viabilidade")
+    _, commitados = git("diff", "--name-only", mb, "HEAD", "--", ".", *FORA_PERMITIDO)
+    _, soltos = git("status", "--porcelain", "--", ".", *FORA_PERMITIDO)
     lista = [l for l in commitados.splitlines() if l] + [l[3:] for l in soltos.splitlines() if l]
     texto = f"base {base} -> merge-base {mb}\ncommitados:\n{commitados or '-'}\nsoltos:\n{soltos or '-'}"
     return ("reprovado" if lista else "aprovado"), lista, texto
