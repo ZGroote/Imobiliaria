@@ -115,6 +115,42 @@ async function checkWidth(page) {
       assert.match(await page.locator('#conferencia-lote').innerText(), /não conferid/i,
         'O exemplo não comprova que o lote pertence à zona escolhida.');
       assert.doesNotMatch(await page.locator('#conferencia-lei').innerText(), /não conferid/i);
+      const dominios = [
+        { status: 'dentro', motivos: [], versao: 'dominio-0.8' },
+        { status: 'fora', motivos: ['área acima da faixa testada'], versao: 'dominio-0.8' },
+        { status: 'dados_insuficientes', motivos: ['falta zona conferida'], versao: 'dominio-0.8' },
+        null,
+      ];
+      for (const dominio of dominios) {
+        const fixture = structuredClone(example);
+        if (dominio) fixture.dominio = dominio;
+        else delete fixture.dominio;
+        const nome = `dominio-${dominio?.status || 'ausente'}.json`;
+        await upload(page, JSON.stringify(fixture), nome);
+        await page.waitForFunction(nome => document.querySelector('#status').textContent.includes(nome), nome);
+        const selo = page.locator('#dominio');
+        if (!dominio) {
+          assert.equal(await selo.isVisible(), false, `${profile}: estudo antigo não deve mostrar selo.`);
+        } else if (dominio.status === 'dentro') {
+          assert.equal(await selo.getAttribute('class'), 'domain-badge');
+          assert.equal(await selo.getAttribute('role'), 'status');
+          assert.match(await selo.innerText(), /Dentro do domínio testado do motor \(dominio-0\.8\)/);
+        } else {
+          assert.equal(await selo.getAttribute('class'), 'domain-alert');
+          assert.equal(await selo.getAttribute('role'), 'alert');
+          for (const motivo of dominio.motivos) assert((await selo.innerText()).includes(motivo));
+          if (dominio.status === 'fora') {
+            assert.match(await selo.innerText(), /Fora do domínio testado: resultado não validado; encaminhar a profissional/);
+            assert(await selo.evaluate(node => {
+              const box = node.getBoundingClientRect();
+              return box.top >= 0 && box.bottom <= innerHeight;
+            }), `${profile}: alerta de domínio fora precisa aparecer sem rolar.`);
+            assert.equal(await page.evaluate(() => scrollY), 0, `${profile}: a tela não deve rolar para o alerta.`);
+          } else assert.match(await selo.innerText(), /Dados insuficientes para validar o domínio testado do motor/);
+        }
+      }
+      await upload(page, JSON.stringify(example), 'dominio-exemplo-restaurado.json');
+      await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
       if (!mobile) {
         const v4 = structuredClone(example);
         delete v4.opcoes_ausentes;
@@ -331,6 +367,8 @@ async function checkWidth(page) {
           study => { study.caixa_maxima.projecao_parede_cega_utm = {}; },
           study => { study.caixa_maxima.projecao_parede_cega_utm = [[0, 0], [1, 0], [2, 0]]; },
           study => { study.opcoes[0].volumes[0].parede_cega = 'sim'; },
+          study => { study.dominio = { status: 'fora', motivos: [null], versao: 'dominio-0.8' }; },
+          study => { study.dominio = { status: 'fora', motivos: [], versao: 'dominio-0.8' }; },
         ]) {
           const bad = structuredClone(v2);
           mutate(bad);

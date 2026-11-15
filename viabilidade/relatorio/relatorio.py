@@ -734,6 +734,32 @@ def _extrair_resumo_lote(lote: Dict[str, Any]) -> str:
     return " · ".join(partes)
 
 
+def _gerar_selo_dominio(estudo: Dict[str, Any], rodape: bool = False) -> str:
+    dominio = estudo.get("dominio")
+    if not isinstance(dominio, dict) or dominio.get("status") not in {"dentro", "fora", "dados_insuficientes"}:
+        return ""
+    versao = dominio.get("versao")
+    motivos = dominio.get("motivos")
+    if not isinstance(versao, str) or not versao.strip() or not isinstance(motivos, list) or any(not isinstance(m, str) for m in motivos):
+        return ""
+    status = dominio["status"]
+    if status == "dentro":
+        return "" if rodape else f'<div class="selo-dominio selo-dentro">Dentro do domínio testado do motor ({esc(versao)})</div>'
+    if status == "fora":
+        titulo = "Fora do domínio testado: resultado não validado; encaminhar a profissional"
+        if rodape:
+            return f'<span class="aviso-dominio-rodape">{esc(titulo)}</span>'
+        classe = "selo-fora"
+    else:
+        titulo = f"Domínio testado: dados insuficientes para validar o resultado ({esc(versao)})."
+        if rodape:
+            return ""
+        classe = "selo-insuficiente"
+    itens = "".join(f"<li>{esc(motivo)}</li>" for motivo in motivos)
+    lista = f"<ul>{itens}</ul>" if itens else ""
+    return f'<div class="selo-dominio {classe}" role="alert"><strong>{esc(titulo)}</strong>{lista}</div>'
+
+
 def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
     """
     Gera a página de Capa com:
@@ -750,6 +776,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
     caixa = estudo.get("caixa_maxima") or {}
     premissas = estudo.get("premissas") or {}
     opcoes = estudo.get("opcoes") or []
+    selo_dominio = _gerar_selo_dominio(estudo)
     premissas_capa = "".join(
         f'<div class="premissa-item" data-premissa="{esc(k)}"><span class="premissa-nome">{esc(NOMES_PREMISSAS.get(k, (k, ""))[0])}:</span> '
         f'{span_num(f"premissas.{k}", v, NOMES_PREMISSAS.get(k, (k, ""))[1]) if isinstance(v, (int, float, bool)) or v is None else f"<span class=\'num-texto\' data-campo=\'premissas.{esc(k)}\' data-valor=\'{esc(v)}\'>{esc(v)}</span>"}'
@@ -904,6 +931,8 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
 
       {_gerar_painel_conferencia(lote, zona, compacto=False)}
 
+      {selo_dominio}
+
       {f'<div class="card-info"><div class="card-info-titulo">Premissas</div>{premissas_capa}</div>' if premissas_capa else ''}
 
       <div class="grade-resumo-lote">
@@ -977,7 +1006,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
         <div><strong>Observações da Zona:</strong> {esc(zona.get("observacoes") or "—")}</div>
       </div>
 
-      <footer class="rodape-fixo">{esc(RODAPE_FIXO)}</footer>
+      <footer class="rodape-fixo">{esc(RODAPE_FIXO)}{_gerar_selo_dominio(estudo, rodape=True)}</footer>
     </section>
     """
 
@@ -1008,6 +1037,7 @@ def _gerar_pagina_opcao(estudo: Dict[str, Any], opcao: Dict[str, Any]) -> str:
     volumes = opcao.get("volumes") or []
     alertas_op = opcao.get("alertas") or []
     incertezas = estudo.get("incertezas") or []
+    aviso_dominio_rodape = _gerar_selo_dominio(estudo, rodape=True)
     areas_especiais = lote.get("areas_especiais") or []
 
     datas_fontes = sorted({f.get("data", "") for f in (zona.get("fontes") or []) if f.get("data")})
@@ -1368,7 +1398,7 @@ def _gerar_pagina_opcao(estudo: Dict[str, Any], opcao: Dict[str, Any]) -> str:
       </div>
 
       <!-- 8. RODAPÉ FIXO -->
-      <footer class="rodape-fixo">{esc(RODAPE_FIXO)}</footer>
+      <footer class="rodape-fixo">{esc(RODAPE_FIXO)}{aviso_dominio_rodape}</footer>
     </section>
     """
 
@@ -1762,6 +1792,37 @@ body {
 .caixa-incertezas {
   background: #fff7ed;
   border: 1.5px solid #fb923c;
+}
+.selo-dominio {
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin: 5px 0;
+  font-size: 8pt;
+}
+.selo-dentro {
+  border-left: 3px solid #16a34a;
+  background: #f0fdf4;
+  color: #166534;
+}
+.selo-fora {
+  border: 1.5px solid #ef4444;
+  background: #fef2f2;
+  color: #991b1b;
+}
+.selo-insuficiente {
+  border: 1.5px solid #f59e0b;
+  background: #fffbeb;
+  color: #92400e;
+}
+.selo-dominio ul {
+  padding-left: 14px;
+  margin-top: 3px;
+}
+.aviso-dominio-rodape {
+  display: block;
+  margin-top: 2px;
+  color: #991b1b;
+  font-size: 6.7pt;
 }
 .caixa-alerta-titulo {
   font-weight: 800;

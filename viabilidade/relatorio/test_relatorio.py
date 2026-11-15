@@ -523,6 +523,37 @@ class TestRelatorioViabilidade(unittest.TestCase):
             self.assertIn(texto, html_v5)
         self.assertNotIn("Opção principal:", html_v5)
 
+    def test_dominio_de_validade_em_capa_e_rodapes(self) -> None:
+        import copy
+
+        base = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
+        legado = copy.deepcopy(base)
+        legado.pop("dominio", None)
+        html_legado = relatorio.gerar_html(legado)
+        self.assertNotIn('class="selo-dominio ', html_legado)
+
+        casos = (
+            ("dentro", "selo-dentro", "Dentro do domínio testado do motor (dominio-0.8)", []),
+            ("fora", "selo-fora", "Fora do domínio testado: resultado não validado; encaminhar a profissional", ["área acima da faixa testada", "<script>alert(1)</script>"]),
+            ("dados_insuficientes", "selo-insuficiente", "Domínio testado: dados insuficientes para validar o resultado", ["falta zona conferida"]),
+        )
+        for status, classe, texto, motivos in casos:
+            with self.subTest(status=status):
+                estudo = copy.deepcopy(base)
+                estudo["dominio"] = {"status": status, "motivos": motivos, "versao": "dominio-0.8"}
+                html = relatorio.gerar_html(estudo)
+                self.assertEqual(html.count(f'class="selo-dominio {classe}"'), 1)
+                self.assertIn(texto, html)
+                for motivo in motivos:
+                    esperado = relatorio.esc(motivo)
+                    self.assertIn(esperado, html)
+                if status == "fora":
+                    self.assertEqual(html.count('class="aviso-dominio-rodape"'), 1 + len(estudo.get("opcoes", [])))
+                    self.assertNotIn("<script>alert(1)</script>", html)
+                else:
+                    self.assertNotIn('class="aviso-dominio-rodape"', html)
+                validar_html_contra_json(html, estudo)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

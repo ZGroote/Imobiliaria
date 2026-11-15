@@ -11,6 +11,7 @@
     .conferencia-item{display:block}.swatch.cega{background:#729bbd;border:1px dashed #bddff4}.parede-cega{padding:8px;border-left:3px solid #9ec8e6;color:#c2e0f5;font-size:13px}.critical{border:1px solid #da9b86;border-left:4px solid #ff9a7a;border-radius:6px;padding:12px 16px;background:#412b25;color:#ffe0d5}.critical li{font-weight:600}.button{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:6px;background:var(--raised);color:var(--ink);text-decoration:none}.button:hover{border-color:var(--accent)}.button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
     @media(max-width:760px){header{align-items:flex-start;flex-direction:column;gap:12px}main,header{padding:16px}h1{font-size:24px}.single .option-body{grid-template-columns:1fr}.single .viewport{height:360px}.actions button{flex:1}.cards{grid-template-columns:1fr}footer{padding:12px 16px}.details{font-size:12px}}
     .volume-warning{position:sticky;top:0;z-index:2;margin:0 0 12px;padding:10px 16px;border:2px solid #8d6321;border-radius:6px;background:#fff0c2;color:#30220a;font-weight:700;line-height:1.35}
+    .domain-badge,.domain-alert{margin:8px 0;padding:8px 12px;border-radius:6px;font-size:13px;line-height:1.35}.domain-badge{border-left:3px solid #53a677;background:#172c24;color:#aee4c1}.domain-alert{border:1px solid #da9b86;border-left:4px solid #ff9a7a;background:#412b25;color:#ffe0d5}.domain-alert ul{margin:4px 0 0;padding-left:18px}.domain-alert li{margin:2px 0;overflow-wrap:anywhere}
   </style>
   <script type="importmap">{"imports":{"viabilidade-three":"./vendor/three-viabilidade.min.js"}}</script>
 </head>
@@ -25,7 +26,7 @@
     <section id="estudo" hidden>
       <p class="volume-warning">Volumes hipotéticos de potencial construtivo. Não são o projeto nem a fachada do edifício e não indicam aprovação.</p>
       <p id="revisao" class="muted"></p>
-      <div id="resumo"><p id="lote"></p><p id="zona" class="muted"></p><p id="conferencia" class="notice"></p></div>
+      <div id="resumo"><p id="lote"></p><p id="zona" class="muted"></p><div id="dominio" hidden></div><p id="conferencia" class="notice"></p></div>
       <nav id="opcoes" aria-label="Escolha uma opção"></nav>
       <div class="legend" aria-label="Legenda da maquete"><span><i class="swatch"></i>Lote</span><span><i class="swatch box"></i>Caixa máxima</span><span><i class="swatch volume"></i>Volume da opção</span><span><i class="swatch garagem"></i>Garagem / subsolo</span><span id="legenda-parede-cega" hidden><i class="swatch cega"></i><span id="texto-parede-cega"></span></span></div>
       <p class="help">Arraste para girar; use a roda ou dois dedos para aproximar. Comparação com escala e vista inicial iguais. No celular, as opções ficam uma abaixo da outra.</p>
@@ -61,6 +62,7 @@
     }
     function validar(d) {
       if (!d || !d.lote || !d.zona || !d.premissas || !d.caixa_maxima || !Array.isArray(d.opcoes)) throw Error('Use um JSON no formato Estudo do Motor (lote, zona, premissas, caixa_maxima e opcoes).');
+      if (d.dominio !== undefined && (!d.dominio || typeof d.dominio !== 'object' || Array.isArray(d.dominio) || !['dentro', 'fora', 'dados_insuficientes'].includes(d.dominio.status) || !Array.isArray(d.dominio.motivos) || d.dominio.motivos.some(m => typeof m !== 'string' || !m.trim()) || (d.dominio.status !== 'dentro' && !d.dominio.motivos.length) || typeof d.dominio.versao !== 'string' || !d.dominio.versao.trim())) throw Error('Domínio inválido: informe status reconhecido, motivos textuais e versão.');
       if (d.zona.fontes !== undefined && (!Array.isArray(d.zona.fontes) || d.zona.fontes.some(f => !f || typeof f !== 'object' || Array.isArray(f)))) throw Error('Fontes da zona: use uma lista de objetos com lei, artigo, URL e data.');
       const preco = d.premissas.preco_venda_m2_privativo;
       if (preco !== undefined && preco !== null && (!finito(preco) || preco < 0)) throw Error('Preço por m² privativo inválido.');
@@ -181,6 +183,20 @@
       $('resumo').append($('revisao'));
       $('lote').textContent = (estudo.lote.id || 'Lote sem identificação') + ' · ' + formatar(estudo.lote.area_m2, ' m²');
       $('zona').textContent = (estudo.zona.nome || estudo.zona.id || 'Zona não informada') + ' · SIRGAS 2000 / UTM 23S';
+      const seloDominio = $('dominio'), dominio = estudo.dominio;
+      seloDominio.replaceChildren(); seloDominio.hidden = !dominio;
+      if (dominio?.status === 'dentro') {
+        seloDominio.className = 'domain-badge'; seloDominio.setAttribute('role', 'status');
+        seloDominio.textContent = `Dentro do domínio testado do motor (${dominio.versao})`;
+      } else if (dominio) {
+        seloDominio.className = 'domain-alert'; seloDominio.setAttribute('role', 'alert');
+        seloDominio.append(el('strong', dominio.status === 'fora'
+          ? 'Fora do domínio testado: resultado não validado; encaminhar a profissional'
+          : `Dados insuficientes para validar o domínio testado do motor (${dominio.versao}).`));
+        if (dominio.motivos.length) {
+          const ul = el('ul'); dominio.motivos.forEach(motivo => ul.append(el('li', motivo))); seloDominio.append(ul);
+        }
+      }
       const fontes = Array.isArray(estudo.zona.fontes) ? estudo.zona.fontes : [];
       const conferido = estudo.zona.conferido === true && fontes.length > 0 && fontes.every(f => ['lei', 'artigo', 'url', 'data'].every(k => typeof f[k] === 'string' && f[k].trim()));
       const lei = el('span', 'Números da zona ' + (estudo.zona.id || '') + ': ' + (conferido ? 'conferidos na lei, conforme o arquivo.' : 'não conferidos ou sem fonte completa.'), 'conferencia-item'); lei.id = 'conferencia-lei';
