@@ -1,2 +1,4 @@
 # bundle gerado: bytes exatos (o SHA-256 está no manifesto)
 visual/vendor/*.min.js -text
+# cópias fixadas por SHA-256 pelo Revisor: bytes exatos
+revisao/referencias/** -text
