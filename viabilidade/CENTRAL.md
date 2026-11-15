@@ -7,13 +7,14 @@ Atualizado: 15/11/2026, ~02h (janela livre de 6 h dada pelo usuário: seguir sem
 | IA | Modelo / conta | Situação |
 |---|---|---|
 | Lei | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
-| Terreno | Codex **Astra high** / trabalho (sessão) | **Faz o MOTOR**: tarefas 9 (garagem computável) + 10 (AUDITORIA-5: A1–A4, M1–M2, B1) juntas → 0.8.1 |
+| Terreno | Codex **Astra high** / trabalho (sessão) | **Faz o MOTOR**: 0.8.1 commitada (947e2ec8: T9 garagem + T10 auditoria 5; conferir 6/6). Agora `motor/TAREFA-11.md` (domínio de validade, 0.8.2) |
 | Motor | Claude **Sonnet** high / jaogroote | **Parado** (fase 0 fechada). TAREFA-7 commitada. Limitações conhecidas: recuo assimétrico + permeabilidade apertada; garagem_computavel=True |
-| Visual | Codex **Luna medium** / trabalho | T5/T6 commitadas (contrato v5; revisão do estudo; volume hipotético). Fazendo `visual/TAREFA-7.md` (estudo sem opções) |
+| Visual | Codex **Luna medium** / trabalho | Livre. T7–T10 commitadas (estudo sem opções; medição; three local sem CDN, 1ª maquete ~0,2 s) |
 | Produto | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 |
 | Conferencia | Antigravity **Gemini 4 Hydrogen, alto** | Livre. PACOTE-ARQUITETO entregue (1c5e0e6e, links refeitos após correção) |
 | Relatorio | Antigravity (Claude Sonnet 5.5, médio), **cópia isolada** `Desktop/imobiliaria-viabilidade-gemini`, galho `exp/viabilidade-gemini` | Livre. Relatório HTML entregue, revisado (print) e trazido pro principal em `viabilidade/relatorio/`. Próximas tarefas experimentais vão pra lá |
 | Auditor | Antigravity **Gemini 4 Hydrogen, alto** | Livre. AUDITORIA-5 (3bce783b): 4 ALTA reproduzidas pela central → tarefa 10 do motor. Próxima: auditar a 0.8.1 |
+| Revisor | Codex **Astra high** / **Padrão** (sessão; recrutado 15/11 a pedido do usuário, conta sem uso) | Fazendo `revisao/TAREFA-1.md` (revisão independente da 0.8.1). Escreve só em `viabilidade/revisao/` |
 
 Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota Gemini/Claude/GPT dele); programação em Claude/Codex; central no Opus. Antigravity não assina commit: só escreve na pasta dele e a central commita. Ajudantes (subagentes) só quando houver partes separadas. Esforço (usuário, 14/11): **médio** no simples (ajuste de tela, pesquisa curta, tarefa bem definida); **alto** no Motor, Auditor, Conferência e em investigação de defeito.
 
