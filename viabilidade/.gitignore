@@ -2,3 +2,5 @@
 lei/mapa/
 # Anexos inteiros convertidos em imagem (55 MB): refeitos a partir dos PDFs da lei
 terreno/dados/zonas-mapas/anexo0?.jpg
+# logs completos do conferir.py (evidência local; no CI vira artefato)
+/.conferir/
