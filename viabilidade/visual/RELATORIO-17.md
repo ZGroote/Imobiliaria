@@ -1,0 +1,7 @@
+# Tarefa 17 — estudo de lote novo na tela
+- `?estudo=.../estudo.json`: a tela busca `relatorio.html` na mesma pasta e confere o `<meta name="estudo-sha256">` (mesma função do clique da tarefa 6, agora `revisaoDoRelatorio`). Bateu: link aparece. Não bateu: link some e aparece "Relatório desatualizado para esta revisão." Não existe: link some. Pilotos e exemplo seguem como antes.
+- Segurança: antes, `?estudo=https://exemplo.com/x.json` era buscado (só `javascript:`/`data:` eram barrados, com a mensagem do servidor HTTP). Agora recusa qualquer esquema (`http:`, `javascript:`, `data:`…), `//host` e origem diferente, com "Estudo recusado: use um caminho relativo a esta página…".
+- `testar.cjs` (`checkNewStudy`, desktop): gera `visual/tmp-tarefa17/` com `estudar.py --base completo --indices 8697 --zona SC-Z4`, confere link, revisão igual ao sha dos bytes e ao meta, rótulo "zona informada … não conferida"; cópia com 1 byte trocado no estudo (espaço→tab) mostra o aviso; 4 endereços recusados. A pasta é apagada no `finally`.
+- `node --check` passou (teste e módulo da página). Rodei o teste completo no Chrome (servidor 8765): PASS nos dois perfis, sem erro de console, ~32 s. As evidências regravadas foram restauradas.
+- Limite: relatório ausente gera um 404 no console (o `fetch` loga); não está no teste para não quebrar a checagem de console.
+- Arquivos: `visual/index.html`, `visual/testar.cjs`, este relatório. Sem commit.
