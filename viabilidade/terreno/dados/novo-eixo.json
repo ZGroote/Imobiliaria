@@ -1,0 +1,221 @@
+{
+  "id": "SC-completo-q1382-11984-11988",
+  "lid": null,
+  "poligono_utm": [
+    [
+      199238.11331,
+      7564524.256558
+    ],
+    [
+      199238.076796,
+      7564524.206359
+    ],
+    [
+      199238.084738,
+      7564524.200582
+    ],
+    [
+      199235.918677,
+      7564519.95694
+    ],
+    [
+      199226.977514,
+      7564524.520735
+    ],
+    [
+      199218.036351,
+      7564529.084529
+    ],
+    [
+      199216.409655,
+      7564529.914836
+    ],
+    [
+      199209.095188,
+      7564533.648323
+    ],
+    [
+      199200.154026,
+      7564538.212117
+    ],
+    [
+      199191.212863,
+      7564542.775911
+    ],
+    [
+      199204.652459,
+      7564569.106113
+    ],
+    [
+      199212.795814,
+      7564566.590006
+    ],
+    [
+      199228.727624,
+      7564561.34493
+    ],
+    [
+      199238.262734,
+      7564558.205778
+    ],
+    [
+      199236.796563,
+      7564553.752313
+    ],
+    [
+      199240.843644,
+      7564551.686581
+    ],
+    [
+      199249.784807,
+      7564547.122787
+    ],
+    [
+      199238.11331,
+      7564524.256558
+    ]
+  ],
+  "frente": [
+    [
+      199212.795814,
+      7564566.590006
+    ],
+    [
+      199228.727624,
+      7564561.34493
+    ]
+  ],
+  "area_m2": 1599.108,
+  "zona_id": "SC-EIXO",
+  "zona_origem": "anotada_a_mao",
+  "zona_conferida": false,
+  "relevo": null,
+  "areas_especiais": [
+    {
+      "tipo": "gabarito_aeronautico",
+      "nome": "Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes",
+      "conferido": false,
+      "incidencia": "sobreposicao_visual",
+      "fonte": "Lei 18.053/2016, arts. 105 a 107, Anexo 07, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
+      "evidencia": "dados/eixo-anexo07.jpg",
+      "observacoes": "Polígono dentro do perímetro tracejado roxo de restrição aeronáutica. Sem altura local numérica; consultar DECEA."
+    }
+  ],
+  "crs": "EPSG:31983",
+  "categoria": "eixo",
+  "centroide_lonlat": [
+    -47.91298471,
+    -21.99784798
+  ],
+  "distancia_centro_referencia_m": 3142.8,
+  "fonte": {
+    "arquivo": "sao-carlos/dados/lotes_saocarlos_completo.geojson",
+    "sha256": "1177ae3affd876b406a0de980678b0655343834a6b5ac96b8524964f7566d538",
+    "indices_feicoes_zero_based": [
+      11984,
+      11985,
+      11986,
+      11987,
+      11988
+    ],
+    "quadra": 1382,
+    "operacao": "uniao_exata_sem_buffer_sem_fechamento_de_lacunas",
+    "propriedades_componentes": [
+      {
+        "quadra": 1382,
+        "loteamento": "Morada dos Deuses",
+        "planta": "000141",
+        "fonte": "planta_refeita",
+        "area_m2": 306.18,
+        "frente_padrao_m": 10.0,
+        "fundo_padrao_m": 30.5,
+        "nx": 0.4546,
+        "ny": 0.8907
+      },
+      {
+        "quadra": 1382,
+        "loteamento": "Morada dos Deuses",
+        "planta": "000141",
+        "fonte": "planta_refeita",
+        "area_m2": 345.43,
+        "frente_padrao_m": 10.0,
+        "fundo_padrao_m": 30.5,
+        "nx": 0.4546,
+        "ny": 0.8907
+      },
+      {
+        "quadra": 1382,
+        "loteamento": "Morada dos Deuses",
+        "planta": "000141",
+        "fonte": "planta_refeita",
+        "area_m2": 306.18,
+        "frente_padrao_m": 10.0,
+        "fundo_padrao_m": 30.5,
+        "nx": 0.4546,
+        "ny": 0.8907
+      },
+      {
+        "quadra": 1382,
+        "loteamento": "Morada dos Deuses",
+        "planta": "000141",
+        "fonte": "planta_refeita",
+        "area_m2": 306.18,
+        "frente_padrao_m": 10.0,
+        "fundo_padrao_m": 30.5,
+        "nx": 0.4546,
+        "ny": 0.8907
+      },
+      {
+        "quadra": 1382,
+        "loteamento": "Morada dos Deuses",
+        "planta": "000141",
+        "fonte": "planta_refeita",
+        "area_m2": 335.15,
+        "frente_padrao_m": 10.0,
+        "fundo_padrao_m": 30.5,
+        "nx": 0.4546,
+        "ny": 0.8907
+      }
+    ]
+  },
+  "qualidade": {
+    "frentes": [
+      {
+        "aresta": 11,
+        "pontos": [
+          [
+            199212.795814,
+            7564566.590006
+          ],
+          [
+            199228.727624,
+            7564561.34493
+          ]
+        ],
+        "comprimento_m": 16.773,
+        "distancia_max_asfalto_m": 4.403
+      },
+      {
+        "aresta": 10,
+        "pontos": [
+          [
+            199204.652459,
+            7564569.106113
+          ],
+          [
+            199212.795814,
+            7564566.590006
+          ]
+        ],
+        "comprimento_m": 8.523,
+        "distancia_max_asfalto_m": 5.15
+      }
+    ],
+    "esquina_indicada_pela_malha": false,
+    "maior_sobreposicao_vizinho_m2": 0.0,
+    "sobreposicao_asfalto_m2": 0.0,
+    "ocupacao_retangulo_minimo": 0.90681
+  },
+  "conferido": false,
+  "observacoes": "Remembramento geométrico de cinco parcelas planta_refeita da maquete, não cadastro ou matrícula. A origem representa reconstrução de planta com lotes padronizados; divisas e disponibilidade exigem conferência. A classificação Eixo é hipótese manual apoiada no nome e trecho do Anexo 02, art. 11-I e testada próxima ao asfalto. Confirmar endereço, alinhamento e testadas cadastrais. Não foi usado apenas o bairro ou a proximidade do centro. A frente representa o maior segmento reto elegível da borda norte; não soma toda a testada fragmentada. O Motor usa esta única frente. Sem sobreposição visual com AIA ou área industrial nos Anexos 05/06. Lista não certifica ausência de APP, patrimônio individual, servidão, inundação ou contaminação. Incidência aeronáutica visual no Anexo 07; altura depende de consulta DECEA. Resíduo do ajuste não mede erro posicional total; conferir divisas em cadastro oficial."
+}

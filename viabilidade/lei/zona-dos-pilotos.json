@@ -1,0 +1,56 @@
+[
+  {
+    "id": "SC-completo-22426",
+    "loteamento": "Jardim São Carlos (quadra 2757)",
+    "zona_id": "SC-Z1",
+    "zona_alternativa": "SC-EIXO",
+    "areas_especiais": [],
+    "evidencia": "Anexo 02: mancha laranja (Zona 1), entre a Av. Comendador Alfredo Maffei (Eixo Estruturante) e a Rua Conde do Pinhal. Anexo 06: fora da área do Observatório (34, vermelha, a cerca de 250 m ao norte) e fora da Poligonal Histórica.",
+    "duvida": "A malha de asfalto acusa uma frente ao norte, a 2,6 m do asfalto. Se essa frente der para a Av. Comendador Alfredo Maffei, o lote é do Eixo Estruturante (art. 11-III, trecho do Cristo até a Visconde de Inhaúma): CA máximo 4,0 em vez de 3,0. Conferir no cadastro ou na vista de rua.",
+    "conferido": false
+  },
+  {
+    "id": "SC-completo-22421",
+    "loteamento": "Jardim São Carlos (quadra 2757)",
+    "zona_id": "SC-Z1",
+    "zona_alternativa": "SC-Z2",
+    "areas_especiais": [],
+    "evidencia": "Anexo 02: mancha laranja (Zona 1), frente para a Rua Conde do Pinhal. Anexo 06: fora da área do Observatório e da Poligonal Histórica.",
+    "duvida": "Fica colado no limite com a Zona 2 (amarela), a menos de um quarteirão a oeste. Se o lote cair do outro lado da linha, vale a Zona 2 (CA máximo 3,5). A frente detectada é só para o sul; não parece dar para a Maffei.",
+    "conferido": false
+  },
+  {
+    "id": "SC-completo-25297",
+    "loteamento": "Vila Monteiro Gleba I (quadra 3377)",
+    "zona_id": "SC-Z1",
+    "areas_especiais": [],
+    "evidencia": "Anexo 02: mancha laranja (Zona 1), um quarteirão ao norte do limite com a Zona 3 (azul). Anexo 06: fora da Área de Interesse Histórico (roxa) e da Subárea de Restrição de Gabarito (tracejado rosa), que ficam dois quarteirões ao norte.",
+    "duvida": "",
+    "conferido": false
+  },
+  {
+    "id": "SC-completo-30516",
+    "loteamento": "Jardim Pacaembu (quadra 4263)",
+    "zona_id": "SC-Z4",
+    "areas_especiais": [],
+    "evidencia": "Anexo 02: mancha rosa (Zona 4), perto da Rua Sergipe e do córrego. Anexo 06: sem área especial.",
+    "duvida": "Na Zona 4 o CA é 1,4 único, sem outorga: lote de prédio baixo.",
+    "conferido": false
+  },
+  {
+    "id": "SC-completo-37607",
+    "loteamento": "C.E.A.T. Centro Empresarial de Alta Tecnologia (quadra 4817)",
+    "zona_id": "SC-Z4",
+    "areas_especiais": [
+      {
+        "tipo": "interesse_industrial_servicos",
+        "nome": "AEI Industrial e de Serviços nº 42 (Do CEAT / Parque Novo Mundo)",
+        "altura_max_m": null,
+        "fonte": "Lei 18.053/2016, arts. 84 a 86 e Anexo 06"
+      }
+    ],
+    "evidencia": "Anexo 02: mancha rosa (Zona 4), Rua Aldo Gemano Klein, perto do limite sul do perímetro urbano. Anexo 06: dentro da área 42, laranja (Área de Interesse Industrial e de Serviços).",
+    "duvida": "A lei não dá número construtivo próprio para a área industrial (valem os da Zona 4). Mas a área é 'de uso predominantemente industrial ou comércio e serviços de grande porte' (art. 84), e o loteamento é um centro empresarial: prédio residencial ali é improvável. Conferir a restrição registrada do loteamento CEAT antes de usar como piloto residencial.",
+    "conferido": false
+  }
+]

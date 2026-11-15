@@ -1,0 +1,94 @@
+{
+  "id": "SC-completo-remembramento-75352-75354",
+  "poligono_sha256": "850d757338e609a8dd098920625cf9bf96450207e474c1d491513f2ee8aa8724",
+  "zona_id": "SC-Z2",
+  "zona_origem": "anotada_a_mao",
+  "zona_conferida": false,
+  "conferido": false,
+  "data_anotacao": "2026-11-14",
+  "fontes": [
+    {
+      "lei": "Lei 18.053/2016",
+      "anexo": "02",
+      "pagina": 1,
+      "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf",
+      "sha256": "f2dbbf98a0698092a78be5585f479db4164267478a5a83b0dc8104917fdf5ef2",
+      "data": "2026-11-14"
+    },
+    {
+      "lei": "Lei 18.053/2016",
+      "anexo": "05",
+      "pagina": 1,
+      "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2005%20-%20AEIs%20Ambientais.pdf",
+      "sha256": "af2d54f9694ea9055273db821609798f51a0dd8d057bace97e9effee2ebddfa7",
+      "data": "2026-11-14"
+    },
+    {
+      "lei": "Lei 18.053/2016",
+      "anexo": "06",
+      "pagina": 1,
+      "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf",
+      "sha256": "3bfc5f7b8b79c5016a526cd08ac7f5f0f83f0fb51f27a2d1173785ee2bbc0f5d",
+      "data": "2026-11-14"
+    },
+    {
+      "lei": "Lei 18.053/2016",
+      "anexo": "07",
+      "pagina": 1,
+      "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
+      "sha256": "3c290bd44a8e6b5a5effca6715017bff21bdce5357a3d36167af95d3439e8031",
+      "data": "2026-11-14"
+    },
+    {
+      "lei": "Lei 18.053/2016",
+      "artigo": "11",
+      "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257",
+      "data": "2026-11-14"
+    }
+  ],
+  "evidencia_zoneamento": "Polígono inteiro na mancha amarela Z2, a leste da divisa Z1/Z2 e a oeste da Rua Dona Maria Izabel de Oliveira Botelho, entre Major José Inácio e Conde do Pinhal. Afastamento aproximado de 200 m do traço divisório mais próximo. A rua inferida para a frente não consta no art. 11; nenhum Eixo desenhado toca o polígono.",
+  "areas_especiais": [],
+  "areas_especiais_verificacao": {
+    "05": "Fora das manchas ambientais e AIA do Gregório/Lazarini. Mancha verde isolada ao norte, sem interseção.",
+    "06": "Fora da poligonal histórica, subárea de 9 m, Observatório, áreas industriais e demais manchas especiais visíveis.",
+    "07": "A leste da borda da superfície de aproximação/decolagem em tracejado roxo; nenhuma incidência rural desenhada."
+  },
+  "metodo": "Vértices EPSG:31983 transformados para EPSG:29183; ajuste afim sobre JPEG original usando cinco vértices do perímetro do Anexo 02.A. Leitura manual da legenda e do polígono completo. Sem fx/fy, KML de proposta ou inferência por bairro.",
+  "controles": "dados/zonas-controles.json",
+  "posicionamento": "dados/z2-posicionamento.json",
+  "evidencias": [
+    "dados/z2-anexo02.jpg",
+    "dados/z2-anexo05.jpg",
+    "dados/z2-anexo06.jpg",
+    "dados/z2-anexo07.jpg",
+    "dados/z2-componentes.png"
+  ],
+  "rmse_controles_anexo02_m": 3.526,
+  "incerteza_posicional_total_m": null,
+  "afastamento_divisa": {
+    "anexo": "02",
+    "distancia_aproximada_m": 213,
+    "linha_pixels_original": [
+      [
+        5563,
+        4999
+      ],
+      [
+        5569,
+        5728
+      ],
+      [
+        5356,
+        5733
+      ]
+    ],
+    "metodo": "Distância do polígono projetado ao traço local Z1/Z2 marcado manualmente no JPEG. Não é distância cadastral nem levantamento de toda a zona."
+  },
+  "limitacoes": [
+    "Três feições de origem sintetico: são parcelas de ensaio da maquete. A união exata comprova contiguidade apenas nessa base; não demonstra lotes reais, matrícula ou possibilidade legal de remembramento.",
+    "Triagem de componentes planta até 3,5 km do centro não encontrou remembramento exato que passasse os filtros adotados; não é inventário exaustivo de imóveis disponíveis.",
+    "Frente registrada é somente o segmento de 8,391 m que passou o teste de três pontos junto ao asfalto; a malha tem lacunas. Não tratar esse segmento como testada cadastral total nem usar para certificar lote mínimo. A testada e os recuos exigem cadastro.",
+    "Ausência visual de incidência nos anexos não afasta APP, inundação, servidão, patrimônio individual, contaminação ou restrições do loteamento. Consulta específica ao DECEA continua necessária para altura.",
+    "Anotação manual para simulação. Resíduos do ajuste não representam acurácia cadastral nem erro total; não há certidão municipal."
+  ]
+}

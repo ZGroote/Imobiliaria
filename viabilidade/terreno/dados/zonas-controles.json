@@ -1,0 +1,236 @@
+{
+  "crs_controles": "EPSG:29183",
+  "origem_pixel": "canto superior esquerdo do JPEG embutido, x para direita e y para baixo",
+  "fonte_coordenadas": "Anexo 02.A, páginas 2-4 do PDF ANEXO 02ABC (vértices 17,18,19,31,54)",
+  "metodo": "Interseções e quinas da polilinha vermelha do perímetro urbano identificadas visualmente. Ajuste afim por mínimos quadrados; resíduos não são acurácia cadastral.",
+  "mapas": {
+    "02": [
+      {
+        "vertice": 18,
+        "utm_sad69": [
+          202146.6504,
+          7555813.3614
+        ],
+        "pixel": [
+          5216,
+          10227
+        ]
+      },
+      {
+        "vertice": 19,
+        "utm_sad69": [
+          202023.502,
+          7557314.1029
+        ],
+        "pixel": [
+          5144,
+          9155
+        ]
+      },
+      {
+        "vertice": 17,
+        "utm_sad69": [
+          203022.0407,
+          7555891.4227
+        ],
+        "pixel": [
+          5835,
+          10182
+        ]
+      },
+      {
+        "vertice": 31,
+        "utm_sad69": [
+          196584.3126,
+          7560488.9729
+        ],
+        "pixel": [
+          1340,
+          6824
+        ]
+      },
+      {
+        "vertice": 54,
+        "utm_sad69": [
+          196991.0846,
+          7563677.346
+        ],
+        "pixel": [
+          1673,
+          4540
+        ]
+      }
+    ],
+    "06": [
+      {
+        "vertice": 18,
+        "utm_sad69": [
+          202146.6504,
+          7555813.3614
+        ],
+        "pixel": [
+          5180,
+          10355
+        ]
+      },
+      {
+        "vertice": 19,
+        "utm_sad69": [
+          202023.502,
+          7557314.1029
+        ],
+        "pixel": [
+          5113,
+          9289
+        ]
+      },
+      {
+        "vertice": 17,
+        "utm_sad69": [
+          203022.0407,
+          7555891.4227
+        ],
+        "pixel": [
+          5788,
+          10311
+        ]
+      },
+      {
+        "vertice": 31,
+        "utm_sad69": [
+          196584.3126,
+          7560488.9729
+        ],
+        "pixel": [
+          1306,
+          6956
+        ]
+      },
+      {
+        "vertice": 54,
+        "utm_sad69": [
+          196991.0846,
+          7563677.346
+        ],
+        "pixel": [
+          1639,
+          4672
+        ]
+      }
+    ],
+    "05": [
+      {
+        "vertice": 18,
+        "utm_sad69": [
+          202146.6504,
+          7555813.3614
+        ],
+        "pixel": [
+          4137,
+          8748
+        ]
+      },
+      {
+        "vertice": 19,
+        "utm_sad69": [
+          202023.502,
+          7557314.1029
+        ],
+        "pixel": [
+          4106,
+          8262
+        ]
+      },
+      {
+        "vertice": 17,
+        "utm_sad69": [
+          203022.0407,
+          7555891.4227
+        ],
+        "pixel": [
+          4419,
+          8729
+        ]
+      },
+      {
+        "vertice": 31,
+        "utm_sad69": [
+          196584.3126,
+          7560488.9729
+        ],
+        "pixel": [
+          2379,
+          7204
+        ]
+      },
+      {
+        "vertice": 54,
+        "utm_sad69": [
+          196991.0846,
+          7563677.346
+        ],
+        "pixel": [
+          2527,
+          6165
+        ]
+      }
+    ],
+    "07": [
+      {
+        "vertice": 18,
+        "utm_sad69": [
+          202146.6504,
+          7555813.3614
+        ],
+        "pixel": [
+          5510,
+          9670
+        ]
+      },
+      {
+        "vertice": 19,
+        "utm_sad69": [
+          202023.502,
+          7557314.1029
+        ],
+        "pixel": [
+          5494,
+          9403
+        ]
+      },
+      {
+        "vertice": 17,
+        "utm_sad69": [
+          203022.0407,
+          7555891.4227
+        ],
+        "pixel": [
+          5667,
+          9659
+        ]
+      },
+      {
+        "vertice": 31,
+        "utm_sad69": [
+          196584.3126,
+          7560488.9729
+        ],
+        "pixel": [
+          4544,
+          8821
+        ]
+      },
+      {
+        "vertice": 54,
+        "utm_sad69": [
+          196991.0846,
+          7563677.346
+        ],
+        "pixel": [
+          4623,
+          8248
+        ]
+      }
+    ]
+  }
+}

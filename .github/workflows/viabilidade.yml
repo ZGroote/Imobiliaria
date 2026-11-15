@@ -1,0 +1,65 @@
+name: Conferir Viabilidade
+
+on:
+  push:
+    branches: [feat/viabilidade, ci/viabilidade-testes]
+  pull_request:
+    branches: [feat/viabilidade]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: viabilidade-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  conferir:
+    name: Portão de Qualidade (conferir.py)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.14'
+      - name: Instalar dependências Python (motor e terreno)
+        run: |
+          python -m pip install --upgrade pip
+          # versões iguais às da máquina que gerou os pilotos: a reprodução do terreno compara bytes
+          python -m pip install numpy==2.4.6 shapely==2.1.2 pyproj==3.7.2 rasterio==1.5.1 Pillow==12.3.0
+      # mapas da lei fora do git (106 MB): release privada, conferida pelo sha256 do manifesto
+      - name: Baixar mapas da lei (terreno)
+        env:
+          GH_TOKEN: ${{ secrets.ARTEFATOS_TOKEN }}
+        run: python -I viabilidade/baixar_mapas.py
+      - name: Instalar Playwright e Chromium fora da árvore git
+        run: |
+          mkdir -p /tmp/viabilidade-pw
+          npm --prefix /tmp/viabilidade-pw install --no-save playwright@1.62.1
+          npx --prefix /tmp/viabilidade-pw playwright install --with-deps chromium
+      - name: Executar viabilidade/conferir.py
+        env:
+          NODE_PATH: /tmp/viabilidade-pw/node_modules
+        run: python -I -X utf8 viabilidade/conferir.py --base origin/main
+      # quando falha, o que a reprodução mudou em arquivos versionados vai junto no artefato
+      - name: Guardar diferenças dos arquivos versionados
+        if: failure()
+        run: |
+          git status --short > viabilidade/.conferir/git-status.txt
+          git diff > viabilidade/.conferir/git-diff.txt
+      - name: Publicar logs e resumo (.conferir/) como artefato
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: viabilidade-conferir-logs-${{ github.sha }}
+          path: viabilidade/.conferir/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

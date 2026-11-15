@@ -1,0 +1,35 @@
+{
+  "motor": {
+    "commit": "1337864333f378d515842e1ea51bef25797422c0",
+    "motor": "0.8.3",
+    "sha256": "2565cfa8981529a385645867a0fe32561275eeca0ffc91d2a3893565a4ebbc44",
+    "sha256_checkout": "2a408ed2be0d90fda016ea0d4afb153fe7e6bb42f1a79ff4625181bf330a0113",
+    "arquivo": "C:\\Users\\respawn\\Desktop\\imobiliaria-viabilidade\\viabilidade\\motor\\motor.py"
+  },
+  "pares": 94,
+  "pares_antes_falhos": 12,
+  "perdas": 0,
+  "invariantes_falhos": 0,
+  "estudos_com_aviso_exigido": 94,
+  "avisos_ausentes": 0,
+  "teste_generico_existente": "mutação equivalente em memória passou; substitui somente strings; teste original bloqueado na limpeza temporária",
+  "xss_numericos_anteriores": "2 recusados sem criar HTML",
+  "xss_pavimentos": [
+    {
+      "tag": "img",
+      "atributos": {
+        "src": "x",
+        "onerror": "alert(1)"
+      }
+    },
+    {
+      "tag": "img",
+      "atributos": {
+        "src": "x",
+        "onerror": "alert(1)"
+      }
+    }
+  ],
+  "licenca_sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc",
+  "metricas_opcoes": 26
+}

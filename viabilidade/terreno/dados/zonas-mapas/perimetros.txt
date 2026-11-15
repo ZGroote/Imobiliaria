@@ -1,0 +1,969 @@
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  Prefeitura Municipal de São Carlos 
+Plano Diretor do Município de São Carlos 
+ANEXO 02.A – Descrição do Perímetro Urbano de São Carlos 
+ 
+
+DESCRIÇÃO DO PERÍMETRO URBANO DE SÃO CARLOS 
+ 
+ 
+O perímetro urbano da Sede do Município está georreferenciado no Sistema 
+Geodésico Brasileiro, com coordenadas Plano Retangulares Relativas Sistema U T M - 
+Datum SAD-69, referentes ao meridiano central 45°00' cuja descrição se inicia no vértice 1 
+de coordenada Este (X) 204.681,1283 m e Norte (Y) 7.559.438,3040 m; Deste segue pelo 
+eixo da Rodovia Washington Luiz até o vértice 2, de coordenada U T M E= 204.720,9750 m e 
+N= 7.559.361,7178 m,  no azimute de 152°30'46", na extensão de 86,33 m;  
+Do vértice 2  segue até o vértice 3, de coordenada U T M E= 203.997,2155 m e N= 
+7.557.600,1240 m,  no azimute de 202°20'08", na extensão de 1.904,48 m;  
+Do vértice 3  segue até o vértice 4, de coordenada U T M E= 204.005,9259 m e N= 
+7.557.592,0625 m,  no azimute de 132°47'04", na extensão de 11,87 m;  
+Do vértice 4  segue até o vértice 5, de coordenada U T M E= 204.106,7509 m e N= 
+7.557.535,3133 m,  no azimute de 119°22'23", na extensão de 115,70 m;  
+Do vértice 5  segue até o vértice 6, de coordenada U T M E= 203.942,0151 m e N= 
+7.557.148,1318 m,  no azimute de 203°02'55", na extensão de 420,77 m;  
+Do vértice 6  segue até o vértice 7, de coordenada U T M E= 204.015,8384 m e N= 
+7.556.981,3877 m,  no azimute de 156°07'10", na extensão de 182,36 m;  
+Do vértice 7  segue até o vértice 8, de coordenada U T M E= 203.940,6977 m e N= 
+7.556.850,3250 m,  no azimute de 209°49'35", na extensão de 151,07 m;  
+Do vértice 8  segue até o vértice 9, de coordenada U T M E= 203.863,9037 m e N= 
+7.556.739,2863 m,  no azimute de 214°40'03", na extensão de 135,01 m;  
+Do vértice 9  segue até o vértice 10, de coordenada U T M E= 203.771,4175 m e N= 
+7.556.747,1513 m,  no azimute de 274°51'39", na extensão de 92,82 m;  
+Do vértice 10  segue até o vértice 11, de coordenada U T M E= 203.644,2880 m e N= 
+7.556.448,2642 m,  no azimute de 203°02'32", na extensão de 324,80 m;  
+Do vértice 11  segue até o vértice 12, de coordenada U T M E= 203.625,1602 m e N= 
+7.556.417,2575 m,  no azimute de 211°40'13", na extensão de 36,43 m;  
+Do vértice 12  segue até o vértice 13, de coordenada U T M E= 203.518,4398 m e N= 
+7.556.263,6514 m,  no azimute de 214°47'25", na extensão de 187,04 m, situado no limite da 
+área de propriedade do CEMOSAR; Deste segue por este limite com os seguintes azimutes e 
+distâncias:  
+Do vértice 13  segue até o vértice 14, de coordenada U T M E= 203.543,9244 m e N= 
+7.556.205,6425 m,  no azimute de 156°16'59", na extensão de 63,36 m;  
+Do vértice 14  segue até o vértice 15, de coordenada U T M E= 203.597,8128 m e N= 
+7.556.050,0394 m,  no azimute de 160°53'53", na extensão de 164,67 m;  
+Do vértice 15  segue até o vértice 16, de coordenada U T M E= 203.072,0637 m e N= 
+7.555.861,1984 m,  no azimute de 250°14'33", na extensão de 558,63 m, localizado no limite 
+da área de propriedade do CEMOSAR junto a Estrada pavimentada que de São Carlos vai à 
+represa do Lobo (broa); deste, atravessa a referida estrada, e do vértice 16  segue até o vértice 
+17, de coordenada U T M E= 203.022,0407 m e N= 7.555.891,4227 m,  no azimute de 
+301°08'27", na extensão de 58,44 m, vértice este localizado no lado oposto da já referida 
+estrada, junto a divisa com o loteamento denominado C.E.A.T. – Centro Empresarial de Alta 
+Tecnologia. Deste segue pela linha limítrofe do referido loteamento com os seguintes 
+azimutes e distâncias: 
+Do vértice 17  segue até o vértice 18, de coordenada U T M E= 202.146,6504 m e N= 
+7.555.813,3614 m,  no azimute de 264°54'15", na extensão de 878,86 m;  
+Do vértice 18  segue até o vértice 19, de coordenada U T M E= 202.023,5020 m e N= 
+7.557.314,1029 m,  no azimute de 355°18'32", na extensão de 1.505,79 m, localizado no eixo 
+da Rodovia Luiz Augusto de Oliveira, ,SP 215; deste deflete à esquerda e segue pelo eixo da 
+referida rodovia, sentido São Carlos – Ribeirão Bonito, até atingir o vértice 20 de coordenadas 
+
+U T M E= 199.304,1466 m e N= 7.557.028,8597 m, localizado no cruzamento desta com o 
+Córrego da Água Fria; deste deflete à direita e segue à jusante pelo Córrego da Água Fria, até 
+atingir o vértice 21, de coordenada U T M E= 197.504,8588 m e N= 7.558.530,5603 m, 
+localizado no referido córrego junto a linha limite do loteamento de chácara Estância Maria 
+Alice e seu prolongamento; deste deflete à direita ainda divisando com o referido loteamento 
+e do vértice 21  segue até o vértice 22, de coordenada U T M E= 197.665,7536 m e N= 
+7.558.840,2446 m,  no azimute de 27°27'14", na extensão de 348,99 m; deste deflete à 
+esquerda e do vértice 22  segue até o vértice 23, de coordenada U T M E= 197.323,9998 m e 
+N= 7.559.087,7453 m,  no azimute de 305°54'44", na extensão de 421,96 m localizado junto 
+ao alinhamento da estrada municipal SCA 452, denominada Estrada Vicinal Manoel Nunes; 
+Deste deflete à esquerda e segue pelo alinhamento da referida estrada com os seguintes 
+azimutes e distâncias: 
+Do vértice 23  segue até o vértice 24, de coordenada U T M E= 197.311,8853 m e N= 
+7.559.078,2687 m, no azimute de 231°57'57", na extensão de 15,38 m;  
+Do vértice 24  segue até o vértice 25, de coordenada U T M E= 197.290,1205 m e N= 
+7.559.058,7206 m,  no azimute de 228°04'17", na extensão de 29,25 m;  
+Do vértice 25  segue até o vértice 26, de coordenada U T M E= 197.262,1835 m e N= 
+7.559.029,1704 m,  no azimute de 223°23'33", na extensão de 40,67 m;  
+Do vértice 26  segue até o vértice 27, de coordenada U T M E= 197.253,4787 m e N= 
+7.559.018,5478 m,  no azimute de 219°20'00", na extensão de 13,73 m;  
+Do vértice 27  segue até o vértice 28, de coordenada U T M E= 197.239,5509 m e N= 
+7.559.007,0316 m,  no azimute de 230°24'53", na extensão de 18,07 m;  
+Do vértice 28  segue até o vértice 29, de coordenada U T M E= 197.233,1197 m e N= 
+7.558.995,7270 m,  no azimute de 209°38'08", na extensão de 13,01 m;  
+Do vértice 29  segue até o vértice 30, de coordenada U T M E= 197.218,6924 m e N= 
+7.558.975,2790 m,  no azimute de 215°12'19", na extensão de 25,03 m, localizado no Córrego 
+da Água Fria; Deste, segue a jusante pelo referido Córrego até atingir o vértice 31, de 
+coordenda U T M E= 196.584,3126 m e N= 7.560.488,9729 m, localizado no alinhamento da 
+Estrada Municipal SCA 255, denominada de Cônego Washington José Pera; Deste segue pelo 
+alinhamento da referida estrada com os seguintes azimutes e distâncias:  
+Do vértice 31  segue até o vértice 32, de coordenada U T M E= 196.629,8137 m e N= 
+7.560.497,7189 m,  no azimute de 79°07'10", na extensão de 46,33 m;  
+Do vértice 32  segue até o vértice 33, de coordenada U T M E= 196.740,2428 m e N= 
+7.560.523,4450 m,  no azimute de 76°53'10", na extensão de 113,39 m;  
+Do vértice 33  segue até o vértice 34, de coordenada U T M E= 196.879,6030 m e N= 
+7.560.554,9560 m,  no azimute de 77°15'32", na extensão de 142,88 m; Deste segue com os 
+seguintes azimutes e distâncias: 
+Do vértice 34  segue até o vértice 35, de coordenada U T M E= 196.909,9301 m e N= 
+7.560.558,5270 m,  no azimute de 83°17'04", na extensão de 30,54 m;  
+Do vértice  35 segue até o vértice 36, de coordenada U T M E= 196.934,9697 m e N= 
+7.560.558,4740 m,  no azimute de 90°07'17", na extensão de 25,04 m;  
+Do vértice 36  segue até o vértice 37, de coordenada U T M E= 196.961,2102 m e N= 
+7.560.554,1960 m,  no azimute de 99°15'34", na extensão de 26,59 m;  
+Do vértice 37  segue até o vértice 38, de coordenada U T M E= 196.993,4852 m e N= 
+7.560.543,5150 m,  no azimute de 108°18'41", na extensão de 34,00 m;  
+Do vértice 38  segue até o vértice 39, de coordenada U T M E= 197.013,7292 m e N= 
+7.560.533,5510 m,  no azimute de 116°12'22", na extensão de 22,56 m;  
+Do vértice 39  segue até o vértice 40, de coordenada U T M E= 197.421,9399 m e N= 
+7.560.297,0517 m,  no azimute de 120°05'10", na extensão de 471,77 m;  
+Do vértice 40  segue até o vértice 41, de coordenada U T M E= 197.631,3202 m e N= 
+7.560.177,4235 m,  no azimute de 119°44'28", na extensão de 241,15 m;  
+
+Do vértice 41  segue até o vértice 42, de coordenada U T M E= 197.668,1952 m e N= 
+7.560.140,9335 m,  no azimute de 134°41'58", na extensão de 51,88 m;  
+Do vértice 42  segue até o vértice 43, de coordenada U T M E= 197.979,9097 m e N= 
+7.559.864,8125 m,  no azimute de 131°32'06", na extensão de 416,42 m;  
+Do vértice 43  segue até o vértice 44, de coordenada U T M E= 198.011,8727 m e N= 
+7.559.840,0131 m,  no azimute de 127°48'26", na extensão de 40,46 m;  
+Do vértice 44  segue até o vértice 45, de coordenada U T M E= 198.013,7323 m e N= 
+7.559.837,5990 m,  no azimute de 142°23'34", na extensão de 3,05 m;  
+Do vértice 45  segue até o vértice 46, de coordenada U T M E= 198.009,0941 m e N= 
+7.559.828,0062 m,  no azimute de 205°48'16", na extensão de 10,66 m;  
+Do vértice 46  segue até o vértice 47, de coordenada U T M E= 198.020,4131 m e N= 
+7.559.818,0576 m,  no azimute de 131°18'47", na extensão de 15,07 m;  
+Do vértice 47  segue até o vértice 48, de coordenada U T M E= 198.026,1930 m e N= 
+7.559.820,5238 m,  no azimute de 66°53'35", na extensão de 6,28 m, localizado no 
+alinhamento da Estrada Municipal Domingos Zanota. Deste deflete à esquerda e segue pelo 
+alinhamento da referida Estrada Municipal até o vértice 49 de coordenada U T M E= 
+198.587,9513 m e N= 7.560.878,9217 m localizado no alinhamento da Estrada Municipal 
+SCA 255, denominada de Cônego Washington José Pera; deste deflete à direita e segue pelo 
+eixo desta até atingir o vértice 50, de coordenada U T M E= 199.036,9773 m e N= 
+7.561.113,0396 m, localizado no cruzamento com a linha de transmissão de energia elétrica 
+da C.P.F.L., próxima ao conjunto habitacional Dr. Romeu Santini; deste, segue pelo eixo da 
+linha de transmissão de energia elétrica da C.P.F.L. com os seguintes azimutes e distâncias: 
+Do vértice 50  segue até o vértice 51, de coordenada U T M E= 198.905,9360 m e N= 
+7.561.189,3564 m,  no azimute de 300°12'58", na extensão de 151,64 m;  
+Do vértice 51  segue até o vértice 52, de coordenada U T M E= 198.465,0986 m e N= 
+7.561.781,9701 m,  no azimute de 323°21'18", na extensão de 738,60 m, localizado no 
+cruzamento com o Córrego do Monjolinho; deste deflete à direita e segue à montante pelo 
+córrego do Monjolinho, até atingir o vértice 53, de coordenada U T M E= 199.228,5373 m e 
+N= 7.561.947,3596 m, localizado no cruzamento com o eixo da via férrea da Rede Ferroviária 
+Federal; deste deflete à esquerda e segue pelo eixo da via férrea, sentido São Carlos – 
+Araraquara, até atingir o vértice 54, de coordenada U T M E= 196.991,0846 m e N= 
+7.563.677,3460 m, localizado no eixo da ferrovia na projeção da divisa do Campus 2 da USP 
+– Universidade de São Paulo; deste deflete à direita e segue pelo alinhamento limítrofe do 
+campus 2 da USP, com os seguintes azimutes e distâncias: 
+Do vértice 54  segue até o vértice 55, de coordenada U T M E= 196.953,5096 m e N= 
+7.563.945,5185 m,  no azimute de 352°01'26", na extensão de 270,78 m;  
+Do vértice 55  segue até o vértice 56, de coordenada U T M E= 197.069,3911 m e N= 
+7.564.347,7415 m,  no azimute de 16°04'19", na extensão de 418,58 m;  
+Do vértice 56  segue até o vértice 57, de coordenada U T M E= 197.039,1987 m e N= 
+7.564.533,8320 m,  no azimute de 350°47'03", na extensão de 188,52 m;  
+Do vértice 57  segue até o vértice 58, de coordenada U T M E= 197.065,8228 m e N= 
+7.564.717,5626 m,  no azimute de 8°14'43", na extensão de 185,65 m;  
+Do vértice 58  segue até o vértice 59, de coordenada U T M E= 197.159,0743 m e N= 
+7.564.959,7511 m,  no azimute de 21°03'31", na extensão de 259,52 m;  
+Do vértice 59  segue até o vértice 60, de coordenada U T M E= 197.051,5723 m e N= 
+7.565.229,1526 m, no azimute de 338°14'46", na extensão de 290,06 m; 
+Do vértice 60  segue até o vértice 61, de coordenada U T M E= 196.951,2374 m e N= 
+7.565.177,4067 m,  no azimute de 242°43'06", na extensão de 112,89 m;  
+Do vértice 61  segue até o vértice 62, de coordenada U T M E= 196.428,2746 m e N= 
+7.565.673,4258 m,  no azimute de 313°29'07", na extensão de 720,78 m, vértice este 
+localizado na interseção do alinhamento limítrofe do Campus 2 da USP e a Estrada Municipal 
+
+Antonio Sorregotti; deste deflete à esquerda e segue pelo alinhamento da referida estrada com 
+o seguinte azimute e distância: 
+Do vértice 62  segue até o vértice 63, de coordenada U T M E= 196.333,9230 m e N= 
+7.565.573,4340 m,  no azimute de 223°20'16", na extensão de 137,48 m;  
+Do vértice 63  segue até o vértice 64, de coordenada U T M E= 196.150,8780 m e N= 
+7.565.492,1480 m,  no azimute de 246°03'18", na extensão de 200,28 m;  
+Deste deflete à direita e segue pelo limite da propriedade da Prefeitura Municipal de São 
+Carlos, pelo limite do Condomínio Terra Nova Rodobens São Carlos I e Condomínio 
+Moradas São Carlos com os seguintes azimutes e distâncias: 
+Do vértice 64  segue até o vértice 65, de coordenada U T M E= 195.850,0340 m e N= 
+7.566.042,5940 m,  no azimute de 331°20'29", na extensão de 627,29 m;  
+Do vértice 65  segue até o vértice 66, de coordenada U T M E= 195.885,3490 m e N= 
+7.566.070,6260 m,  no azimute de 51°33'31", na extensão de 45,09 m;  
+Do vértice 66  segue até o vértice 67, de coordenada U T M E= 195.919,3670 m e N= 
+7.566.094,7500 m,  no azimute de 54°39'27", na extensão de 41,70 m;  
+Do vértice 67  segue até o vértice 68, de coordenada U T M E= 195.948,0230 m e N= 
+7.566.112,7400 m,  no azimute de 57°52'47", na extensão de 33,83 m;  
+Do vértice 68  segue até o vértice 69, de coordenada U T M E= 195.995,1230 m e N= 
+7.566.138,8270 m,  no azimute de 61°01'10", na extensão de 53,84 m;  
+Do vértice 69  segue até o vértice 70, de coordenada U T M E= 196.036,5740 m e N= 
+7.566.159,0760 m,  no azimute de 63°57'51", na extensão de 46,13 m;  
+Do vértice 70  segue até o vértice 71, de coordenada U T M E= 196.130,4102 m e N= 
+7.566.199,9042 m,  no azimute de 66°29'10", na extensão de 102,33 m;  
+Do vértice 71  segue até o vértice 72, de coordenada U T M E= 196.102,9665 m e N= 
+7.566.218,8054 m,  no azimute de 304°33'22", na extensão de 33,32 m;  
+Do vértice 72  segue até o vértice 73, de coordenada U T M E= 196.063,0697 m e N= 
+7.566.239,9208 m,  no azimute de 297°53'24", na extensão de 45,14 m;  
+Do vértice 73  segue até o vértice 74, de coordenada U T M E= 196.011,9967 m e N= 
+7.566.265,6549 m,  no azimute de 296°44'31", na extensão de 57,19 m;  
+Do vértice 74  segue até o vértice 75, de coordenada U T M E= 196.007,2147 m e N= 
+7.566.262,0917 m,  no azimute de 233°18'31", na extensão de 5,96 m;  
+Do vértice 75  segue até o vértice 76, de coordenada U T M E= 195.788,7219 m e N= 
+7.566.362,9414 m,  no azimute de 294°46'36", na extensão de 240,64 m;  
+Do vértice 76  segue até o vértice 77, de coordenada U T M E= 195.771,5281 m e N= 
+7.566.368,9697 m,  no azimute de 289°19'16", na extensão de 18,22 m;  
+Do vértice 77  segue até o vértice 78, de coordenada U T M E= 195.769,6776 m e N= 
+7.566.374,5825 m,  no azimute de 341°45'09", na extensão de 5,91 m, localizado no 
+alinhamento sul da Avenida Carlos Anibal Brassi; deste deflete à esquerda e segue pelo 
+alinhamento da referida Avenida com os seguintes azimutes e distâncias: 
+Do vértice 78  segue até o vértice 79, de coordenada U T M E= 195.651,1907 m e N= 
+7.566.309,2157 m,  no azimute de 241°06'55", na extensão de 135,32 m;  
+Do vértice 79  segue até o vértice 80, de coordenada U T M E= 195.620,9565 m e N= 
+7.566.292,3737 m,  no azimute de 240°52'48", na extensão de 34,61 m;  
+Do vértice 80  segue até o vértice 81, de coordenada U T M E= 195.567,0337 m e N= 
+7.566.270,2916 m,  no azimute de 247°43'49", na extensão de 58,27 m; deste segue pelo 
+limite com o loteamento Jardim Araucária com os seguintes azimutes e distâncias:  
+Do vértice 81  segue até o vértice 82, de coordenada U T M E= 195.562,0738 m e N= 
+7.566.282,9156 m,  no azimute de 338°33'02", na extensão de 13,56 m;  
+Do vértice 82  segue até o vértice 83, de coordenada U T M E= 195.545,0467 m e N= 
+7.566.433,1839 m,  no azimute de 353°32'07", na extensão de 151,23 m;  
+Do vértice 83  segue até o vértice 84, de coordenada U T M E= 195.535,4934 m e N= 
+7.566.521,7200 m,  no azimute de 353°50'29", na extensão de 89,05 m;  
+
+Do vértice 84  segue até o vértice 85, de coordenada U T M E= 195.496,0195 m e N= 
+7.566.616,7800 m,  no azimute de 337°26'57", na extensão de 102,93 m;  
+Do vértice 85  segue até o vértice 86, de coordenada U T M E= 195.457,8055 m e N= 
+7.566.702,3859 m,  no azimute de 335°56'39", na extensão de 93,75 m;  
+Do vértice 86  segue até o vértice 87, de coordenada U T M E= 195.439,6879 m e N= 
+7.566.762,9459 m,  no azimute de 343°20'40", na extensão de 63,21 m;  
+Do vértice 87  segue até o vértice 88, de coordenada U T M E= 195.418,9865 m e N= 
+7.566.810,7130 m,  no azimute de 336°34'08", na extensão de 52,06 m;  
+Do vértice 88  segue até o vértice 89, de coordenada U T M E= 195.402,5507 m e N= 
+7.566.870,5881 m,  no azimute de 344°39'01", na extensão de 62,09 m;  
+Do vértice 89  segue até o vértice 90, de coordenada U T M E= 195.387,9025 m e N= 
+7.566.916,7078 m,  no azimute de 342°22'46", na extensão de 48,39 m;  
+Do vértice 90  segue até o vértice 91, de coordenada U T M E= 195.361,8427 m e N= 
+7.567.012,8485 m,  no azimute de 344°50'02", na extensão de 99,61 m;  
+Do vértice 91  segue até o vértice 92, de coordenada U T M E= 195.359,9001 m e N= 
+7.567.031,6082 m,  no azimute de 354°05'17", na extensão de 18,86 m;  
+Do vértice 92  segue até o vértice 93, de coordenada U T M E= 195.383,1764 m e N= 
+7.567.083,3761 m,  no azimute de 24°12'36", na extensão de 56,76 m;  
+Do vértice 93  segue até o vértice 94, de coordenada U T M E= 195.351,2405 m e N= 
+7.567.184,1256 m,  no azimute de 342°24'44", na extensão de 105,69 m;  
+Do vértice 94  segue até o vértice 95, de coordenada U T M E= 195.321,8053 m e N= 
+7.567.276,4467 m,  no azimute de 342°18'57", na extensão de 96,90 m;  
+Do vértice 95  segue até o vértice 96, de coordenada U T M E= 195.261,9215 m e N= 
+7.567.475,7130 m,  no azimute de 343°16'24", na extensão de 208,07 m;  
+Do vértice 96  segue até o vértice 97, de coordenada U T M E= 195.310,6807 m e N= 
+7.567.495,5275 m,  no azimute de 67°53'04", na extensão de 52,63 m, localizado no 
+alinhamento sul da Rodovia Washington Luiz; deste deflete à direita e segue pelo alinhamento 
+da referida rodovia com o seguinte azimute e distância: 
+Do vértice 97  segue até o vértice 98, de coordenada U T M E= 195.855,8736 m e N= 
+7.567.322,1268 m,  no azimute de 107°38'36", na extensão de 572,10 m, vértice este 
+localizado junto ao Córrego da Fiandeira; deste deflete à direita e segue a jusante pelo referido 
+córrego até atingir o vértice 99, de coordenada U T M E= 195.612,3268 m e N= 
+7.567.039,8241 m; deste segue pelo limite com o Loteamento Jardim Araucária com os 
+seguintes azimutes e distâncias: 
+Do vértice 99  segue até o vértice 100, de coordenada U T M E= 195.610,6438 m e N= 
+7.567.029,4729 m, no azimute de 189°14'11", na extensão de 10,48 m;  
+Do vértice 100  segue até o vértice 101, de coordenada U T M E= 195.606,7217 m e N= 
+7.567.006,1373 m,  no azimute de 189°31'06", na extensão de 23,65 m; 
+Do vértice 101  segue até o vértice 102, de coordenada U T M E= 195.598,6271 m e N= 
+7.566.955,6217 m,  no azimute de 189°06'13", na extensão de 51,16 m;  
+Do vértice 102  segue até o vértice 103, de coordenada U T M E= 195.592,5279 m e N= 
+7.566.863,3130 m,  no azimute de 183°46'49", na extensão de 92,51 m;  
+Do vértice 103  segue até o vértice 104, de coordenada U T M E= 195.603,0982 m e N= 
+7.566.797,3647 m,  no azimute de 170°53'38", na extensão de 66,79 m;  
+Do vértice 104  segue até o vértice 105, de coordenada U T M E= 195.608,9756 m e N= 
+7.566.766,1431 m,  no azimute de 169°20'20", na extensão de 31,77 m;  
+Do vértice 105  segue até o vértice 106, de coordenada U T M E= 195.673,8171 m e N= 
+7.566.638,9133 m,  no azimute de 152°59'41", na extensão de 142,80 m;  
+Do vértice 106  segue até o vértice 107, de coordenada U T M E= 195.695,9366 m e N= 
+7.566.572,7530 m,  no azimute de 161°30'49", na extensão de 69,76 m;  
+Do vértice 107  segue até o vértice 108, de coordenada U T M E= 195.711,7329 m e N= 
+7.566.525,8833 m,  no azimute de 161°22'29", na extensão de 49,46 m;  
+
+Do vértice 108  segue até o vértice 109, de coordenada U T M E= 195.743,9890 m e N= 
+7.566.432,4654 m,  no azimute de 160°57'03", na extensão de 98,83 m;  
+Do vértice 109  segue até o vértice 110, de coordenada U T M E= 195.751,9067 m e N= 
+7.566.409,7137 m,  no azimute de 160°48'42", na extensão de 24,09 m;  
+Do vértice 110  segue até o vértice 111, de coordenada U T M E= 195.756,2034 m e N= 
+7.566.397,3066 m,  no azimute de 160°53'54", na extensão de 13,13 m;  
+Do vértice 111  segue até o vértice 112, de coordenada U T M E= 195.759,5933 m e N= 
+7.566.391,8899 m,  no azimute de 147°57'40", na extensão de 6,39 m; 
+Do vértice 112  segue até o vértice 113, de coordenada U T M E= 195.761,7604 m e N= 
+7.566.386,1964 m,  no azimute de 159°09'42", na extensão de 6,09 m, vértice este localizado 
+no alinhamento Norte da Avenida Carlos Anibal Brassi; deste deflete à esquerda e segue pelo 
+alinhamento da referida Avenida com os seguintes azimutes e distâncias: 
+Do vértice 113  segue até o vértice 114, de coordenada U T M E= 195.767,7271 m e N= 
+7.566.395,7501 m,  no azimute de 31°59'42", na extensão de 11,26 m;  
+Do vértice 114  segue até o vértice 115, de coordenada U T M E= 195.779,6354 m e N= 
+7.566.403,7582 m,  no azimute de 56°04'48", na extensão de 14,35 m;  
+Do vértice 115  segue até o vértice 116, de coordenada U T M E= 195.827,8636 m e N= 
+7.566.438,2743 m,  no azimute de 54°24'33", na extensão de 59,31 m;  
+Do vértice 116  segue até o vértice 117, de coordenada U T M E= 195.854,8926 m e N= 
+7.566.457,1779 m,  no azimute de 54°42'08", na extensão de 49,11 m;  
+Do vértice 117  segue até o vértice 118, de coordenada U T M E= 196.161,2304 m e N= 
+7.566.699,8334 m,  no azimute de 51°30'46", na extensão de 374,69 m;  
+Do vértice 118  segue até o vértice 119, de coordenada U T M E= 196.180,8895 m e N= 
+7.566.716,6255 m,  no azimute de 49°29'49", na extensão de 25,85 m; deste deflete à 
+esquerda e segue com os seguintes azimutes e distâncias: 
+Do vértice 119  segue até o vértice 120, de coordenada U T M E= 195.815,7555 m e N= 
+7.567.236,8929 m,  no azimute de 324°56'17", na extensão de 635,61 m;  
+Do vértice 120  segue até o vértice 121, de coordenada U T M E= 195.878,2551 m e N= 
+7.567.315,0083 m,  no azimute de 38°39'47", na extensão de 100,04 m, localizado no 
+alinhamento sul da Rodovia Washington Luiz; deste atravessa a referida rodovia e segue com 
+o seguinte azimute e distância: 
+Do vértice 121  segue até o vértice 122, de coordenada U T M E= 195.929,0800 m e N= 
+7.567.369,2378 m,  no azimute de 43°08'38", na extensão de 74,32 m, vértice este localizado 
+no Córrego da Fiandeira; deste deflete à direita e segue a montante pelo referido Córrego até 
+atingir o vértice 123 de coordenada U T M E= 196.629,7419 m e N= 7.567.416,3344 m, onde 
+se localiza sua nascente; Deste deflete à esquerda e segue com o seguinte azimute e distância: 
+Do vértice 123  segue até o vértice 124 de coordenada U T M E= 196.697,5934 m e N= 
+7.567.475,4581 m, localizado no alinhamento sul da Estrada Municipal SCA 060, 
+denominada José Venancio; deste deflete à esquerda e segue pelo referido alinhamento com 
+os seguintes azimutes e distâncias:  
+de coordenada U T M E= 196.697,5934 m e N= 7.567.475,4581 m, localizado no alinhamento 
+sul da Estrada Municipal SCA 060, denominada José Venancio; deste deflete à esquerda e 
+segue pelo referido alinhamento com os seguintes azimutes e distâncias:  
+Do vértice 124  segue até o vértice 125, de coordenada U T M E= 196.298,8705 m e N= 
+7.567.885,5857 m,  no azimute de 315°48'28", na extensão de 572,00 m;  
+Do vértice 125  segue até o vértice 126, de coordenada U T M E= 196.193,9074 m e N= 
+7.567.929,1667 m,  no azimute de 292°32'54", na extensão de 113,65 m;  
+Do vértice 126  segue até o vértice 127, de coordenada U T M E= 195.978,8372 m e N= 
+7.567.926,4959 m,  no azimute de 269°17'19", na extensão de 215,09 m;  
+Do vértice 127  segue até o vértice 128, de coordenada U T M E= 195.945,2337 m e N= 
+7.568.188,3221 m,  no azimute de 352°41'11", na extensão de 263,97 m;  
+
+Do vértice 128  segue até o vértice 129, de coordenada U T M E= 195.924,0132 m e N= 
+7.568.252,8099 m,  no azimute de 341°47'08", na extensão de 67,89 m; deste segue pelo 
+limite do loteamento Jardim Embaré com os seguintes azimutes e distâncias: 
+Do vértice 129  segue até o vértice 130, de coordenada U T M E= 195.977,4845 m e N= 
+7.568.450,5588 m,  no azimute de 15°07'51", na extensão de 204,85 m;  
+Do vértice 130  segue até o vértice 131, de coordenada U T M E= 196.134,8702 m e N= 
+7.568.476,4141 m,  no azimute de 80°40'15", na extensão de 159,50 m;  
+Do vértice 131  segue até o vértice 132, de coordenada U T M E= 196.341,1090 m e N= 
+7.568.676,9179 m,  no azimute de 45°48'28", na extensão de 287,64 m, vértice este localizado 
+junto ao Córrego Embaré; deste deflete à direita e segue à montante pelo referido Córrego até 
+atingir o vértice  133, de coordenada U T M E= 197.280,0831 m e N= 7.567.957,7262 m, 
+onde se situa sua nascente; deste deflete à esquerda e segue pelo limite com a Fazenda 
+Embaré com os seguintes azimutes e distâncias: 
+Do vértice 133  segue até o vértice 134, de coordenada U T M E= 197.285,4696 m e N= 
+7.568.059,1558 m,  no azimute de 3°02'23", na extensão de 101,57 m;  
+Do vértice 134  segue até o vértice 135, de coordenada U T M E= 197.263,8062 m e N= 
+7.568.081,1878 m,  no azimute de 315°29'00", na extensão de 30,90 m;  
+Do vértice 135  segue até o vértice 136, de coordenada U T M E= 197.245,2554 m e N= 
+7.568.472,5469 m,  no azimute de 357°17'10", na extensão de 391,80 m;  
+Do vértice 136  segue até o vértice 137, de coordenada U T M E= 196.897,6809 m e N= 
+7.568.624,2808 m,  no azimute de 293°35'01", na extensão de 379,25 m;  
+Do vértice 137  segue até o vértice 138, de coordenada U T M E= 196.735,4330 m e N= 
+7.568.736,3598 m,  no azimute de 304°38'11", na extensão de 197,20 m;  
+Do vértice 138  segue até o vértice 139, de coordenada U T M E= 196.716,8763 m e N= 
+7.568.818,6302 m,  no azimute de 347°17'21", na extensão de 84,34 m;  
+Do vértice 139  segue até o vértice 140, de coordenada U T M E= 196.760,7237 m e N= 
+7.568.835,9061 m,  no azimute de 68°29'44", na extensão de 47,13 m;  
+Do vértice 140  segue até o vértice 141, de coordenada U T M E= 196.730,1147 m e N= 
+7.568.913,5934 m,  no azimute de 338°29'44", na extensão de 83,50 m;  
+Do vértice 141  segue até o vértice 142, de coordenada U T M E= 196.849,6310 m e N= 
+7.568.960,6832 m,  no azimute de 68°29'44", na extensão de 128,46 m;  
+Do vértice 142  segue até o vértice 143, de coordenada U T M E= 196.818,1982 m e N= 
+7.569.151,9161 m,  no azimute de 350°39'57", na extensão de 193,80 m;  
+Do vértice 143  segue até o vértice 144, de coordenada U T M E= 196.879,9230 m e N= 
+7.569.139,2242 m,  no azimute de 101°37'09", na extensão de 63,02 m;  
+Do vértice 144  segue até o vértice 145, de coordenada U T M E= 196.988,9496 m e N= 
+7.569.206,7862 m,  no azimute de 58°12'51", na extensão de 128,26 m;  
+Do vértice 145  segue até o vértice 146, de coordenada U T M E= 197.034,1148 m e N= 
+7.569.331,1462 m,  no azimute de 19°57'36", na extensão de 132,31 m;  
+Do vértice 146  segue até o vértice 147, de coordenada U T M E= 197.085,5572 m e N= 
+7.569.310,6248 m,  no azimute de 111°44'53", na extensão de 55,38 m;  
+Do vértice 147  segue até o vértice 148, de coordenada U T M E= 197.132,8910 m e N= 
+7.569.326,9792 m,  no azimute de 70°56'22", na extensão de 50,08 m;  
+Do vértice 148  segue até o vértice 149, de coordenada U T M E= 197.127,4897 m e N= 
+7.569.443,0414 m,  no azimute de 357°20'08", na extensão de 116,19 m;  
+Do vértice 149  segue até o vértice 150, de coordenada U T M E= 197.360,0978 m e N= 
+7.569.522,5379 m,  no azimute de 71°07'54", na extensão de 245,82 m;  
+Do vértice 150  segue até o vértice 151, de coordenada U T M E= 197.391,1505 m e N= 
+7.569.435,4188 m,  no azimute de 160°22'55", na extensão de 92,49 m;  
+Do vértice 151  segue até o vértice 152, de coordenada U T M E= 197.330,1111 m e N= 
+7.569.358,4393 m,  no azimute de 218°24'43", na extensão de 98,24 m;  
+
+Do vértice 152  segue até o vértice 153, de coordenada U T M E= 197.276,8434 m e N= 
+7.569.347,2422 m,  no azimute de 258°07'44", na extensão de 54,43 m;  
+Do vértice 153  segue até o vértice 154, de coordenada U T M E= 197.314,9945 m e N= 
+7.569.261,3698 m,  no azimute de 156°02'44", na extensão de 93,97 m;  
+Do vértice 154  segue até o vértice 155, de coordenada U T M E= 197.468,1480 m e N= 
+7.569.221,9465 m,  no azimute de 104°26'07", na extensão de 158,15 m, localizado no limite 
+do loteamento Jardim Vista Alegre; deste segue pelo limite do referido loteamento com os 
+seguintes azimutes e distâncias:  
+Do vértice 155  segue até o vértice 156, de coordenada U T M E= 197.528,5550 m e N= 
+7.569.351,1877 m,  no azimute de 25°03'04", na extensão de 142,66 m;  
+Do vértice 156  segue até o vértice 157, de coordenada U T M E= 197.767,4392 m e N= 
+7.569.357,1336 m,  no azimute de 88°34'27", na extensão de 238,96 m, vértice este localizado 
+no cruzamento com o Córrego Vista Alegre; deste deflete à direita e segue à montante pelo 
+referido Córrego, até atingir o vértice 158 de coordenada U T M E= 197.749,4708 m e N= 
+7.568.736,0368 m , onde se situa sua nascente; deste deflete à esquerda e segue pelo limite 
+com o loteamento Jardim Vista Alegre com o seguinte azimute e distância: 
+Do vértice 158  segue até o vértice 159, de coordenada U T M E= 197.962,8550 m e N= 
+7.568.829,8286 m,  no azimute de 66°16'21", na extensão de 233,09 m, vértice este localizado 
+no alinhamento da estrada de servidão de acesso ao aterro sanitário; deste segue pelo 
+alinhamento da referida estrada de servidão com os seguintes azimutes e distâncias:  
+Do vértice 159  segue até o vértice 160, de coordenada U T M E= 197.955,9180 m e N= 
+7.568.565,3405 m,  no azimute de 181°30'09", na extensão de 264,58 m;  
+Do vértice 160  segue até o vértice 161, de coordenada U T M E= 197.692,3828 m e N= 
+7.568.262,8433 m,  no azimute de 221°03'44", na extensão de 401,19 m, vértice este 
+localizado no alinhamento oeste da Rua Ray Wesley Herrick; deste segue pelo alinhamento da 
+referida Rua com o seguinte azimute e distância: 
+Do vértice 161  segue até o vértice 162, de coordenada U T M E= 197.039,7176 m e N= 
+7.566.946,1870 m,  no azimute de 206°22'03", na extensão de 1.469,54 m, vértice este 
+localizado no alinhamento sul da Rodovia Washington Luiz; deste segue pelo alinhamento sul 
+da referida rodovia com o seguinte azimute e distância: 
+Do vértice 162  segue até o vértice 163, de coordenada U T M E= 198.173,2632 m e N= 
+7.566.592,1917 m,  no azimute de 107°20'35", na extensão de 1.187,53 m, vértice este 
+localizado no limite do Condomínio Residencial Eldorado; deste segue pelo limite do referido 
+condomínio, com os seguintes azimutes e distâncias: 
+Do vértice 163  segue até o vértice 164, de coordenada U T M E= 197.979,7356 m e N= 
+7.566.526,4498 m,  no azimute de 251°14'14", na extensão de 204,39 m;  
+Do vértice 164  segue até o vértice 165, de coordenada U T M E= 197.731,1480 m e N= 
+7.566.210,6773 m,  no azimute de 218°12'40", na extensão de 401,88 m, vértice este 
+localizado no alinhamento norte da Rua Miguel Petroni; deste deflete à esquerda e segue pelo 
+alinhamento norte da referida Rua com os seguintes azimutes e distãncias: 
+Do vértice 165  segue até o vértice 166, de coordenada U T M E= 197.939,7545 m e N= 
+7.565.970,4857 m,  no azimute de 139°01'32", na extensão de 318,13 m;  
+Do vértice 166  segue até o vértice 167, de coordenada U T M E= 198.227,6670 m e N= 
+7.565.637,9317 m,  no azimute de 139°06'55", na extensão de 439,87 m;  
+Do vértice 167  segue até o vértice 168, de coordenada U T M E= 198.464,6790 m e N= 
+7.565.365,8749 m,  no azimute de 138°56'17", na extensão de 360,82 m; deste deflete à 
+esquerda e segue com os seguintes azimutes e distâncias: 
+Do vértice 168  segue até o vértice 169, de coordenada U T M E= 198.579,7818 m e N= 
+7.565.533,1870 m,  no azimute de 34°31'34", na extensão de 203,08 m;  
+Do vértice 169  segue até o vértice 170, de coordenada U T M E= 198.722,5778 m e N= 
+7.565.367,1453 m,  no azimute de 139°18'16", na extensão de 219,00 m, vértice este 
+
+localizado no alinhamento norte da Avenida Caroline Garcia Batista; deste deflete à esquerda 
+e segue pelo alinhamento da referida avenida com o seguinte azimute e distância:  
+Do vértice 170  segue até o vértice 171, de coordenada U T M E= 198.832,2651 m e N= 
+7.565.392,4759 m, no azimute de 76°59'47", na extensão de 112,57 m; deste segue pelo limite 
+com os loteamentos Residencial Paraty e Jardim Acapulco, com os seguintes azimutes e 
+distâncias: 
+Do vértice 171  segue até o vértice 172, de coordenada U T M E= 198.851,3234 m e N= 
+7.565.408,8816 m,  no azimute de 49°16'40", na extensão de 25,15 m;  
+Do vértice 172  segue até o vértice 173, de coordenada U T M E= 199.118,4436 m e N= 
+7.565.023,7625 m,  no azimute de 145°15'17", na extensão de 468,69 m;  
+Do vértice 173  segue até o vértice 174, de coordenada U T M E= 199.236,6566 m e N= 
+7.564.998,4693 m,  no azimute de 102°04'37", na extensão de 120,89 m, vértice este 
+localizado no cruzamento com o Córrego Cambuí; deste deflete à esquerda e segue a jusante 
+pelo Córrego Cambuí, até atingir o vértice 175 de coordenada U T M E= 200.149,9788 m e 
+N= 7.565.348,1939 m , onde se situa a sua foz junto ao Córrego Santa Maria do Leme; deste 
+deflete à esquerda e segue à montante pelo Córrego Santa Maria do Leme, até atingir o vértice 
+176 de coordenada U T M E= 200.057,7067 m e N= 7.565.980,9462 m; deste deflete à 
+esquerda e segue com os seguintes azimutes e distâncias: 
+Do vértice 176  segue até o vértice 177 de coordenada U T M E= 199.682,0601 m e N= 
+7.566.099,4230 m,  no azimute de 287°30'18", na extensão de 393,89 m;  
+Do vértice 177  segue até o vértice 178, de coordenada U T M E= 199.703,9290 m e N= 
+7.565.935,7778 m,  no azimute de 172°23'18", na extensão de 165,10 m;  
+Do vértice 178  segue até o vértice 179, de coordenada U T M E= 199.484,5801 m e N= 
+7.566.004,9592 m,  no azimute de 287°30'18", na extensão de 230,00 m;  
+Do vértice 179  segue até o vértice 180, de coordenada U T M E= 199.460,5177 m e N= 
+7.566.185,0185 m,  no azimute de 352°23'18", na extensão de 181,66 m, vértice este 
+localizado no alinhamento sul da Rodovia Washington Luiz – SP 310; deste segue pelo 
+alinhamento da referida rodovia com o seguinte azimute e distância: 
+Do vértice 180  segue até o vértice 181, de coordenada U T M E= 200.050,4498 m e N= 
+7.565.998,9636 m,  no azimute de 107°30'16", na extensão de 618,58 m, vértice este 
+localizado no Córrego Santa Maria do Leme; deste deflete à esquerda e segue a montante pelo 
+Córrego Santa Maria do Leme até atingir o vértice 182 de coordenada U T M E= 
+199.629,7420 m e N= 7.567.416,3345 m, onde se situa a sua nascente; deste segue com o 
+seguinte azimute e distância: 
+Do vértice 182  segue até o vértice 183, de coordenada U T M E= 200.226,4351 m e N= 
+7.567.842,3151 m, no azimute de 59°10'44", na extensão de 211,43 m, vértice este localizado 
+no alinhamento norte da  Rua Ray Wesley Herrick; deste segue pelo alinhamento da referida 
+Rua com os seguintes azimutes e distâncias: 
+Do vértice 183  segue até o vértice 184, de coordenada U T M E= 199.992,2721 m e N= 
+7.568.173,7841 m,  no azimute de 324°45'40", na extensão de 405,84 m;  
+Do vértice 184  segue até o vértice 185, de coordenada U T M E= 199.969,6184 m e N= 
+7.568.177,6046 m,  no azimute de 279°34'22", na extensão de 22,97 m;  
+Do vértice 185  segue até o vértice 186, de coordenada U T M E= 199.946,5284 m e N= 
+7.568.181,3446 m,  no azimute de 279°12'02", na extensão de 23,39 m;  
+Do vértice 186  segue até o vértice 187, de coordenada U T M E= 199.391,8888 m e N= 
+7.568.275,7629 m,  no azimute de 279°39'40", na extensão de 562,61 m, vértice este situado 
+no limite com a Fazenda Santa Maria do Leme; deste segue pelo limite com a referida 
+Fazenda com os seguintes azimutes e distâncias: 
+Do vértice 187  segue até o vértice 188, de coordenada U T M E= 199.379,1344 m e N= 
+7.568.473,1864 m,  no azimute de 356°18'13", na extensão de 197,84 
+m; Do vértice 188  segue até o vértice 189, de coordenada U T M E= 198.874,3503 m e N= 
+7.568.456,2158 m,  no azimute de 268°04'28", na extensão de 505,07 m;  
+
+Do vértice 189  segue até o vértice 190, de coordenada U T M E= 198.877,3701 m e N= 
+7.568.388,7947 m,  no azimute de 177°26'08", na extensão de 67,49 m;  
+Do vértice 190  segue até o vértice 191, de coordenada U T M E= 198.850,1102 m e N= 
+7.568.407,3547 m,  no azimute de 304°14'57", na extensão de 32,98 m;  
+Do vértice 191  segue até o vértice 192, de coordenada U T M E= 198.818,7832 m e N= 
+7.568.430,3874 m,  no azimute de 306°19'28", na extensão de 38,88 m;  
+Do vértice 192  segue até o vértice 193, de coordenada U T M E= 198.810,7994 m e N= 
+7.568.638,7054 m,  no azimute de 357°48'19", na extensão de 208,47 m;  
+Do vértice 193  segue até o vértice 194, de coordenada U T M E= 199.177,9948 m e N= 
+7.568.652,9962 m,  no azimute de 87°46'16", na extensão de 367,47 m;  
+Do vértice 194  segue até o vértice 195, de coordenada U T M E= 199.236,7737 m e N= 
+7.568.655,2192 m,  no azimute de 87°50'03", na extensão de 58,82 m;  
+Do vértice 195  segue até o vértice 196, de coordenada U T M E= 199.372,9548 m e N= 
+7.568.855,0277 m,  no azimute de 34°16'36", na extensão de 241,80 m;  
+Do vértice 196  segue até o vértice 197, de coordenada U T M E= 199.391,1715 m e N= 
+7.568.881,7558 m,  no azimute de 34°16'36", na extensão de 32,35 m;  
+Do vértice 197  segue até o vértice 198, de coordenada U T M E= 199.327,7627 m e N= 
+7.569.052,6866 m,  no azimute de 339°38'49", na extensão de 182,31 m;  
+Do vértice 198  segue até o vértice 199, de coordenada U T M E= 199.205,0339 m e N= 
+7.569.096,6965 m,  no azimute de 289°43'39", na extensão de 130,38 m;  
+Do vértice 199  segue até o vértice 200, de coordenada U T M E= 199.223,3889 m e N= 
+7.569.244,7983 m,  no azimute de 7°03'54", na extensão de 149,23 m;  
+Do vértice 200  segue até o vértice 201, de coordenada U T M E= 199.393,8494 m e N= 
+7.569.105,0821 m,  no azimute de 129°49'03", na extensão de 221,58 m;  
+Do vértice 201  segue até o vértice 202, de coordenada U T M E= 199.513,5707 m e N= 
+7.568.782,1365 m,  no azimute de 159°39'34", na extensão de 344,42 m;  
+Do vértice 202  segue até o vértice 203, de coordenada U T M E= 199.743,6670 m e N= 
+7.568.808,0718 m,  no azimute de 83°34'09", na extensão de 231,55 m;  
+Do vértice 203  segue até o vértice 204, de coordenada U T M E= 199.796,5541 m e N= 
+7.568.336,9740 m,  no azimute de 173°35'41", na extensão de 474,06 m;  
+Do vértice 204  segue até o vértice 205, de coordenada U T M E= 199.942,9654 m e N= 
+7.568.212,9186 m,  no azimute de 130°16'30", na extensão de 191,90 m;  
+Do vértice 205  segue até o vértice 206, de coordenada U T M E= 199.945,2063 m e N= 
+7.568.210,3547 m,  no azimute de 138°50'45", na extensão de 3,41 m;  
+Do vértice 206  segue até o vértice 207, de coordenada U T M E= 199.951,4066 m e N= 
+7.568.204,4129 m,  no azimute de 133°46'48", na extensão de 8,59 m;  
+Do vértice 207  segue até o vértice 208, de coordenada U T M E= 199.973,2353 m e N= 
+7.568.200,7315 m,  no azimute de 99°34'22", na extensão de 22,14 m, vértice este localizado 
+no limite do Condomínio Parque Residencial Damha I;deste segue pelo limite do referido 
+condomínio com os seguintes azimutes e distâncias:  
+Do vértice 208  segue até o vértice 209, de coordenada U T M E= 199.831,9406 m e N= 
+7.568.400,7419 m,  no azimute de 324°45'40", na extensão de 244,88 m;  
+Do vértice 209  segue até o vértice 210, de coordenada U T M E= 199.820,4765 m e N= 
+7.568.429,7243 m,  no azimute de 338°25'07", na extensão de 31,17 m;  
+Do vértice 210  segue até o vértice 211, de coordenada U T M E= 199.948,8814 m e N= 
+7.568.520,4512 m,  no azimute de 54°45'22", na extensão de 157,22 m;  
+Do vértice 211  segue até o vértice 212, de coordenada U T M E= 200.147,0217 m e N= 
+7.568.400,1679 m,  no azimute de 121°15'37", na extensão de 231,79 m;  
+Do vértice 212  segue até o vértice 213, de coordenada U T M E= 200.280,6534 m e N= 
+7.568.620,2968 m,  no azimute de 31°15'37", na extensão de 257,52 m;  
+Do vértice 213  segue até o vértice 214, de coordenada U T M E= 200.263,9888 m e N= 
+7.568.630,4139 m,  no azimute de 301°15'43", na extensão de 19,50 m;  
+
+Do vértice 214  segue até o vértice 215, de coordenada U T M E= 200.252,9777 m e N= 
+7.568.675,8658 m, em curva à direita de raio de 33,00 metros, desenvolvendo uma distância 
+de 51,97 metros;  
+Do vértice 215  segue até o vértice 216, de coordenada U T M E= 200.266,2478 m e N= 
+7.568.697,5191 m,  no azimute de 31°30'06", na extensão de 25,40 m;  
+Do vértice 216  segue até o vértice 217, de coordenada U T M E= 200.306,6607 m e N= 
+7.568.729,7884 m,  no azimute de 51°23'35", na extensão de 51,72 m;  
+Do vértice 217  segue até o vértice 218, de coordenada U T M E= 200.557,7097 m e N= 
+7.568.814,8417 m,  no azimute de 71°17'03", na extensão de 265,07 m;  
+Do vértice 218  segue até o vértice 219, de coordenada U T M E= 200.581,8331 m e N= 
+7.568.800,7079 m, em curva à direita de raio de 18,50 metros desenvolvendo a distância de 
+31,70 metros, vértice este localizado no alinhamento no alinhamento oeste da Avenida Miguel 
+Damha; deste segue pelo alinhamento oeste da referida avenida com os seguintes azimutes e 
+distâncias:  
+Do vértice 219  segue até o vértice 220, de coordenada U T M E= 200.620,6552 m e N= 
+7.568.592,3025 m,  no azimute de 169°26'52", na extensão de 211,99 m;  
+Do vértice 220  segue até o vértice 221, de coordenada U T M E= 200.637,1279 m e N= 
+7.568.546,3681 m, em curva à esquerda de raio de 153,00 metros desenvolvendo a distância 
+de 49,01 metros,  
+Do vértice 221  segue até o vértice 222, de coordenada U T M E= 200.665,3381 m e N= 
+7.568.570,2182 m, no azimute de 49°47'15", na extensão de 36,94 m, vértice este situado no 
+alinhamento leste da Avenida Miguel Damha; deste segue pelo alinhamento leste da referida 
+avenida com os seguintes azimutes e distâncias: 
+Do vértice 222 segue até o vértice 223, de coordenada U T M E= 200.712,9279 m e N= 
+7.568.524,3826 m, em curva de raio de 120,00 metros desenvolvendo a distância de 66,97 
+metros,  
+Do vértice 223  segue até o vértice 224, de coordenada U T M E= 200.750,1342 m e N= 
+7.568.504,5898 m,  no azimute de 118°00'43", na extensão de 42,14 m;  
+Do vértice 224  segue até o vértice 225, de coordenada U T M E= 200.860,1707 m e N= 
+7.568.348,8758 m, em curva à direita de raio de 211,50 metros e desenvolve a distância de 
+197,84 metros,  
+Do vértice 225  segue até o vértice 226, de coordenada U T M E= 200.864,1902 m e N= 
+7.568.321,7904 m,  no azimute de 171°33'31", na extensão de 27,38 m;  
+Do vértice 226  segue até o vértice 227, de coordenada U T M E= 200.910,6445 m e N= 
+7.568.252,6099 m, em curva à esquerda de raio de 97,00 metros e desenvolve a distância de 
+86,13 metros; 
+Do vértice 227  segue até o vértice 228, de coordenada U T M E= 200.957,6591 m e N= 
+7.568.224,1149 m,  no azimute de 121°13'10", na extensão de 54,98 m; deste deflete à 
+esquerda e segue com os seguintes azimutes e distâncias: 
+Do vértice 228  segue até o vértice 229, de coordenada U T M E= 201.097,7244 m e N= 
+7.568.367,8090 m,  no azimute de 44°16'03", na extensão de 200,66 m;  
+Do vértice 229  segue até o vértice 230, de coordenada U T M E= 201.169,0155 m e N= 
+7.568.498,4303 m,  no azimute de 28°37'30", na extensão de 148,81 m;  
+Do vértice 230  segue até o vértice 231, de coordenada U T M E= 201.204,7105 m e N= 
+7.568.581,3788 m,  no azimute de 23°17'01", na extensão de 90,30 m;  
+Do vértice 231  segue até o vértice 232, de coordenada U T M E= 201.000,8407 m e N= 
+7.568.714,6395 m,  no azimute de 303°10'15", na extensão de 243,56 m;  
+Do vértice 232  segue até o vértice 233, de coordenada U T M E= 201.020,8741 m e N= 
+7.568.746,4343 m,  no azimute de 32°12'52", na extensão de 37,58 m;  
+Do vértice 233  segue até o vértice 234, de coordenada U T M E= 201.001,2607 m e N= 
+7.568.762,7460 m,  no azimute de 309°44'56", na extensão de 25,51 m;  
+
+Do vértice 234  segue até o vértice 235, de coordenada U T M E= 200.982,0709 m e N= 
+7.568.731,2401 m,  no azimute de 211°20'42", na extensão de 36,89 m;  
+Do vértice 235  segue até o vértice 236, de coordenada U T M E= 200.959,8596 m e N= 
+7.568.744,9656 m,  no azimute de 301°42'50", na extensão de 26,11 m, vértice este situado no 
+alinhamento sul da Avenida Conceição Vono Toledo Piza Fernandes; deste segue pelo 
+alinhamento sul da referida avenida com os seguintes azimutes e distâncias:  
+Do vértice 236  segue até o vértice 237, de coordenada U T M E= 200.860,0046 m e N= 
+7.568.575,6126 m,  no azimute de 210°31'29", na extensão de 196,60 m;  
+Do vértice 237  segue até o vértice 238, de coordenada U T M E= 200.846,6965 m e N= 
+7.568.519,7799 m, em curva à esquerda de raio de 97,50m, desenvolvendo a distância de 
+57,05 m; 
+Do vértice 238  segue até o vértice 239, de coordenada U T M E= 200.856,4623 m e N= 
+7.568.369,2842 m,  no azimute de 176°17'14", na extensão de 150,81 m, vértice este situado 
+no alinhamento leste da Avenida Miguel Damha;  
+Do vértice 239  segue até o vértice 240, de coordenada U T M E= 200.848,0809 m e N= 
+7.568.396,8084 m,em segmento de curva de raio de 211,50m, desenvolvendo a distâncias de 
+101,23 m, vértice este situado no alinhamento norte da Avenida Conceição Vono Toledo Piza 
+Fernandes; deste segue pelo alinhamento norte da referida avenida com os seguintes azimutes 
+e distâncias:  
+Do vértice 240  segue até o vértice 241, de coordenada U T M E= 200.822,9623 m e N= 
+7.568.467,4015 m,  no azimute de 54°01'12", na extensão de 15,42 m;  
+Do vértice 241  segue até o vértice 242, de coordenada U T M E= 200.819,7225 m e N= 
+7.568.518,2083 m, no azimute de 356°21'05", na extensão de 50,91 m; 
+Do vértice 242  segue até o vértice 243, de coordenada U T M E= 200.836,7343 m e N= 
+7.568.589,3475 m, em curva à direita de raio de 124,50 m, desenvolvendo a distância de 
+72,86 m; 
+Do vértice 243  segue até o vértice 244, de coordenada U T M E= 200.873,7659 m e N= 
+7.568.652,1520 m,  no azimute de 30°31'30", na extensão de 72,91 m;  
+Do vértice 244  segue até o vértice 245, de coordenada U T M E= 200.809,1476 m e N= 
+7.568.826,7677 m,  no azimute de 339°41'33", na extensão de 186,19 m;  
+Do vértice 245  segue até o vértice 246, de coordenada U T M E= 200.905,3240 m e N= 
+7.568.768,3267 m,  no azimute de 121°17'05", na extensão de 112,54 m;  
+Do vértice 246  segue até o vértice 247, de coordenada U T M E= 200.921,6393 m e N= 
+7.568.795,1786 m,  no azimute de 31°16'59", na extensão de 31,42 m, vértice este situado no 
+limite com o Condomínio Eco Esportivo Damha V; deste segue pelo limite do referido 
+condomínio com os seguintes azimutes e distâncias: 
+Do vértice 247  segue até o vértice 248, de coordenada U T M E= 200.848,7323 m e N= 
+7.568.839,4772 m,  no azimute de 301°16'59", na extensão de 85,31 m;  
+Do vértice 248  segue até o vértice 249, de coordenada U T M E= 200.710,8291 m e N= 
+7.569.141,3933 m, em curva de raio de 340,37 m e desenvolvendo a distância de 346,72 m; 
+Do vértice 249  segue até o vértice 250, de coordenada U T M E= 200.711,6212 m e N= 
+7.569.179,0849 m,  no azimute de 1°12'14", na extensão de 37,70 m;  
+Do vértice 250  segue até o vértice 251, de coordenada U T M E= 200.888,4407 m e N= 
+7.569.460,2111 m,  no azimute de 32°10'07", na extensão de 332,11 m;  
+Do vértice 251  segue até o vértice 252, de coordenada U T M E= 200.926,3136 m e N= 
+7.569.508,8265 m, em curva à direita de raio de 307,50 m, desenvolvendo a distância de 
+61,73 m; 
+Do vértice 252  segue até o vértice 253, de coordenada U T M E= 201.033,9982 m e N= 
+7.569.621,6291 m,  no azimute de 43°40'13", na extensão de 155,95 m;  
+Do vértice 253  segue até o vértice 254, de coordenada U T M E= 201.024,0885 m e N= 
+7.569.671,1983 m,  no azimute de 348°41'41", na extensão de 50,55 m;  
+
+Do vértice 254  segue até o vértice 255, de coordenada U T M E= 201.268,7902 m e N= 
+7.569.720,1179 m,  no azimute de 78°41'41", na extensão de 249,54 m, atravessando neste 
+percurso a Rodovia Engº Thales de Lorena Peixoto Junior; deste segue pelo limite do 
+Condomínio Parque Eco Tecnológico Damha II – São Carlos; deste segue pelo limite do 
+referido condomínio com os seguintes azimutes e distâncias:  
+Do vértice 255  segue até o vértice 256, de coordenada U T M E= 201.260,5414 m e N= 
+7.569.761,4059 m,  no azimute de 348°42'06", na extensão de 42,10 m;  
+Do vértice 256  segue até o vértice 257, de coordenada U T M E= 201.281,7250 m e N= 
+7.569.793,1716 m, em curva de raio de 27,00 m, desenvolvendo a distância de 39,11 m; 
+Do vértice 257  segue até o vértice 258, de coordenada U T M E= 201.635,9839 m e N= 
+7.569.863,8515 m,  no azimute de 78°43'00", na extensão de 361,24 m;  
+Do vértice 258  segue até o vértice 259, de coordenada U T M E= 201.648,9564 m e N= 
+7.569.554,6848 m,  no azimute de 177°35'50", na extensão de 309,44 m;  
+Do vértice 259  segue até o vértice 260, de coordenada U T M E= 201.640,6647 m e N= 
+7.569.550,8393 m,  no azimute de 245°07'10", na extensão de 9,14 m;  
+Do vértice 260  segue até o vértice 261, de coordenada U T M E= 201.647,7825 m e N= 
+7.569.269,5624 m,  no azimute de 178°33'01", na extensão de 281,37 m;  
+Do vértice 261  segue até o vértice 262, de coordenada U T M E= 201.659,7767 m e N= 
+7.569.269,8657 m,  no azimute de 88°33'05", na extensão de 12,00 m;  
+Do vértice 262  segue até o vértice 263, de coordenada U T M E= 201.672,7748 m e N= 
+7.568.633,5022 m,  no azimute de 178°49'47", na extensão de 636,50 m, vértice este 
+localizado no alinhamento norte da Avenida Pedro Muszkat; deste segue pelo referido 
+alinhamento com os seguintes azimutes e distâncias:  
+Do vértice 263  segue até o vértice 264, de coordenada U T M E= 201.815,6936 m e N= 
+7.568.823,2748 m,  no azimute de 36°59'01", na extensão de 237,57 m;  
+Do vértice 264  segue até o vértice 265, de coordenada U T M E= 201.834,6414 m e N= 
+7.568.862,6265 m, em curva de raio de 65,77 m, desenvolvendo a distância de 39,86 m, 
+vértice este situado no alinhamento leste da Avenida Francisco Falvo do loteamento 
+Samambaia Residencial; deste segue pelo alinhamento leste da referida avenida com os 
+seguintes azimutes e distâncias: 
+Do vértice 265  segue até o vértice 266, de coordenada U T M E= 201.836,8773 m e N= 
+7.569.197,7315 m,  no azimute de 0°22'56", na extensão de 335,11 m;  
+Do vértice 266  segue até o vértice 267, de coordenada U T M E= 201.819,8111 m e N= 
+7.569.582,3529 m, no azimute de 357°27'34", na extensão de 385,00 m, vértice este 
+localizado no alinhamento norte da Rua Ernesto Bentin; deste segue pelo alinhamento norte 
+da referida rua com o seguinte azimute e distância:  
+Do vértice 267  segue até o vértice 268, de coordenada U T M E= 202.502,2371 m e N= 
+7.569.667,0369 m, no azimute de 82°55'34", na extensão de 687,66 m, vértice este localizado 
+na interseção com o Córrego da Jararaca; deste deflete à direita e segue à montante pelo 
+Córrego da  Jararaca, até vértice 269 de coordenada U T M E= 202.342,3749 m e N= 
+7.568.871,0269 m, localizado no limite do loteamento Samambaia Residencial; deste segue 
+pelo limite do referido loteamento com os seguintes azimutes e distâncias: 
+Do vértice 269 segue até o vértice 270, de coordenada U T M E= 202.334,0261 m e N= 
+7.568.928,4229 m, no azimute de 351°43'26", na extensão de 58,00 m;  
+Do vértice 270 segue até o vértice 271, de coordenada U T M E= 201.853,1615 m e N= 
+7.568.829,1707 m, no azimute de 258°20'16", na extensão de 491,00 m;  
+Do vértice 271  segue até o vértice 272, de coordenada U T M E= 201.830,2537 m e N= 
+7.568.814,8796 m, no azimute de 238°02'31", na extensão de 27,00 m, vértice este localizado 
+no limite com o Condomínio Bosque São Carlos; deste segue pelo limite do referido 
+condomínio com os seguintes azimutes e distâncias:  
+Do vértice 272  segue até o vértice 273, de coordenada U T M E= 201.837,2544 m e N= 
+7.568.669,0974 m,  no azimute de 177°15'02", na extensão de 145,95 m;  
+
+Do vértice 273  segue até o vértice 274, de coordenada U T M E= 202.072,4540 m e N= 
+7.568.622,6068 m,  no azimute de 101°10'52", na extensão de 239,75 m;  
+Do vértice 274  segue até o vértice 275, de coordenada U T M E= 202.160,4935 m e N= 
+7.568.231,3542 m,  no azimute de 167°19'07", na extensão de 401,04 m, vértice este 
+localizado no alinhamento sul da Estrada Municipal Paulo Eduardo de Almeida Prado junto a 
+divisa com terras de propriedade da UFSCAR – Universidade Federal de São Carlos; deste 
+segue pelo alinhamento sul da referida estrada municipal, pelo limite com terras de 
+propriedade da UFSCAR – Universidade Federal de São Carlos, com os seguintes azimutes e 
+distâncias: 
+Do vértice 275  segue até o vértice 276, de coordenada U T M E= 202.277,3940 m e N= 
+7.568.236,8339 m,  no azimute de 87°18'58", na extensão de 117,03 m;  
+Do vértice 276  segue até o vértice 277, de coordenada U T M E= 202.375,4838 m e N= 
+7.568.278,9438 m, em curva à esquerda de raio de 152,05 metros, desenvolvendo uma 
+distância de 109,07 metros; 
+Do vértice 277  segue até o vértice 278, de coordenada U T M E= 203.277,7493 m e N= 
+7.569.105,0086 m,  no azimute de 47°31'28", na extensão de 1.223,30 m;  
+Do vértice 278  segue até o vértice 279, de coordenada U T M E= 204.715,2425 m e N= 
+7.568.506,9699 m,  no azimute de 112°35'19", na extensão de 1.556,93 m;  
+Do vértice 279  segue até o vértice 280, de coordenada U T M E= 204.622,9943 m e N= 
+7.568.045,3160 m,  no azimute de 191°18'00", na extensão de 470,78 m;  
+Do vértice 280  segue até o vértice 281, de coordenada U T M E= 204.599,5202 m e N= 
+7.567.927,8405 m,  no azimute de 191°18'00", na extensão de 119,80 m;  
+Do vértice 281  segue até o vértice 282, de coordenada U T M E= 204.715,7329 m e N= 
+7.567.832,9281 m,  no azimute de 129°14'20", na extensão de 150,05 m, vértice este 
+localizado no alinhamento da Estrada Municipal Guilherme Scatena ; deste deflete à direita e 
+segue pelo alinhamento da referida Estrada Municipal com os seguintes azimutes e distâncias: 
+Do vértice 282  segue até o vértice 283, de coordenada U T M E= 204.675,8029 m e N= 
+7.567.784,7332 m,  no azimute de 219°38'32", na extensão de 62,59 m;  
+Do vértice 283  segue até o vértice 284, de coordenada U T M E= 204.639,5050 m e N= 
+7.567.738,3564 m,  no azimute de 218°02'58", na extensão de 58,89 m;  
+Do vértice 284  segue até o vértice 285, de coordenada U T M E= 204.563,3523 m e N= 
+7.567.639,6741 m,  no azimute de 217°39'26", na extensão de 124,65 m;  
+Do vértice 285  segue até o vértice 286, de coordenada U T M E= 204.520,8993 m e N= 
+7.567.579,2597 m,  no azimute de 215°05'44", na extensão de 73,84 m;  
+Do vértice 286  segue até o vértice 287, de coordenada U T M E= 204.463,8268 m e N= 
+7.567.500,2531 m,  no azimute de 215°50'37", na extensão de 97,46 m;  
+Do vértice 287  segue até o vértice 288, de coordenada U T M E= 204.390,1090 m e N= 
+7.567.402,0306 m,  no azimute de 216°53'20", na extensão de 122,81 m;  
+Do vértice 288  segue até o vértice 289, de coordenada U T M E= 204.332,3986 m e N= 
+7.567.321,9407 m,  no azimute de 215°46'32", na extensão de 98,72 m;  
+Do vértice 289  segue até o vértice 290, de coordenada U T M E= 204.302,6154 m e N= 
+7.567.278,8070 m,  no azimute de 214°37'28", na extensão de 52,42 m;  
+Do vértice 290  segue até o vértice 291, de coordenada U T M E= 204.228,4069 m e N= 
+7.567.160,8953 m,  no azimute de 212°11'04", na extensão de 139,32 m;  
+Do vértice 291  segue até o vértice 292, de coordenada U T M E= 204.164,2209 m e N= 
+7.567.066,6418 m,  no azimute de 214°15'17", na extensão de 114,03 m;  
+Do vértice 292  segue até o vértice 293, de coordenada U T M E= 204.127,0507 m e N= 
+7.567.010,6763 m,  no azimute de 213°35'26", na extensão de 67,18 m; deste deflete à 
+esquerda, atravessando a referida Estrada Municipal, e após seguindo pelo limite com a 
+Fazenda Canadá com os seguintes azimutes e distâncias: 
+Do vértice 293  segue até o vértice 294, de coordenada U T M E= 204.815,6576 m e N= 
+7.566.365,3963 m,  no azimute de 133°08'23", na extensão de 943,70 m;  
+
+Do vértice 294  segue até o vértice 295, de coordenada U T M E= 204.405,6727 m e N= 
+7.565.802,4445 m,  no azimute de 216°03'54", na extensão de 696,42 m, vértice este 
+localizado no limite do imóvel denominado Chácara Vale Verde de propriedade de Ivan 
+Fernandes e Neusa Hildebrand Fernandes; deste segue pelo limite do imóvel denominado 
+Vale Verde, com os seguintes azimutes e distâncias:  
+Do vértice 295  segue até o vértice 296, de coordenada U T M E= 204.432,7095 m e N= 
+7.565.797,0998 m,  no azimute de 101°10'56", na extensão de 27,56 m;  
+Do vértice 296  segue até o vértice 297, de coordenada U T M E= 204.266,9983 m e N= 
+7.565.487,0326 m,  no azimute de 208°07'18", na extensão de 351,57 m, vértice este 
+localizado junto ao Córrego do Monjolinho; deste deflete à esquerda e segue à montante pelo 
+Córrego do Monjolinho, até o vértice 298 de coordenada U T M E= 205.825,9596 m e N= 
+7.564.937,1136 m, localizado na foz do Córrego Dois Portões; deste deflete à direita e segue 
+ainda à montante pelo Córrego do Monjolinho, até o vértice 299 de coordenada U T M E= 
+205.502,0050 m e N= 7.562.884,7489 m, localizado na sua nascente mais meridional; deste 
+deflete à esquerda e segue pelo limite com o Loteamento Parque Douradinho com os 
+seguintes azimutes e distâncias: 
+Do vértice 299  segue até o vértice 300, de coordenada U T M E= 205.973,6624 m e N= 
+7.562.893,9914 m,  no azimute de 88°52'39", na extensão de 471,75 m;  
+Do vértice 300  segue até o vértice 301, de coordenada U T M E= 206.025,2107 m e N= 
+7.562.759,7909 m,  no azimute de 158°59'15", na extensão de 143,76 m;  
+Do vértice 301  segue até o vértice 302, de coordenada U T M E= 206.691,6771 m e N= 
+7.562.716,8236 m,  no azimute de 93°41'20", na extensão de 667,85 m;  
+Do vértice 302  segue até o vértice 303, de coordenada U T M E= 206.659,4395 m e N= 
+7.562.278,9280 m,  no azimute de 184°12'38", na extensão de 439,08 m; deste deflete à 
+direita e segue divisando com os loteamentos Parque Douradinho, Jardim São Rafael e Jardim 
+Tangará com o seguinte azimute e distância: 
+Do vértice 303  segue até o vértice 304, de coordenada U T M E= 205.224,7670 m e N= 
+7.562.390,3244 m,  no azimute de 274°26'24", na extensão de 1.438,99 m; deste deflete à 
+esquerda e segue com os seguintes azimutes e distâncias:  
+Do vértice 304  segue até o vértice 305, de coordenada U T M E= 204.946,4399 m e N= 
+7.560.568,5824 m,  no azimute de 188°41'11", na extensão de 1.842,88 m;  
+Do vértice 305  segue até o vértice 306, de coordenada U T M E= 205.708,0715 m e N= 
+7.560.590,5548 m,  no azimute de 88°20'51", na extensão de 761,95 m;  
+Do vértice 306  segue até o vértice 307, de coordenada U T M E= 205.715,3731 m e N= 
+7.560.337,2078 m,  no azimute de 178°20'57", na extensão de 253,45 m, vértice este 
+localizado no eixo da Rodovia Professor Luiz Augusto de Oliveira – SP 215; deste deflete à 
+direita e segue pelo eixo da referida rodovia, sentido São Carlos – Ribeirão Bonito, até atingir 
+o ponto de inicio da descrição, fechando assim o perímetro. 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Prefeitura Municipal de São Carlos 
+Plano Diretor do Município de São Carlos 
+ANEXO 02.B – Descrição do Perímetro Urbano de Água Vermelha 
+ 
+
+DESCRIÇÃO DO PERÍMETRO URBANO DO DISTRITO DE ÁGUA VERMELHA 
+ 
+ 
+O perímetro urbano do Distrito de Água Vermelha está georreferenciado no Sistema 
+Geodésico Brasileiro, com coordenadas Plano Retangulares Relativas ao Sistema U T M - 
+Datum SAD-69, referentes ao meridiano central 45°00' cuja descrição se inicia no vértice 1 de 
+coordenada Este (X) 201.558,4991 m e Norte (Y) 7.576.072,5875 m, localizado no 
+cruzamento da linha paralela a 70,00 metros do eixo da Avenida Bela Cintra com a linha 
+paralela a 125,00 metros do eixo da Rua Elisa Veronisi Belonsi;  
+Do vértice 1  segue até o vértice 2, de coordenada U T M E= 200.918,1581 m e N= 
+7.575.295,4269 m,  no azimute de 219°29'12", na extensão de 1.006,98 m;  
+Do vértice 2  segue até o vértice 3, de coordenada U T M E= 200.588,8076 m e N= 
+7.575.566,7950 m,  no azimute de 309°29'12", na extensão de 426,75 m;  
+Do vértice 3  segue até o vértice 4, de coordenada U T M E= 200.587,3188 m e N= 
+7.575.667,4643 m,  no azimute de 359°09'10", na extensão de 100,68 m;  
+Do vértice 4  segue até o vértice 5, de coordenada U T M E= 200.627,8341 m e N= 
+7.575.756,9141 m,  no azimute de 24°22'03", na extensão de 98,20 m;  
+Do vértice 5  segue até o vértice 6, de coordenada U T M E= 200.621,0857 m e N= 
+7.575.763,1927 m,  no azimute de 312°56'03", na extensão de 9,22 m;  
+Do vértice 6  segue até o vértice 7, de coordenada U T M E= 200.616,6753 m e N= 
+7.575.767,8585 m,  no azimute de 316°36'44", na extensão de 6,42 m;  
+Do vértice 7  segue até o vértice 8, de coordenada U T M E= 200.608,6993 m e N= 
+7.575.777,0208 m,  no azimute de 318°57'35", na extensão de 12,15 m;  
+Do vértice 8  segue até o vértice 9, de coordenada U T M E= 200.585,7093 m e N= 
+7.575.806,0505 m,  no azimute de 321°37'21", na extensão de 37,03 m;  
+Do vértice 9  segue até o vértice 10, de coordenada U T M E= 200.572,0821 m e N= 
+7.575.826,5265 m,  no azimute de 326°21'20", na extensão de 24,60 m;  
+Do vértice 10  segue até o vértice 11, de coordenada U T M E= 200.565,6641 m e N= 
+7.575.836,5830 m,  no azimute de 327°27'14", na extensão de 11,93 m;  
+Do vértice 11  segue até o vértice 12, de coordenada U T M E= 200.556,3057 m e N= 
+7.575.852,5336 m,  no azimute de 329°35'58", na extensão de 18,49 m;  
+Do vértice 12  segue até o vértice 13, de coordenada U T M E= 200.535,1128 m e N= 
+7.575.891,8532 m,  no azimute de 331°40'33", na extensão de 44,67 m;  
+Do vértice 13  segue até o vértice 14, de coordenada U T M E= 200.521,2280 m e N= 
+7.575.918,1526 m,  no azimute de 332°10'05", na extensão de 29,74 m;  
+Do vértice 14  segue até o vértice 15, de coordenada U T M E= 200.513,1182 m e N= 
+7.575.934,0175 m,  no azimute de 332°55'29", na extensão de 17,82 m;  
+Do vértice 15  segue até o vértice 16, de coordenada U T M E= 200.500,5403 m e N= 
+7.575.960,4280 m,  no azimute de 334°32'03", na extensão de 29,25 m;  
+Do vértice 16  segue até o vértice 17, de coordenada U T M E= 200.494,5128 m e N= 
+7.575.973,8739 m,  no azimute de 335°51'15", na extensão de 14,74 m;  
+Do vértice 17  segue até o vértice 18, de coordenada U T M E= 200.481,9338 m e N= 
+7.576.006,3196 m,  no azimute de 338°48'32", na extensão de 34,80 m;  
+Do vértice 18  segue até o vértice 19, de coordenada U T M E= 200.479,0885 m e N= 
+7.576.017,8278 m,  no azimute de 346°06'45", na extensão de 11,85 m;  
+Do vértice 19  segue até o vértice 20, de coordenada U T M E= 200.476,3659 m e N= 
+7.576.029,7879 m,  no azimute de 347°10'33", na extensão de 12,27 m;  
+Do vértice 20  segue até o vértice 21, de coordenada U T M E= 200.473,9892 m e N= 
+7.576.041,3874 m,  no azimute de 348°25'14", na extensão de 11,84 m;  
+Do vértice 21  segue até o vértice 22, de coordenada U T M E= 200.471,6020 m e N= 
+7.576.053,6612 m,  no azimute de 348°59'37", na extensão de 12,50 m;  
+
+Do vértice 22  segue até o vértice 23, de coordenada U T M E= 200.470,5470 m e N= 
+7.576.059,4383 m,  no azimute de 349°39'02", na extensão de 5,87 m;  
+Do vértice 23  segue até o vértice 24, de coordenada U T M E= 200.469,4844 m e N= 
+7.576.065,6601 m,  no azimute de 350°18'31", na extensão de 6,31 m;  
+Do vértice 24  segue até o vértice 25, de coordenada U T M E= 200.466,3981 m e N= 
+7.576.085,4632 m,  no azimute de 351°08'30", na extensão de 20,04 m;  
+Do vértice 25  segue até o vértice 26, de coordenada U T M E= 200.610,8424 m e N= 
+7.576.094,6195 m,  no azimute de 86°22'22", na extensão de 144,73 m;  
+Do vértice 26  segue até o vértice 27, de coordenada U T M E= 200.656,9056 m e N= 
+7.575.908,6989 m,  no azimute de 166°05'05", na extensão de 191,54 m;  
+Do vértice 27  segue até o vértice 28, de coordenada U T M E= 200.672,3910 m e N= 
+7.575.912,5032 m,  no azimute de 76°11'50", na extensão de 15,95 m;  
+Do vértice 28  segue até o vértice 29, de coordenada U T M E= 200.712,0305 m e N= 
+7.575.751,7766 m,  no azimute de 166°08'45", na extensão de 165,54 m;  
+Do vértice 29  segue até o vértice 30, de coordenada U T M E= 200.732,4681 m e N= 
+7.575.756,8171 m,  no azimute de 76°08'45", na extensão de 21,05 m;  
+Do vértice 30  segue até o vértice 31, de coordenada U T M E= 200.756,0148 m e N= 
+7.575.661,3419 m,  no azimute de 166°08'45", na extensão de 98,34 m;  
+Do vértice 31  segue até o vértice 32, de coordenada U T M E= 200.763,1634 m e N= 
+7.575.748,9250 m,  no azimute de 4°39'58", na extensão de 87,87 m;  
+Do vértice 32  segue até o vértice 33, de coordenada U T M E= 201.243,6165 m e N= 
+7.576.332,0349 m,  no azimute de 39°29'12", na extensão de 755,55 m;  
+Finalmente do vértice 33 segue até o vértice 1, (início da descrição),   no azimute de 
+129°29'12", na extensão de 408,00 m, fechando assim o polígono acima descrito. 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Prefeitura Municipal de São Carlos 
+Revisão do Plano Diretor do Município de São Carlos 
+ANEXO 02.C – Descrição do Perímetro Urbano de Santa Eudóxia 
+
+ 
+DESCRIÇÃO DO PERÍMETRO URBANO DO DISTRITO DE SANTA EUDÓXIA 
+ 
+ 
+O perímetro urbano do Distrito de Santa Eudóxia está georreferenciado no Sistema 
+Geodésico Brasileiro, com coordenadas Plano Retangulares Relativas ao Sistema U T M - 
+Datum SAD-69, referentes ao meridiano central 45°00' cuja descrição se inicia no vértice 1 de 
+coordenada Este (X) 210.831,9746 m e Norte (Y) 7.589.786,7452 m localizado no 
+cruzamento da linha paralela a 50 metros da Rua Prudente de Moraes com a linha paralela a 
+101,50 metros da Rua Tiradentes; 
+Deste vértice segue com azimute 42°01'45" por uma distância de 316,73 metros até atingir o 
+vértice de n° 2, de coordenada U T M E = 211.044,0310 m e N  = 7.590.022,0176 m; 
+Deste deflete à esquerda e segue com azimute 296°05'01" por uma distância de 259,54 metros 
+até atingir o vértice de n° 3, de coordenada U T M E = 210.810,9234 m e N = 7.590.136,1335 
+m;  
+Deste deflete à direta e segue com azimute 9°25’18" por uma distância de 591,97 metros até 
+atingir o vértice de n° 4, de coordenada U T M E = 210907.8294 m e N = 7.590.720,1204 m; 
+Deste deflete à direta e segue com azimute 90°11'29" por uma distância de 753,92 metros até 
+atingir o vértice de n° 5, de coordenada U T M E = 211.661,7473 m e N = 7.590.717,6017 m; 
+Deste deflete à direita e segue com azimute 206°04'48" por uma distância de 730,43 metros 
+até atingir o vértice de n° 6, de coordenada U T M E = 211.340,6312 m e N = 7.590.061,5442 
+m;  
+Deste deflete à esquerda e segue com azimute 144°00’34" por uma distância de 326,69 metros 
+até atingir o vértice de n° 7, de coordenada U T M E= 211.532,6098 m e N = 7.589.797,2157 
+m;  
+Deste deflete à direita e segue com azimute 226°56'53" por uma distância de 189,63 metros 
+até atingir o vértice de n° 8, de coordenada U T M E = 211.394,0400 m e N = 7.589.667,7624 
+m; 
+Deste deflete à esquerda e segue com azimute 170°44’24" por uma distância de 241,02 metros 
+até atingir o vértice de n° 9, de coordenada U T M E = 211.432,8237 m e N = 7.589.429,8854 
+m;  
+Deste deflete à direta e segue com azimute 222°51'39'' por uma distância de 137,21 metros até 
+atingir o vértice de n° 10, de coordenada U T M E = 211.339,4907 m e N = 7.589.329,3095 
+m;  
+Deste deflete à direita e segue com azimute 312°01'45" por uma distância de 683,24 metros 
+até atingir o vértice de n° 1, início da descrição, fechando assim o polígono acima descrito. 
+ 
+ 

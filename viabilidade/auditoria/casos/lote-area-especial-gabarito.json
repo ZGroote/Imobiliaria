@@ -1,0 +1,16 @@
+{
+ "id": "audit-gabarito-9m",
+ "lid": 35038,
+ "poligono_utm": [[205186.54, 7564315.96], [205186.54, 7564376.72], [205211.54, 7564376.72], [205211.54, 7564315.96]],
+ "frente": [[205186.54, 7564315.96], [205186.54, 7564376.72]],
+ "area_m2": 1519.13,
+ "zona_id": "SC-Z2",
+ "zona_origem": "teste",
+ "zona_conferida": false,
+ "relevo": null,
+ "observacoes": "Lote com áreas especiais de gabarito (9 m) e cone sem altura numérica.",
+ "areas_especiais": [
+  {"tipo": "gabarito", "altura_max_m": 9.0, "fonte": "Lei 18.053/2016 art. 80"},
+  {"tipo": "cone_observatorio", "altura_max_m": null, "fonte": "Lei 18.053/2016 art. 82"}
+ ]
+}

@@ -1,0 +1,87 @@
+{
+  "id": "SC-completo-q1382-11984-11988",
+  "poligono_sha256": "415b107c5049207b14d5fee8a4de8c84b87a59984f1b2cfe738e5ae2b3d4340a",
+  "zona_id": "SC-EIXO",
+  "zona_origem": "anotada_a_mao",
+  "zona_conferida": false,
+  "conferido": false,
+  "data_anotacao": "2026-11-14",
+  "fontes": [
+    {
+      "lei": "Lei 18.053/2016",
+      "anexo": "02",
+      "pagina": 1,
+      "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf",
+      "sha256": "f2dbbf98a0698092a78be5585f479db4164267478a5a83b0dc8104917fdf5ef2",
+      "data": "2026-11-14"
+    },
+    {
+      "lei": "Lei 18.053/2016",
+      "anexo": "05",
+      "pagina": 1,
+      "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2005%20-%20AEIs%20Ambientais.pdf",
+      "sha256": "af2d54f9694ea9055273db821609798f51a0dd8d057bace97e9effee2ebddfa7",
+      "data": "2026-11-14"
+    },
+    {
+      "lei": "Lei 18.053/2016",
+      "anexo": "06",
+      "pagina": 1,
+      "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf",
+      "sha256": "3bfc5f7b8b79c5016a526cd08ac7f5f0f83f0fb51f27a2d1173785ee2bbc0f5d",
+      "data": "2026-11-14"
+    },
+    {
+      "lei": "Lei 18.053/2016",
+      "anexo": "07",
+      "pagina": 1,
+      "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
+      "sha256": "3c290bd44a8e6b5a5effca6715017bff21bdce5357a3d36167af95d3439e8031",
+      "data": "2026-11-14"
+    },
+    {
+      "lei": "Lei 18.053/2016",
+      "artigo": "11-I",
+      "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257",
+      "data": "2026-11-14",
+      "observacoes": "Texto oficial acessível consultado: o Eixo inclui testadas para Miguel Petroni/Miguel João no trecho Francisco Pereira Lopes–rotatória Bruno Ruggieiro Filho."
+    }
+  ],
+  "evidencia_zoneamento": "Polígono na faixa entre as vias do eixo Miguel Petroni/Miguel João, a leste da rotatória da Av. Bruno Ruggieiro Filho e a oeste da Av. Francisco Pereira Lopes. Borda norte com segmento de 16,773 m a até 4,403 m da malha de asfalto; o Anexo 02 nomeia expressamente o trecho como Eixo. Fundo de mapa Z2, mas classificação operacional SC-EIXO pela testada (art. 11-I).",
+  "areas_especiais": [
+    {
+      "tipo": "gabarito_aeronautico",
+      "nome": "Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes",
+      "conferido": false,
+      "incidencia": "sobreposicao_visual",
+      "fonte": "Lei 18.053/2016, arts. 105 a 107, Anexo 07, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
+      "evidencia": "dados/eixo-anexo07.jpg",
+      "observacoes": "Polígono dentro do perímetro tracejado roxo de restrição aeronáutica. Sem altura local numérica; consultar DECEA."
+    }
+  ],
+  "areas_especiais_verificacao": {
+    "05": "Fora das manchas verdes AIA/áreas ambientais na leitura visual; manchas próximas a leste e norte não interceptam o polígono.",
+    "06": "Fora das áreas industriais, históricas, subárea de 9 m, Observatório e AEIS representadas neste entorno.",
+    "07": "Dentro do perímetro tracejado roxo de restrição aeronáutica; fora das áreas rurais coloridas."
+  },
+  "metodo": "União exata das geometrias completas lonlat projetadas EPSG:31983; transformação EPSG:29183 e ajuste afim existente com cinco controles por anexo. Leitura manual dos quatro anexos e nome de via/trecho; testada corroborada pela malha de asfalto. Sem fx/fy, buffer de fechamento ou classificação por cor.",
+  "evidencias": [
+    "dados/eixo-anexo02.jpg",
+    "dados/eixo-anexo06.jpg",
+    "dados/eixo-anexo05.jpg",
+    "dados/eixo-anexo07.jpg",
+    "dados/eixo-trecho-art11.jpg",
+    "dados/eixo-contiguidade.json"
+  ],
+  "controles": "dados/zonas-controles.json",
+  "posicionamento": "dados/eixo-posicionamento.json",
+  "rmse_controles_anexo02_m": 3.526,
+  "incerteza_posicional_total_m": null,
+  "limitacoes": [
+    "Remembramento geométrico de cinco parcelas planta_refeita da maquete, não cadastro ou matrícula. A origem representa reconstrução de planta com lotes padronizados; divisas e disponibilidade exigem conferência.",
+    "A classificação Eixo é hipótese manual apoiada no nome e trecho do Anexo 02, art. 11-I e testada próxima ao asfalto. Confirmar endereço, alinhamento e testadas cadastrais. Não foi usado apenas o bairro ou a proximidade do centro.",
+    "A frente representa o maior segmento reto elegível da borda norte; não soma toda a testada fragmentada. O Motor usa esta única frente.",
+    "Sem sobreposição visual com AIA ou área industrial nos Anexos 05/06. Lista não certifica ausência de APP, patrimônio individual, servidão, inundação ou contaminação.",
+    "Incidência aeronáutica visual no Anexo 07; altura depende de consulta DECEA. Resíduo do ajuste não mede erro posicional total; conferir divisas em cadastro oficial."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "Z-AUDIT5-IMP-DCEGA",
+  "nome": "Zona Z-AUDIT5-IMP-DCEGA",
+  "parametros": {
+    "ca_basico": 2.0,
+    "ca_maximo": 4.0,
+    "taxa_ocupacao": 0.7,
+    "taxa_permeabilidade": 0.1,
+    "recuo_frontal_m": 4.0,
+    "recuo_lateral_m": 1.5,
+    "recuo_fundos_m": 1.5,
+    "altura_max_m": null,
+    "pavimentos_max": null,
+    "recuo_lateral_por_altura": {
+      "ate_pavimento": 2,
+      "recuo_m": 4.0,
+      "acima": {
+        "fracao_h": 0.1,
+        "minimo_m": 1.5
+      }
+    },
+    "recuo_fundos_por_altura": {
+      "ate_pavimento": 2,
+      "recuo_m": 4.0,
+      "acima": {
+        "fracao_h": 0.1,
+        "minimo_m": 1.5
+      }
+    },
+    "parede_cega_encosta_ate_m": 12.0,
+    "garagem_computavel": false,
+    "vagas_min_por_unidade": null,
+    "outorga_onerosa": true
+  },
+  "fontes": [],
+  "conferido": false,
+  "observacoes": "Teste auditoria 5"
+}

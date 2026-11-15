@@ -1,0 +1,77 @@
+[
+  {
+    "caso": "audit5-saida-trap-to20.json",
+    "opcao": "C",
+    "area_fora_caixa_por_volume": [
+      0.0
+    ],
+    "to_real": 0.2000454687542929,
+    "to_max": 0.2
+  },
+  {
+    "caso": "audit5-saida-trap-to50.json",
+    "opcao": "C",
+    "area_fora_caixa_por_volume": [
+      0.0
+    ],
+    "to_real": 0.5001682812408874,
+    "to_max": 0.5
+  },
+  {
+    "caso": "saida-em-l-aba-fundos.json",
+    "opcao": "C",
+    "area_fora_caixa_por_volume": [
+      0.0
+    ],
+    "to_real": 0.4683333333333333,
+    "to_max": 0.7
+  },
+  {
+    "caso": "saida-em-l-centroide-quina.json",
+    "opcao": "A",
+    "area_fora_caixa_por_volume": [
+      0.0
+    ],
+    "to_real": 0.10748627858305282,
+    "to_max": 0.7
+  },
+  {
+    "caso": "saida-em-l-centroide-quina.json",
+    "opcao": "D",
+    "area_fora_caixa_por_volume": [
+      0.0,
+      0.0
+    ],
+    "to_real": 0.3896531185055041,
+    "to_max": 0.7
+  },
+  {
+    "caso": "saida-em-l-frente-recuada.json",
+    "opcao": "A",
+    "area_fora_caixa_por_volume": [
+      0.0
+    ],
+    "to_real": 0.0993766206860144,
+    "to_max": 0.7
+  },
+  {
+    "caso": "saida-em-l-frente-recuada.json",
+    "opcao": "B",
+    "area_fora_caixa_por_volume": [
+      0.0,
+      0.0
+    ],
+    "to_real": 0.1987532413720288,
+    "to_max": 0.7
+  },
+  {
+    "caso": "saida-triangular-simetrico.json",
+    "opcao": "D",
+    "area_fora_caixa_por_volume": [
+      2e-06,
+      2e-05
+    ],
+    "to_real": 0.3797968000060989,
+    "to_max": 0.7
+  }
+]

@@ -1,0 +1,147 @@
+{
+  "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+  "consulta": "2026-11-14",
+  "fontes": [
+    {
+      "url": "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_S23_00_W049_00_DEM/Copernicus_DSM_COG_10_S23_00_W049_00_DEM.tif",
+      "etag": "\"ec1ba226d8ca0a924dbc7f89ef07ff14\"",
+      "last_modified": "Mon, 09 May 2022 15:00:54 GMT",
+      "tamanho_fonte_bytes": 40783263,
+      "transformacao": [
+        0.0002777777777777778,
+        0.0,
+        -49.00013888888889,
+        0.0,
+        -0.0002777777777777778,
+        -21.999861111111112
+      ],
+      "nodata": null,
+      "resolucao_graus": [
+        0.0002777777777777778,
+        0.0002777777777777778
+      ],
+      "limites_lon_lat": [
+        -49.00013888888889,
+        -22.999861111111112,
+        -48.00013888888889,
+        -21.999861111111112
+      ]
+    },
+    {
+      "url": "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_S23_00_W048_00_DEM/Copernicus_DSM_COG_10_S23_00_W048_00_DEM.tif",
+      "etag": "\"fbebac31f9526597f518538efa6c1128\"",
+      "last_modified": "Mon, 09 May 2022 15:00:54 GMT",
+      "tamanho_fonte_bytes": 41406246,
+      "transformacao": [
+        0.0002777777777777778,
+        0.0,
+        -48.00013888888889,
+        0.0,
+        -0.0002777777777777778,
+        -21.999861111111112
+      ],
+      "nodata": null,
+      "resolucao_graus": [
+        0.0002777777777777778,
+        0.0002777777777777778
+      ],
+      "limites_lon_lat": [
+        -48.00013888888889,
+        -22.999861111111112,
+        -47.00013888888889,
+        -21.999861111111112
+      ]
+    },
+    {
+      "url": "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_S22_00_W049_00_DEM/Copernicus_DSM_COG_10_S22_00_W049_00_DEM.tif",
+      "etag": "\"454dc49269ffc6b4913b86913ae896de\"",
+      "last_modified": "Mon, 09 May 2022 15:00:31 GMT",
+      "tamanho_fonte_bytes": 40503606,
+      "transformacao": [
+        0.0002777777777777778,
+        0.0,
+        -49.00013888888889,
+        0.0,
+        -0.0002777777777777778,
+        -20.999861111111112
+      ],
+      "nodata": null,
+      "resolucao_graus": [
+        0.0002777777777777778,
+        0.0002777777777777778
+      ],
+      "limites_lon_lat": [
+        -49.00013888888889,
+        -21.999861111111112,
+        -48.00013888888889,
+        -20.999861111111112
+      ]
+    },
+    {
+      "url": "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_S22_00_W048_00_DEM/Copernicus_DSM_COG_10_S22_00_W048_00_DEM.tif",
+      "etag": "\"9bca69fc1dd4cdb3681c1b915607046a\"",
+      "last_modified": "Mon, 09 May 2022 15:00:31 GMT",
+      "tamanho_fonte_bytes": 40731746,
+      "transformacao": [
+        0.0002777777777777778,
+        0.0,
+        -48.00013888888889,
+        0.0,
+        -0.0002777777777777778,
+        -20.999861111111112
+      ],
+      "nodata": null,
+      "resolucao_graus": [
+        0.0002777777777777778,
+        0.0002777777777777778
+      ],
+      "limites_lon_lat": [
+        -48.00013888888889,
+        -21.999861111111112,
+        -47.00013888888889,
+        -20.999861111111112
+      ]
+    }
+  ],
+  "metodo_download": "Janelas de COG via HTTP Range; apenas recorte gravado, sem redução de resolução.",
+  "bbox_solicitado_lon_lat": [
+    -48.1211,
+    -22.1044,
+    -47.8006,
+    -21.9154
+  ],
+  "bbox_gravado_lon_lat": [
+    -48.12125,
+    -22.104583333333334,
+    -47.80041666666667,
+    -21.91513888888889
+  ],
+  "recorte": "Área urbana de trabalho de padrao/cidades/sao-carlos.json; não município inteiro.",
+  "crs_horizontal": "EPSG:4326",
+  "datum_vertical": "EGM2008",
+  "versao_espelho": "Copernicus DEM 2021 release, conforme registro AWS",
+  "transformacao": [
+    0.0002777777777777778,
+    0.0,
+    -48.12125,
+    0.0,
+    -0.0002777777777777778,
+    -21.91513888888889
+  ],
+  "nodata": -9999.0,
+  "resolucao_graus": [
+    0.0002777777777777778,
+    0.0002777777777777778
+  ],
+  "resolucao_nominal_m": 30,
+  "colunas": 1155,
+  "linhas": 682,
+  "cota_min_recorte_m": 504.0537109375,
+  "cota_max_recorte_m": 947.6944580078125,
+  "sha256": "1d4e386afa3ef3770b6e637a83d6132e5ef9856b68ab366076a5db6c9dc00173",
+  "tamanho_bytes": 1904215,
+  "licenca": "https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM",
+  "atribuicao": "produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved",
+  "validacao_local": false,
+  "rasterio": "1.5.1"
+}

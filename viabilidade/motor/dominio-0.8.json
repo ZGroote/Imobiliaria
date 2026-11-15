@@ -1,0 +1,356 @@
+{
+  "versao": "dominio-0.8",
+  "folga_relativa": 0.001,
+  "metodo": "Faixas marginais observadas, não prova de cobertura de todas as combinações. Área pelo polígono UTM; vértices sem fechamento nem repetições consecutivas; convexidade = área/área do fecho convexo; profundidade = amplitude da projeção normal à frente; ângulos internos respeitam concavidade e orientação. Folga de 0,1% de cada extremo numérico (mínimo 1e-9); vértices e categorias sem folga. null explícito é separado de campo ausente. Entradas isoladas e registros de erro sem lote não entram no corpus.",
+  "faixas": {
+    "area_m2": {
+      "min": 150.0,
+      "max": 20000.0,
+      "aceita_null": false
+    },
+    "vertices": {
+      "min": 3,
+      "max": 17,
+      "aceita_null": false
+    },
+    "convexidade": {
+      "min": 0.7341772151898734,
+      "max": 1.0,
+      "aceita_null": false
+    },
+    "frente_profundidade": {
+      "min": 0.18749982778224616,
+      "max": 2.6517118768219303,
+      "aceita_null": false
+    },
+    "angulo_min_graus": {
+      "min": 24.775140568831915,
+      "max": 90.0,
+      "aceita_null": false
+    },
+    "ca_basico": {
+      "min": 1.0,
+      "max": 2.0,
+      "aceita_null": true
+    },
+    "ca_maximo": {
+      "min": 1.4,
+      "max": 5.0,
+      "aceita_null": true
+    },
+    "taxa_ocupacao": {
+      "min": 0.2,
+      "max": 1.0,
+      "aceita_null": false
+    },
+    "taxa_permeabilidade": {
+      "min": 0.1,
+      "max": 0.73,
+      "aceita_null": false
+    }
+  },
+  "categorias": {
+    "zona": [
+      "SC-EIXO",
+      "SC-Z1",
+      "SC-Z2",
+      "SC-Z4",
+      "SC-Z6E-SEM-CA",
+      "Z-ALT-9M",
+      "Z-AUDIT5-EML-CA32",
+      "Z-AUDIT5-GC-R1M5",
+      "Z-AUDIT5-GC-R3M0",
+      "Z-AUDIT5-HALTERE",
+      "Z-AUDIT5-IMP-13X40",
+      "Z-AUDIT5-IMP-DCEGA",
+      "Z-AUDIT5-PERM25",
+      "Z-AUDIT5-PERM55",
+      "Z-AUDIT5-TRAP-PERM15",
+      "Z-AUDIT5-TRAP-PERM55",
+      "Z-AUDIT5-TRAP-RB02",
+      "Z-AUDIT5-TRAP-RB10",
+      "Z-AUDIT5-TRAP-TO20",
+      "Z-AUDIT5-TRAP-TO50",
+      "Z-CA-20-D",
+      "Z-CA-25-D",
+      "Z-CA-2614",
+      "Z-CA-2620",
+      "Z-FUNDOS-10M",
+      "Z-GC-CA50-1M5",
+      "Z-GC-CA50-3M0",
+      "Z-GC-RECUO-2M0",
+      "Z-GC-RECUO-2M5",
+      "Z-PERM-35",
+      "Z-PERM50-1M5",
+      "Z-PERM50-3M0",
+      "Z-RECUO-1M5",
+      "Z-RECUO-2M0",
+      "Z-RFIXO-2M0",
+      "Z-RFIXO-2M5",
+      "Z-SUMICO-D-1M5",
+      "Z-SUMICO-D-2M0",
+      "Z-TO-100",
+      "Z-TO-25",
+      "Z-TO-35",
+      "Z-TO100-PERM25"
+    ],
+    "area_especial": [
+      false,
+      true
+    ],
+    "garagem_computavel": [
+      false,
+      true
+    ]
+  },
+  "fontes": [
+    {
+      "arquivo": "motor/exemplos/estudo-exemplo.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "motor/exemplos/pilotos/SC-completo-22421.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "motor/exemplos/pilotos/SC-completo-22426.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "motor/exemplos/pilotos/SC-completo-25297.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "motor/exemplos/pilotos/SC-completo-30516.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "motor/exemplos/pilotos/SC-completo-37607.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "motor/exemplos/pilotos/SC-completo-q1382-11984-11988.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "motor/exemplos/pilotos/SC-completo-remembramento-75352-75354.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-em-l-ca32.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-gc-r1m5.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-gc-r3m0.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-haltere-subsolo.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-impossivel-falso-13x40.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-impossivel-falso-d-cega.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-perm25.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-perm55.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-trap-perm15.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-trap-perm55.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-trap-rb02.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-trap-rb10.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-trap-to20.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/audit5-saida-trap-to50.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-anti-horario.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-area-especial-gabarito.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-borda-utm.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-em-l-aba-fundos.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-em-l-centroide-quina.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-em-l-frente-recuada.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-em-l-permeabilidade.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-enorme-20000m2.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-estreito-8m.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-garagem-comp-2m0.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-garagem-comp-2m5.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-gc-ca50-recuo-1m5.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-gc-ca50-recuo-3m0.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-horario.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-minusculo-150m2.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-ca-20-d.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-ca-25-d.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-ca-25.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-ca-26.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-descarte-d-2m0.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-descarte-d-2m5.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-recuo-1m5.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-recuo-2m0.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-recuo-fixo-2m0.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-recuo-fixo-2m5.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-to-25.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-mono-to-35.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-perm50-recuo-1m5.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-perm50-recuo-3m0.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-sem-ca-cone-90m.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-sumico-d-1m5.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-sumico-d-2m0.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-trapezio-fundos-10m.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-triangular-escaleno.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-triangular-simetrico-fundos-10m.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-triangular-simetrico.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-vertice-repetido.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-zona-altura-9m.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-zona-to-100-perm-25.json",
+      "medidas_ausentes": []
+    },
+    {
+      "arquivo": "auditoria/casos/saida-zona-to-100.json",
+      "medidas_ausentes": []
+    }
+  ]
+}

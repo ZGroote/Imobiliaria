@@ -1,0 +1,12 @@
+{
+ "id": "audit-enorme-20k",
+ "lid": 35038,
+ "poligono_utm": [[205000, 7564000], [205100, 7564000], [205100, 7564200], [205000, 7564200]],
+ "frente": [[205000, 7564000], [205100, 7564000]],
+ "area_m2": 20000.0,
+ "zona_id": "SC-Z2",
+ "zona_origem": "teste",
+ "zona_conferida": false,
+ "relevo": null,
+ "observacoes": "Lote enorme: 100 m x 200 m (20.000 m²)."
+}

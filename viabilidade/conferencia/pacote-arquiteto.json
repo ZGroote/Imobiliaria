@@ -1,0 +1,570 @@
+[
+  {
+    "id": "P01",
+    "grupo": "a - Zona de cada lote piloto",
+    "pergunta": "Qual é a zona oficial do lote SC-completo-30516 (Jardim Pacaembu, quadra 4263, planta 000050, 1.604,658 m², a oeste da Av. República do Líbano / extremo oeste da Rua Sergipe), considerando que a leitura veio de mapa raster sem divisas cadastrais (erro 3,53 m) e que o lote sobrepõe área de AIA?",
+    "assumido_hoje": "SC-Z4 (CA único 1,4; TO 70%; CP 15%; lote mínimo 200 m²; testada mínima 10 m), zona_origem='anotada_a_mao', zona_conferida=false, frente inferida de 23,50 m.",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016 (Plano Diretor), art. 29 e art. 152-V — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "Anexo 02 - Zoneamento Urbano — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf (testado em 15/11: abre)",
+      "viabilidade/terreno/lotes-piloto.json"
+    ],
+    "opcoes": [
+      "Sim, é SC-Z4",
+      "Não, é outra zona (especificar qual)",
+      "Depende de certidão oficial da Prefeitura"
+    ],
+    "afeta": [
+      "lote:SC-completo-30516",
+      "zona:SC-Z4"
+    ]
+  },
+  {
+    "id": "P02",
+    "grupo": "a - Zona de cada lote piloto",
+    "pergunta": "Qual é a zona oficial do lote SC-completo-37607 (C.E.A.T. Dr. Emílio Fehr, quadra 4817, planta 000189, 2.684,942 m², ao sul da SP-215), considerando a leitura raster e a incidência na AEI Industrial e de Serviços nº 42 (CEAT)?",
+    "assumido_hoje": "SC-Z4 (CA único 1,4; TO 70%; CP 15%), zona_origem='anotada_a_mao', zona_conferida=false, frente inferida de 29,79 m.",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, art. 29, art. 152-V e arts. 84-86 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "Anexo 02 - Zoneamento Urbano — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf (testado em 15/11: abre)",
+      "Anexo 06 - AEIs Urbanas — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf (testado em 15/11: abre)",
+      "viabilidade/terreno/lotes-piloto.json"
+    ],
+    "opcoes": [
+      "Sim, a zona-base é SC-Z4 (com restrições da AEI 42)",
+      "Não, segue enquadramento ou parâmetros próprios de AEI/loteamento (especificar)",
+      "Depende de diretriz da Prefeitura"
+    ],
+    "afeta": [
+      "lote:SC-completo-37607",
+      "zona:SC-Z4"
+    ]
+  },
+  {
+    "id": "P03",
+    "grupo": "a - Zona de cada lote piloto",
+    "pergunta": "O lote SC-completo-22426 (Jardim São Carlos, quadra 2757, planta 000014, 601,815 m², entre Av. Comendador Alfredo Maffei e Rua Conde do Pinhal, 4 frentes candidatas e sobreposição viária de 1,779 m²) pertence à SC-Z1 ou tem testada oficial para a Av. Alfredo Maffei entrando como SC-EIXO?",
+    "assumido_hoje": "SC-Z1 (CAB 2,0; CAM 3,0; TO 70%; CP 15%), zona_origem='anotada_a_mao', zona_conferida=false, frente única principal de 23,46 m (alternativa anotada: SC-EIXO, CAM 4,0).",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, art. 11, inciso III, art. 13 e art. 17 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "Anexo 02 - Zoneamento Urbano — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf (testado em 15/11: abre)",
+      "viabilidade/terreno/dados/anotacao-eixo.json",
+      "viabilidade/terreno/lotes-piloto.json"
+    ],
+    "opcoes": [
+      "Sim, é SC-Z1 (sem testada na Av. Alfredo Maffei)",
+      "Não, tem testada na Av. Alfredo Maffei e é SC-EIXO",
+      "Outro enquadramento ou condição de testada/esquina (especificar)"
+    ],
+    "afeta": [
+      "lote:SC-completo-22426",
+      "zona:SC-Z1",
+      "zona:SC-EIXO"
+    ]
+  },
+  {
+    "id": "P04",
+    "grupo": "a - Zona de cada lote piloto",
+    "pergunta": "O lote SC-completo-22421 (Jardim São Carlos, quadra 2757, planta 000014, 651,571 m², junto à Rua Conde do Pinhal, marcado com zona_ambigua=true por ficar a poucos metros da divisa Z1/Z2 dentro do erro de 3,53 m do PDF) pertence à SC-Z1 ou à SC-Z2?",
+    "assumido_hoje": "SC-Z1 (CAB 2,0; CAM 3,0; TO 70%; CP 15%), frente sul inferida de 15,32 m, alternativa anotada SC-Z2 (CAB 2,0; CAM 3,5).",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, arts. 17, 21 e 152 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "Anexo 02 - Zoneamento Urbano — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf (testado em 15/11: abre)",
+      "viabilidade/terreno/dados/anotacao-z2.json",
+      "viabilidade/terreno/ZONAS.md"
+    ],
+    "opcoes": [
+      "Sim, é SC-Z1",
+      "Não, é SC-Z2",
+      "Incide em duas zonas (informar regra de prevalência aplicada pela Prefeitura)"
+    ],
+    "afeta": [
+      "lote:SC-completo-22421",
+      "zona:SC-Z1",
+      "zona:SC-Z2"
+    ]
+  },
+  {
+    "id": "P05",
+    "grupo": "a - Zona de cada lote piloto",
+    "pergunta": "O lote SC-completo-25297 (Vila Monteiro Gleba I, quadra 3377, planta 000047, 326,676 m², entre Ruas Silvério Ignarra Sobrinho e Raimundo Corrêa, ~1 quadra ao norte da divisa Z3) é integralmente SC-Z1 e possui de fato duas testadas de esquina (29,05 m e 9,06 m)?",
+    "assumido_hoje": "SC-Z1 (CAB 2,0; CAM 3,0; TO 70%; CP 15%), zona_origem='anotada_a_mao', zona_conferida=false, com apenas 1 frente considerada pelo motor.",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, art. 17 e art. 152-II — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "Anexo 02 - Zoneamento Urbano — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf (testado em 15/11: abre)",
+      "viabilidade/terreno/lotes-piloto.json"
+    ],
+    "opcoes": [
+      "Sim, é SC-Z1 de esquina (duas testadas)",
+      "Sim, é SC-Z1 de meio de quadra (uma testada)",
+      "Outra zona ou condição (especificar)"
+    ],
+    "afeta": [
+      "lote:SC-completo-25297",
+      "zona:SC-Z1",
+      "zona:SC-Z3"
+    ]
+  },
+  {
+    "id": "P06",
+    "grupo": "a - Zona de cada lote piloto",
+    "pergunta": "O remembramento SC-completo-q1382-11984-11988 (Morada dos Deuses, quadra 1382, planta 000141, 5 parcelas planta_refeita, 1.599,108 m², borda norte 16,77 m junto à faixa Miguel Petroni / Miguel João) tem testada oficial no trecho de SC-EIXO ou fica como SC-Z2, e suas 5 parcelas são remembráveis em matrícula?",
+    "assumido_hoje": "SC-EIXO (CAB 2,0; CAM 4,0; TO 70%; CP 15%), zona_origem='anotada_a_mao', zona_conferida=false, frente norte registrada 16,77 m.",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, art. 11, inciso I e art. 13 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "Anexo 02 - Zoneamento Urbano — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf (testado em 15/11: abre)",
+      "viabilidade/terreno/dados/anotacao-eixo.json",
+      "viabilidade/terreno/LOTES.md"
+    ],
+    "opcoes": [
+      "Sim, é SC-EIXO e remembrável",
+      "Não, é SC-Z2",
+      "Remembramento tem impedimento ou exige diretriz prévia (especificar)"
+    ],
+    "afeta": [
+      "lote:SC-completo-q1382-11984-11988",
+      "zona:SC-EIXO",
+      "zona:SC-Z2"
+    ]
+  },
+  {
+    "id": "P07",
+    "grupo": "a - Zona de cada lote piloto",
+    "pergunta": "O remembramento SC-completo-remembramento-75352-75354 (Quadra 2725, entre Major José Inácio e Conde do Pinhal, oeste da Rua Dona Maria Izabel de Oliveira Botelho, 3 parcelas de origem 'sintetico', 1.607,776 m², frente leste registrada de apenas 8,39 m < 10 m mínimo da Z2) corresponde a matrículas reais unificáveis na SC-Z2 com testada suficiente?",
+    "assumido_hoje": "SC-Z2 (CAB 2,0; CAM 3,5; TO 70%; CP 15%; testada mínima 10 m), zona_origem='anotada_a_mao', zona_conferida=false, frente registrada 8,39 m.",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, art. 21 e art. 152-III — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "Anexo 02 - Zoneamento Urbano — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf (testado em 15/11: abre)",
+      "viabilidade/terreno/lotes-piloto.json",
+      "viabilidade/terreno/LOTES.md"
+    ],
+    "opcoes": [
+      "Sim, é SC-Z2 e a testada real atende >= 10 m",
+      "É SC-Z2, mas tem testada insuficiente ou formato irregular",
+      "Parcelas sintéticas não correspondem a lotes unificáveis (especificar)"
+    ],
+    "afeta": [
+      "lote:SC-completo-remembramento-75352-75354",
+      "zona:SC-Z2"
+    ]
+  },
+  {
+    "id": "P08",
+    "grupo": "b - Parâmetros duvidosos por zona",
+    "pergunta": "Em SC-Z5A e SC-Z5B, quais parâmetros prevalecem na aprovação atual da Prefeitura diante do conflito entre o quadro dos arts. 36/38 (por tamanho de lote, CP 30% e CCV 10%), os arts. 150/153/154 (CP 20% e CCV 20%) e a Lei nº 13.944/2006 (APREM, citada em FONTES.md como não conferida)?",
+    "assumido_hoje": "conferido=false em SC-Z5A e SC-Z5B; provisoriamente usa a coluna >300 m² com o valor mais restritivo de cada conflito (CA 1,0 e 1,4 para HIS; TO 50%; CP 30%; CCV 20%; testada mínima null).",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, arts. 36, 38, 150, 153 e 154 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "viabilidade/lei/FONTES.md (cita Lei 13.944/2006 — APREM, sem link conferido)",
+      "viabilidade/lei/zonas.json"
+    ],
+    "opcoes": [
+      "Vale o quadro dos arts. 36 e 38 do PD 18.053/2016",
+      "Prevalecem os arts. 150, 153 e 154 ou a Lei 13.944/2006 (APREM) (informar tabela vigente)",
+      "Manter provisoriamente a combinação mais restritiva"
+    ],
+    "afeta": [
+      "zona:SC-Z5A",
+      "zona:SC-Z5B"
+    ]
+  },
+  {
+    "id": "P09",
+    "grupo": "b - Parâmetros duvidosos por zona",
+    "pergunta": "Na SC-Z6B, qual permeabilidade prevalece (CP 40% do art. 45 vs CP 30% do art. 153-IX), prédio em lote já parcelado exige diretriz prévia (arts. 150, 152, 153-IX, 154) e onde obter a lista oficial das vias 'arterial tipo 1' do Anexo 08 (que sobem o CA para 2,0 em SC-Z6A e SC-Z6B)?",
+    "assumido_hoje": "conferido=false em SC-Z6B; usa valor mais restritivo (CA 1,0 ou 2,0 em arterial tipo 1; TO 50%; CP 40%; CCV 20%; lote min 250 m²; testada 10 m). SC-Z6A usa CA 1,4 (2,0 em arterial tipo 1), TO 70%, CP 20%, CCV 10%, conferido=true.",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, arts. 41, 45, 150, 152, 153-IX e 154 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "viabilidade/lei/FONTES.md (cita Anexo 08 — sistema viário, não conferido)",
+      "viabilidade/lei/zonas.json",
+      "viabilidade/conferencia/CONFERENCIA.md"
+    ],
+    "opcoes": [
+      "Em Z6B vale CP 40% (ou 30% — especificar)",
+      "Esclarecer exigência de diretriz prévia em lote já parcelado vs gleba na Z6B",
+      "Informar onde consultar a lista oficial de vias 'arterial tipo 1' (Anexo 08)"
+    ],
+    "afeta": [
+      "zona:SC-Z6B",
+      "zona:SC-Z6A"
+    ]
+  },
+  {
+    "id": "P10",
+    "grupo": "b - Parâmetros duvidosos por zona",
+    "pergunta": "A subzona SC-Z6E (Santa Eudóxia, criada pelo art. 42-A inserido pela Lei nº 18.927/2018, que não definiu coeficiente de aproveitamento nem a incluiu nos arts. 150-154 do PD) adota qual CA na prática da Prefeitura?",
+    "assumido_hoje": "conferido=false em SC-Z6E; TO 70%, CP 25%, CCV 15%, lote mínimo 200 m², testada 10 m, ca_basico=null e ca_maximo=null.",
+    "fontes": [
+      "Lei Municipal nº 18.927/2018, art. 1º (cria art. 42-A) — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_754 (testado em 15/11: abre)",
+      "Lei Municipal nº 18.053/2016 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "viabilidade/lei/FONTES.md",
+      "viabilidade/lei/zonas.json"
+    ],
+    "opcoes": [
+      "Aplica por analogia o CA de Z6C/Z6D (1,0) ou Z6A (1,4) (informar qual)",
+      "Existe tabela própria em Diário Oficial ou decreto definindo o CA da Z6E",
+      "Zona sem previsão de edifícios verticais"
+    ],
+    "afeta": [
+      "zona:SC-Z6E",
+      "zona:SC-Z6D",
+      "zona:SC-Z6C"
+    ]
+  },
+  {
+    "id": "P11",
+    "grupo": "b - Parâmetros duvidosos por zona",
+    "pergunta": "Na SC-Z1 (arts. 17 parágrafo único e 152-II-b do PD), como a Prefeitura verifica o mínimo de 50% da área computável residencial multifamiliar para liberar o CAM 3,0 (em vez do CAB 2,0) em empreendimentos mistos?",
+    "assumido_hoje": "O sistema registra CAB 2,0 e CAM 3,0 em SC-Z1 (observando art. 152-II-b e art. 17 parágrafo único), e o motor aplica CAM 3,0 integralmente assumindo edifício residencial.",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, art. 17, parágrafo único e art. 152-II-b — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "viabilidade/lei/zonas.json",
+      "viabilidade/conferencia/CONFERENCIA.md"
+    ],
+    "opcoes": [
+      "Mede-se sobre a área computável total (>= 50% residencial libera CAM 3,0; senão fica no CAB 2,0)",
+      "Outro critério adotado na aprovação de uso misto"
+    ],
+    "afeta": [
+      "zona:SC-Z1",
+      "lote:SC-completo-22426",
+      "lote:SC-completo-22421",
+      "lote:SC-completo-25297"
+    ]
+  },
+  {
+    "id": "P12",
+    "grupo": "b - Parâmetros duvidosos por zona",
+    "pergunta": "Como o portal consultaleis publica o texto original sem consolidação e avisa que não substitui o Diário Oficial, houve alguma lei específica após 2018 alterando índices urbanísticos do PD 18.053/2016 nas 11 zonas já marcadas como conferidas (EIXO, Z1, Z2, Z3, Z4, Z6A, Z6C, Z6D, Z7, Z8A, Z8B)?",
+    "assumido_hoje": "11 zonas com conferido=true em viabilidade/lei/zonas.json mantendo os índices da Lei nº 18.053/2016 (visto que a revisão do PD ainda não tinha projeto protocolado até 12/11/2026).",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "Lei Municipal nº 18.927/2018 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_754 (testado em 15/11: abre)",
+      "Página do Plano Diretor Estratégico — https://www.saocarlos.sp.gov.br/index.php/habitacao-morar/166049-plano-diretor-estrategico.html (testado em 15/11: abre)",
+      "viabilidade/lei/FONTES.md"
+    ],
+    "opcoes": [
+      "Sim, os índices de 2016 permanecem vigentes nessas zonas",
+      "Não, houve alteração posterior em alguma zona (informar número da lei e mudança)"
+    ],
+    "afeta": [
+      "zona:SC-EIXO",
+      "zona:SC-Z1",
+      "zona:SC-Z2",
+      "zona:SC-Z3",
+      "zona:SC-Z4",
+      "zona:SC-Z6A",
+      "zona:SC-Z6C",
+      "zona:SC-Z6D",
+      "zona:SC-Z7",
+      "zona:SC-Z8A",
+      "zona:SC-Z8B"
+    ]
+  },
+  {
+    "id": "P13",
+    "grupo": "c - Regras do COE e do motor",
+    "pergunta": "Na regra de recuos laterais e de fundos (COE arts. 3º-IV, 67 e 71): (1) 'h' vai do piso do térreo até o forro do último pavimento habitável sem contar subsolo, caixa d'água e ático? (2) o padrão de aprovação usa escalonamento por pavimento (art. 71) ou recuo uniforme? (3) mezanino (§ 5º) conta como o 1º pavimento de 1,50 m? (4) há regra transitória para a Lei 22.285/2024?",
+    "assumido_hoje": "ate_pavimento=2 (1=térreo, 2=1º pavimento) com recuo 1,50 m até o 1º pav. e max(2,00 m; h/8) uniforme em toda a torre acima (pé-direito 3,00 m), corrigindo divergência anterior anotada na conferência.",
+    "fontes": [
+      "Lei Municipal nº 19.950/2020 (COE), arts. 3º-IV, 67 e 71 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015 (testado em 15/11: abre)",
+      "Lei Municipal nº 20.072/2021, arts. 10 e 11 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2987 (testado em 15/11: abre)",
+      "Lei Municipal nº 22.285/2024 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661 (testado em 15/11: abre)",
+      "viabilidade/lei/FONTES.md",
+      "viabilidade/motor/motor.py"
+    ],
+    "opcoes": [
+      "Sim, leitura atual (térreo + 1º pav = 1,50 m; acima h/8 até o forro útil) está correta",
+      "Há diferença na medição de h, uso de mezanino ou escalonamento (detalhar)"
+    ],
+    "afeta": [
+      "lote:SC-completo-30516",
+      "lote:SC-completo-37607",
+      "lote:SC-completo-22426",
+      "lote:SC-completo-22421",
+      "lote:SC-completo-25297",
+      "lote:SC-completo-q1382-11984-11988",
+      "lote:SC-completo-remembramento-75352-75354"
+    ]
+  },
+  {
+    "id": "P14",
+    "grupo": "c - Regras do COE e do motor",
+    "pergunta": "No COE art. 51: (1) garagem coberta fora do subsolo (no térreo ou em pavimentos de embasamento) também é integralmente não computável no CA e na Taxa de Ocupação sem limite? (2) varandas/sacadas (não listadas no art. 51) são mesmo 100% computáveis no CA e na TO na análise da Prefeitura?",
+    "assumido_hoje": "zonas.json registra garagem_computavel=False e garagem_conta_na_taxa_ocupacao=False (art. 51-I), e interpreta varanda como computável; o motor só modela garagem em subsolo e trata 100% do pavimento tipo como computável.",
+    "fontes": [
+      "Lei Municipal nº 19.950/2020 (COE), arts. 51 e 52 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015 (testado em 15/11: abre)",
+      "Lei Municipal nº 18.053/2016 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "viabilidade/lei/FONTES.md",
+      "viabilidade/motor/motor.py"
+    ],
+    "opcoes": [
+      "Toda garagem (subsolo ou embasamento) é não computável no CA e na TO, e varanda é 100% computável",
+      "Apenas subsolo (ou limite de área) é isento da TO ou do CA",
+      "Varandas têm isenção parcial (informar artigo e percentual)"
+    ],
+    "afeta": [
+      "lote:SC-completo-30516",
+      "lote:SC-completo-37607",
+      "lote:SC-completo-22426",
+      "lote:SC-completo-22421",
+      "lote:SC-completo-25297",
+      "lote:SC-completo-q1382-11984-11988",
+      "lote:SC-completo-remembramento-75352-75354"
+    ]
+  },
+  {
+    "id": "P15",
+    "grupo": "c - Regras do COE e do motor",
+    "pergunta": "Com a nova redação do art. 68 do COE dada pela Lei nº 24.031/2026 (fixando recuo de varanda a partir do 1º pavimento: 1,50 m no 1º pav. e h/8 mín. 2,00 m acima, sem repetir regra expressa para varanda no pavimento térreo), como a Prefeitura analisa varandas ou terraços térreos junto às divisas?",
+    "assumido_hoje": "O sistema registra 1,50 m no 1º pav. e h/8 (mín. 2,00 m) acima para varandas, e o motor aplica os recuos gerais do art. 67.",
+    "fontes": [
+      "Lei Municipal nº 24.031/2026 (altera art. 68 do COE) — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_7985 (testado em 15/11: abre)",
+      "Lei Municipal nº 19.950/2020, art. 68 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015 (testado em 15/11: abre)",
+      "viabilidade/conferencia/CONFERENCIA.md"
+    ],
+    "opcoes": [
+      "Varanda térrea aberta segue o recuo geral (1,50 m)",
+      "Pode encostar na divisa se descoberta ou sem abertura voltada ao vizinho",
+      "Outro critério após a Lei 24.031/2026 (especificar)"
+    ],
+    "afeta": [
+      "lote:SC-completo-30516",
+      "lote:SC-completo-37607",
+      "lote:SC-completo-22426",
+      "lote:SC-completo-22421",
+      "lote:SC-completo-25297",
+      "lote:SC-completo-q1382-11984-11988",
+      "lote:SC-completo-remembramento-75352-75354"
+    ]
+  },
+  {
+    "id": "P16",
+    "grupo": "c - Regras do COE e do motor",
+    "pergunta": "Com a Lei nº 24.031/2026 (arts. 78, 80, 84, 85, 86 e 88 do COE, exigindo ABNT NBR 16.416/2015 + laudo para piso permeável — ou piso de concreto contando só 10% — e reservatório de drenagem salvo lotes <=500 m² com impermeabilização <50%), é preciso reservar solo natural extra ou reduzir o subsolo já na triagem?",
+    "assumido_hoje": "O motor exige apenas o CP bruto da zona (15% etc.) sobre (1-perm)*area_lote, sem separar solo natural de piso drenante nem reservar área/volume de drenagem.",
+    "fontes": [
+      "Lei Municipal nº 24.031/2026 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_7985 (testado em 15/11: abre)",
+      "viabilidade/conferencia/leitura-independente.md",
+      "viabilidade/motor/motor.py"
+    ],
+    "opcoes": [
+      "Para triagem inicial basta manter o CP bruto da zona",
+      "Convém adicionar folga prática de solo livre / reservatório de drenagem (informar ordem de grandeza, inclusive para lote pequeno como o 25297)"
+    ],
+    "afeta": [
+      "lote:SC-completo-25297",
+      "lote:SC-completo-30516",
+      "lote:SC-completo-37607",
+      "lote:SC-completo-22426",
+      "lote:SC-completo-22421",
+      "lote:SC-completo-q1382-11984-11988",
+      "lote:SC-completo-remembramento-75352-75354"
+    ]
+  },
+  {
+    "id": "P17",
+    "grupo": "c - Regras do COE e do motor",
+    "pergunta": "A regra de parede sem abertura encostada nas divisas laterais e de fundos até 12 m de altura e recuo de 2,00 m acima de 12 m (COE art. 70) aplica-se igualmente a edifícios residenciais multifamiliares e sem limite de extensão na divisa, ou só vale para garagem/comércio ou extensão parcial?",
+    "assumido_hoje": "zonas.json registra parede_cega_encosta_ate_m=12 (acima 2,00 m, art. 70); o motor permite encostar apenas na opção D (embasamento comercial/garagem) sem limitar extensão na divisa.",
+    "fontes": [
+      "Lei Municipal nº 19.950/2020 (COE), art. 70 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015 (testado em 15/11: abre)",
+      "viabilidade/lei/zonas.json",
+      "viabilidade/motor/motor.py"
+    ],
+    "opcoes": [
+      "Pode encostar parede cega nas divisas até 12 m inclusive em residencial multifamiliar",
+      "Vale apenas para garagem/comércio ou com limite de extensão na divisa (detalhar)"
+    ],
+    "afeta": [
+      "lote:SC-completo-25297",
+      "lote:SC-completo-22426",
+      "lote:SC-completo-22421",
+      "lote:SC-completo-30516",
+      "lote:SC-completo-37607",
+      "lote:SC-completo-q1382-11984-11988",
+      "lote:SC-completo-remembramento-75352-75354"
+    ]
+  },
+  {
+    "id": "P18",
+    "grupo": "c - Regras do COE e do motor",
+    "pergunta": "Sobre recuo frontal (COE art. 74, onde nem PD nem COE fixam valor geral e vale o registrado no loteamento) e faixas não edificáveis (COE arts. 72, 72-A e 73, Lei 22.285/2024): (1) 4,0 m é razoável como padrão nos bairros dos pilotos? (2) esquina (25297 e eventual 22426) exige duplo recuo frontal? (3) em 37607 (SP-215) incide faixa de 15 m / 21 m? (4) há faixas em 22426/22421/30516?",
+    "assumido_hoje": "zonas.json traz recuo_frontal_m=null; o motor usa premissa provisória de 4,0 m em 1 frente única, sem duplo recuo em esquina e sem subtrair faixas não edificáveis dos arts. 72, 72-A e 73.",
+    "fontes": [
+      "Lei Municipal nº 19.950/2020 (COE), art. 74 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015 (testado em 15/11: abre)",
+      "Lei Municipal nº 22.285/2024 (arts. 72, 72-A e 73 do COE) — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661 (testado em 15/11: abre)",
+      "viabilidade/lei/FONTES.md",
+      "viabilidade/motor/motor.py"
+    ],
+    "opcoes": [
+      "Confirmar premissa de recuo frontal (4,0 m ou outro típico) e regra de esquina",
+      "Informar incidência das faixas dos arts. 72, 72-A e 73 em 37607, 22426, 22421 e 30516"
+    ],
+    "afeta": [
+      "lote:SC-completo-25297",
+      "lote:SC-completo-22426",
+      "lote:SC-completo-37607",
+      "lote:SC-completo-22421",
+      "lote:SC-completo-30516"
+    ]
+  },
+  {
+    "id": "P19",
+    "grupo": "c - Regras do COE e do motor",
+    "pergunta": "O art. 51, inciso VII do COE (alterado pela Lei nº 22.285/2024) remete 'locais sem ocupação humana' a regulamentação por decreto do Poder Executivo, que não foi encontrado nas fontes do projeto. Quais compartimentos a Prefeitura aceita hoje sob esse inciso?",
+    "assumido_hoje": "zonas.json registra que o art. 51-VII depende de decreto não localizado; o motor não modela ambientes internos.",
+    "fontes": [
+      "Lei Municipal nº 19.950/2020, art. 51, VII — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2015 (testado em 15/11: abre)",
+      "Lei Municipal nº 22.285/2024 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_4661 (testado em 15/11: abre)",
+      "viabilidade/lei/zonas.json",
+      "viabilidade/conferencia/CONFERENCIA.md"
+    ],
+    "opcoes": [
+      "Existe decreto municipal específico com esse rol (informar número)",
+      "Não há decreto publicado e a Prefeitura usa lista técnica padrão (especificar)",
+      "Irrelevante para esta etapa de triagem volumétrica"
+    ],
+    "afeta": [
+      "lote:SC-completo-30516",
+      "lote:SC-completo-37607",
+      "lote:SC-completo-22426",
+      "lote:SC-completo-22421",
+      "lote:SC-completo-25297",
+      "lote:SC-completo-q1382-11984-11988",
+      "lote:SC-completo-remembramento-75352-75354"
+    ]
+  },
+  {
+    "id": "P20",
+    "grupo": "d - Áreas especiais dos lotes piloto",
+    "pergunta": "Os lotes 22426, 22421 (Jardim São Carlos), q1382-11984-11988 (Morada dos Deuses, sobre o tracejado roxo no Anexo 07) e os vizinhos à borda (25297 e 75352-75354) sofrem restrição prática de gabarito aeronáutico (Aeroporto Mário Pereira Lopes / DECEA, PD arts. 105-107) que trave torres abaixo do CA máximo?",
+    "assumido_hoje": "O motor não impõe teto numérico de altura aeronáutica (areas_especiais textuais não limitam pavimentos).",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, arts. 105-107 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "Anexo 07 - AEIs Rurais (contém tracejado roxo da superfície do aeroporto) — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf (testado em 15/11: abre)",
+      "viabilidade/terreno/lotes-piloto.json",
+      "viabilidade/terreno/RELEVO.md"
+    ],
+    "opcoes": [
+      "O teto aeronáutico típico desses setores comporta torres altas sem travar o CA",
+      "Há restrição baixa conhecida que limita pavimentos em algum setor (informar faixa de gabarito)",
+      "Exige consulta prévia ao DECEA lote a lote antes de estimar altura"
+    ],
+    "afeta": [
+      "lote:SC-completo-22426",
+      "lote:SC-completo-22421",
+      "lote:SC-completo-q1382-11984-11988",
+      "lote:SC-completo-25297",
+      "lote:SC-completo-remembramento-75352-75354"
+    ]
+  },
+  {
+    "id": "P21",
+    "grupo": "d - Áreas especiais dos lotes piloto",
+    "pergunta": "Quais restrições práticas (APP de 30 m/15 m, faixa de inundação, permeabilidade adicional da AIA ou incidência da AEIS tipo 1 nº 21) reduzem a área edificável ou vedam subsolo nos lotes 30516 (sobreposição AIA Córrego da Água Quente + junto à AEIS 21), 37607 (faixa AIA a oeste), 22426 e 22421 (próximos ao Córrego do Gregório)?",
+    "assumido_hoje": "O motor calcula TO e CA sobre 100% da área do lote, sem descontar APP, AIA, inundação ou AEIS.",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, arts. 73 e 74-IV — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "Anexo 05 - AEIs Ambientais — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2005%20-%20AEIs%20Ambientais.pdf (testado em 15/11: abre)",
+      "Anexo 06 - AEIs Urbanas — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf (testado em 15/11: abre)",
+      "viabilidade/terreno/lotes-piloto.json"
+    ],
+    "opcoes": [
+      "Incide APP / faixa de inundação / restrição de AIA reduzindo área edificável ou subsolo (detalhar por lote)",
+      "Nos lotes já urbanizados não há perda prática além dos recuos e drenagem",
+      "Em 30516, confirmar se incide ou não a AEIS 21"
+    ],
+    "afeta": [
+      "lote:SC-completo-30516",
+      "lote:SC-completo-37607",
+      "lote:SC-completo-22426",
+      "lote:SC-completo-22421"
+    ]
+  },
+  {
+    "id": "P22",
+    "grupo": "d - Áreas especiais dos lotes piloto",
+    "pergunta": "No lote 37607 (AEI Industrial e de Serviços nº 42 — CEAT, arts. 84-86), prédio residencial multifamiliar é vedado ou condicionado? E nos demais 6 lotes há restrições registradas de loteamento ou influência não visível da Poligonal Histórica (9 m, art. 80) / Observatório USP (art. 82)?",
+    "assumido_hoje": "O motor admite residencial multifamiliar nos 7 lotes e não aplica restrições contratuais de loteamento; visualmente nenhum cai na Poligonal Histórica ou Observatório (25297 fica ~2 quadras ao sul da Poligonal).",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016, arts. 80, 82 e 84-86 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre)",
+      "Anexo 06 - AEIs Urbanas — https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf (testado em 15/11: abre)",
+      "viabilidade/terreno/ZONAS.md",
+      "viabilidade/terreno/lotes-piloto.json"
+    ],
+    "opcoes": [
+      "Em 37607 (AEI 42 CEAT), residencial é vedado (especificar usos e normas do CEAT)",
+      "Em 37607 residencial é permitido com condicionantes (especificar)",
+      "Confirmar se algum dos outros 6 lotes tem restrição registrada de loteamento ou patrimônio/Observatório"
+    ],
+    "afeta": [
+      "lote:SC-completo-37607",
+      "lote:SC-completo-25297",
+      "lote:SC-completo-22426",
+      "lote:SC-completo-22421",
+      "lote:SC-completo-30516",
+      "lote:SC-completo-q1382-11984-11988",
+      "lote:SC-completo-remembramento-75352-75354"
+    ]
+  },
+  {
+    "id": "P23",
+    "grupo": "e - Decretos com link quebrado e fontes inacessíveis",
+    "pergunta": "Na ficha da Lei nº 18.053/2016, os links para os Decretos 580/2019, 471/2024, 199/2025, 412/2025, 413/2025 e 792/2025 estão quebrados (apontam para lei=1_, retornando moldura vazia). Algum desses decretos — ou outro decreto vigente — altera parâmetros construtivos ou todos tratam só da revisão periódica do Plano Diretor?",
+    "assumido_hoje": "Os parâmetros ignoram esses 6 decretos por seus links estarem quebrados (BLOQUEIOS.md) e por não haver decreto alterando índices registrado em zonas.json.",
+    "fontes": [
+      "Lei Municipal nº 18.053/2016 — https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257 (testado em 15/11: abre; links dos decretos na ficha enviam código vazio lei=1_)",
+      "viabilidade/BLOQUEIOS.md",
+      "viabilidade/lei/FONTES.md"
+    ],
+    "opcoes": [
+      "Nenhum desses 6 decretos muda índices e não há outro decreto alterando o PD 18.053/2016",
+      "Existe decreto vigente regulamentando/alterando índices construtivos (informar número e objeto)"
+    ],
+    "afeta": [
+      "zona:SC-EIXO",
+      "zona:SC-Z1",
+      "zona:SC-Z2",
+      "zona:SC-Z3",
+      "zona:SC-Z4",
+      "zona:SC-Z5A",
+      "zona:SC-Z5B",
+      "zona:SC-Z6A",
+      "zona:SC-Z6B",
+      "zona:SC-Z6C",
+      "zona:SC-Z6D",
+      "zona:SC-Z6E",
+      "zona:SC-Z7",
+      "zona:SC-Z8A",
+      "zona:SC-Z8B"
+    ]
+  },
+  {
+    "id": "P24",
+    "grupo": "e - Decretos com link quebrado e fontes inacessíveis",
+    "pergunta": "Como o WFS do SigaSC e o manual_siga.pdf falham em conexão automatizada (erro TLS) e os Anexos 02/05/06/07 são PDFs raster sem divisas cadastrais, qual documento oficial ou consulta o profissional recomenda exigir antes de usar estes 7 lotes comercialmente?",
+    "assumido_hoje": "Sem acesso automatizado ao SigaSC vetorial; geometria, frentes e zonas dos 7 pilotos permanecem provisórias até conferência cadastral.",
+    "fontes": [
+      "Servidor de mapas do SigaSC (WFS, sem camada disponível — listado em viabilidade/BLOQUEIOS.md)",
+      "https://geo.saocarlos.sp.gov.br/data/manual_siga.pdf (testado em 15/11: inacessível — erro TLS curl 35)",
+      "viabilidade/BLOQUEIOS.md",
+      "viabilidade/terreno/ZONAS.md",
+      "viabilidade/terreno/LOTES.md"
+    ],
+    "opcoes": [
+      "Emitir Certidão de Uso e Ocupação do Solo / Diretrizes na Prefeitura + matrícula no CRI",
+      "Conferência visual no portal interativo do SigaSC já basta para triagem antes da matrícula",
+      "Outro fluxo prático em São Carlos (descrever)"
+    ],
+    "afeta": [
+      "lote:SC-completo-30516",
+      "lote:SC-completo-37607",
+      "lote:SC-completo-22426",
+      "lote:SC-completo-22421",
+      "lote:SC-completo-25297",
+      "lote:SC-completo-q1382-11984-11988",
+      "lote:SC-completo-remembramento-75352-75354"
+    ]
+  }
+]

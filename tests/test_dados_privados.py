@@ -70,6 +70,9 @@ PASTAS_DE_IMAGEM = (
     'fachada/assets/', 'fachada/marca-fonte/',
     'painel/public/brand/',  # logo e fontes da Conecta no painel; liberado pelo usuário em 14/11 (#117)
     'tasks/caminho1-liv/',
+    # Viabilidade, liberada pelo usuário em 15/11 (PR #121): recortes dos anexos públicos do Plano
+    # Diretor de São Carlos, relevo Copernicus GLO-30 (licença aberta) e capturas da tela. Sem cliente.
+    'viabilidade/terreno/dados/', 'viabilidade/visual/evidencias/',
 )
 
 

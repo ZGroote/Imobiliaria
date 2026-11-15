@@ -1,0 +1,12 @@
+{
+ "id": "audit-estreito-8m",
+ "lid": 35038,
+ "poligono_utm": [[205000, 7564000], [205008, 7564000], [205008, 7564030], [205000, 7564030]],
+ "frente": [[205000, 7564000], [205008, 7564000]],
+ "area_m2": 240.0,
+ "zona_id": "SC-Z2",
+ "zona_origem": "teste",
+ "zona_conferida": false,
+ "relevo": null,
+ "observacoes": "Lote muito estreito: 8 m de frente x 30 m (240 m²)."
+}

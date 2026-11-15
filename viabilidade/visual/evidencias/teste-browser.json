@@ -1,0 +1,52 @@
+[
+  {
+    "perfil": "desktop",
+    "versaoMotor": "0.7.1",
+    "zona": "SC-Z2",
+    "estudosPiloto": 7,
+    "caNuloSemLimite": true,
+    "alertasAreaEspecialDestacados": true,
+    "opcoes": 4,
+    "degraus": 12,
+    "alturasExplicitasEFallback": true,
+    "recuos": true,
+    "avisoSemSobreposicao": true,
+    "vgvSemCorte": true,
+    "comparacao": true,
+    "upload": true,
+    "contratoV2": true,
+    "conferenciaLoteIndependente": 10,
+    "paredeCega": true,
+    "faixaParedeCega": true,
+    "jsonInvalido": 19,
+    "largurasExtras": [
+      320,
+      768,
+      1024
+    ],
+    "errosConsole": []
+  },
+  {
+    "perfil": "celular",
+    "versaoMotor": "0.7.1",
+    "zona": "SC-Z2",
+    "estudosPiloto": 7,
+    "caNuloSemLimite": false,
+    "alertasAreaEspecialDestacados": true,
+    "opcoes": 4,
+    "degraus": 12,
+    "alturasExplicitasEFallback": false,
+    "recuos": true,
+    "avisoSemSobreposicao": true,
+    "vgvSemCorte": true,
+    "comparacao": true,
+    "upload": true,
+    "contratoV2": true,
+    "conferenciaLoteIndependente": 1,
+    "paredeCega": true,
+    "faixaParedeCega": true,
+    "jsonInvalido": 2,
+    "largurasExtras": [],
+    "errosConsole": []
+  }
+]

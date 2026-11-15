@@ -1,0 +1,44 @@
+{
+  "estudo-exemplo.json": {
+    "A": 45,
+    "B": 72,
+    "C": 56,
+    "D": 39
+  },
+  "pilotos/SC-completo-22421.json": {
+    "A": 4,
+    "B": 8,
+    "C": 12,
+    "D": 2
+  },
+  "pilotos/SC-completo-22426.json": {
+    "C": 12
+  },
+  "pilotos/SC-completo-25297.json": {
+    "C": 4
+  },
+  "pilotos/SC-completo-30516.json": {
+    "A": 20,
+    "B": 32,
+    "C": 12,
+    "D": 16
+  },
+  "pilotos/SC-completo-37607.json": {
+    "A": 54,
+    "B": 54,
+    "C": 50,
+    "D": 48
+  },
+  "pilotos/SC-completo-q1382-11984-11988.json": {
+    "A": 84,
+    "B": 68,
+    "C": 32,
+    "D": 76
+  },
+  "pilotos/SC-completo-remembramento-75352-75354.json": {
+    "A": 81,
+    "B": 66,
+    "C": 52,
+    "D": 75
+  }
+}

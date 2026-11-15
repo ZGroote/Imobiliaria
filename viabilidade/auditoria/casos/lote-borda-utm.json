@@ -1,0 +1,12 @@
+{
+ "id": "audit-borda-utm",
+ "lid": 35038,
+ "poligono_utm": [[190234.95, 7564133.21], [190234.95, 7564193.97], [190259.95, 7564193.97], [190259.95, 7564133.21]],
+ "frente": [[190234.95, 7564133.21], [190234.95, 7564193.97]],
+ "area_m2": 1519.13,
+ "zona_id": "SC-Z2",
+ "zona_origem": "teste",
+ "zona_conferida": false,
+ "relevo": null,
+ "observacoes": "Lote na borda oeste do fuso UTM 23S (lon -48.0, lat -22.0)."
+}

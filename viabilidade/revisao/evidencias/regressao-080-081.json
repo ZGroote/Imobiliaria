@@ -1,0 +1,3449 @@
+{
+  "audit5-saida-em-l-ca32.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 2038.56,
+        "area_computavel_m2": 2638.56,
+        "vagas": 30,
+        "pavimentos": 30
+      },
+      "B": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 2038.56,
+        "area_computavel_m2": 2638.56,
+        "vagas": 30,
+        "pavimentos": 15
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1256.35,
+        "area_computavel_m2": 1490.44,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1879.43,
+        "area_computavel_m2": 2637.7,
+        "vagas": 28,
+        "pavimentos": 30
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 2040.0,
+        "area_computavel_m2": 2640.0,
+        "vagas": 30,
+        "pavimentos": 30
+      },
+      "B": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 2000.01,
+        "area_computavel_m2": 2640.01,
+        "vagas": 32,
+        "pavimentos": 16
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1256.9,
+        "area_computavel_m2": 1491.13,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1881.55,
+        "area_computavel_m2": 2640.0,
+        "vagas": 27,
+        "pavimentos": 30
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-gc-r1m5.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 3059.35,
+        "area_computavel_m2": 4799.6,
+        "vagas": 48,
+        "pavimentos": 16
+      },
+      "B": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 3024.56,
+        "area_computavel_m2": 4799.97,
+        "vagas": 48,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 2106.05,
+        "area_computavel_m2": 3416.28,
+        "vagas": 32,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 46,
+        "area_privativa_m2": 2778.0,
+        "area_computavel_m2": 4797.23,
+        "vagas": 46,
+        "pavimentos": 25
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 63,
+        "area_privativa_m2": 3830.37,
+        "area_computavel_m2": 4799.96,
+        "vagas": 16,
+        "pavimentos": 21
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3456.95,
+        "area_computavel_m2": 4799.95,
+        "vagas": 29,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 2106.26,
+        "area_computavel_m2": 3416.83,
+        "vagas": 32,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3557.41,
+        "area_computavel_m2": 4800.0,
+        "vagas": 13,
+        "pavimentos": 30
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-gc-r3m0.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 51,
+        "area_privativa_m2": 3158.7,
+        "area_computavel_m2": 4796.38,
+        "vagas": 44,
+        "pavimentos": 17
+      },
+      "B": {
+        "unidades_estimadas": 44,
+        "area_privativa_m2": 3129.5,
+        "area_computavel_m2": 4757.5,
+        "vagas": 44,
+        "pavimentos": 11
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1742.4,
+        "area_computavel_m2": 2854.11,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 46,
+        "area_privativa_m2": 2824.8,
+        "area_computavel_m2": 4795.15,
+        "vagas": 44,
+        "pavimentos": 25
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 63,
+        "area_privativa_m2": 3830.37,
+        "area_computavel_m2": 4799.96,
+        "vagas": 16,
+        "pavimentos": 21
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3456.95,
+        "area_computavel_m2": 4799.95,
+        "vagas": 29,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1742.4,
+        "area_computavel_m2": 2853.99,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3557.41,
+        "area_computavel_m2": 4800.01,
+        "vagas": 13,
+        "pavimentos": 30
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-haltere-subsolo.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1838.6,
+        "area_computavel_m2": 2098.26,
+        "vagas": 30,
+        "pavimentos": 10
+      },
+      "B": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1839.82,
+        "area_computavel_m2": 2099.77,
+        "vagas": 30,
+        "pavimentos": 5
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1239.04,
+        "area_computavel_m2": 1468.8,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1527.77,
+        "area_computavel_m2": 2099.87,
+        "vagas": 24,
+        "pavimentos": 14
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1840.01,
+        "area_computavel_m2": 2100.01,
+        "vagas": 30,
+        "pavimentos": 10
+      },
+      "B": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1840.01,
+        "area_computavel_m2": 2100.01,
+        "vagas": 30,
+        "pavimentos": 5
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1239.04,
+        "area_computavel_m2": 1468.8,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1527.82,
+        "area_computavel_m2": 2100.0,
+        "vagas": 24,
+        "pavimentos": 14
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-impossivel-falso-13x40.json": {
+    "0.8.0": {},
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 19,
+        "area_privativa_m2": 1140.0,
+        "area_computavel_m2": 1520.0,
+        "vagas": 0,
+        "pavimentos": 19
+      },
+      "C": {
+        "unidades_estimadas": 4,
+        "area_privativa_m2": 401.6,
+        "area_computavel_m2": 481.6,
+        "vagas": 0,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 17,
+        "area_privativa_m2": 1020.0,
+        "area_computavel_m2": 1542.44,
+        "vagas": 0,
+        "pavimentos": 19
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-impossivel-falso-d-cega.json": {
+    "0.8.0": {},
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 6,
+        "area_privativa_m2": 372.06,
+        "area_computavel_m2": 492.06,
+        "vagas": 5,
+        "pavimentos": 6
+      },
+      "C": {
+        "unidades_estimadas": 4,
+        "area_privativa_m2": 445.0,
+        "area_computavel_m2": 525.0,
+        "vagas": 4,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 4,
+        "area_privativa_m2": 243.21,
+        "area_computavel_m2": 507.21,
+        "vagas": 4,
+        "pavimentos": 6
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-perm25.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 34,
+        "area_privativa_m2": 2105.28,
+        "area_computavel_m2": 2445.28,
+        "vagas": 34,
+        "pavimentos": 17
+      },
+      "B": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1888.13,
+        "area_computavel_m2": 2448.13,
+        "vagas": 28,
+        "pavimentos": 14
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1391.46,
+        "area_computavel_m2": 1659.32,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1826.98,
+        "area_computavel_m2": 2447.17,
+        "vagas": 30,
+        "pavimentos": 17
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 34,
+        "area_privativa_m2": 2109.98,
+        "area_computavel_m2": 2449.98,
+        "vagas": 34,
+        "pavimentos": 17
+      },
+      "B": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1850.01,
+        "area_computavel_m2": 2450.01,
+        "vagas": 30,
+        "pavimentos": 15
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1392.4,
+        "area_computavel_m2": 1660.5,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1829.65,
+        "area_computavel_m2": 2449.96,
+        "vagas": 30,
+        "pavimentos": 17
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-perm55.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1848.19,
+        "area_computavel_m2": 2448.19,
+        "vagas": 23,
+        "pavimentos": 30
+      },
+      "B": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1849.7,
+        "area_computavel_m2": 2449.7,
+        "vagas": 23,
+        "pavimentos": 15
+      },
+      "C": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 923.12,
+        "area_computavel_m2": 1073.91,
+        "vagas": 12,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 26,
+        "area_privativa_m2": 1731.75,
+        "area_computavel_m2": 2449.15,
+        "vagas": 23,
+        "pavimentos": 28
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 34,
+        "area_privativa_m2": 2109.98,
+        "area_computavel_m2": 2449.98,
+        "vagas": 23,
+        "pavimentos": 17
+      },
+      "B": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1850.01,
+        "area_computavel_m2": 2450.01,
+        "vagas": 23,
+        "pavimentos": 15
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1008.01,
+        "area_computavel_m2": 1180.01,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1829.65,
+        "area_computavel_m2": 2449.96,
+        "vagas": 23,
+        "pavimentos": 17
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-trap-perm15.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4479.85,
+        "area_computavel_m2": 5119.81,
+        "vagas": 72,
+        "pavimentos": 24
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4398.49,
+        "area_computavel_m2": 5118.49,
+        "vagas": 72,
+        "pavimentos": 18
+      },
+      "C": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2338.0,
+        "area_computavel_m2": 2842.49,
+        "vagas": 36,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4047.6,
+        "area_computavel_m2": 5090.54,
+        "vagas": 66,
+        "pavimentos": 24
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4480.0,
+        "area_computavel_m2": 5120.0,
+        "vagas": 72,
+        "pavimentos": 24
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4400.0,
+        "area_computavel_m2": 5120.0,
+        "vagas": 72,
+        "pavimentos": 18
+      },
+      "C": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2338.8,
+        "area_computavel_m2": 2843.5,
+        "vagas": 36,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4068.58,
+        "area_computavel_m2": 5119.95,
+        "vagas": 66,
+        "pavimentos": 24
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-trap-perm55.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4479.85,
+        "area_computavel_m2": 5119.81,
+        "vagas": 42,
+        "pavimentos": 24
+      },
+      "B": {
+        "unidades_estimadas": 60,
+        "area_privativa_m2": 3919.13,
+        "area_computavel_m2": 5119.13,
+        "vagas": 42,
+        "pavimentos": 30
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1271.93,
+        "area_computavel_m2": 1509.92,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4066.3,
+        "area_computavel_m2": 5117.12,
+        "vagas": 42,
+        "pavimentos": 24
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4480.0,
+        "area_computavel_m2": 5120.0,
+        "vagas": 42,
+        "pavimentos": 24
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4400.0,
+        "area_computavel_m2": 5120.0,
+        "vagas": 42,
+        "pavimentos": 18
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1843.2,
+        "area_computavel_m2": 2224.0,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4068.58,
+        "area_computavel_m2": 5119.95,
+        "vagas": 42,
+        "pavimentos": 24
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-trap-rb02.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4026.27,
+        "area_computavel_m2": 4592.84,
+        "vagas": 58,
+        "pavimentos": 22
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3472.56,
+        "area_computavel_m2": 4592.56,
+        "vagas": 56,
+        "pavimentos": 28
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1914.53,
+        "area_computavel_m2": 2313.17,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 60,
+        "area_privativa_m2": 3624.04,
+        "area_computavel_m2": 4593.76,
+        "vagas": 58,
+        "pavimentos": 22
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4026.99,
+        "area_computavel_m2": 4593.74,
+        "vagas": 58,
+        "pavimentos": 22
+      },
+      "B": {
+        "unidades_estimadas": 64,
+        "area_privativa_m2": 3953.75,
+        "area_computavel_m2": 4593.75,
+        "vagas": 58,
+        "pavimentos": 16
+      },
+      "C": {
+        "unidades_estimadas": 40,
+        "area_privativa_m2": 2472.24,
+        "area_computavel_m2": 3010.3,
+        "vagas": 40,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 60,
+        "area_privativa_m2": 3623.94,
+        "area_computavel_m2": 4593.76,
+        "vagas": 58,
+        "pavimentos": 22
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-trap-rb10.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4026.27,
+        "area_computavel_m2": 4592.84,
+        "vagas": 53,
+        "pavimentos": 22
+      },
+      "B": {
+        "unidades_estimadas": 64,
+        "area_privativa_m2": 3950.6,
+        "area_computavel_m2": 4590.6,
+        "vagas": 53,
+        "pavimentos": 16
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.4,
+        "area_computavel_m2": 1968.0,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 60,
+        "area_privativa_m2": 3624.04,
+        "area_computavel_m2": 4593.76,
+        "vagas": 53,
+        "pavimentos": 22
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4026.99,
+        "area_computavel_m2": 4593.74,
+        "vagas": 53,
+        "pavimentos": 22
+      },
+      "B": {
+        "unidades_estimadas": 64,
+        "area_privativa_m2": 3953.75,
+        "area_computavel_m2": 4593.75,
+        "vagas": 53,
+        "pavimentos": 16
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1638.4,
+        "area_computavel_m2": 1968.0,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 60,
+        "area_privativa_m2": 3623.94,
+        "area_computavel_m2": 4593.76,
+        "vagas": 53,
+        "pavimentos": 22
+      }
+    },
+    "perdas": []
+  },
+  "audit5-saida-trap-to20.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4479.85,
+        "area_computavel_m2": 5119.81,
+        "vagas": 72,
+        "pavimentos": 24
+      },
+      "B": {
+        "unidades_estimadas": 58,
+        "area_privativa_m2": 3959.31,
+        "area_computavel_m2": 5119.31,
+        "vagas": 58,
+        "pavimentos": 29
+      },
+      "C": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 883.39,
+        "area_computavel_m2": 1024.23,
+        "vagas": 12,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4066.3,
+        "area_computavel_m2": 5117.12,
+        "vagas": 66,
+        "pavimentos": 24
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4480.0,
+        "area_computavel_m2": 5120.0,
+        "vagas": 72,
+        "pavimentos": 24
+      },
+      "B": {
+        "unidades_estimadas": 60,
+        "area_privativa_m2": 3920.0,
+        "area_computavel_m2": 5120.0,
+        "vagas": 60,
+        "pavimentos": 30
+      },
+      "C": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 883.19,
+        "area_computavel_m2": 1023.99,
+        "vagas": 12,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4068.58,
+        "area_computavel_m2": 5119.95,
+        "vagas": 66,
+        "pavimentos": 24
+      }
+    },
+    "perdas": [
+      {
+        "opcao": "C",
+        "tipo": "privativa",
+        "antes": {
+          "unidades_estimadas": 12,
+          "area_privativa_m2": 883.39,
+          "area_computavel_m2": 1024.23,
+          "vagas": 12,
+          "pavimentos": 4
+        },
+        "depois": {
+          "unidades_estimadas": 12,
+          "area_privativa_m2": 883.19,
+          "area_computavel_m2": 1023.99,
+          "vagas": 12,
+          "pavimentos": 4
+        }
+      }
+    ],
+    "invariantes_080_sob_criterios_081": [
+      "C: vagas não cabem na geometria do subsolo",
+      "C: vagas declaradas não cabem, mesmo com alerta"
+    ]
+  },
+  "audit5-saida-trap-to50.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4479.85,
+        "area_computavel_m2": 5119.81,
+        "vagas": 72,
+        "pavimentos": 24
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4398.49,
+        "area_computavel_m2": 5118.49,
+        "vagas": 72,
+        "pavimentos": 18
+      },
+      "C": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 2112.69,
+        "area_computavel_m2": 2560.86,
+        "vagas": 32,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4047.6,
+        "area_computavel_m2": 5090.54,
+        "vagas": 66,
+        "pavimentos": 24
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4480.0,
+        "area_computavel_m2": 5120.0,
+        "vagas": 72,
+        "pavimentos": 24
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4400.0,
+        "area_computavel_m2": 5120.0,
+        "vagas": 72,
+        "pavimentos": 18
+      },
+      "C": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 2111.99,
+        "area_computavel_m2": 2559.99,
+        "vagas": 32,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 66,
+        "area_privativa_m2": 4068.58,
+        "area_computavel_m2": 5119.95,
+        "vagas": 66,
+        "pavimentos": 24
+      }
+    },
+    "perdas": [
+      {
+        "opcao": "C",
+        "tipo": "privativa",
+        "antes": {
+          "unidades_estimadas": 32,
+          "area_privativa_m2": 2112.69,
+          "area_computavel_m2": 2560.86,
+          "vagas": 32,
+          "pavimentos": 4
+        },
+        "depois": {
+          "unidades_estimadas": 32,
+          "area_privativa_m2": 2111.99,
+          "area_computavel_m2": 2559.99,
+          "vagas": 32,
+          "pavimentos": 4
+        }
+      }
+    ],
+    "invariantes_080_sob_criterios_081": [
+      "C: vagas não cabem na geometria do subsolo",
+      "C: vagas declaradas não cabem, mesmo com alerta"
+    ]
+  },
+  "saida-anti-horario.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2767.01,
+        "area_computavel_m2": 3158.76,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4630.67,
+        "area_computavel_m2": 5308.34,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2398.08,
+        "area_computavel_m2": 3912.99,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2768.83,
+        "area_computavel_m2": 3161.04,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 71,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2399.66,
+        "area_computavel_m2": 3914.77,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "perdas": []
+  },
+  "saida-area-especial-gabarito.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 10,
+        "area_privativa_m2": 608.4,
+        "area_computavel_m2": 720.5,
+        "vagas": 10,
+        "pavimentos": 2
+      },
+      "B": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1216.8,
+        "area_computavel_m2": 1441.0,
+        "vagas": 20,
+        "pavimentos": 2
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1732.8,
+        "area_computavel_m2": 2126.0,
+        "vagas": 28,
+        "pavimentos": 2
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 10,
+        "area_privativa_m2": 608.4,
+        "area_computavel_m2": 720.5,
+        "vagas": 10,
+        "pavimentos": 2
+      },
+      "B": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1216.8,
+        "area_computavel_m2": 1441.0,
+        "vagas": 20,
+        "pavimentos": 2
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1733.27,
+        "area_computavel_m2": 2126.59,
+        "vagas": 28,
+        "pavimentos": 2
+      }
+    },
+    "perdas": []
+  },
+  "saida-borda-utm.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2767.01,
+        "area_computavel_m2": 3158.76,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4630.67,
+        "area_computavel_m2": 5308.34,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2398.08,
+        "area_computavel_m2": 3912.99,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2768.83,
+        "area_computavel_m2": 3161.04,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 71,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2399.66,
+        "area_computavel_m2": 3914.77,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "perdas": []
+  },
+  "saida-em-l-aba-fundos.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 75,
+        "area_privativa_m2": 4599.54,
+        "area_computavel_m2": 5249.43,
+        "vagas": 72,
+        "pavimentos": 25
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4580.12,
+        "area_computavel_m2": 5245.15,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2312.0,
+        "area_computavel_m2": 2810.0,
+        "vagas": 36,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 69,
+        "area_privativa_m2": 4192.61,
+        "area_computavel_m2": 5247.93,
+        "vagas": 69,
+        "pavimentos": 25
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 75,
+        "area_privativa_m2": 4600.0,
+        "area_computavel_m2": 5250.0,
+        "vagas": 72,
+        "pavimentos": 25
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4584.01,
+        "area_computavel_m2": 5250.01,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2311.89,
+        "area_computavel_m2": 2809.86,
+        "vagas": 36,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 69,
+        "area_privativa_m2": 4194.36,
+        "area_computavel_m2": 5250.01,
+        "vagas": 69,
+        "pavimentos": 25
+      }
+    },
+    "perdas": [
+      {
+        "opcao": "C",
+        "tipo": "privativa",
+        "antes": {
+          "unidades_estimadas": 36,
+          "area_privativa_m2": 2312.0,
+          "area_computavel_m2": 2810.0,
+          "vagas": 36,
+          "pavimentos": 4
+        },
+        "depois": {
+          "unidades_estimadas": 36,
+          "area_privativa_m2": 2311.89,
+          "area_computavel_m2": 2809.86,
+          "vagas": 36,
+          "pavimentos": 4
+        }
+      }
+    ],
+    "invariantes_080_sob_criterios_081": [
+      "D: vagas não cabem na geometria do subsolo",
+      "D: vagas declaradas não cabem, mesmo com alerta"
+    ]
+  },
+  "saida-em-l-centroide-quina.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 54,
+        "area_privativa_m2": 3265.97,
+        "area_computavel_m2": 3722.46,
+        "vagas": 54,
+        "pavimentos": 18
+      },
+      "B": {
+        "unidades_estimadas": 96,
+        "area_privativa_m2": 5895.18,
+        "area_computavel_m2": 6728.98,
+        "vagas": 96,
+        "pavimentos": 16
+      },
+      "C": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 3097.6,
+        "area_computavel_m2": 3792.0,
+        "vagas": 48,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 2903.09,
+        "area_computavel_m2": 4808.24,
+        "vagas": 48,
+        "pavimentos": 18
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 54,
+        "area_privativa_m2": 3265.71,
+        "area_computavel_m2": 3722.14,
+        "vagas": 54,
+        "pavimentos": 18
+      },
+      "B": {
+        "unidades_estimadas": 96,
+        "area_privativa_m2": 5899.19,
+        "area_computavel_m2": 6733.98,
+        "vagas": 95,
+        "pavimentos": 16
+      },
+      "C": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 3097.6,
+        "area_computavel_m2": 3792.0,
+        "vagas": 48,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 2902.85,
+        "area_computavel_m2": 4807.77,
+        "vagas": 48,
+        "pavimentos": 18
+      }
+    },
+    "perdas": [
+      {
+        "opcao": "A",
+        "tipo": "privativa",
+        "antes": {
+          "unidades_estimadas": 54,
+          "area_privativa_m2": 3265.97,
+          "area_computavel_m2": 3722.46,
+          "vagas": 54,
+          "pavimentos": 18
+        },
+        "depois": {
+          "unidades_estimadas": 54,
+          "area_privativa_m2": 3265.71,
+          "area_computavel_m2": 3722.14,
+          "vagas": 54,
+          "pavimentos": 18
+        }
+      },
+      {
+        "opcao": "D",
+        "tipo": "privativa",
+        "antes": {
+          "unidades_estimadas": 48,
+          "area_privativa_m2": 2903.09,
+          "area_computavel_m2": 4808.24,
+          "vagas": 48,
+          "pavimentos": 18
+        },
+        "depois": {
+          "unidades_estimadas": 48,
+          "area_privativa_m2": 2902.85,
+          "area_computavel_m2": 4807.77,
+          "vagas": 48,
+          "pavimentos": 18
+        }
+      }
+    ],
+    "invariantes_080_sob_criterios_081": [
+      "A: vagas não cabem na geometria do subsolo",
+      "A: vagas declaradas não cabem, mesmo com alerta"
+    ]
+  },
+  "saida-em-l-frente-recuada.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 992.77,
+        "area_computavel_m2": 1152.77,
+        "vagas": 16,
+        "pavimentos": 8
+      },
+      "B": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 1985.54,
+        "area_computavel_m2": 2305.54,
+        "vagas": 32,
+        "pavimentos": 8
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1881.6,
+        "area_computavel_m2": 2272.0,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 13,
+        "area_privativa_m2": 829.87,
+        "area_computavel_m2": 2209.41,
+        "vagas": 13,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 992.56,
+        "area_computavel_m2": 1152.56,
+        "vagas": 16,
+        "pavimentos": 8
+      },
+      "B": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 1985.13,
+        "area_computavel_m2": 2305.13,
+        "vagas": 32,
+        "pavimentos": 8
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1881.54,
+        "area_computavel_m2": 2271.93,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 13,
+        "area_privativa_m2": 829.87,
+        "area_computavel_m2": 2209.87,
+        "vagas": 13,
+        "pavimentos": 15
+      }
+    },
+    "perdas": [
+      {
+        "opcao": "A",
+        "tipo": "privativa",
+        "antes": {
+          "unidades_estimadas": 16,
+          "area_privativa_m2": 992.77,
+          "area_computavel_m2": 1152.77,
+          "vagas": 16,
+          "pavimentos": 8
+        },
+        "depois": {
+          "unidades_estimadas": 16,
+          "area_privativa_m2": 992.56,
+          "area_computavel_m2": 1152.56,
+          "vagas": 16,
+          "pavimentos": 8
+        }
+      },
+      {
+        "opcao": "B",
+        "tipo": "privativa",
+        "antes": {
+          "unidades_estimadas": 32,
+          "area_privativa_m2": 1985.54,
+          "area_computavel_m2": 2305.54,
+          "vagas": 32,
+          "pavimentos": 8
+        },
+        "depois": {
+          "unidades_estimadas": 32,
+          "area_privativa_m2": 1985.13,
+          "area_computavel_m2": 2305.13,
+          "vagas": 32,
+          "pavimentos": 8
+        }
+      }
+    ],
+    "invariantes_080_sob_criterios_081": [
+      "D: vagas não cabem na geometria do subsolo",
+      "D: vagas declaradas não cabem, mesmo com alerta"
+    ]
+  },
+  "saida-em-l-permeabilidade.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1133.05,
+        "area_computavel_m2": 1313.05,
+        "vagas": 18,
+        "pavimentos": 9
+      },
+      "B": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2266.1,
+        "area_computavel_m2": 2626.1,
+        "vagas": 36,
+        "pavimentos": 9
+      },
+      "C": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 1987.39,
+        "area_computavel_m2": 2404.23,
+        "vagas": 32,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 881.26,
+        "area_computavel_m2": 2261.26,
+        "vagas": 14,
+        "pavimentos": 9
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1133.05,
+        "area_computavel_m2": 1313.05,
+        "vagas": 18,
+        "pavimentos": 9
+      },
+      "B": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2266.1,
+        "area_computavel_m2": 2626.1,
+        "vagas": 36,
+        "pavimentos": 9
+      },
+      "C": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 2047.86,
+        "area_computavel_m2": 2479.82,
+        "vagas": 32,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 881.26,
+        "area_computavel_m2": 2261.26,
+        "vagas": 14,
+        "pavimentos": 9
+      }
+    },
+    "perdas": []
+  },
+  "saida-enorme-20000m2.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 180,
+        "area_privativa_m2": 11999.27,
+        "area_computavel_m2": 14399.09,
+        "vagas": 180,
+        "pavimentos": 30
+      },
+      "B": {
+        "unidades_estimadas": 360,
+        "area_privativa_m2": 23998.54,
+        "area_computavel_m2": 28798.18,
+        "vagas": 360,
+        "pavimentos": 30
+      },
+      "C": {
+        "unidades_estimadas": 744,
+        "area_privativa_m2": 44860.52,
+        "area_computavel_m2": 55995.66,
+        "vagas": 744,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 168,
+        "area_privativa_m2": 11199.32,
+        "area_computavel_m2": 29398.87,
+        "vagas": 168,
+        "pavimentos": 30
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 180,
+        "area_privativa_m2": 11999.91,
+        "area_computavel_m2": 14399.89,
+        "vagas": 180,
+        "pavimentos": 30
+      },
+      "B": {
+        "unidades_estimadas": 360,
+        "area_privativa_m2": 23999.83,
+        "area_computavel_m2": 28799.79,
+        "vagas": 360,
+        "pavimentos": 30
+      },
+      "C": {
+        "unidades_estimadas": 744,
+        "area_privativa_m2": 44864.03,
+        "area_computavel_m2": 56000.04,
+        "vagas": 744,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 168,
+        "area_privativa_m2": 11199.97,
+        "area_computavel_m2": 29399.97,
+        "vagas": 168,
+        "pavimentos": 30
+      }
+    },
+    "perdas": []
+  },
+  "saida-estreito-8m.json": {
+    "0.8.0": {
+      "C": {
+        "unidades_estimadas": 2,
+        "area_privativa_m2": 160.1,
+        "area_computavel_m2": 200.1,
+        "vagas": 2,
+        "pavimentos": 2
+      }
+    },
+    "0.8.1": {
+      "C": {
+        "unidades_estimadas": 2,
+        "area_privativa_m2": 160.1,
+        "area_computavel_m2": 200.1,
+        "vagas": 2,
+        "pavimentos": 2
+      }
+    },
+    "perdas": []
+  },
+  "saida-frente-repetida.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2767.01,
+        "area_computavel_m2": 3158.76,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4630.67,
+        "area_computavel_m2": 5308.34,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2398.08,
+        "area_computavel_m2": 3912.99,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2768.83,
+        "area_computavel_m2": 3161.04,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 71,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2399.66,
+        "area_computavel_m2": 3914.77,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "perdas": []
+  },
+  "saida-garagem-comp-2m0.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 54,
+        "area_privativa_m2": 3370.9,
+        "area_computavel_m2": 5310.8,
+        "vagas": 54,
+        "pavimentos": 18
+      },
+      "B": {
+        "unidades_estimadas": 54,
+        "area_privativa_m2": 3370.9,
+        "area_computavel_m2": 5310.8,
+        "vagas": 54,
+        "pavimentos": 9
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3192.73,
+        "area_computavel_m2": 5315.71,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 3075.2,
+        "area_computavel_m2": 5314.86,
+        "vagas": 48,
+        "pavimentos": 18
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 64,
+        "area_privativa_m2": 4012.38,
+        "area_computavel_m2": 5316.47,
+        "vagas": 23,
+        "pavimentos": 16
+      },
+      "B": {
+        "unidades_estimadas": 64,
+        "area_privativa_m2": 3893.48,
+        "area_computavel_m2": 5316.48,
+        "vagas": 29,
+        "pavimentos": 16
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3193.98,
+        "area_computavel_m2": 5316.48,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3424.98,
+        "area_computavel_m2": 5316.48,
+        "vagas": 25,
+        "pavimentos": 16
+      }
+    },
+    "perdas": []
+  },
+  "saida-garagem-comp-2m5.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 54,
+        "area_privativa_m2": 3370.9,
+        "area_computavel_m2": 5312.46,
+        "vagas": 54,
+        "pavimentos": 18
+      },
+      "B": {
+        "unidades_estimadas": 54,
+        "area_privativa_m2": 3370.9,
+        "area_computavel_m2": 5312.46,
+        "vagas": 54,
+        "pavimentos": 9
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3193.9,
+        "area_computavel_m2": 5316.44,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 3075.2,
+        "area_computavel_m2": 5315.95,
+        "vagas": 48,
+        "pavimentos": 18
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 64,
+        "area_privativa_m2": 4012.38,
+        "area_computavel_m2": 5316.47,
+        "vagas": 23,
+        "pavimentos": 16
+      },
+      "B": {
+        "unidades_estimadas": 64,
+        "area_privativa_m2": 3893.48,
+        "area_computavel_m2": 5316.48,
+        "vagas": 29,
+        "pavimentos": 16
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3193.98,
+        "area_computavel_m2": 5316.47,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3424.98,
+        "area_computavel_m2": 5316.48,
+        "vagas": 25,
+        "pavimentos": 16
+      }
+    },
+    "perdas": []
+  },
+  "saida-gc-ca50-recuo-1m5.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 40,
+        "area_privativa_m2": 2517.89,
+        "area_computavel_m2": 3997.82,
+        "vagas": 40,
+        "pavimentos": 20
+      },
+      "B": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2665.82,
+        "area_computavel_m2": 3997.02,
+        "vagas": 36,
+        "pavimentos": 9
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1849.6,
+        "area_computavel_m2": 2988.81,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2331.37,
+        "area_computavel_m2": 3999.05,
+        "vagas": 36,
+        "pavimentos": 20
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3171.92,
+        "area_computavel_m2": 3988.92,
+        "vagas": 11,
+        "pavimentos": 26
+      },
+      "B": {
+        "unidades_estimadas": 44,
+        "area_privativa_m2": 2750.01,
+        "area_computavel_m2": 4000.01,
+        "vagas": 30,
+        "pavimentos": 11
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1849.6,
+        "area_computavel_m2": 2987.99,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 46,
+        "area_privativa_m2": 2863.05,
+        "area_computavel_m2": 3999.94,
+        "vagas": 13,
+        "pavimentos": 25
+      }
+    },
+    "perdas": []
+  },
+  "saida-gc-ca50-recuo-3m0.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2654.61,
+        "area_computavel_m2": 3992.98,
+        "vagas": 34,
+        "pavimentos": 21
+      },
+      "B": {
+        "unidades_estimadas": 38,
+        "area_privativa_m2": 2310.46,
+        "area_computavel_m2": 3988.83,
+        "vagas": 34,
+        "pavimentos": 19
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1393.92,
+        "area_computavel_m2": 2202.38,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 38,
+        "area_privativa_m2": 2372.45,
+        "area_computavel_m2": 3997.48,
+        "vagas": 34,
+        "pavimentos": 21
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3171.92,
+        "area_computavel_m2": 3988.92,
+        "vagas": 11,
+        "pavimentos": 26
+      },
+      "B": {
+        "unidades_estimadas": 44,
+        "area_privativa_m2": 2750.01,
+        "area_computavel_m2": 4000.01,
+        "vagas": 30,
+        "pavimentos": 11
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1393.92,
+        "area_computavel_m2": 2202.4,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 46,
+        "area_privativa_m2": 2863.05,
+        "area_computavel_m2": 3999.94,
+        "vagas": 13,
+        "pavimentos": 25
+      }
+    },
+    "perdas": []
+  },
+  "saida-horario.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2767.01,
+        "area_computavel_m2": 3158.76,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4630.67,
+        "area_computavel_m2": 5308.34,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2398.08,
+        "area_computavel_m2": 3912.99,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2768.83,
+        "area_computavel_m2": 3161.04,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 71,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2399.66,
+        "area_computavel_m2": 3914.77,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "perdas": []
+  },
+  "saida-minusculo-150m2.json": {
+    "0.8.0": {},
+    "0.8.1": {},
+    "perdas": []
+  },
+  "saida-mono-ca-20-d.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1560.5,
+        "area_computavel_m2": 1790.63,
+        "vagas": 24,
+        "pavimentos": 8
+      },
+      "B": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1560.5,
+        "area_computavel_m2": 1800.5,
+        "vagas": 24,
+        "pavimentos": 6
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1507.0,
+        "area_computavel_m2": 1803.75,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1251.22,
+        "area_computavel_m2": 1788.84,
+        "vagas": 18,
+        "pavimentos": 11
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1561.5,
+        "area_computavel_m2": 1791.88,
+        "vagas": 24,
+        "pavimentos": 8
+      },
+      "B": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1564.01,
+        "area_computavel_m2": 1804.01,
+        "vagas": 24,
+        "pavimentos": 6
+      },
+      "C": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1507.2,
+        "area_computavel_m2": 1804.0,
+        "vagas": 24,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1251.22,
+        "area_computavel_m2": 1789.45,
+        "vagas": 18,
+        "pavimentos": 11
+      }
+    },
+    "perdas": []
+  },
+  "saida-mono-ca-25-d.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1560.5,
+        "area_computavel_m2": 1790.63,
+        "vagas": 24,
+        "pavimentos": 8
+      },
+      "B": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 1934.55,
+        "area_computavel_m2": 2254.55,
+        "vagas": 32,
+        "pavimentos": 8
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1867.05,
+        "area_computavel_m2": 2253.81,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1251.22,
+        "area_computavel_m2": 2113.22,
+        "vagas": 18,
+        "pavimentos": 11
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 24,
+        "area_privativa_m2": 1561.5,
+        "area_computavel_m2": 1791.88,
+        "vagas": 24,
+        "pavimentos": 8
+      },
+      "B": {
+        "unidades_estimadas": 32,
+        "area_privativa_m2": 1935.01,
+        "area_computavel_m2": 2255.01,
+        "vagas": 32,
+        "pavimentos": 8
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1868.0,
+        "area_computavel_m2": 2255.0,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1251.22,
+        "area_computavel_m2": 2112.82,
+        "vagas": 18,
+        "pavimentos": 11
+      }
+    },
+    "perdas": []
+  },
+  "saida-mono-ca-25.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2189.91,
+        "area_computavel_m2": 2557.38,
+        "vagas": 36,
+        "pavimentos": 9
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3394.81,
+        "area_computavel_m2": 3963.51,
+        "vagas": 56,
+        "pavimentos": 7
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3237.24,
+        "area_computavel_m2": 3966.54,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1703.26,
+        "area_computavel_m2": 3164.12,
+        "vagas": 28,
+        "pavimentos": 9
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2189.91,
+        "area_computavel_m2": 2557.38,
+        "vagas": 36,
+        "pavimentos": 9
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3400.53,
+        "area_computavel_m2": 3970.66,
+        "vagas": 56,
+        "pavimentos": 7
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3240.52,
+        "area_computavel_m2": 3970.64,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1703.26,
+        "area_computavel_m2": 3164.28,
+        "vagas": 28,
+        "pavimentos": 9
+      }
+    },
+    "perdas": []
+  },
+  "saida-mono-ca-26.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2189.91,
+        "area_computavel_m2": 2557.38,
+        "vagas": 36,
+        "pavimentos": 9
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3402.61,
+        "area_computavel_m2": 3973.27,
+        "vagas": 56,
+        "pavimentos": 7
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3244.29,
+        "area_computavel_m2": 3975.36,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1703.26,
+        "area_computavel_m2": 3164.12,
+        "vagas": 28,
+        "pavimentos": 9
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2189.91,
+        "area_computavel_m2": 2557.38,
+        "vagas": 36,
+        "pavimentos": 9
+      },
+      "B": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3407.81,
+        "area_computavel_m2": 3979.76,
+        "vagas": 56,
+        "pavimentos": 7
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3247.79,
+        "area_computavel_m2": 3979.73,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1703.26,
+        "area_computavel_m2": 3164.28,
+        "vagas": 28,
+        "pavimentos": 9
+      }
+    },
+    "perdas": []
+  },
+  "saida-mono-descarte-d-2m0.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 34,
+        "area_privativa_m2": 2105.28,
+        "area_computavel_m2": 2445.28,
+        "vagas": 34,
+        "pavimentos": 17
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1411.2,
+        "area_computavel_m2": 1684.0,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1826.98,
+        "area_computavel_m2": 2447.17,
+        "vagas": 30,
+        "pavimentos": 17
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 34,
+        "area_privativa_m2": 2109.98,
+        "area_computavel_m2": 2449.98,
+        "vagas": 34,
+        "pavimentos": 17
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1411.2,
+        "area_computavel_m2": 1684.0,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1829.65,
+        "area_computavel_m2": 2449.96,
+        "vagas": 30,
+        "pavimentos": 17
+      }
+    },
+    "perdas": []
+  },
+  "saida-mono-descarte-d-2m5.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 34,
+        "area_privativa_m2": 2105.28,
+        "area_computavel_m2": 2445.28,
+        "vagas": 31,
+        "pavimentos": 17
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1280.0,
+        "area_computavel_m2": 1520.0,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1826.98,
+        "area_computavel_m2": 2447.17,
+        "vagas": 30,
+        "pavimentos": 17
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 34,
+        "area_privativa_m2": 2109.98,
+        "area_computavel_m2": 2449.98,
+        "vagas": 31,
+        "pavimentos": 17
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1280.0,
+        "area_computavel_m2": 1520.0,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1829.65,
+        "area_computavel_m2": 2449.96,
+        "vagas": 30,
+        "pavimentos": 17
+      }
+    },
+    "perdas": []
+  },
+  "saida-mono-recuo-1m5.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2767.01,
+        "area_computavel_m2": 3158.76,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4630.67,
+        "area_computavel_m2": 5308.34,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2398.08,
+        "area_computavel_m2": 3912.99,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2768.83,
+        "area_computavel_m2": 3161.04,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 71,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2399.66,
+        "area_computavel_m2": 3914.77,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "perdas": []
+  },
+  "saida-mono-recuo-2m0.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2767.01,
+        "area_computavel_m2": 3158.76,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4630.67,
+        "area_computavel_m2": 5308.34,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2398.08,
+        "area_computavel_m2": 3912.99,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2768.83,
+        "area_computavel_m2": 3161.04,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 71,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2399.66,
+        "area_computavel_m2": 3914.77,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "perdas": []
+  },
+  "saida-mono-recuo-fixo-2m0.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4531.79,
+        "area_computavel_m2": 5304.74,
+        "vagas": 72,
+        "pavimentos": 18
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4636.64,
+        "area_computavel_m2": 5315.8,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 64,
+        "area_privativa_m2": 3982.97,
+        "area_computavel_m2": 5312.12,
+        "vagas": 64,
+        "pavimentos": 18
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4541.2,
+        "area_computavel_m2": 5316.49,
+        "vagas": 72,
+        "pavimentos": 18
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 55,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 64,
+        "area_privativa_m2": 3986.88,
+        "area_computavel_m2": 5316.46,
+        "vagas": 64,
+        "pavimentos": 18
+      }
+    },
+    "perdas": []
+  },
+  "saida-mono-recuo-fixo-2m5.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4531.79,
+        "area_computavel_m2": 5304.74,
+        "vagas": 72,
+        "pavimentos": 18
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4636.64,
+        "area_computavel_m2": 5315.8,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3285.6,
+        "area_computavel_m2": 4027.0,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 64,
+        "area_privativa_m2": 3982.97,
+        "area_computavel_m2": 5311.35,
+        "vagas": 64,
+        "pavimentos": 18
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4541.2,
+        "area_computavel_m2": 5316.49,
+        "vagas": 71,
+        "pavimentos": 18
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 71,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3285.6,
+        "area_computavel_m2": 4027.0,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 64,
+        "area_privativa_m2": 3986.86,
+        "area_computavel_m2": 5316.43,
+        "vagas": 64,
+        "pavimentos": 18
+      }
+    },
+    "perdas": []
+  },
+  "saida-mono-to-25.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2767.01,
+        "area_computavel_m2": 3158.76,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4587.97,
+        "area_computavel_m2": 5307.97,
+        "vagas": 72,
+        "pavimentos": 18
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1279.19,
+        "area_computavel_m2": 1518.98,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2398.08,
+        "area_computavel_m2": 3497.11,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2768.83,
+        "area_computavel_m2": 3161.04,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4596.5,
+        "area_computavel_m2": 5316.5,
+        "vagas": 71,
+        "pavimentos": 18
+      },
+      "C": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1279.2,
+        "area_computavel_m2": 1519.0,
+        "vagas": 20,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2399.66,
+        "area_computavel_m2": 3499.07,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "perdas": []
+  },
+  "saida-mono-to-35.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2767.01,
+        "area_computavel_m2": 3158.76,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4630.67,
+        "area_computavel_m2": 5308.34,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1765.19,
+        "area_computavel_m2": 2126.48,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2398.08,
+        "area_computavel_m2": 3801.16,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2768.83,
+        "area_computavel_m2": 3161.04,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 71,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1765.28,
+        "area_computavel_m2": 2126.6,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2399.66,
+        "area_computavel_m2": 3802.87,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "perdas": []
+  },
+  "saida-perm50-recuo-1m5.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 34,
+        "area_privativa_m2": 2094.41,
+        "area_computavel_m2": 2434.41,
+        "vagas": 25,
+        "pavimentos": 17
+      },
+      "B": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1849.7,
+        "area_computavel_m2": 2449.7,
+        "vagas": 25,
+        "pavimentos": 15
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1044.89,
+        "area_computavel_m2": 1226.12,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1828.88,
+        "area_computavel_m2": 2449.02,
+        "vagas": 25,
+        "pavimentos": 17
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 34,
+        "area_privativa_m2": 2109.98,
+        "area_computavel_m2": 2449.98,
+        "vagas": 25,
+        "pavimentos": 17
+      },
+      "B": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1850.01,
+        "area_computavel_m2": 2450.01,
+        "vagas": 25,
+        "pavimentos": 15
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1120.01,
+        "area_computavel_m2": 1320.01,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1829.67,
+        "area_computavel_m2": 2449.98,
+        "vagas": 25,
+        "pavimentos": 17
+      }
+    },
+    "perdas": []
+  },
+  "saida-perm50-recuo-3m0.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 34,
+        "area_privativa_m2": 2094.41,
+        "area_computavel_m2": 2434.41,
+        "vagas": 25,
+        "pavimentos": 17
+      },
+      "B": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1849.7,
+        "area_computavel_m2": 2449.7,
+        "vagas": 25,
+        "pavimentos": 15
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1044.89,
+        "area_computavel_m2": 1226.12,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1828.88,
+        "area_computavel_m2": 2449.02,
+        "vagas": 25,
+        "pavimentos": 17
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 34,
+        "area_privativa_m2": 2109.98,
+        "area_computavel_m2": 2449.98,
+        "vagas": 25,
+        "pavimentos": 17
+      },
+      "B": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1850.01,
+        "area_computavel_m2": 2450.01,
+        "vagas": 25,
+        "pavimentos": 15
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1120.01,
+        "area_computavel_m2": 1320.01,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 30,
+        "area_privativa_m2": 1829.67,
+        "area_computavel_m2": 2449.98,
+        "vagas": 25,
+        "pavimentos": 17
+      }
+    },
+    "perdas": []
+  },
+  "saida-sem-ca-cone-90m.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 60,
+        "area_privativa_m2": 3914.36,
+        "area_computavel_m2": 4692.94,
+        "vagas": 60,
+        "pavimentos": 10
+      },
+      "B": {
+        "unidades_estimadas": 80,
+        "area_privativa_m2": 5198.41,
+        "area_computavel_m2": 6098.01,
+        "vagas": 80,
+        "pavimentos": 10
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3145.71,
+        "area_computavel_m2": 3852.14,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 3131.48,
+        "area_computavel_m2": 4802.0,
+        "vagas": 48,
+        "pavimentos": 10
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 60,
+        "area_privativa_m2": 3914.36,
+        "area_computavel_m2": 4692.94,
+        "vagas": 60,
+        "pavimentos": 10
+      },
+      "B": {
+        "unidades_estimadas": 80,
+        "area_privativa_m2": 5200.95,
+        "area_computavel_m2": 6101.19,
+        "vagas": 80,
+        "pavimentos": 10
+      },
+      "C": {
+        "unidades_estimadas": 52,
+        "area_privativa_m2": 3228.66,
+        "area_computavel_m2": 3955.82,
+        "vagas": 52,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 48,
+        "area_privativa_m2": 3131.48,
+        "area_computavel_m2": 4802.77,
+        "vagas": 47,
+        "pavimentos": 10
+      }
+    },
+    "perdas": []
+  },
+  "saida-sumico-d-1m5.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1177.13,
+        "area_computavel_m2": 1351.41,
+        "vagas": 18,
+        "pavimentos": 6
+      },
+      "B": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1191.4,
+        "area_computavel_m2": 1351.4,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "C": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1130.25,
+        "area_computavel_m2": 1352.81,
+        "vagas": 18,
+        "pavimentos": 3
+      },
+      "D": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 881.26,
+        "area_computavel_m2": 1350.09,
+        "vagas": 14,
+        "pavimentos": 9
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1178.39,
+        "area_computavel_m2": 1352.99,
+        "vagas": 18,
+        "pavimentos": 6
+      },
+      "B": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1193.0,
+        "area_computavel_m2": 1353.0,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "C": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1130.4,
+        "area_computavel_m2": 1353.0,
+        "vagas": 18,
+        "pavimentos": 3
+      },
+      "D": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 883.62,
+        "area_computavel_m2": 1353.01,
+        "vagas": 14,
+        "pavimentos": 16
+      }
+    },
+    "perdas": []
+  },
+  "saida-sumico-d-2m0.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1177.13,
+        "area_computavel_m2": 1351.41,
+        "vagas": 18,
+        "pavimentos": 6
+      },
+      "B": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1190.3,
+        "area_computavel_m2": 1350.3,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "C": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1130.25,
+        "area_computavel_m2": 1352.81,
+        "vagas": 18,
+        "pavimentos": 3
+      },
+      "D": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 881.26,
+        "area_computavel_m2": 1350.09,
+        "vagas": 14,
+        "pavimentos": 9
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1178.39,
+        "area_computavel_m2": 1352.99,
+        "vagas": 18,
+        "pavimentos": 6
+      },
+      "B": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1193.0,
+        "area_computavel_m2": 1353.0,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "C": {
+        "unidades_estimadas": 18,
+        "area_privativa_m2": 1130.4,
+        "area_computavel_m2": 1353.0,
+        "vagas": 18,
+        "pavimentos": 3
+      },
+      "D": {
+        "unidades_estimadas": 14,
+        "area_privativa_m2": 883.62,
+        "area_computavel_m2": 1353.0,
+        "vagas": 14,
+        "pavimentos": 16
+      }
+    },
+    "perdas": []
+  },
+  "saida-trapezio-fundos-10m.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 81,
+        "area_privativa_m2": 4911.98,
+        "area_computavel_m2": 5599.97,
+        "vagas": 68,
+        "pavimentos": 27
+      },
+      "B": {
+        "unidades_estimadas": 78,
+        "area_privativa_m2": 4894.56,
+        "area_computavel_m2": 5598.21,
+        "vagas": 68,
+        "pavimentos": 13
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1858.31,
+        "area_computavel_m2": 2242.89,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 75,
+        "area_privativa_m2": 4509.0,
+        "area_computavel_m2": 5597.75,
+        "vagas": 68,
+        "pavimentos": 27
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 81,
+        "area_privativa_m2": 4912.01,
+        "area_computavel_m2": 5600.01,
+        "vagas": 68,
+        "pavimentos": 27
+      },
+      "B": {
+        "unidades_estimadas": 78,
+        "area_privativa_m2": 4896.0,
+        "area_computavel_m2": 5600.0,
+        "vagas": 68,
+        "pavimentos": 13
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1858.33,
+        "area_computavel_m2": 2242.91,
+        "vagas": 28,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 75,
+        "area_privativa_m2": 4510.66,
+        "area_computavel_m2": 5600.0,
+        "vagas": 68,
+        "pavimentos": 27
+      }
+    },
+    "perdas": []
+  },
+  "saida-triangular-escaleno.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 2,
+        "area_privativa_m2": 127.47,
+        "area_computavel_m2": 167.47,
+        "vagas": 2,
+        "pavimentos": 2
+      },
+      "C": {
+        "unidades_estimadas": 2,
+        "area_privativa_m2": 130.18,
+        "area_computavel_m2": 170.18,
+        "vagas": 2,
+        "pavimentos": 2
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 2,
+        "area_privativa_m2": 127.53,
+        "area_computavel_m2": 167.53,
+        "vagas": 2,
+        "pavimentos": 2
+      },
+      "C": {
+        "unidades_estimadas": 2,
+        "area_privativa_m2": 130.14,
+        "area_computavel_m2": 170.14,
+        "vagas": 2,
+        "pavimentos": 2
+      }
+    },
+    "perdas": []
+  },
+  "saida-triangular-simetrico-fundos-10m.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 51,
+        "area_privativa_m2": 3070.21,
+        "area_computavel_m2": 3497.76,
+        "vagas": 51,
+        "pavimentos": 17
+      },
+      "B": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2659.74,
+        "area_computavel_m2": 3499.74,
+        "vagas": 42,
+        "pavimentos": 21
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1126.54,
+        "area_computavel_m2": 1328.18,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 44,
+        "area_privativa_m2": 2732.93,
+        "area_computavel_m2": 3498.24,
+        "vagas": 44,
+        "pavimentos": 24
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 51,
+        "area_privativa_m2": 3072.01,
+        "area_computavel_m2": 3500.01,
+        "vagas": 51,
+        "pavimentos": 17
+      },
+      "B": {
+        "unidades_estimadas": 42,
+        "area_privativa_m2": 2659.96,
+        "area_computavel_m2": 3499.96,
+        "vagas": 42,
+        "pavimentos": 21
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1126.87,
+        "area_computavel_m2": 1328.59,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 44,
+        "area_privativa_m2": 2734.54,
+        "area_computavel_m2": 3500.01,
+        "vagas": 44,
+        "pavimentos": 24
+      }
+    },
+    "perdas": []
+  },
+  "saida-triangular-simetrico.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 33,
+        "area_privativa_m2": 2055.95,
+        "area_computavel_m2": 2349.94,
+        "vagas": 33,
+        "pavimentos": 11
+      },
+      "B": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 788.76,
+        "area_computavel_m2": 1028.76,
+        "vagas": 12,
+        "pavimentos": 6
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1055.47,
+        "area_computavel_m2": 1239.34,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1820.58,
+        "area_computavel_m2": 2860.18,
+        "vagas": 28,
+        "pavimentos": 16
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 33,
+        "area_privativa_m2": 2056.21,
+        "area_computavel_m2": 2350.26,
+        "vagas": 33,
+        "pavimentos": 11
+      },
+      "B": {
+        "unidades_estimadas": 12,
+        "area_privativa_m2": 789.67,
+        "area_computavel_m2": 1029.67,
+        "vagas": 12,
+        "pavimentos": 6
+      },
+      "C": {
+        "unidades_estimadas": 16,
+        "area_privativa_m2": 1055.65,
+        "area_computavel_m2": 1239.57,
+        "vagas": 16,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1819.34,
+        "area_computavel_m2": 2859.34,
+        "vagas": 28,
+        "pavimentos": 16
+      }
+    },
+    "perdas": [
+      {
+        "opcao": "D",
+        "tipo": "privativa",
+        "antes": {
+          "unidades_estimadas": 28,
+          "area_privativa_m2": 1820.58,
+          "area_computavel_m2": 2860.18,
+          "vagas": 28,
+          "pavimentos": 16
+        },
+        "depois": {
+          "unidades_estimadas": 28,
+          "area_privativa_m2": 1819.34,
+          "area_computavel_m2": 2859.34,
+          "vagas": 28,
+          "pavimentos": 16
+        }
+      }
+    ],
+    "invariantes_080_sob_criterios_081": [
+      "A: vagas não cabem na geometria do subsolo",
+      "A: vagas declaradas não cabem, mesmo com alerta",
+      "B: vagas declaradas não cabem, mesmo com alerta"
+    ]
+  },
+  "saida-vertice-repetido.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2767.01,
+        "area_computavel_m2": 3158.76,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4630.67,
+        "area_computavel_m2": 5308.34,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2398.08,
+        "area_computavel_m2": 3912.99,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2768.83,
+        "area_computavel_m2": 3161.04,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 71,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2399.66,
+        "area_computavel_m2": 3914.77,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "perdas": []
+  },
+  "saida-zona-altura-9m.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 10,
+        "area_privativa_m2": 608.4,
+        "area_computavel_m2": 720.5,
+        "vagas": 10,
+        "pavimentos": 2
+      },
+      "B": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1216.8,
+        "area_computavel_m2": 1441.0,
+        "vagas": 20,
+        "pavimentos": 2
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1732.8,
+        "area_computavel_m2": 2126.0,
+        "vagas": 28,
+        "pavimentos": 2
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 10,
+        "area_privativa_m2": 608.4,
+        "area_computavel_m2": 720.5,
+        "vagas": 10,
+        "pavimentos": 2
+      },
+      "B": {
+        "unidades_estimadas": 20,
+        "area_privativa_m2": 1216.8,
+        "area_computavel_m2": 1441.0,
+        "vagas": 20,
+        "pavimentos": 2
+      },
+      "C": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1733.27,
+        "area_computavel_m2": 2126.59,
+        "vagas": 28,
+        "pavimentos": 2
+      }
+    },
+    "perdas": []
+  },
+  "saida-zona-sem-ca-maximo.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2189.91,
+        "area_computavel_m2": 2557.38,
+        "vagas": 36,
+        "pavimentos": 9
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4379.81,
+        "area_computavel_m2": 5114.76,
+        "vagas": 72,
+        "pavimentos": 9
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1703.26,
+        "area_computavel_m2": 3089.44,
+        "vagas": 28,
+        "pavimentos": 9
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 36,
+        "area_privativa_m2": 2189.91,
+        "area_computavel_m2": 2557.38,
+        "vagas": 36,
+        "pavimentos": 9
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4379.81,
+        "area_computavel_m2": 5114.76,
+        "vagas": 71,
+        "pavimentos": 9
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 28,
+        "area_privativa_m2": 1703.26,
+        "area_computavel_m2": 3089.83,
+        "vagas": 28,
+        "pavimentos": 9
+      }
+    },
+    "perdas": []
+  },
+  "saida-zona-to-100-perm-25.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2767.01,
+        "area_computavel_m2": 3158.76,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4630.67,
+        "area_computavel_m2": 5308.34,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2398.08,
+        "area_computavel_m2": 3912.99,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2768.83,
+        "area_computavel_m2": 3161.04,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 71,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2399.66,
+        "area_computavel_m2": 3914.77,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "perdas": []
+  },
+  "saida-zona-to-100.json": {
+    "0.8.0": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2767.01,
+        "area_computavel_m2": 3158.76,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4630.67,
+        "area_computavel_m2": 5308.34,
+        "vagas": 72,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2398.08,
+        "area_computavel_m2": 3912.99,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "0.8.1": {
+      "A": {
+        "unidades_estimadas": 45,
+        "area_privativa_m2": 2768.83,
+        "area_computavel_m2": 3161.04,
+        "vagas": 45,
+        "pavimentos": 15
+      },
+      "B": {
+        "unidades_estimadas": 72,
+        "area_privativa_m2": 4637.15,
+        "area_computavel_m2": 5316.43,
+        "vagas": 71,
+        "pavimentos": 12
+      },
+      "C": {
+        "unidades_estimadas": 56,
+        "area_privativa_m2": 3436.48,
+        "area_computavel_m2": 4215.6,
+        "vagas": 56,
+        "pavimentos": 4
+      },
+      "D": {
+        "unidades_estimadas": 39,
+        "area_privativa_m2": 2399.66,
+        "area_computavel_m2": 3914.77,
+        "vagas": 39,
+        "pavimentos": 15
+      }
+    },
+    "perdas": []
+  }
+}

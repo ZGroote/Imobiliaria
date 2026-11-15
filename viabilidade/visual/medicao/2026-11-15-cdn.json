@@ -1,0 +1,937 @@
+{
+  "status": "concluida",
+  "data": "2026-11-15",
+  "repeticoes": 3,
+  "execucoes": [
+    {
+      "estudo": "Exemplo",
+      "arquivo": "estudo-exemplo.json",
+      "perfil": "desktop",
+      "execucao": 1,
+      "primeiraMaqueteMs": 1516.3999999761581,
+      "bytesTransferidos": 467279,
+      "fpsOrbita5s": 60.20013554997408,
+      "trocaOpcaoMs": 111.30000001192093,
+      "memoria": {
+        "heapUsadoBytes": 12756595,
+        "heapTotalBytes": 16306315,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "Exemplo",
+      "arquivo": "estudo-exemplo.json",
+      "perfil": "desktop",
+      "execucao": 2,
+      "primeiraMaqueteMs": 1299.199999988079,
+      "bytesTransferidos": 467270,
+      "fpsOrbita5s": 60.125444448883385,
+      "trocaOpcaoMs": 68.5,
+      "memoria": {
+        "heapUsadoBytes": 12396435,
+        "heapTotalBytes": 16044171,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "Exemplo",
+      "arquivo": "estudo-exemplo.json",
+      "perfil": "desktop",
+      "execucao": 3,
+      "primeiraMaqueteMs": 1292.6000000238419,
+      "bytesTransferidos": 467294,
+      "fpsOrbita5s": 60.163901659291305,
+      "trocaOpcaoMs": 76.60000002384186,
+      "memoria": {
+        "heapUsadoBytes": 12494323,
+        "heapTotalBytes": 16044171,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "Exemplo",
+      "arquivo": "estudo-exemplo.json",
+      "perfil": "celular",
+      "execucao": 1,
+      "primeiraMaqueteMs": 4896.400000035763,
+      "bytesTransferidos": 467304,
+      "fpsOrbita5s": 60.2301509748254,
+      "trocaOpcaoMs": 247.80000001192093,
+      "memoria": {
+        "heapUsadoBytes": 12429511,
+        "heapTotalBytes": 16044171,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "Exemplo",
+      "arquivo": "estudo-exemplo.json",
+      "perfil": "celular",
+      "execucao": 2,
+      "primeiraMaqueteMs": 3937,
+      "bytesTransferidos": 467275,
+      "fpsOrbita5s": 60.11463721501137,
+      "trocaOpcaoMs": 239.10000002384186,
+      "memoria": {
+        "heapUsadoBytes": 10419995,
+        "heapTotalBytes": 17617035,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "Exemplo",
+      "arquivo": "estudo-exemplo.json",
+      "perfil": "celular",
+      "execucao": 3,
+      "primeiraMaqueteMs": 5165.400000035763,
+      "bytesTransferidos": 467309,
+      "fpsOrbita5s": 59.98440405523167,
+      "trocaOpcaoMs": 329,
+      "memoria": {
+        "heapUsadoBytes": 12020735,
+        "heapTotalBytes": 15782027,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22421",
+      "arquivo": "pilotos/SC-completo-22421.json",
+      "perfil": "desktop",
+      "execucao": 1,
+      "primeiraMaqueteMs": 1359.0999999642372,
+      "bytesTransferidos": 471431,
+      "fpsOrbita5s": 60.33845477584092,
+      "trocaOpcaoMs": 102.30000001192093,
+      "memoria": {
+        "heapUsadoBytes": 12175209,
+        "heapTotalBytes": 16283861,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22421",
+      "arquivo": "pilotos/SC-completo-22421.json",
+      "perfil": "desktop",
+      "execucao": 2,
+      "primeiraMaqueteMs": 1361.0999999642372,
+      "bytesTransferidos": 471459,
+      "fpsOrbita5s": 60.00558191445411,
+      "trocaOpcaoMs": 81.89999997615814,
+      "memoria": {
+        "heapUsadoBytes": 10828773,
+        "heapTotalBytes": 14710997,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22421",
+      "arquivo": "pilotos/SC-completo-22421.json",
+      "perfil": "desktop",
+      "execucao": 3,
+      "primeiraMaqueteMs": 344.30000001192093,
+      "bytesTransferidos": 471430,
+      "fpsOrbita5s": 60.0319106501795,
+      "trocaOpcaoMs": 119.19999998807907,
+      "memoria": {
+        "heapUsadoBytes": 9148733,
+        "heapTotalBytes": 16546005,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22421",
+      "arquivo": "pilotos/SC-completo-22421.json",
+      "perfil": "celular",
+      "execucao": 1,
+      "primeiraMaqueteMs": 4146.399999976158,
+      "bytesTransferidos": 471442,
+      "fpsOrbita5s": 60.17833579868205,
+      "trocaOpcaoMs": 296.10000002384186,
+      "memoria": {
+        "heapUsadoBytes": 9117293,
+        "heapTotalBytes": 16808149,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22421",
+      "arquivo": "pilotos/SC-completo-22421.json",
+      "perfil": "celular",
+      "execucao": 2,
+      "primeiraMaqueteMs": 5201.300000011921,
+      "bytesTransferidos": 471453,
+      "fpsOrbita5s": 60.25178061967561,
+      "trocaOpcaoMs": 310.80000001192093,
+      "memoria": {
+        "heapUsadoBytes": 9203145,
+        "heapTotalBytes": 16808149,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22421",
+      "arquivo": "pilotos/SC-completo-22421.json",
+      "perfil": "celular",
+      "execucao": 3,
+      "primeiraMaqueteMs": 4900.600000023842,
+      "bytesTransferidos": 383250,
+      "fpsOrbita5s": 60.17111786342556,
+      "trocaOpcaoMs": 358.0999999642372,
+      "memoria": {
+        "heapUsadoBytes": 9145201,
+        "heapTotalBytes": 16546005,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22426",
+      "arquivo": "pilotos/SC-completo-22426.json",
+      "perfil": "desktop",
+      "execucao": 1,
+      "primeiraMaqueteMs": 292.5,
+      "bytesTransferidos": 382571,
+      "fpsOrbita5s": 60.01276018821277,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 9070846,
+        "heapTotalBytes": 13144322,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22426",
+      "arquivo": "pilotos/SC-completo-22426.json",
+      "perfil": "desktop",
+      "execucao": 2,
+      "primeiraMaqueteMs": 1356.8999999761581,
+      "bytesTransferidos": 382571,
+      "fpsOrbita5s": 60.18916595012898,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 9407246,
+        "heapTotalBytes": 13144322,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22426",
+      "arquivo": "pilotos/SC-completo-22426.json",
+      "perfil": "desktop",
+      "execucao": 3,
+      "primeiraMaqueteMs": 1332.7999999523163,
+      "bytesTransferidos": 382569,
+      "fpsOrbita5s": 60.03670017523708,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 9684506,
+        "heapTotalBytes": 13406466,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22426",
+      "arquivo": "pilotos/SC-completo-22426.json",
+      "perfil": "celular",
+      "execucao": 1,
+      "primeiraMaqueteMs": 4786.100000023842,
+      "bytesTransferidos": 382585,
+      "fpsOrbita5s": 60.15548494114355,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 9107594,
+        "heapTotalBytes": 13406466,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22426",
+      "arquivo": "pilotos/SC-completo-22426.json",
+      "perfil": "celular",
+      "execucao": 2,
+      "primeiraMaqueteMs": 4851.899999976158,
+      "bytesTransferidos": 382592,
+      "fpsOrbita5s": 60.28064432409457,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 9311258,
+        "heapTotalBytes": 13668610,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "22426",
+      "arquivo": "pilotos/SC-completo-22426.json",
+      "perfil": "celular",
+      "execucao": 3,
+      "primeiraMaqueteMs": 3775.800000011921,
+      "bytesTransferidos": 382569,
+      "fpsOrbita5s": 60.23015097396622,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 8912418,
+        "heapTotalBytes": 13144322,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "25297",
+      "arquivo": "pilotos/SC-completo-25297.json",
+      "perfil": "desktop",
+      "execucao": 1,
+      "primeiraMaqueteMs": 1280.4000000357628,
+      "bytesTransferidos": 377945,
+      "fpsOrbita5s": 60.05826250107023,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 8967811,
+        "heapTotalBytes": 13381155,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "25297",
+      "arquivo": "pilotos/SC-completo-25297.json",
+      "perfil": "desktop",
+      "execucao": 2,
+      "primeiraMaqueteMs": 1349.699999988079,
+      "bytesTransferidos": 377939,
+      "fpsOrbita5s": 60.079840318932405,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 8897067,
+        "heapTotalBytes": 13119011,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "25297",
+      "arquivo": "pilotos/SC-completo-25297.json",
+      "perfil": "desktop",
+      "execucao": 3,
+      "primeiraMaqueteMs": 1308.5,
+      "bytesTransferidos": 377937,
+      "fpsOrbita5s": 60.18074216222112,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 9050359,
+        "heapTotalBytes": 13119011,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "25297",
+      "arquivo": "pilotos/SC-completo-25297.json",
+      "perfil": "celular",
+      "execucao": 1,
+      "primeiraMaqueteMs": 3546.899999976158,
+      "bytesTransferidos": 377971,
+      "fpsOrbita5s": 60.15187849662905,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 9042719,
+        "heapTotalBytes": 13381155,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "25297",
+      "arquivo": "pilotos/SC-completo-25297.json",
+      "perfil": "celular",
+      "execucao": 2,
+      "primeiraMaqueteMs": 4519.300000011921,
+      "bytesTransferidos": 377967,
+      "fpsOrbita5s": 60.21093765561781,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 9135955,
+        "heapTotalBytes": 13119011,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "25297",
+      "arquivo": "pilotos/SC-completo-25297.json",
+      "perfil": "celular",
+      "execucao": 3,
+      "primeiraMaqueteMs": 4386.399999976158,
+      "bytesTransferidos": 377960,
+      "fpsOrbita5s": 60.114637215297606,
+      "trocaOpcaoMs": null,
+      "memoria": {
+        "heapUsadoBytes": 9370055,
+        "heapTotalBytes": 13119011,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "30516",
+      "arquivo": "pilotos/SC-completo-30516.json",
+      "perfil": "desktop",
+      "execucao": 1,
+      "primeiraMaqueteMs": 1315,
+      "bytesTransferidos": 394870,
+      "fpsOrbita5s": 60.08703637119238,
+      "trocaOpcaoMs": 69,
+      "memoria": {
+        "heapUsadoBytes": 11795462,
+        "heapTotalBytes": 17788798,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "30516",
+      "arquivo": "pilotos/SC-completo-30516.json",
+      "perfil": "desktop",
+      "execucao": 2,
+      "primeiraMaqueteMs": 290.0999999642372,
+      "bytesTransferidos": 394870,
+      "fpsOrbita5s": 60.19157317961135,
+      "trocaOpcaoMs": 85.39999997615814,
+      "memoria": {
+        "heapUsadoBytes": 11794606,
+        "heapTotalBytes": 17264510,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "30516",
+      "arquivo": "pilotos/SC-completo-30516.json",
+      "perfil": "desktop",
+      "execucao": 3,
+      "primeiraMaqueteMs": 295.7999999523163,
+      "bytesTransferidos": 394870,
+      "fpsOrbita5s": 60.17713268929112,
+      "trocaOpcaoMs": 82.30000001192093,
+      "memoria": {
+        "heapUsadoBytes": 11820234,
+        "heapTotalBytes": 18050942,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "30516",
+      "arquivo": "pilotos/SC-completo-30516.json",
+      "perfil": "celular",
+      "execucao": 1,
+      "primeiraMaqueteMs": 4617.300000011921,
+      "bytesTransferidos": 394896,
+      "fpsOrbita5s": 60.15187849705893,
+      "trocaOpcaoMs": 278.69999998807907,
+      "memoria": {
+        "heapUsadoBytes": 11621590,
+        "heapTotalBytes": 17264510,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "30516",
+      "arquivo": "pilotos/SC-completo-30516.json",
+      "perfil": "celular",
+      "execucao": 2,
+      "primeiraMaqueteMs": 4655.599999964237,
+      "bytesTransferidos": 394872,
+      "fpsOrbita5s": 60.13505414124072,
+      "trocaOpcaoMs": 276.5,
+      "memoria": {
+        "heapUsadoBytes": 11362406,
+        "heapTotalBytes": 17526654,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "30516",
+      "arquivo": "pilotos/SC-completo-30516.json",
+      "perfil": "celular",
+      "execucao": 3,
+      "primeiraMaqueteMs": 4095.300000011921,
+      "bytesTransferidos": 394896,
+      "fpsOrbita5s": 60.19638821641997,
+      "trocaOpcaoMs": 277.69999998807907,
+      "memoria": {
+        "heapUsadoBytes": 11539154,
+        "heapTotalBytes": 17264510,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "37607",
+      "arquivo": "pilotos/SC-completo-37607.json",
+      "perfil": "desktop",
+      "execucao": 1,
+      "primeiraMaqueteMs": 1291.5,
+      "bytesTransferidos": 385695,
+      "fpsOrbita5s": 60.171117863568945,
+      "trocaOpcaoMs": 73.80000001192093,
+      "memoria": {
+        "heapUsadoBytes": 11198710,
+        "heapTotalBytes": 15269078,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "37607",
+      "arquivo": "pilotos/SC-completo-37607.json",
+      "perfil": "desktop",
+      "execucao": 2,
+      "primeiraMaqueteMs": 1261.699999988079,
+      "bytesTransferidos": 385695,
+      "fpsOrbita5s": 60.366194930407204,
+      "trocaOpcaoMs": 92.90000003576279,
+      "memoria": {
+        "heapUsadoBytes": 11450478,
+        "heapTotalBytes": 15531222,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "37607",
+      "arquivo": "pilotos/SC-completo-37607.json",
+      "perfil": "desktop",
+      "execucao": 3,
+      "primeiraMaqueteMs": 1286,
+      "bytesTransferidos": 385695,
+      "fpsOrbita5s": 60.33122240660032,
+      "trocaOpcaoMs": 95.89999997615814,
+      "memoria": {
+        "heapUsadoBytes": 11296178,
+        "heapTotalBytes": 15006934,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "37607",
+      "arquivo": "pilotos/SC-completo-37607.json",
+      "perfil": "celular",
+      "execucao": 1,
+      "primeiraMaqueteMs": 4565.5,
+      "bytesTransferidos": 385718,
+      "fpsOrbita5s": 60.1867589131826,
+      "trocaOpcaoMs": 265.39999997615814,
+      "memoria": {
+        "heapUsadoBytes": 11399702,
+        "heapTotalBytes": 15006934,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "37607",
+      "arquivo": "pilotos/SC-completo-37607.json",
+      "perfil": "celular",
+      "execucao": 2,
+      "primeiraMaqueteMs": 4006.399999976158,
+      "bytesTransferidos": 473924,
+      "fpsOrbita5s": 60.21814121353512,
+      "trocaOpcaoMs": 243.30000001192093,
+      "memoria": {
+        "heapUsadoBytes": 11224950,
+        "heapTotalBytes": 15006934,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "37607",
+      "arquivo": "pilotos/SC-completo-37607.json",
+      "perfil": "celular",
+      "execucao": 3,
+      "primeiraMaqueteMs": 4487.899999976158,
+      "bytesTransferidos": 385721,
+      "fpsOrbita5s": 60.21573983610154,
+      "trocaOpcaoMs": 232.5,
+      "memoria": {
+        "heapUsadoBytes": 11400734,
+        "heapTotalBytes": 15006934,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "q1382-11984-11988",
+      "arquivo": "pilotos/SC-completo-q1382-11984-11988.json",
+      "perfil": "desktop",
+      "execucao": 1,
+      "primeiraMaqueteMs": 1289.1000000238419,
+      "bytesTransferidos": 414115,
+      "fpsOrbita5s": 60.08103954185038,
+      "trocaOpcaoMs": 71.19999998807907,
+      "memoria": {
+        "heapUsadoBytes": 10742682,
+        "heapTotalBytes": 20591590,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "q1382-11984-11988",
+      "arquivo": "pilotos/SC-completo-q1382-11984-11988.json",
+      "perfil": "desktop",
+      "execucao": 2,
+      "primeiraMaqueteMs": 1308.0999999642372,
+      "bytesTransferidos": 502318,
+      "fpsOrbita5s": 60.10023361220374,
+      "trocaOpcaoMs": 137.60000002384186,
+      "memoria": {
+        "heapUsadoBytes": 12673222,
+        "heapTotalBytes": 20329446,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "q1382-11984-11988",
+      "arquivo": "pilotos/SC-completo-q1382-11984-11988.json",
+      "perfil": "desktop",
+      "execucao": 3,
+      "primeiraMaqueteMs": 354.5999999642372,
+      "bytesTransferidos": 414113,
+      "fpsOrbita5s": 60.033107959443356,
+      "trocaOpcaoMs": 113.90000003576279,
+      "memoria": {
+        "heapUsadoBytes": 10732398,
+        "heapTotalBytes": 20067302,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "q1382-11984-11988",
+      "arquivo": "pilotos/SC-completo-q1382-11984-11988.json",
+      "perfil": "celular",
+      "execucao": 1,
+      "primeiraMaqueteMs": 5578.100000023842,
+      "bytesTransferidos": 502335,
+      "fpsOrbita5s": 60.23615765147521,
+      "trocaOpcaoMs": 390.89999997615814,
+      "memoria": {
+        "heapUsadoBytes": 10790266,
+        "heapTotalBytes": 20329446,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "q1382-11984-11988",
+      "arquivo": "pilotos/SC-completo-q1382-11984-11988.json",
+      "perfil": "celular",
+      "execucao": 2,
+      "primeiraMaqueteMs": 5563.100000023842,
+      "bytesTransferidos": 502343,
+      "fpsOrbita5s": 60.07864114517322,
+      "trocaOpcaoMs": 361,
+      "memoria": {
+        "heapUsadoBytes": 11971350,
+        "heapTotalBytes": 20591590,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "q1382-11984-11988",
+      "arquivo": "pilotos/SC-completo-q1382-11984-11988.json",
+      "perfil": "celular",
+      "execucao": 3,
+      "primeiraMaqueteMs": 5464.600000023842,
+      "bytesTransferidos": 502340,
+      "fpsOrbita5s": 60.256589317424535,
+      "trocaOpcaoMs": 408.5,
+      "memoria": {
+        "heapUsadoBytes": 12246354,
+        "heapTotalBytes": 20067302,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "remembramento-75352-75354",
+      "arquivo": "pilotos/SC-completo-remembramento-75352-75354.json",
+      "perfil": "desktop",
+      "execucao": 1,
+      "primeiraMaqueteMs": 346.10000002384186,
+      "bytesTransferidos": 493436,
+      "fpsOrbita5s": 60.085836910157205,
+      "trocaOpcaoMs": 99.5,
+      "memoria": {
+        "heapUsadoBytes": 10900201,
+        "heapTotalBytes": 17847189,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "remembramento-75352-75354",
+      "arquivo": "pilotos/SC-completo-remembramento-75352-75354.json",
+      "perfil": "desktop",
+      "execucao": 2,
+      "primeiraMaqueteMs": 9514.699999988079,
+      "bytesTransferidos": 405242,
+      "fpsOrbita5s": 60.39516838667305,
+      "trocaOpcaoMs": 117.90000003576279,
+      "memoria": {
+        "heapUsadoBytes": 13009861,
+        "heapTotalBytes": 18895765,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "remembramento-75352-75354",
+      "arquivo": "pilotos/SC-completo-remembramento-75352-75354.json",
+      "perfil": "desktop",
+      "execucao": 3,
+      "primeiraMaqueteMs": 9519.5,
+      "bytesTransferidos": 405219,
+      "fpsOrbita5s": 60.277034848908215,
+      "trocaOpcaoMs": 105.10000002384186,
+      "memoria": {
+        "heapUsadoBytes": 11264133,
+        "heapTotalBytes": 17847189,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "remembramento-75352-75354",
+      "arquivo": "pilotos/SC-completo-remembramento-75352-75354.json",
+      "perfil": "celular",
+      "execucao": 1,
+      "primeiraMaqueteMs": 13131.5,
+      "bytesTransferidos": 405220,
+      "fpsOrbita5s": 60.23856065772454,
+      "trocaOpcaoMs": 401.60000002384186,
+      "memoria": {
+        "heapUsadoBytes": 12544897,
+        "heapTotalBytes": 17847189,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "remembramento-75352-75354",
+      "arquivo": "pilotos/SC-completo-remembramento-75352-75354.json",
+      "perfil": "celular",
+      "execucao": 2,
+      "primeiraMaqueteMs": 13364.300000011921,
+      "bytesTransferidos": 405219,
+      "fpsOrbita5s": 59.953236475263424,
+      "trocaOpcaoMs": 376.4000000357628,
+      "memoria": {
+        "heapUsadoBytes": 12700485,
+        "heapTotalBytes": 18371477,
+        "limiteHeapBytes": 4395630592
+      }
+    },
+    {
+      "estudo": "remembramento-75352-75354",
+      "arquivo": "pilotos/SC-completo-remembramento-75352-75354.json",
+      "perfil": "celular",
+      "execucao": 3,
+      "primeiraMaqueteMs": 13583.5,
+      "bytesTransferidos": 493457,
+      "fpsOrbita5s": 60.20493600733622,
+      "trocaOpcaoMs": 499.10000002384186,
+      "memoria": {
+        "heapUsadoBytes": 10504637,
+        "heapTotalBytes": 19944341,
+        "limiteHeapBytes": 4395630592
+      }
+    }
+  ],
+  "medianas": [
+    {
+      "estudo": "Exemplo",
+      "arquivo": "estudo-exemplo.json",
+      "perfil": "desktop",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 1299.199999988079,
+      "bytesTransferidos": 467279,
+      "fpsOrbita5s": 60.163901659291305,
+      "trocaOpcaoMs": 76.60000002384186,
+      "heapUsadoBytes": 12494323,
+      "heapTotalBytes": 16044171,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "Exemplo",
+      "arquivo": "estudo-exemplo.json",
+      "perfil": "celular",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 4896.400000035763,
+      "bytesTransferidos": 467304,
+      "fpsOrbita5s": 60.11463721501137,
+      "trocaOpcaoMs": 247.80000001192093,
+      "heapUsadoBytes": 12020735,
+      "heapTotalBytes": 16044171,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "22421",
+      "arquivo": "pilotos/SC-completo-22421.json",
+      "perfil": "desktop",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 1359.0999999642372,
+      "bytesTransferidos": 471431,
+      "fpsOrbita5s": 60.0319106501795,
+      "trocaOpcaoMs": 102.30000001192093,
+      "heapUsadoBytes": 10828773,
+      "heapTotalBytes": 16283861,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "22421",
+      "arquivo": "pilotos/SC-completo-22421.json",
+      "perfil": "celular",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 4900.600000023842,
+      "bytesTransferidos": 471442,
+      "fpsOrbita5s": 60.17833579868205,
+      "trocaOpcaoMs": 310.80000001192093,
+      "heapUsadoBytes": 9145201,
+      "heapTotalBytes": 16808149,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "22426",
+      "arquivo": "pilotos/SC-completo-22426.json",
+      "perfil": "desktop",
+      "opcoesDisponiveis": 1,
+      "primeiraMaqueteMs": 1332.7999999523163,
+      "bytesTransferidos": 382571,
+      "fpsOrbita5s": 60.03670017523708,
+      "trocaOpcaoMs": null,
+      "heapUsadoBytes": 9407246,
+      "heapTotalBytes": 13144322,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "22426",
+      "arquivo": "pilotos/SC-completo-22426.json",
+      "perfil": "celular",
+      "opcoesDisponiveis": 1,
+      "primeiraMaqueteMs": 4786.100000023842,
+      "bytesTransferidos": 382585,
+      "fpsOrbita5s": 60.23015097396622,
+      "trocaOpcaoMs": null,
+      "heapUsadoBytes": 9107594,
+      "heapTotalBytes": 13406466,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "25297",
+      "arquivo": "pilotos/SC-completo-25297.json",
+      "perfil": "desktop",
+      "opcoesDisponiveis": 1,
+      "primeiraMaqueteMs": 1308.5,
+      "bytesTransferidos": 377939,
+      "fpsOrbita5s": 60.079840318932405,
+      "trocaOpcaoMs": null,
+      "heapUsadoBytes": 8967811,
+      "heapTotalBytes": 13119011,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "25297",
+      "arquivo": "pilotos/SC-completo-25297.json",
+      "perfil": "celular",
+      "opcoesDisponiveis": 1,
+      "primeiraMaqueteMs": 4386.399999976158,
+      "bytesTransferidos": 377967,
+      "fpsOrbita5s": 60.15187849662905,
+      "trocaOpcaoMs": null,
+      "heapUsadoBytes": 9135955,
+      "heapTotalBytes": 13119011,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "30516",
+      "arquivo": "pilotos/SC-completo-30516.json",
+      "perfil": "desktop",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 295.7999999523163,
+      "bytesTransferidos": 394870,
+      "fpsOrbita5s": 60.17713268929112,
+      "trocaOpcaoMs": 82.30000001192093,
+      "heapUsadoBytes": 11795462,
+      "heapTotalBytes": 17788798,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "30516",
+      "arquivo": "pilotos/SC-completo-30516.json",
+      "perfil": "celular",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 4617.300000011921,
+      "bytesTransferidos": 394896,
+      "fpsOrbita5s": 60.15187849705893,
+      "trocaOpcaoMs": 277.69999998807907,
+      "heapUsadoBytes": 11539154,
+      "heapTotalBytes": 17264510,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "37607",
+      "arquivo": "pilotos/SC-completo-37607.json",
+      "perfil": "desktop",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 1286,
+      "bytesTransferidos": 385695,
+      "fpsOrbita5s": 60.33122240660032,
+      "trocaOpcaoMs": 92.90000003576279,
+      "heapUsadoBytes": 11296178,
+      "heapTotalBytes": 15269078,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "37607",
+      "arquivo": "pilotos/SC-completo-37607.json",
+      "perfil": "celular",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 4487.899999976158,
+      "bytesTransferidos": 385721,
+      "fpsOrbita5s": 60.21573983610154,
+      "trocaOpcaoMs": 243.30000001192093,
+      "heapUsadoBytes": 11399702,
+      "heapTotalBytes": 15006934,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "q1382-11984-11988",
+      "arquivo": "pilotos/SC-completo-q1382-11984-11988.json",
+      "perfil": "desktop",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 1289.1000000238419,
+      "bytesTransferidos": 414115,
+      "fpsOrbita5s": 60.08103954185038,
+      "trocaOpcaoMs": 113.90000003576279,
+      "heapUsadoBytes": 10742682,
+      "heapTotalBytes": 20329446,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "q1382-11984-11988",
+      "arquivo": "pilotos/SC-completo-q1382-11984-11988.json",
+      "perfil": "celular",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 5563.100000023842,
+      "bytesTransferidos": 502340,
+      "fpsOrbita5s": 60.23615765147521,
+      "trocaOpcaoMs": 390.89999997615814,
+      "heapUsadoBytes": 11971350,
+      "heapTotalBytes": 20329446,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "remembramento-75352-75354",
+      "arquivo": "pilotos/SC-completo-remembramento-75352-75354.json",
+      "perfil": "desktop",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 9514.699999988079,
+      "bytesTransferidos": 405242,
+      "fpsOrbita5s": 60.277034848908215,
+      "trocaOpcaoMs": 105.10000002384186,
+      "heapUsadoBytes": 11264133,
+      "heapTotalBytes": 17847189,
+      "limiteHeapBytes": 4395630592
+    },
+    {
+      "estudo": "remembramento-75352-75354",
+      "arquivo": "pilotos/SC-completo-remembramento-75352-75354.json",
+      "perfil": "celular",
+      "opcoesDisponiveis": 4,
+      "primeiraMaqueteMs": 13364.300000011921,
+      "bytesTransferidos": 405220,
+      "fpsOrbita5s": 60.20493600733622,
+      "trocaOpcaoMs": 401.60000002384186,
+      "heapUsadoBytes": 12544897,
+      "heapTotalBytes": 18371477,
+      "limiteHeapBytes": 4395630592
+    }
+  ]
+}

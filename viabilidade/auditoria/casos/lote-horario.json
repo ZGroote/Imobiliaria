@@ -1,0 +1,12 @@
+{
+ "id": "audit-cw",
+ "lid": 35038,
+ "poligono_utm": [[205186.54, 7564315.96], [205186.54, 7564376.72], [205211.54, 7564376.72], [205211.54, 7564315.96]],
+ "frente": [[205186.54, 7564315.96], [205186.54, 7564376.72]],
+ "area_m2": 1519.13,
+ "zona_id": "SC-Z2",
+ "zona_origem": "teste",
+ "zona_conferida": false,
+ "relevo": null,
+ "observacoes": "Polígono orientado em sentido horário."
+}

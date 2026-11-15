@@ -1,0 +1,623 @@
+diff --git a/viabilidade/motor/motor.py b/viabilidade/motor/motor.py
+index 4661f1eb..e1d9428c 100644
+--- a/viabilidade/motor/motor.py
++++ b/viabilidade/motor/motor.py
+@@ -11,7 +11,7 @@ from shapely import affinity
+ from shapely.geometry import LineString, Point, Polygon, box
+ from shapely.ops import nearest_points, unary_union
+ 
+-VERSAO = "0.8.0"
++VERSAO = "0.8.1"
+ 
+ # Premissas de projeto (não são lei). Quem chamar pode trocar qualquer uma; as que ficarem
+ # no valor daqui saem listadas em premissas.padrao (aparecem como "padrão" no relatório).
+@@ -50,7 +50,7 @@ def _r(v, n=2):
+ 
+ 
+ def _coords(poly):
+-    return [[_r(x), _r(y)] for x, y in list(poly.exterior.coords)[:-1]]
++    return [[_r(x, 4), _r(y, 4)] for x, y in list(poly.exterior.coords)[:-1]]
+ 
+ 
+ def _maior_parte(geom):
+@@ -126,11 +126,11 @@ def _encolhe(poly, alvo):
+     lo, hi = 0.0, math.sqrt(poly.area)
+     for _ in range(40):
+         mid = (lo + hi) / 2
+-        if poly.buffer(-mid, join_style="mitre").area > alvo:
++        if _maior_parte(poly.buffer(-mid, join_style="mitre")).area > alvo:
+             lo = mid
+         else:
+             hi = mid
+-    return _maior_parte(poly.buffer(-hi, join_style="mitre"))
++    return _maior_parte(poly.buffer(-lo, join_style="mitre"))
+ 
+ 
+ def _cresce(poly, limite, alvo):
+@@ -150,6 +150,14 @@ def _subsolo_do_tamanho(subsolo, alvo):
+     return _encolhe(subsolo, alvo)
+ 
+ 
++@lru_cache(maxsize=512)
++def _subsolo_ancorado(subsolo, projecao, alvo):
++    base = _maior_parte(projecao.convex_hull.intersection(subsolo))
++    if base.is_empty:
++        return _subsolo_do_tamanho(subsolo, alvo)
++    return _encolhe(base, alvo) if base.area > alvo else _cresce(base, subsolo, alvo)
++
++
+ def _para_local(geom, origem, u):
+     """Gira pra o eixo u virar x (frente na horizontal)."""
+     return affinity.rotate(geom, -math.degrees(math.atan2(u[1], u[0])), origin=origem)
+@@ -178,7 +186,8 @@ def _centros(regiao, arestas, w, d):
+     cantos = np.array([(-w / 2, -d / 2), (w / 2, -d / 2), (w / 2, d / 2), (-w / 2, d / 2)])
+     pts = (arestas[:, :, None, :] + cantos[None, None, :, :]).reshape(-1, 2)  # 8 pontos por aresta
+     varridos = shapely.convex_hull(shapely.multipoints(pts, indices=np.repeat(np.arange(len(arestas)), 8)))
+-    return regiao.difference(shapely.union_all(varridos))
++    # A posição tangente também é válida; a diferença fechada apagava a linha de centros de uma laje 10×10 exata.
++    return regiao.difference(shapely.union_all(shapely.buffer(varridos, -1e-7, join_style="mitre")))
+ 
+ 
+ def _enxuta(regiao):
+@@ -271,7 +280,7 @@ def _maior_lamina(regiao, area_max, contem=None):
+ 
+ 
+ @lru_cache(maxsize=512)  # funções puras; a geometria do shapely 2 é imutável e hasheável, e vários pavimentos repetem a mesma região
+-def dois_quadrados(regiao, folga, area_max=None):
++def dois_quadrados(regiao, folga, area_max=None, compacto=False):
+     """Dois quadrados IGUAIS, os maiores que cabem na região com `folga` entre eles (em x ou em y).
+     Exato: dois quadrados de lado s cabem se os centros possíveis se estendem por pelo menos s + folga
+     num dos eixos. Devolve () se não couber (tupla: o resultado fica no cache e não pode ser alterado por quem chama)."""
+@@ -311,7 +320,7 @@ def dois_quadrados(regiao, folga, area_max=None):
+     eixo = 0 if horiz else 1
+     q1, q2 = ponta(eixo, 0), ponta(eixo, 1)
+     ext = (bx1 - bx0) if horiz else (by1 - by0)
+-    k = (sobra / 4) / ext if ext > 0 else 0  # sobrando espaço, aproxima as duas torres: metade da sobra entre elas
++    k = (sobra / (2 if compacto else 4)) / ext if ext > 0 else 0  # garagem computável: conserva a folga mínima, sem expandir o subsolo entre torres
+     cs = [(q1.x + (q2.x - q1.x) * k, q1.y + (q2.y - q1.y) * k), (q2.x - (q2.x - q1.x) * k, q2.y - (q2.y - q1.y) * k)]
+     dentro = regiao.buffer(1e-6)
+     quadrados = [box(x - s / 2, y - s / 2, x + s / 2, y + s / 2) for x, y in cs]
+@@ -341,7 +350,7 @@ class _Caixas:
+     def __init__(self, lote, frente, rf, origem, u, area_max=None):
+         self.lote, self.frente, self.rf, self.origem, self.u = lote, frente, rf, origem, u
+         self.area_max = area_max  # (1 - permeabilidade) * A: o que dá pra ocupar (prédio + subsolo) no chão
+-        self.limite = None        # região do térreo encolhida a area_max, quando a caixa legal é maior que isso
++        self.limite = None        # envelope de permeabilidade independente dos recuos legais
+         self._c = {}
+ 
+     def legal(self, rl, rb):
+@@ -351,15 +360,14 @@ class _Caixas:
+             self._c[k] = caixa_recuada(self.lote, self.frente, self.rf, k[1], k[2])
+         return self._c[k]
+ 
+-    def fixa_limite(self, rl0, rb0):
++    def fixa_limite(self):
+         """Com a permeabilidade apertada, prédio e subsolo ficam dentro de um limite de area_max m² (a união nunca passa disso).
+         O limite é a caixa com recuo `e` igual nos dois lados, `e` escolhido pra dar area_max. NÃO é o térreo encolhido: aquele
+         mudava de proporção quando o recuo afrouxava (a caixa cresce, o encolhimento uniforme come mais da profundidade) e a
+         opção B sumia. Do jeito daqui o limite não depende do recuo da lei (quando a regra afrouxa, só `legal ∩ limite` cresce).
+         Recuos legais entram só na interseção em mundo(), nunca na bisseção do limite."""
+         terreo = self.legal(0, 0)
+-        # Se a caixa legal já cabe, recortá-la muda a implantação e pode perder torres viáveis.
+-        if self.area_max is not None and self.legal(rl0, rb0).area > self.area_max:
++        if self.area_max is not None and terreo.area > self.area_max:
+             def caixa(e):  # direto, sem o cache de legal(): ele arredonda o recuo a 1 cm e a área passaria de area_max
+                 return caixa_recuada(self.lote, self.frente, self.rf, e, e)
+             lo, hi = 0.0, math.sqrt(self.lote.area)
+@@ -410,7 +418,7 @@ def _recuos_topo(ctx, pav_topo, h_topo):
+     return (recuo_divisa(zp, ctx["rl"], pav_topo, h_topo), recuo_divisa(zp, ctx["rb"], pav_topo, h_topo, "fundos"))
+ 
+ 
+-def _avaliar(vols, ctx):
++def _avaliar(vols, ctx, comparar_subsolo=True):
+     """Métricas do contrato pra uma lista de volumes acima do chão. Devolve (metricas, subsolos, avisos)."""
+     pr, A, zp = ctx["pr"], ctx["A"], ctx["zp"]
+     nucleo = pr["nucleo_nao_computavel_m2"]
+@@ -427,8 +435,19 @@ def _avaliar(vols, ctx):
+         unid += v["pavimentos"] * math.floor((por_andar + 1e-9) / pr["area_privativa_por_unidade_m2"])
+     vagas = math.ceil(unid * pr["vagas_por_unidade"] - 1e-9)
+     avisos, subsolos = [], []
++    projecao = unary_union([v["_geom"] for v in vols])
++    ocupado_max = A - ctx.get("perm_min", (zp.get("taxa_permeabilidade") or 0) * A)
++    if comparar_subsolo and pr["garagem_computavel"] and pr["garagem"] == "subsolo" and vagas:
++        compacto = _maior_parte(projecao.convex_hull.intersection(ctx["subsolo"]))
++        if not compacto.is_empty and compacto.area < ctx["subsolo"].area - 0.01:
++            candidatos = [_avaliar(vols, c, comparar_subsolo=False) for c in (ctx, dict(ctx, subsolo=compacto))]
++            def prioridade(candidato):
++                m = candidato[0]
++                cabe = m["area_computavel_m2"] <= ctx.get("cap", math.inf) + 0.01 and m["area_permeavel_m2"] >= A - ocupado_max - 0.1
++                return cabe, m["vagas"] if cabe else -m["area_computavel_m2"], -m["area_computavel_m2"]
++            return max(candidatos, key=prioridade)
+     if pr["garagem"] == "subsolo":
+-        nivel = ctx["subsolo"].area
++        nivel = min(ctx["subsolo"].area, ocupado_max)
+         if not vagas:
+             niveis = 0
+         elif nivel > 0:
+@@ -443,10 +462,18 @@ def _avaliar(vols, ctx):
+         garagem = niveis * nivel
+         precisa = vagas * pr["area_por_vaga_m2"]  # a vaga já traz a circulação (area_por_vaga_m2)
+         sub = ctx["subsolo"]
+-        if niveis and precisa > 0 and precisa < garagem - 0.01:
++        if niveis and precisa > 0 and precisa / niveis < sub.area - 0.01:
+             sub = _subsolo_do_tamanho(sub, precisa / niveis)
+-        sub = Polygon(_coords(sub))  # métricas e união permeável usam a geometria exportada, a 1 cm
++        sub = Polygon(_coords(sub))  # métricas e união permeável usam a geometria exportada
++        if niveis and precisa > 0 and projecao.union(sub).area > ocupado_max + 0.1:
++            ancorado = Polygon(_coords(_subsolo_ancorado(ctx["subsolo"], projecao, precisa / niveis)))
++            if projecao.union(ancorado).area < projecao.union(sub).area:
++                sub = ancorado
+         garagem = niveis * sub.area
++        if garagem < vagas * pr["area_por_vaga_m2"] - 0.01:
++            cabem = max(0, math.floor((garagem + 1e-9) / pr["area_por_vaga_m2"]))
++            avisos.append(f"Faltam vagas: a geometria final tem {garagem:.2f} m² e comporta {cabem} das {vagas} vagas previstas.")
++            vagas = cabem
+         subsolos = [{"base_utm": _coords(sub), "z0_m": _r(-(k + 1) * pr["pe_direito_m"]),
+                      "altura_m": _r(pr["pe_direito_m"]), "pavimentos": 1, "uso": "garagem"} for k in range(niveis)]
+     else:
+@@ -454,9 +481,9 @@ def _avaliar(vols, ctx):
+     nao_comp = nucleos + (0 if pr["garagem_computavel"] else garagem)
+     comp = acima + garagem - nao_comp
+     no_chao = [v for v in vols if v["z0_m"] == 0]
+-    proj = unary_union([v["_geom"] for v in vols]).area
++    proj = projecao.area
+     proj_to = max(0.0, proj - sum(min(nucleo, v["_geom"].area) for v in no_chao))  # núcleo fora da TO
+-    ocupado = unary_union([v["_geom"] for v in vols] + ([sub] if subsolos else [])).area
++    ocupado = projecao.union(sub).area if subsolos else projecao.area
+     basico = zp.get("ca_basico")
+     preco = pr["preco_venda_m2_privativo"]
+     m = {
+@@ -492,42 +519,44 @@ def _cabe(m, vols, ctx):
+     return m["unidades_estimadas"] >= 1  # opção sem apartamento não é opção
+ 
+ 
+-def _ajusta_ao_ca(fazer, n, ctx, m, cap, exato=False):
++def _ajusta_ao_ca(fazer, n, ctx, m, cap):
+     """O prédio de n andares passou do CA. Em vez de descartar (e piorar quando a regra afrouxa: andar é inteiro),
+     encolhe as lajes (fator f da área natural) até o computável encostar no teto. Secante, poucas rodadas."""
+     f0, c0, f = 1.0, m["area_computavel_m2"], 1.0
+     achado = None
+     f = f0 * cap / c0 * 0.9995
+-    if not exato and not ctx["pr"]["garagem_computavel"]:
+-        achado = _ajusta_ao_ca(fazer, n, ctx, m, cap, exato=True)  # preserva as duas buscas: margem pode perder uma unidade no limiar
+-    if exato:
++    if not ctx["pr"]["garagem_computavel"]:
+         acima = m["area_construida_m2"] - m["area_garagem_m2"]
+         f = (cap + acima - c0) / acima
+-    ok, ko = 0.0, 1.0  # f que cabe / f que passa do CA: a laje sai com coordenada a 1 cm, a área vira escada e a secante sozinha empaca num degrau
+-    for _ in range(12):
++    ok, ko = 0.0, 1.0  # intervalo salvaguarda a secante nos degraus de unidades e coordenadas
++    for _ in range(28):
+         vols = fazer(n, f)
+         if vols is None:
+-            return achado
++            ok = max(ok, f)  # abaixo da laje mínima: a janela viável está acima, não acabou
++            f = (ok + ko) / 2
++            continue
+         m1, sub, av = _avaliar(vols, ctx)
+         if _cabe(m1, vols, ctx):
+             candidato = (vols, m1, sub, av)
+             if achado is None or _chave(candidato) > _chave(achado):
+                 achado = candidato
+             ok = max(ok, f)
+-            if m1["area_computavel_m2"] >= cap * 0.9999:
++            if m1["area_computavel_m2"] >= cap - 0.01:
+                 return achado
+-        else:
++        if m1["area_computavel_m2"] > cap + 0.01:
++            ko = min(ko, f)
++        elif m1["unidades_estimadas"] == 0:
++            ok = max(ok, f)
++        elif not _cabe(m1, vols, ctx):
+             ko = min(ko, f)
+         c1 = m1["area_computavel_m2"]
+-        alvo = cap if exato else cap * 0.99995
++        alvo = cap
+         nf = f + (alvo - c1) * (f - f0) / (c1 - c0) if abs(c1 - c0) >= 1e-6 else ok  # ok: cai fora do intervalo e força a bisseção
+         if not ok < nf < ko:  # a secante saiu do intervalo (ou empacou): vai pro meio dele
+             nf = (ok + ko) / 2
+-            if ko - ok < 1e-9:
++            if ko - ok < 1e-8:
+                 break
+         f, f0, c0 = nf, f, c1
+-        if f <= 0.05:
+-            break
+     return achado
+ 
+ 
+@@ -553,10 +582,9 @@ def _parou_no_teto(fazer, n, ctx, melhor, base):
+ def _melhor(fazer, n_max, ctx, base=0, falhou=None):
+     """Pavimentos da parte variável: vale o prédio com MAIS UNIDADES (o cliente compra apartamento); empate: maior área
+     privativa, depois o mais baixo. A laje é encolhida ao teto do CA quando o andar inteiro passaria dele (_ajusta_ao_ca).
+-    Escolher o máximo dessa ordem é o que garante a monotonia: afrouxar uma regra (recuo, CA, TO, altura) só cria opções
+-    iguais ou melhores, então as unidades nunca caem, e com as mesmas unidades a privativa nunca cai.
++    Compara os candidatos pela mesma ordem em todos os regimes, inclusive garagem computável.
+     Nada de "o mais baixo que chega a 95%": esse limiar mudava o prédio escolhido quando a regra afrouxava e a opção piorava."""
+-    # ponytail: custo = 1 geração por pavimento (+ até 7 pra ajustar ao CA); sem poda além da altura/pavimentos da lei
++    # Custo: uma geração por pavimento, até 28 ajustes ao CA quando necessário.
+     cap = ctx["cap"]
+     achados = []
+     for n in range(1, n_max + 1):
+@@ -574,9 +602,10 @@ def _melhor(fazer, n_max, ctx, base=0, falhou=None):
+             achado = None
+         if achado is None:
+             if falhou:
+-                falhou(f"Tentativa de {base + n} pavimento(s): {m['unidades_estimadas']} unidade(s), "
++                falhou(f"Melhor pavimento tentado: {base + n} pavimento(s), {m['unidades_estimadas']} unidade(s), "
+                        f"computável {m['area_computavel_m2']:.2f} m², permeável {m['area_permeavel_m2']:.2f} m² "
+-                       f"(mínimo {ctx['perm_min']:.2f} m²), TO {m['to_usada']:.3f}; nenhum ajuste viável encontrado")
++                       f"(mínimo {ctx['perm_min']:.2f} m²), TO {m['to_usada']:.2f}; nenhum ajuste viável encontrado",
++                       (1, m['unidades_estimadas'] / n, max(v['_geom'].area for v in vols if v['uso'] == 'residencial'), -n))
+             continue
+         achados.append(achado)
+     if not achados:
+@@ -590,6 +619,13 @@ def _melhor(fazer, n_max, ctx, base=0, falhou=None):
+ 
+ 
+ def gerar_estudo(lote, zona, premissas=None):
++    estudo, tem_envelope = _gerar_estudo(lote, zona, premissas, envelope=True)
++    if tem_envelope:
++        estudo, _ = _gerar_estudo(lote, zona, premissas, envelope=False, opcoes_extra=estudo["opcoes"])
++    return estudo
++
++
++def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
+     premissas = premissas or {}
+     pr = dict(PREMISSAS_PADRAO, **premissas)
+     pr["padrao"] = sorted(k for k in PREMISSAS_PADRAO if k not in premissas)
+@@ -625,8 +661,13 @@ def gerar_estudo(lote, zona, premissas=None):
+     rl0, rb0 = recuo_divisa(zp, rl, 1, pr["pe_direito_terreo_m"]), recuo_divisa(zp, rb, 1, pr["pe_direito_terreo_m"], "fundos")
+     caixa = caixas.legal(rl0, rb0)
+ 
+-    # subsolo: o térreo; se a caixa passa do que a permeabilidade deixa ocupar, prédio e subsolo ficam no térreo encolhido
+-    caixas.fixa_limite(rl0, rb0)
++    # O subsolo segue o térreo; com permeabilidade apertada, concorrem as buscas com e sem envelope.
++    caixas.fixa_limite()
++    if caixas.limite is not None and caixas.legal(rl, rb).difference(caixas.limite).area == 0:
++        caixas.limite = None  # mesma região útil até na caixa legal mais larga; só as bordas podem diferir
++    tem_envelope = caixas.limite is not None
++    if not envelope:
++        caixas.limite = None
+     subsolo = caixas.mundo(rl0, rb0)
+ 
+     # altura: zona e áreas especiais do lote (gabarito, cone), a mais baixa vale
+@@ -647,8 +688,9 @@ def gerar_estudo(lote, zona, premissas=None):
+         return min(to_max * A + k * pr["nucleo_nao_computavel_m2"], (1 - perm) * A)
+ 
+     def laje(k):
+-        return min(caixa.area, subsolo.area if caixas.limite is not None else math.inf, ocup(k))
++        return ocup(k)  # o gerador intersecta com a caixa do pavimento; o térreo pode ter recuo maior
+     ocup_max, laje_max = ocup(1), laje(1)
++    legal_max = caixas.legal(rl, rb).area  # qualquer recuo por altura é >= os recuos fixos
+     if comp_max is not None:
+         n_max = min(PAV_BUSCA_MAX, int(comp_max // pr["laje_minima_m2"]) + 1)
+     elif zp.get("pavimentos_max"):
+@@ -706,10 +748,9 @@ def gerar_estudo(lote, zona, premissas=None):
+                           "Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).")
+     incertezas.append("Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.")
+     if pr["garagem_computavel"] and pr["vagas_por_unidade"] > 0:
+-        # shortcut: ajuste ao CA procura uma laje por altura; ampliar para patamares de unidades/vagas se for exigida monotonia neste regime.
+-        incertezas.append("Garagem conta no CA (garagem_computavel): nesse regime o resultado NÃO é monotônico. "
+-                          "O ajuste de laje ao CA atravessa degraus de unidades e vagas; afrouxar recuos pode reduzir apartamentos. "
+-                          "A busca não prova ótimo global. Tratar como estimativa. Em São Carlos a garagem não conta no CA.")
++        incertezas.append("Garagem conta no CA (garagem_computavel): concorrem subsolos na caixa legal e junto à implantação do prédio. "
++                          "O critério prioriza unidades e área privativa; a meta de vagas pode não ser atendida, com déficit indicado nos alertas. "
++                          "Entre garagens viáveis para o mesmo prédio, escolhe a que oferece mais vagas. A busca não prova ótimo global.")
+     if pr["garagem"] == "subsolo":
+         incertezas.append("Subsolo desenhado dentro da caixa do térreo (encolhido se faltar área permeável); a lei pode deixar o subsolo ir até a divisa.")
+     else:
+@@ -724,16 +765,20 @@ def gerar_estudo(lote, zona, premissas=None):
+ 
+     opcoes, ausentes = [], []
+     falhas = {}
++    qualidade_falhas = {}
+ 
+-    def falha(id_, detalhe):
+-        falhas[id_] = ("busca_inconclusiva", detalhe)
++    def falha(id_, detalhe, qualidade=(0, 0, 0, 0)):
++        if id_ not in qualidade_falhas or qualidade > qualidade_falhas[id_]:
++            falhas[id_] = ("busca_inconclusiva", detalhe)
++            qualidade_falhas[id_] = qualidade
+ 
+     def busca(id_, executar, teto_laje, pavimentos, altura_min):
+         if teto_laje < pr["laje_minima_m2"]:
+-            falhas[id_] = ("impossivel", f"Área disponível de no máximo {teto_laje:.2f} m² por laje, abaixo da laje mínima de {pr['laje_minima_m2']:g} m²")
++            falhas[id_] = ("impossivel", f"Área disponível de no máximo {teto_laje:.2f} m² por laje, abaixo da laje mínima de {pr['laje_minima_m2']:.2f} m²")
+             return None
+         if pavimentos < 1 or (altura_max and altura_min > altura_max):
+-            falhas[id_] = ("impossivel", f"A opção exige pelo menos {altura_min:g} m de altura e 1 pavimento residencial; limites: altura {altura_max} m, {pavimentos} pavimento(s) residencial(is)")
++            altura_texto = f"{altura_max:.2f} m" if altura_max is not None else "sem limite"
++            falhas[id_] = ("impossivel", f"A opção exige pelo menos {altura_min:.2f} m de altura e 1 pavimento residencial; limites: altura {altura_texto}, {pavimentos} pavimento(s) residencial(is)")
+             return None
+         try:
+             achado = executar()
+@@ -745,7 +790,8 @@ def gerar_estudo(lote, zona, premissas=None):
+             return None
+         if achado is None:
+             motivo, detalhe = falhas.get(id_, ("busca_inconclusiva", "Nenhum candidato atendeu simultaneamente aos limites"))
+-            falhas[id_] = (motivo, f"{detalhe}; busca de 1 a {pavimentos} pavimento(s) residencial(is), CA disponível {comp_max} m², laje mínima {pr['laje_minima_m2']:g} m²")
++            ca_texto = f"{comp_max:.2f} m²" if comp_max is not None else "sem limite"
++            falhas[id_] = (motivo, f"{detalhe}; busca de 1 a {pavimentos} pavimento(s) residencial(is), CA disponível {ca_texto}, laje mínima {pr['laje_minima_m2']:.2f} m²")
+         return achado
+ 
+     def fecha(id_, nome, achado):
+@@ -776,20 +822,21 @@ def gerar_estudo(lote, zona, premissas=None):
+         if f < 1:
+             laje = maior_retangulo(c, 1.0, f * laje.area)
+         if laje.area < pr["laje_minima_m2"]:
+-            return falha("A", f"Torre quadrada tentada com {laje.area:.2f} m² no pavimento {n}, abaixo da laje mínima")
++            return falha("A", f"Torre quadrada tentada com {laje.area:.2f} m² no pavimento {n}, abaixo da laje mínima", (0, laje.area, 0, -n))
+         return [_volume(laje, ctx, 0, n, "residencial", True, *r)]
+-    fecha("A", "Torre única", busca("A", lambda: _melhor(fazer_a, n_max, ctx, falhou=lambda d: falha("A", d)), min(laje_max, pr["laje_torre_max_m2"]), n_max, _altura(pr, 1, True)))
++    fecha("A", "Torre única", busca("A", lambda: _melhor(fazer_a, n_max, ctx, falhou=lambda d, q: falha("A", d, q)), min(legal_max, ocup(1), pr["laje_torre_max_m2"]), n_max, _altura(pr, 1, True)))
+ 
+     # B) Duas torres iguais: os dois maiores quadrados iguais que cabem na caixa, com o afastamento entre eles
+     def fazer_b(n, f=1.0):
+         r, c = topo(n)
+-        lajes = dois_quadrados(c, pr["afastamento_entre_torres_m"], min(laje(2) / 2, pr["laje_torre_max_m2"]))
++        lajes = dois_quadrados(c, pr["afastamento_entre_torres_m"], min(laje(2) / 2, pr["laje_torre_max_m2"]), compacto=pr["garagem_computavel"])
+         if f < 1 and len(lajes) == 2:
+-            lajes = dois_quadrados(c, pr["afastamento_entre_torres_m"], f * lajes[0].area)
++            lajes = dois_quadrados(c, pr["afastamento_entre_torres_m"], f * lajes[0].area, compacto=pr["garagem_computavel"])
+         if len(lajes) < 2 or lajes[0].area < pr["laje_minima_m2"]:
+-            return falha("B", f"Par de torres com afastamento {pr['afastamento_entre_torres_m']:g} m: laje encontrada de {lajes[0].area if lajes else 0:.2f} m² por torre no pavimento {n}")
++            area = lajes[0].area if lajes else 0
++            return falha("B", f"Par de torres com afastamento {pr['afastamento_entre_torres_m']:.2f} m: laje encontrada de {area:.2f} m² por torre no pavimento {n}", (0, area, 0, -n))
+         return [_volume(l, ctx, 0, n, "residencial", True, *r) for l in lajes]
+-    fecha("B", "Duas torres", busca("B", lambda: _melhor(fazer_b, n_max, ctx, falhou=lambda d: falha("B", d)), min(laje(2) / 2, pr["laje_torre_max_m2"]), n_max, _altura(pr, 1, True)))
++    fecha("B", "Duas torres", busca("B", lambda: _melhor(fazer_b, n_max, ctx, falhou=lambda d, q: falha("B", d, q)), min(legal_max / 2, ocup(2) / 2, pr["laje_torre_max_m2"]), n_max, _altura(pr, 1, True)))
+ 
+     # C) Lâmina baixa e larga: ocupa o máximo que a TO deixa, poucos andares
+     def fazer_c(n, f=1.0):
+@@ -798,10 +845,10 @@ def gerar_estudo(lote, zona, premissas=None):
+         if f < 1:
+             lam = _maior_lamina(c, f * lam.area)
+         if lam.area < pr["laje_minima_m2"]:
+-            return falha("C", f"Lâmina tentada nas {len(PROPORCOES_LAMINA)} proporções: {lam.area:.2f} m² no pavimento {n}, abaixo da laje mínima")
++            return falha("C", f"Lâmina tentada nas {len(PROPORCOES_LAMINA)} proporções: {lam.area:.2f} m² no pavimento {n}, abaixo da laje mínima", (0, lam.area, 0, -n))
+         return [_volume(lam, ctx, 0, n, "residencial", True, *r)]
+     nc = min(pr["pavimentos_lamina_max"], pav_cap)
+-    fecha("C", "Lâmina baixa", busca("C", lambda: _melhor(fazer_c, nc, ctx, falhou=lambda d: falha("C", d)), laje_max, nc, _altura(pr, 1, True)))
++    fecha("C", "Lâmina baixa", busca("C", lambda: _melhor(fazer_c, nc, ctx, falhou=lambda d, q: falha("C", d, q)), min(legal_max, ocup(1)), nc, _altura(pr, 1, True)))
+ 
+     # D) Embasamento (lazer/comércio, sem unidades) + torre por cima, recuos escalonados
+     nb = pr["pavimentos_embasamento"]
+@@ -827,7 +874,7 @@ def gerar_estudo(lote, zona, premissas=None):
+                 teto_t = f * torre.area
+                 torre = maior_retangulo(regiao_t, 1.0, teto_t)
+             if torre.area < pr["laje_minima_m2"]:
+-                return falha("D", f"Torre sobre embasamento de {nb} pavimento(s): laje de {torre.area:.2f} m², abaixo da laje mínima")
++                return falha("D", f"Torre de {n} pavimento(s) sobre embasamento de {nb} pavimento(s): laje de {torre.area:.2f} m², abaixo da laje mínima", (0, torre.area, 0, -n))
+             # duas bases pra mesma torre: a maior possível (a maior sozinha se a torre cabe nela; senão em volta da torre)
+             # e a menor que ainda é embasamento (torre = 90% dela). A base gasta CA sem render unidade: quando a regra afrouxa,
+             # a base grande cresce e pode tirar andar da torre; com a menor na disputa, afrouxar nunca piora.
+@@ -853,14 +900,25 @@ def gerar_estudo(lote, zona, premissas=None):
+                 m = _avaliar(vols, ctx)[0]
+                 opcoes_d.append(((_cabe(m, vols, ctx), m["unidades_estimadas"], m["area_privativa_m2"], base_l.area), vols))
+             return max(opcoes_d, key=lambda t: t[0])[1] if opcoes_d else falha("D", f"Nenhuma base de até {laje_base:.2f} m² cobriu a torre de {torre.area:.2f} m² com a folga de 10%")
+-        return _melhor(fazer_d, min(n_max, pav_cap - nb), ctx, nb, falhou=lambda d: falha("D", d))  # teto pro prédio todo
++        return _melhor(fazer_d, min(n_max, pav_cap - nb), ctx, nb, falhou=lambda d, q: falha("D", d, q))  # teto pro prédio todo
+ 
+     # com parede cega e sem: fica a que dá mais área privativa
+     def fazer_d_opcao():
+         tentativas = [t for t in (tenta_d(False), tenta_d(True) if cega and hb <= cega + 1e-6 else None) if t]
+         return max(tentativas, key=lambda t: (*_chave(t), t[1]["area_computavel_m2"])) if tentativas else None
+ 
+-    fecha("D", "Embasamento + torre", busca("D", fazer_d_opcao, min(laje_max, pr["laje_torre_max_m2"]), min(n_max, pav_cap - nb), hb + pr["pe_direito_m"]))
++    fecha("D", "Embasamento + torre", busca("D", fazer_d_opcao, min(legal_max, ocup(1), pr["laje_torre_max_m2"]), min(n_max, pav_cap - nb), hb + pr["pe_direito_m"]))
++
++    for extra in opcoes_extra:
++        atual = next((o for o in opcoes if o["id"] == extra["id"]), None)
++        if atual is None or _chave((None, extra["metricas"])) > _chave((None, atual["metricas"])):
++            if atual is not None:
++                opcoes.remove(atual)
++            opcoes.append(extra)
++    opcoes.sort(key=lambda o: o["id"])
++    presentes = {o["id"] for o in opcoes}
++    ausentes = [o for o in ausentes if o["id"] not in presentes]
++    incertezas = [i for i in incertezas if not any(i.startswith(f"Opção {id_} (") for id_ in presentes)]
+ 
+     alturas = [v["z0_m"] + v["altura_m"] for o in opcoes for v in o["volumes"]]
+     lims = [altura_max]
+@@ -901,7 +959,7 @@ def gerar_estudo(lote, zona, premissas=None):
+         "criterio_escolha": {"ordem": ["unidades_estimadas desc", "area_privativa_m2 desc"],
+                              "texto": "Mais unidades; empate: maior área privativa. Comparação entre candidatos da heurística, sem prova de ótimo global."},
+         "incertezas": incertezas,
+-    }
++    }, tem_envelope
+ 
+ 
+ def _alertas(m, altura, A, zp, altura_max):
+diff --git a/viabilidade/motor/test_motor.py b/viabilidade/motor/test_motor.py
+index f825df56..44ac1788 100644
+--- a/viabilidade/motor/test_motor.py
++++ b/viabilidade/motor/test_motor.py
+@@ -8,6 +8,8 @@ import json
+ import math
+ import os
+ import sys
++import re
++from functools import lru_cache
+ from pathlib import Path
+ from unittest.mock import patch
+ 
+@@ -46,8 +48,8 @@ def confere(estudo):
+                 assert v["z0_m"] == 0 and topo <= zp["parede_cega_encosta_ate_m"] + 1e-6, f"{o['id']}: parede cega alta demais"
+                 assert caixa_recuada(lote, lote_d["frente"], rf, 0, 0).buffer(0.02).contains(base), f"{o['id']}: parede cega saiu do lote"
+                 continue
+-            assert caixa.buffer(0.02).contains(base), f"{o['id']}: volume {v['uso']} saiu da caixa do térreo"
+             if v["z0_m"] < 0:
++                assert caixa.buffer(0.02).contains(base), f"{o['id']}: subsolo saiu da caixa do térreo"
+                 continue
+             if hmax:
+                 assert topo <= hmax + 1e-6, f"{o['id']}: passou da altura {topo} > {hmax}"
+@@ -76,6 +78,7 @@ def confere(estudo):
+         if pr["garagem"] == "subsolo" and m["vagas"] < math.ceil(m["unidades_estimadas"] * pr["vagas_por_unidade"] - 1e-9):
+             assert any(a.startswith("Faltam vagas") for a in o["alertas"]), f"{o['id']}: vagas caíram sem alerta"
+         assert m["to_usada"] <= (zp.get("taxa_ocupacao") or 1) + 1e-3, f"{o['id']}: TO passou"
++        assert m["area_garagem_m2"] >= m["vagas"] * pr["area_por_vaga_m2"] - 0.01 or any(a.startswith("Faltam vagas") for a in o["alertas"]), f"{o['id']}: vagas não cabem na geometria do subsolo"
+         if zp.get("pavimentos_max"):
+             assert m["pavimentos"] <= zp["pavimentos_max"], f"{o['id']}: pavimentos passou"
+         assert not any(a.startswith("PASSOU") for a in o["alertas"]), o["alertas"]
+@@ -147,7 +150,7 @@ def monotonia(nome, lote, zona, auditoria=False, assimetrico=False):
+         l22 = dict(lote, poligono_utm=[[0, 0], [22, 0], [22, 41], [0, 41]], frente=[[0, 0], [22, 0]])
+         pares.append((res(lambda p: _sumico(p, 2.0), l22), res(lambda p: _sumico(p, 1.5), l22), "lote 22x41: recuo 2,0 -> 1,5 (a D sumia)"))
+         pares.append((res(lambda p: p.update(ca_maximo=2.0), l22), res(lambda p: p.update(ca_maximo=2.5), l22), "lote 22x41: CA 2,0 -> 2,5 (A e D perdiam apartamento)"))
+-        # Garagem computável: casos preservados em test_d2; a limitação de monotonia é declarada (D8).
++        # Garagem computável: os pares também verificam monotonia em test_d2.
+     for antes, depois, caso in pares:
+         for id_, (ua, pa) in antes.items():
+             ud, pd = depois.get(id_, (0, 0))
+@@ -303,7 +306,7 @@ def auditoria3():
+     zg = copy.deepcopy(zona)
+     zg["parametros"]["garagem_computavel"] = None  # a zona manda sobre a premissa
+     e = gerar_estudo(lote, zg, {"garagem_computavel": True})
+-    assert any("garagem_computavel" in i and "monot" in i for i in e["incertezas"]), e["incertezas"]
++    assert any("garagem_computavel" in i and "meta de vagas" in i for i in e["incertezas"]), e["incertezas"]
+     e = gerar_estudo(lote, zona)
+     assert not any("monot" in i for i in e["incertezas"])
+ 
+@@ -397,7 +400,8 @@ def test_d5_subsolo_dimensionado_pelas_vagas():
+         m, subs = o["metricas"], [v for v in o["volumes"] if v["uso"] == "garagem"]
+         assert m["vagas"] and subs
+         area_subs = sum(Polygon(v["base_utm"]).area for v in subs)
+-        assert abs(area_subs - m["vagas"] * 27) < 5.0 and abs(m["area_garagem_m2"] - area_subs) < 0.01, (o["id"], area_subs, m["area_garagem_m2"])
++        por_vaga = e["premissas"]["area_por_vaga_m2"]
++        assert -0.01 <= area_subs - m["vagas"] * por_vaga < por_vaga + 0.01 and abs(m["area_garagem_m2"] - area_subs) < 0.01, (o["id"], area_subs, m["area_garagem_m2"])
+         assert all(Polygon(v["base_utm"]).area < 0.7 * Polygon(e["caixa_maxima"]["projecao_utm"]).area for v in subs)  # antes: 100% da projeção em cada nível
+ 
+ 
+@@ -417,6 +421,7 @@ def test_d1_recuo_assimetrico_permeabilidade():
+             confere(gerar_estudo(lote, zona))
+ 
+ 
++@lru_cache(maxsize=64)  # os testes só leem estes estudos; D2 e as matrizes reutilizam os mesmos casos
+ def _regera_caso(nome):
+     casos = Path(AQUI).parent / "auditoria" / "casos"
+     e = json.loads((casos / nome).read_text(encoding="utf-8"))
+@@ -430,14 +435,14 @@ def _regera_caso(nome):
+ 
+ def test_d2_metricas_subsolo_final():
+     estudos = [_regera_caso(f"saida-gc-ca50-recuo-{recuo}.json") for recuo in ("3m0", "1m5")]
+-    for recuo in (2.5, 2.0, 1.5):  # casos anteriores de monotonia: mantêm invariantes e aviso, sem prometer ótimo neste regime
++    for recuo in (2.5, 2.0, 1.5):
+         z = _carrega("zona-exemplo.json")
+         _fixo(z, recuo)
+         z["parametros"]["garagem_computavel"] = True
+         estudos.append(gerar_estudo(_carrega("lote-exemplo.json"), z))
+     for e in estudos:
+         confere(e)
+-        assert any("NÃO é monotônico" in i for i in e["incertezas"])
++        assert not any("NÃO é monotônico" in i for i in e["incertezas"])
+         for o in e["opcoes"]:
+             subs = [v for v in o["volumes"] if v["uso"] == "garagem"]
+             garagem = sum(Polygon(v["base_utm"]).area for v in subs)
+@@ -449,6 +454,10 @@ def test_d2_metricas_subsolo_final():
+             assert abs(m["area_permeavel_m2"] - (Polygon(e["lote"]["poligono_utm"]).area - ocupado)) < 0.01
+             assert 0 < len(subs) <= e["premissas"]["subsolos_max"]
+             assert [v["z0_m"] for v in subs] == [-e["premissas"]["pe_direito_m"] * (i + 1) for i in range(len(subs))]
++    for a, b in ((0, 1), (2, 3), (3, 4)):
++        _par_monotono(estudos[a], estudos[b], f"garagem computável D2 {a}->{b}")
++    for a, b in (("saida-garagem-comp-2m5.json", "saida-garagem-comp-2m0.json"), ("audit5-saida-gc-r3m0.json", "audit5-saida-gc-r1m5.json")):
++        _par_monotono(_regera_caso(a), _regera_caso(b), f"garagem computável {a}->{b}")
+ 
+ 
+ def test_d6_opcoes_ausentes_classificadas():
+@@ -464,7 +473,7 @@ def test_d6_opcoes_ausentes_classificadas():
+     z["parametros"]["altura_max_m"] = 3
+     e = gerar_estudo(lote, z)
+     c = next(o for o in e["opcoes_ausentes"] if o["id"] == "C")
+-    assert c["motivo"] == "impossivel" and "altura 3 m" in c["detalhe"]
++    assert c["motivo"] == "impossivel" and "altura 3.00 m" in c["detalhe"]
+     for erro, motivo in ((KeyError("parametro_teste"), "dados_insuficientes"), (RuntimeError("falha de teste"), "erro")):
+         with patch("motor._maior_lamina", side_effect=erro):
+             e = gerar_estudo(lote, zona)
+@@ -478,7 +487,7 @@ def test_d7_criterio_reflete_chave():
+     assert ordem == ["unidades_estimadas desc", "area_privativa_m2 desc"]
+     for o in e["opcoes"]:
+         assert _chave((None, o["metricas"])) == tuple(o["metricas"][campo.split()[0]] for campo in ordem)
+-    assert e["versao_motor"] == "0.8.0"
++    assert e["versao_motor"] == "0.8.1"
+ 
+ 
+ def test_d8_aviso_apenas_garagem_computavel_com_vagas():
+@@ -486,7 +495,8 @@ def test_d8_aviso_apenas_garagem_computavel_com_vagas():
+     for gc, vagas in ((True, 1), (False, 1), (True, 0)):
+         zona["parametros"]["garagem_computavel"] = gc
+         e = gerar_estudo(lote, zona, {"vagas_por_unidade": vagas})
+-        assert any("NÃO é monotônico" in i for i in e["incertezas"]) == (gc and vagas > 0)
++        assert not any("NÃO é monotônico" in i for i in e["incertezas"])
++        assert any("garagem_computavel" in i and "meta de vagas" in i for i in e["incertezas"]) == (gc and vagas > 0)
+ 
+ 
+ def test_42_casos_auditoria():
+@@ -501,12 +511,61 @@ def test_42_casos_auditoria():
+             raise AssertionError(f"{caso.name}: {erro}") from erro
+ 
+ 
++def _par_monotono(antes, depois, nome):
++    a = {o["id"]: (o["metricas"]["unidades_estimadas"], o["metricas"]["area_privativa_m2"]) for o in antes["opcoes"]}
++    b = {o["id"]: (o["metricas"]["unidades_estimadas"], o["metricas"]["area_privativa_m2"]) for o in depois["opcoes"]}
++    for id_, (un, area) in a.items():
++        un2, area2 = b.get(id_, (0, 0))
++        assert un2 >= un and (un2 > un or area2 >= area - 0.1), (nome, id_, a[id_], b.get(id_))
++
++
++def _impossivel_com_prova(e):
++    pr, zp = e["premissas"], e["zona"]["parametros"]
++    poly = Polygon(e["lote"]["poligono_utm"])
++    legal = caixa_recuada(poly, e["lote"]["frente"], e["caixa_maxima"]["recuo_frontal_m"], zp.get("recuo_lateral_m") or 0, zp.get("recuo_fundos_m") or 0).area
++    for o in e["opcoes_ausentes"]:
++        if o["motivo"] != "impossivel":
++            continue
++        m = re.search(r"no máximo ([\d.]+) m²", o["detalhe"])
++        if m:
++            k = 2 if o["id"] == "B" else 1
++            limite = min(legal, (zp.get("taxa_ocupacao") or 1) * poly.area + k * pr["nucleo_nao_computavel_m2"], (1 - (zp.get("taxa_permeabilidade") or 0)) * poly.area) / k
++            if o["id"] != "C":
++                limite = min(limite, pr["laje_torre_max_m2"])
++            assert abs(float(m[1]) - limite) < 0.011 and limite < pr["laje_minima_m2"], o
++        else:
++            minimo = pr["pe_direito_terreo_m"] + (pr["pavimentos_embasamento"] * pr["pe_direito_m"] if o["id"] == "D" else 0)
++            alturas = [zp.get("altura_max_m")] + [a.get("altura_max_m") for a in e["lote"].get("areas_especiais") or []]
++            cap = min(pr["pavimentos_max_projeto"], zp.get("pavimentos_max") or math.inf)
++            assert any(h and h < minimo for h in alturas) or cap <= (pr["pavimentos_embasamento"] if o["id"] == "D" else 0), o
++
++
++def test_tarefa10():
++    estudos = {p.stem.removeprefix("audit5-saida-"): _regera_caso(p.name) for p in sorted((Path(AQUI).parent / "auditoria" / "casos").glob("audit5-saida-*.json"))}
++    for e in estudos.values():
++        confere(e)
++        _impossivel_com_prova(e)
++    for a, b in (("perm55", "perm25"), ("trap-rb10", "trap-rb02"), ("trap-to20", "trap-to50"), ("trap-perm55", "trap-perm15")):
++        _par_monotono(estudos[a], estudos[b], f"audit5 {a} -> {b}")
++    assert {"A", "C"} <= {o["id"] for o in estudos["impossivel-falso-13x40"]["opcoes"]}
++    assert "D" in {o["id"] for o in estudos["impossivel-falso-d-cega"]["opcoes"]}
++    for nome in ("haltere-subsolo", "em-l-ca32"):
++        for o in estudos[nome]["opcoes"]:
++            assert o["metricas"]["area_garagem_m2"] >= o["metricas"]["vagas"] * estudos[nome]["premissas"]["area_por_vaga_m2"] - 0.01
++
++
+ def test_8b_linha_de_base(estudos):
+     """Contagens extraídas dos oito estudos versionados em 06ba272a (motor 0.7.1)."""
+     base = _carrega("linha-de-base-0.7.1.json")
+     quedas_justificadas = []  # entradas {arquivo, opcao, motivo}: só para regra corrigida e comprovada
+     assert len(base) == 8 and set(base) == set(estudos)
++    ausente_a = next(o for o in estudos["pilotos/SC-completo-22426.json"]["opcoes_ausentes"] if o["id"] == "A")
++    assert "Melhor pavimento tentado: 1 pavimento(s), 0 unidade(s)" in ausente_a["detalhe"], ausente_a
+     for arquivo, opcoes in base.items():
++        assert estudos[arquivo] == _carrega(arquivo), f"{arquivo} desatualizado: rode gerar_pilotos.py"
++        _impossivel_com_prova(estudos[arquivo])
++        for ausente in estudos[arquivo]["opcoes_ausentes"]:
++            assert not re.search(r"\d+\.\d{3,}", ausente["detalhe"]), ausente
+         atuais = {o["id"]: o["metricas"]["unidades_estimadas"] for o in estudos[arquivo]["opcoes"]}
+         for opcao, unidades in opcoes.items():
+             if atuais.get(opcao, 0) < unidades:
+@@ -515,6 +574,7 @@ def test_8b_linha_de_base(estudos):
+ 
+ 
+ def main():
++    test_tarefa10()
+     test_42_casos_auditoria()
+     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
+ 

@@ -1,0 +1,199 @@
+{
+  "crs_medicoes": "EPSG:31983",
+  "bases": [
+    {
+      "arquivo": "lotes_saocarlos.geojson",
+      "sha256": "35dd4a925873b7484eb0e52a0badc2b8a714199e99e8ddf1ad4198eaf5890fae",
+      "feicoes": 113501,
+      "geometrias": {
+        "Polygon": 113501
+      },
+      "fontes": {
+        "sem_rotulo": 113501
+      },
+      "invalidas": 55,
+      "vazias": 0,
+      "com_buracos": 0,
+      "area_m2_percentis_0_1_50_95_99_100": [
+        33.265,
+        204.293,
+        268.37,
+        302.348,
+        303.998,
+        307.481
+      ],
+      "area_menor_35_m2": 2,
+      "area_maior_1500_m2": 0,
+      "area_maior_10000_m2": 0,
+      "ocupacao_retangulo_menor_0_5": 1,
+      "pares_sobrepostos_mais_0_1_m2": 110671,
+      "feicoes_em_sobreposicao": 81717,
+      "soma_intersecoes_pares_m2_nao_area_unica": 7081340.3,
+      "maiores_intersecoes": [
+        {
+          "indices_zero_based": [
+            38161,
+            38178
+          ],
+          "area_m2": 271.196
+        },
+        {
+          "indices_zero_based": [
+            38166,
+            38174
+          ],
+          "area_m2": 262.613
+        },
+        {
+          "indices_zero_based": [
+            31394,
+            31403
+          ],
+          "area_m2": 262.106
+        },
+        {
+          "indices_zero_based": [
+            31393,
+            31404
+          ],
+          "area_m2": 250.263
+        },
+        {
+          "indices_zero_based": [
+            38158,
+            38180
+          ],
+          "area_m2": 242.893
+        }
+      ],
+      "exemplos_invalidos": [
+        {
+          "indice": 1782,
+          "motivo": "Self-intersection[200647.072420326 7569010.13989054]"
+        },
+        {
+          "indice": 5931,
+          "motivo": "Self-intersection[196858.983773511 7567700.56797564]"
+        },
+        {
+          "indice": 5940,
+          "motivo": "Self-intersection[196964.457486075 7567750.37137526]"
+        },
+        {
+          "indice": 7632,
+          "motivo": "Self-intersection[200359.964935896 7567067.75468242]"
+        },
+        {
+          "indice": 7981,
+          "motivo": "Self-intersection[200260.353101775 7566991.58215482]"
+        }
+      ]
+    },
+    {
+      "arquivo": "sao-carlos/dados/lotes_saocarlos_completo.geojson",
+      "sha256": "1177ae3affd876b406a0de980678b0655343834a6b5ac96b8524964f7566d538",
+      "feicoes": 110089,
+      "geometrias": {
+        "Polygon": 110089
+      },
+      "fontes": {
+        "planta": 18265,
+        "planta_complemento": 9698,
+        "planta_refeita": 9789,
+        "sintetico": 72337
+      },
+      "invalidas": 3893,
+      "vazias": 0,
+      "com_buracos": 1352,
+      "area_m2_percentis_0_1_50_95_99_100": [
+        35.032,
+        62.03,
+        294.818,
+        512.272,
+        642.957,
+        2862.434
+      ],
+      "area_menor_35_m2": 0,
+      "area_maior_1500_m2": 92,
+      "area_maior_10000_m2": 0,
+      "ocupacao_retangulo_menor_0_5": 818,
+      "pares_sobrepostos_mais_0_1_m2": 943,
+      "feicoes_em_sobreposicao": 1624,
+      "soma_intersecoes_pares_m2_nao_area_unica": 32586.384,
+      "maiores_intersecoes": [
+        {
+          "indices_zero_based": [
+            19167,
+            19169
+          ],
+          "area_m2": 905.553
+        },
+        {
+          "indices_zero_based": [
+            19167,
+            19168
+          ],
+          "area_m2": 904.098
+        },
+        {
+          "indices_zero_based": [
+            19168,
+            19169
+          ],
+          "area_m2": 903.871
+        },
+        {
+          "indices_zero_based": [
+            19404,
+            19406
+          ],
+          "area_m2": 881.569
+        },
+        {
+          "indices_zero_based": [
+            19405,
+            19406
+          ],
+          "area_m2": 878.019
+        }
+      ],
+      "exemplos_invalidos": [
+        {
+          "indice": 188,
+          "motivo": "Self-intersection[201994.084943556 7569549.87431989]"
+        },
+        {
+          "indice": 258,
+          "motivo": "Self-intersection[201870.1919992 7569528.67157519]"
+        },
+        {
+          "indice": 375,
+          "motivo": "Self-intersection[201940.657080786 7569306.40303433]"
+        },
+        {
+          "indice": 415,
+          "motivo": "Self-intersection[202100.942881926 7569336.06910101]"
+        },
+        {
+          "indice": 462,
+          "motivo": "Self-intersection[201856.510751724 7569053.71554787]"
+        }
+      ]
+    }
+  ],
+  "conferido_em_campo": false,
+  "ruas": {
+    "arquivo": "sao-carlos/dados/street_tris.json",
+    "triangulos": 133811,
+    "validos_nao_degenerados": 127332,
+    "arredondamento_coordenadas_m": 1
+  },
+  "selecionados": [
+    "SC-completo-30516",
+    "SC-completo-37607",
+    "SC-completo-22426",
+    "SC-completo-22421",
+    "SC-completo-25297"
+  ],
+  "self_check": "5 IDs únicos; categorias; área; validade; frente na borda; projeção ida/volta; esquina; sobreposição de vizinhos e entre pilotos."
+}

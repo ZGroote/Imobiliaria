@@ -1,0 +1,38 @@
+{
+  "id": "rect_20x35",
+  "lid": 99000,
+  "poligono_utm": [
+    [
+      205000.0,
+      7564000.0
+    ],
+    [
+      205020.0,
+      7564000.0
+    ],
+    [
+      205020.0,
+      7564035.0
+    ],
+    [
+      205000.0,
+      7564035.0
+    ]
+  ],
+  "frente": [
+    [
+      205000.0,
+      7564000.0
+    ],
+    [
+      205020.0,
+      7564000.0
+    ]
+  ],
+  "area_m2": 700.0,
+  "zona_id": "AUDIT5",
+  "zona_origem": "teste",
+  "zona_conferida": false,
+  "relevo": null,
+  "observacoes": "Caso sintético auditoria 5: rect_20x35"
+}
