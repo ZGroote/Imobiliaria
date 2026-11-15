@@ -1,0 +1,812 @@
+[
+  {
+    "selector": "h1",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".muted",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".muted",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".muted",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".muted",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".help",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".help",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".help",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": "button:not(:disabled)",
+    "kind": "texto",
+    "ratio": 11.756549551024548,
+    "minimum": 4.5
+  },
+  {
+    "selector": "button:not(:disabled)",
+    "kind": "texto",
+    "ratio": 11.756549551024548,
+    "minimum": 4.5
+  },
+  {
+    "selector": "button:not(:disabled)",
+    "kind": "texto",
+    "ratio": 10.382907679832362,
+    "minimum": 4.5
+  },
+  {
+    "selector": "button:not(:disabled)",
+    "kind": "texto",
+    "ratio": 11.756549551024548,
+    "minimum": 4.5
+  },
+  {
+    "selector": "button:not(:disabled)",
+    "kind": "texto",
+    "ratio": 11.756549551024548,
+    "minimum": 4.5
+  },
+  {
+    "selector": "button:not(:disabled)",
+    "kind": "texto",
+    "ratio": 11.756549551024548,
+    "minimum": 4.5
+  },
+  {
+    "selector": "button:not(:disabled)",
+    "kind": "texto",
+    "ratio": 11.756549551024548,
+    "minimum": 4.5
+  },
+  {
+    "selector": "button:not(:disabled)",
+    "kind": "texto",
+    "ratio": 10.663663142786387,
+    "minimum": 4.5
+  },
+  {
+    "selector": "button:not(:disabled)",
+    "kind": "texto",
+    "ratio": 10.663663142786387,
+    "minimum": 4.5
+  },
+  {
+    "selector": "select",
+    "kind": "texto",
+    "ratio": 11.756549551024548,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".button",
+    "kind": "texto",
+    "ratio": 11.756549551024548,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".notice",
+    "kind": "texto",
+    "ratio": 9.609692092107514,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".notice",
+    "kind": "texto",
+    "ratio": 9.609692092107514,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".volume-warning",
+    "kind": "texto",
+    "ratio": 13.610609924490886,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".highlights dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".highlights dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".highlights dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".highlights dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".highlights dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".highlights dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".highlights dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".highlights dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 8.50354290530089,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dt",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 14.231916192779622,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".details dd",
+    "kind": "texto",
+    "ratio": 15.182931980522179,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".alerts",
+    "kind": "texto",
+    "ratio": 11.966164960747273,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".alerts",
+    "kind": "texto",
+    "ratio": 11.966164960747273,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".alerts",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".context li",
+    "kind": "texto",
+    "ratio": 9.071773032934033,
+    "minimum": 4.5
+  },
+  {
+    "selector": ".domain-badge",
+    "kind": "texto",
+    "ratio": 10.313147073303076,
+    "minimum": 4.5
+  },
+  {
+    "selector": "footer",
+    "kind": "texto",
+    "ratio": 10.457403060415327,
+    "minimum": 4.5
+  },
+  {
+    "selector": "Abrir estudo.json",
+    "kind": "borda",
+    "ratio": 3.234968826354018,
+    "minimum": 3
+  },
+  {
+    "selector": "Exemplo do Motor",
+    "kind": "borda",
+    "ratio": 3.234968826354018,
+    "minimum": 3
+  },
+  {
+    "selector": "Escolha um lote2242122426252973051637607q1382-11984-11988remembramento-75352-75354",
+    "kind": "borda",
+    "ratio": 3.234968826354018,
+    "minimum": 3
+  },
+  {
+    "selector": "Relatório para imprimir",
+    "kind": "borda",
+    "ratio": 3.234968826354018,
+    "minimum": 3
+  },
+  {
+    "selector": "Opção A",
+    "kind": "borda",
+    "ratio": 6.809571533696937,
+    "minimum": 3
+  },
+  {
+    "selector": "Opção B",
+    "kind": "borda",
+    "ratio": 3.234968826354018,
+    "minimum": 3
+  },
+  {
+    "selector": "Opção C",
+    "kind": "borda",
+    "ratio": 3.234968826354018,
+    "minimum": 3
+  },
+  {
+    "selector": "Opção D",
+    "kind": "borda",
+    "ratio": 3.234968826354018,
+    "minimum": 3
+  },
+  {
+    "selector": "Lado a lado",
+    "kind": "borda",
+    "ratio": 3.234968826354018,
+    "minimum": 3
+  },
+  {
+    "selector": "Vista inicial",
+    "kind": "borda",
+    "ratio": 3.182774716909762,
+    "minimum": 3
+  },
+  {
+    "selector": "Vista de cima",
+    "kind": "borda",
+    "ratio": 3.182774716909762,
+    "minimum": 3
+  }
+]
