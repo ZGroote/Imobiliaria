@@ -12,7 +12,7 @@
     @media(max-width:760px){header{align-items:flex-start;flex-direction:column;gap:12px}main,header{padding:16px}h1{font-size:24px}.single .option-body{grid-template-columns:1fr}.single .viewport{height:360px}.actions button{flex:1}.cards{grid-template-columns:1fr}footer{padding:12px 16px}.details{font-size:12px}}
     .volume-warning{position:sticky;top:0;z-index:2;margin:0 0 12px;padding:10px 16px;border:2px solid #8d6321;border-radius:6px;background:#fff0c2;color:#30220a;font-weight:700;line-height:1.35}
   </style>
-  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"}}</script>
+  <script type="importmap">{"imports":{"viabilidade-three":"./vendor/three-viabilidade.min.js"}}</script>
 </head>
 <body>
   <header>
@@ -316,7 +316,7 @@
     document.addEventListener('dragover', e => { e.preventDefault(); document.body.classList.add('drop'); });
     document.addEventListener('dragleave', e => { if (!e.relatedTarget) document.body.classList.remove('drop'); });
     document.addEventListener('drop', e => { e.preventDefault(); document.body.classList.remove('drop'); if (e.dataTransfer.files[0]) carregar(e.dataTransfer.files[0], true); });
-    try { THREE = await import('three'); ({ OrbitControls } = await import('three/addons/controls/OrbitControls.js')); }
+    try { ({ THREE, OrbitControls } = await import('viabilidade-three')); }
     catch { falha('Não foi possível carregar o 3D pela CDN. As métricas do estudo ainda podem ser consultadas.'); }
     if (pedido === 0) await carregar(new URLSearchParams(location.search).get('estudo') || exemplo);
     else if (estudo) mostrar();

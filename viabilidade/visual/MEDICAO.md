@@ -40,3 +40,7 @@ Tempos por requisição (Playwright `request.timing()`), contexto novo a cada ro
 - Numa primeira sessão, `three.module.js` do **jsdelivr** levou **~1,1 s** em todas as aberturas; minutos depois, as 4 rodadas do remembramento e do exemplo deram **0,29–0,63 s** até a primeira maquete, sem nenhuma requisição acima de 0,7 s.
 - Conclusão: o patamar de ~1,3 s e os 9,5 s do remembramento vêm da **latência variável do CDN** (`cdn.jsdelivr.net/npm/three@0.186.1`), não do estudo (47 KB, parse/hash < 1 ms). A medição de cima mede o CDN daquele momento.
 - Correção proposta: servir o three 0.186.1 junto da página (a mesma versão existe em `experimentos/liv-experimental-2026-10-14/node_modules/three` da `main`), eliminando a dependência de rede externa.
+
+## Depois da tarefa 10 (three local, 15/11)
+
+Bundle `vendor/three-viabilidade.min.js` (592.249 bytes, three 0.186.1 + OrbitControls, esbuild 0.25.10; `gerar.mjs` refaz o mesmo SHA-256). Nenhum pedido fora da origem (o `testar.cjs` falha se houver). Primeira maquete, desktop, contexto novo a cada rodada: remembramento **210–527 ms**, exemplo **196–217 ms** (antes 1,3–9,5 s com o CDN). A tabela de cima é a linha de base com CDN; refazer o `medir.cjs` completo para o celular.

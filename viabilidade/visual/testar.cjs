@@ -69,6 +69,12 @@ async function checkWidth(page) {
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
       page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+      page.on('request', request => {
+        const requestUrl = new URL(request.url());
+        if (['http:', 'https:'].includes(requestUrl.protocol) && requestUrl.origin !== new URL(url).origin) {
+          errors.push('Recurso fora da origem: ' + request.url());
+        }
+      });
       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
       await page.locator('canvas').first().waitFor();

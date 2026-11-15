@@ -1,0 +1,8 @@
+{
+  "three": "0.186.1",
+  "esbuild": "0.25.10",
+  "arquivo": "three-viabilidade.min.js",
+  "formato": "esm",
+  "tamanho_bytes": 592249,
+  "sha256": "fd1b23dd766dd7bfa86853033f0598d15afed8a9136d28f443b4625a4d106741"
+}
