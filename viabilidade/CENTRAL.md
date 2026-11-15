@@ -92,6 +92,11 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - Achado 2 corrigido (Motor T17).
   - Achado 1 (área especial vazia sem menção) e Observação 3 (80% recusados por frente) estão na Terreno T10.
 - **CI quebrou por scipy:** removido na Terreno T9 (4965cec9).
+- **Rodada de 15/11 (tarde):**
+  - AUDITORIA-6b (92ba6da6): 1 ALTA (ressalva sumia quando outro anexo acusava; leis de 2018/2019 fora dos mapas) → corrigida na Terreno T13, feita pelo Motor (007a4a42).
+  - REVISAO-7 (e7a79f13): sem ALTA; os 4 ALTA anteriores conferidos (3 fechados, 1 parcial) → Terreno T14 (9 m do art. 80, contorno da subárea, cache entre processos).
+  - Terreno T12 (fc1b070e): frente presumida pela borda da quadra (`regra: borda_de_quadra`).
+  - Motor T21 (59a1b20c): um alerta só por opção para as áreas não verificadas; texto próprio da frente pela borda da quadra.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
   - P12: nenhuma alteração de índice desde 2016. A Lei 19.166/2019 acrescenta as AEI 44/45 ao Anexo 6, e a 18.927/2018 cria a Z6E; os dois casos foram passados ao Auditor.
