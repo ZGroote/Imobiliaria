@@ -46,6 +46,18 @@ def registro(anexo, tipo, nome, incidencia, motivo, margem_m=DIVISA_M, **evidenc
             "anexo": anexo, **evidencia}
 
 
+def subarea_gabarito(anexo, margem_m):
+    """Lote que encosta no tracejado magenta: os 9 m entram no cálculo (REVISAO-7). Só "perto" segue sem altura."""
+    r = registro(anexo, "restricao_gabarito_historico", "Subárea Especial de Restrição de Gabarito (art. 80: 9 m)",
+                 "sobreposicao_visual", "Lote dentro do tracejado magenta, no todo ou em parte", margem_m)
+    r["altura_max_m"] = 9
+    r["fonte"] = "Lei 18.053/2016, art. 80; mapa no Anexo 06, p. 1"
+    r["observacoes"] = ("Art. 80: \"limitação do gabarito a 9m (nove metros) acima do nível da via pública nas novas construções "
+                        "ou ampliações\". Aplicado como altura máxima de 9 m no lote todo, medida como a do motor; em lote acima "
+                        "do nível da rua, ou só em parte dentro do tracejado (margem de ~%g m do mapa), confirmar na Prefeitura." % margem_m)
+    return r
+
+
 def nada_encontrado(anexo, margem_m):
     """Ressalva de um anexo lido que não achou nada no lote: silêncio não é "livre" (AUDITORIA-6b, achado 1)."""
     return registro(anexo, "nao_verificada", f"Leitura automática do Anexo {anexo}: nenhuma área especial encontrada — não conferida",
@@ -98,7 +110,9 @@ class MapaEspecial(MapaGeorreferenciado):
         self.paleta = gl.np.array(cores + [[255, 255, 255]] + compostas)
         self.codigo = gl.np.array(self.codigo)
         if anexo == "06":
-            self.subarea = self.ler_subarea()
+            import PIL
+            self.subarea = cache.poligonos("subarea-06", [self.arquivo, __file__], lambda: [self.ler_subarea()],
+                                           f"Pillow {PIL.__version__}")[0]
         if anexo == "07":
             # O contorno só depende do JPEG e deste código: guardado em .cache/ (0,8 s a menos por lote).
             import PIL
@@ -122,11 +136,17 @@ class MapaEspecial(MapaGeorreferenciado):
         return gl.Polygon(self.utm(gl.sh.MultiPoint(gl.np.vstack(pontos)).convex_hull.exterior.coords))
 
     def ler_subarea(self):
-        # shortcut: contorno convexo do tracejado magenta no Centro (maior que a subárea, nunca menor).
+        # O tracejado é traço preto + ponto magenta e só o magenta é lido: entre os pontos há vãos de até ~70 px (o maior
+        # sob o rótulo "32"). Engordar cada pixel 40 px fecha o anel; o contorno de fora, recuado os mesmos 40 px, segue
+        # o desenho côncavo. Nas quinas para dentro sobra um arredondamento: maior que a subárea, nunca menor.
         p = self.contorno(*SUBAREA_GABARITO, 30)
         if len(p) < 3000 or gl.np.ptp(p[:, 0]) < 400 or gl.np.ptp(p[:, 1]) < 700:
             raise ValueError("Contorno tracejado da Subárea de Restrição de Gabarito não recuperado")
-        return gl.Polygon(self.utm(gl.sh.MultiPoint(p).convex_hull.exterior.coords))
+        pontos = gl.sh.points(gl.np.unique(gl.np.round(p / 2) * 2, axis=0))  # 20 mil pixels viram ~6 mil: 0,8 s
+        anel = max(gl.sh.get_parts(gl.sh.union_all(gl.sh.buffer(pontos, 40, quad_segs=4))), key=lambda g: g.area)
+        if len(anel.interiors) != 1:
+            raise ValueError("Tracejado da Subárea de Restrição de Gabarito não fechou")
+        return gl.Polygon(self.utm(gl.Polygon(anel.exterior).buffer(-40).exterior.coords))
 
     def perto(self, pol, alvo, margem_m, tipo, nome, motivo):
         d = pol.distance(alvo)
@@ -174,10 +194,12 @@ class MapaEspecial(MapaGeorreferenciado):
                                       "sobreposicao_visual" if dentro else "possivel_incidencia",
                                       "Cor da legenda no lote" if dentro else f"Possível incidência, confirmar: mancha a até ~{self.divisa_m:g} m",
                                       self.divisa_m, distancia_conservadora_m=round(d, 2), pixels_no_lote=int((cor & interior).sum())))
-        if self.anexo == "06":
+        if self.anexo == "06" and pol.intersects(self.subarea):
+            resultado.append(subarea_gabarito(self.anexo, self.divisa_m))
+        elif self.anexo == "06":
             resultado += self.perto(pol, self.subarea, margem_m, "restricao_gabarito_historico",
                                     "Subárea Especial de Restrição de Gabarito (art. 80: 9 m)",
-                                    "Possível incidência, não verificada: dentro ou perto do contorno convexo do tracejado magenta")
+                                    "Possível incidência, não verificada: perto do tracejado magenta, fora dele")
         if self.anexo == "07":
             resultado += self.perto(pol, self.cones, margem_m, "gabarito_aeronautico",
                                     "Superfícies de aproximação e decolagem do Aeroporto Mário Pereira Lopes",

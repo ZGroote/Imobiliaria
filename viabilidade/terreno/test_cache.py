@@ -58,4 +58,28 @@ def testar(cadastro, pilotos, pasta):
     for caixa in ((0, 0, 600, 300), (-2, 250, 3, 270), (250, 250, 520, 262), (590, 299, 609, 305), (700, 0, 709, 3)):
         assert gl.np.array_equal(recorte.crop(caixa), gl.np.asarray(pil.crop(caixa))), caixa
     recorte.dados.close()
+
     print("OK: byte trocado na fonte refez o cache; recortes por bloco iguais ao PIL, inclusive fora da imagem.", flush=True)
+
+    # REVISAO-7: processos gravando o mesmo cache frio juntos (no Windows a troca do .npz aberto dava "acesso negado").
+    import subprocess, sys, time
+    codigo = """
+import sys, time
+sys.path.insert(0, sys.argv[3])
+import gerar_lotes, cache
+inicio = float(sys.argv[2])
+while time.time() < inicio:
+    pass
+for k in range(12):
+    montar = lambda: (time.sleep(0.2), {"a": gerar_lotes.np.arange(2_000_000)})[1]
+    with cache.carregar(f"x{k % 2}", [cache.__file__], montar, str(k // 2), sys.argv[1]) as d:
+        assert len(d["a"]) == 2_000_000
+        time.sleep(0.05)
+"""
+    corrida, inicio = Path(pasta) / "corrida", time.time() + 3
+    procs = [subprocess.Popen([sys.executable, "-I", "-B", "-c", codigo, str(corrida), str(inicio), str(Path(cache.__file__).parent)],
+                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True) for _ in range(3)]
+    saidas = [p.communicate()[0] for p in procs]
+    assert all(p.returncode == 0 for p in procs), saidas
+    assert not list(corrida.glob("*.tmp")), list(corrida.iterdir())
+    print("OK: 3 processos gravando o mesmo cache frio ao mesmo tempo, sem erro e sem .tmp largado.", flush=True)

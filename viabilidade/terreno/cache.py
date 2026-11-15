@@ -43,11 +43,36 @@ def carregar(nome, fontes, montar, extra="", pasta=None):
     except (OSError, KeyError, ValueError, zipfile.BadZipFile):
         pass  # ausente ou corrompido: refaz
     arrays = montar()
-    pasta.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(dir=pasta, suffix=".tmp", delete=False) as f:
-        np.savez(f, _chave=np.array(chave), **arrays)
-    os.replace(f.name, arquivo)
-    return np.load(arquivo, allow_pickle=False)
+    tmp = None
+    try:
+        pasta.mkdir(parents=True, exist_ok=True)
+        with tempfile.NamedTemporaryFile(dir=pasta, suffix=".tmp", delete=False) as f:
+            tmp = f.name
+            np.savez(f, _chave=np.array(chave), **arrays)
+        os.replace(tmp, arquivo)
+        return np.load(arquivo, allow_pickle=False)
+    except OSError:
+        # Windows: outro processo está com o .npz aberto (ou acabou de gravá-lo) e a troca dá "acesso negado".
+        # O cache nunca derruba o estudo: segue com o que acabou de montar, em memória, e outro processo grava depois.
+        if tmp:
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
+        return _Memoria(arrays)
+
+
+class _Memoria(dict):
+    """Mesmo uso do NpzFile (`with`, `[nome]`, close) quando o cache não pôde ser gravado."""
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        pass
+
+    def close(self):
+        pass
 
 
 def poligonos(nome, fontes, montar, extra="", pasta=None):

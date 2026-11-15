@@ -73,9 +73,12 @@ def testar_leitura(leitor):
                 assert any(a["tipo"] == "gabarito_aeronautico" for a in mapa.ler(miolo))
         finally:
             mapa.imagem = original
-        if anexo == "06":  # achado 4: Subárea de Restrição de Gabarito (art. 80) no Centro
-            miolo = mapa.subarea.representative_point().buffer(10)
-            assert any(a["tipo"] == "restricao_gabarito_historico" for a in mapa.ler(miolo))
+        if anexo == "06":  # achado 4 + REVISAO-7: Subárea do art. 80 dá 9 m dentro; perto, só o alerta; quina do casco antigo, nada
+            gabarito = lambda pol: [(a["incidencia"], a.get("altura_max_m")) for a in mapa.ler(pol) if a["tipo"] == "restricao_gabarito_historico"]
+            assert gabarito(mapa.subarea.representative_point().buffer(10)) == [("sobreposicao_visual", 9)]
+            assert gabarito(gl.Point(mapa.subarea.buffer(3).exterior.coords[0]).buffer(1)) == [("possivel_incidencia", None)]
+            for x, y in ((4780, 5370), (4900, 6070)):  # dentro do contorno convexo antigo, a ~40 px fora do tracejado
+                assert gabarito(gl.Point(*mapa.utm([(x, y)])[0]).buffer(10)) == [], (x, y)
         if anexo == "07":  # achado 3: vão entre os cones (pista) e AEI do Transporte Aéreo, pontos da auditoria
             for x, y, aei in ((5150, 5620, True), (4800, 5600, False), (4950, 5400, True)):
                 tipos = {a["tipo"] for a in mapa.ler(gl.Point(*mapa.utm([(x, y)])[0]).buffer(10))}
@@ -115,6 +118,16 @@ def testar(cadastro, pilotos, pasta):
                for opcao in estudo["opcoes"] for alerta in opcao["alertas"])
     assert "gabarito_aeronautico" in (destino / "relatorio.html").read_text(encoding="utf-8")
     print(f"OK: estudar.py completo/22420: alerta ÁREA ESPECIAL/gabarito_aeronautico no estudo e relatório; CLI {time.perf_counter()-cli_inicio:.3f} s.", flush=True)
+    for i in (74451, 77015, 77022, 77375):  # REVISAO-7: dentro do tracejado magenta, os 9 m vão gravados
+        assert [a["altura_max_m"] for a in cadastro.gerar([i], "SC-Z1")["areas_especiais"] if a["tipo"] == "restricao_gabarito_historico"] == [9], i
+    assert not any(a["tipo"] == "restricao_gabarito_historico" for a in cadastro.gerar([80172], "SC-Z1")["areas_especiais"])
+    destino = pasta / "estudo-gabarito"
+    r = executar(AQUI.parent / "motor/estudar.py", "--base", "completo", "--indices", 77022, "--zona", "SC-Z1", "--pasta", destino)
+    assert r.returncode == 0, r.stderr
+    estudo = json.loads((destino / "estudo.json").read_text(encoding="utf-8"))
+    topo = max(v["z0_m"] + v["altura_m"] for o in estudo["opcoes"] for v in o["volumes"])
+    assert estudo["opcoes"] and topo <= 9, topo
+    print(f"OK: subárea do art. 80 com 9 m em 74451, 77015, 77022 e 77375, fora em 80172; estudar.py 77022 sai com no máximo {topo:g} m.", flush=True)
     print(f"Tempo dos ensaios de áreas especiais: {time.perf_counter()-inicio:.3f} s.", flush=True)
 
 
