@@ -750,6 +750,12 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
     caixa = estudo.get("caixa_maxima") or {}
     premissas = estudo.get("premissas") or {}
     opcoes = estudo.get("opcoes") or []
+    premissas_capa = "".join(
+        f'<div class="premissa-item" data-premissa="{esc(k)}"><span class="premissa-nome">{esc(NOMES_PREMISSAS.get(k, (k, ""))[0])}:</span> '
+        f'{span_num(f"premissas.{k}", v, NOMES_PREMISSAS.get(k, (k, ""))[1]) if isinstance(v, (int, float, bool)) or v is None else f"<span class=\'num-texto\' data-campo=\'premissas.{esc(k)}\' data-valor=\'{esc(v)}\'>{esc(v)}</span>"}'
+        f'{" <span class=\'badge-padrao\'>padrão</span>" if k in (premissas.get("padrao") or []) else ""}</div>'
+        for k, v in premissas.items() if k != "padrao"
+    )
     incertezas = estudo.get("incertezas") or []
     motivos_ausencia = {
         "impossivel": "impossível pelas regras informadas",
@@ -898,6 +904,8 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
 
       {_gerar_painel_conferencia(lote, zona, compacto=False)}
 
+      {f'<div class="card-info"><div class="card-info-titulo">Premissas</div>{premissas_capa}</div>' if premissas_capa else ''}
+
       <div class="grade-resumo-lote">
         <div class="card-info">
           <div class="card-info-titulo">Parâmetros da Zona ({esc(zona.get("id"))})</div>
@@ -909,7 +917,9 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
             Recuo frontal lei: <strong>{span_num("zona.parametros.recuo_frontal_m", params.get("recuo_frontal_m"), "m")}</strong> ·
             Recuo lat./fundos mín.: <strong>{span_num("zona.parametros.recuo_lateral_m", params.get("recuo_lateral_m"), "m")}</strong> / <strong>{span_num("zona.parametros.recuo_fundos_m", params.get("recuo_fundos_m"), "m")}</strong> ·
             Parede cega até: <strong>{span_num("zona.parametros.parede_cega_encosta_ate_m", params.get("parede_cega_encosta_ate_m"), "m")}</strong> ·
-            Outorga onerosa: <strong>{span_num("zona.parametros.outorga_onerosa", params.get("outorga_onerosa"))}</strong>
+            Outorga onerosa: <strong>{span_num("zona.parametros.outorga_onerosa", params.get("outorga_onerosa"))}</strong> ·
+            Altura máx.: <strong>{span_num("zona.parametros.altura_max_m", params.get("altura_max_m"), "m")}</strong> ·
+            Pavimentos máx.: <strong>{span_num("zona.parametros.pavimentos_max", params.get("pavimentos_max"), "pav.")}</strong>
           </div>
         </div>
         <div class="card-info">
@@ -927,6 +937,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
       </div>
 
       <h2 class="secao-titulo">Comparação Lado a Lado das Opções</h2>
+      {('<p class="caixa-alerta">Nenhuma opção coube neste lote.</p>' if not opcoes else '')}
       <table class="tabela-comparacao">
         <thead>
           <tr>

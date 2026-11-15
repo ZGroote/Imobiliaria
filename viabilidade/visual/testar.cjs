@@ -94,6 +94,13 @@ async function checkWidth(page) {
         assert.equal(await page.locator('#revisao').innerText(), revision(crypto.createHash('sha256').update(JSON.stringify(twoOptions)).digest('hex')));
         assert.equal(await page.locator('#opcoes button').count(), 3, 'Duas opções e o controle de comparação.');
         assert.equal(await page.getByRole('button', { name: 'Lado a lado' }).isDisabled(), false);
+        const noOptions = structuredClone(example);
+        noOptions.opcoes = [];
+        noOptions.opcoes_ausentes = [{ id: 'A', nome: 'Teste', motivo: 'impossivel', detalhe: 'Limite do lote' }];
+        await upload(page, JSON.stringify(noOptions), 'sem-opcoes.json');
+        await page.waitForFunction(() => document.querySelector('#status').textContent.includes('sem-opcoes.json'));
+        assert.match(await page.locator('#cards').innerText(), /Nenhuma opção coube neste lote/);
+        assert.match(await page.locator('#incertezas').innerText(), /impossível pelas regras informadas.*Limite do lote/);
       }
       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();

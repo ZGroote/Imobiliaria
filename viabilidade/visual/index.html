@@ -194,7 +194,7 @@
       $('legenda-parede-cega').hidden = !faixaCega && !estudo.opcoes.some(o => o.volumes.some(v => v.parede_cega === true));
       $('texto-parede-cega').textContent = faixaCega ? 'Parede cega: faixa tracejada até ' + formatar(estudo.caixa_maxima.parede_cega_ate_m, ' m') + '; volumes em azul' : 'Volumes com parede cega em azul';
       const motivoAusencia = { impossivel: 'impossível pelas regras informadas', busca_inconclusiva: 'a busca não encontrou (não está provado que não existe)', dados_insuficientes: 'faltam dados', erro: 'erro de cálculo' };
-      const incertezas = [...(estudo.incertezas || []), ...(estudo.opcoes_ausentes || []).map(o => `Opção ${o.id || ''} · ${o.nome || 'sem nome'}: ${motivoAusencia[o.motivo]}${o.detalhe ? ' · ' + o.detalhe : ''}`)];
+      const incertezas = [...(estudo.incertezas || []), ...(estudo.opcoes_ausentes || []).map(o => `Opção ${o.id || ''} · ${o.nome || 'sem nome'}: ${motivoAusencia[o.motivo] || 'motivo não reconhecido'}${o.detalhe ? ' · ' + o.detalhe : ''}`)];
       if (estudo.lote.relevo) {
         const r = estudo.lote.relevo;
         incertezas.push(`Relevo · cota mínima: ${formatar(r.cota_min_m, ' m')} · cota máxima: ${formatar(r.cota_max_m, ' m')} · declividade: ${formatar(r.declividade_pct, '%')} · fonte: ${r.fonte || 'não informada'} · resolução: ${formatar(r.resolucao_m, ' m')}. Relevo aproximado (modelo de superfície de ~30 m): não substitui levantamento topográfico; a maquete assenta os volumes em terreno plano.`);
@@ -247,7 +247,7 @@
       vistas.forEach(v => v()); vistas = []; $('cards').replaceChildren();
       $('cards').classList.toggle('single', !comparar);
       [...$('opcoes').children].forEach((b, i) => b.setAttribute('aria-pressed', String(i === estudo.opcoes.length ? comparar : !comparar && i === selecionada)));
-      if (!estudo.opcoes.length) { $('cards').append(el('p', 'O Motor não gerou opções para este lote. Confira as incertezas.')); return; }
+      if (!estudo.opcoes.length) { $('cards').append(el('p', 'Nenhuma opção coube neste lote. Confira as opções ausentes e os motivos em Incertezas.', 'notice')); return; }
       const opcoes = comparar ? estudo.opcoes : [estudo.opcoes[selecionada]];
       for (const o of opcoes) {
         const card = el('article', undefined, 'option'), body = el('div', undefined, 'option-body'), viewport = el('div', undefined, 'viewport');

@@ -37,6 +37,7 @@ DIR_RELATORIO = Path(__file__).resolve().parent
 DIR_VIABILIDADE = DIR_RELATORIO.parent
 DIR_EXEMPLOS = DIR_VIABILIDADE / "motor" / "exemplos"
 DIR_PILOTOS = DIR_EXEMPLOS / "pilotos"
+DIR_AUDITORIA = DIR_VIABILIDADE / "auditoria" / "casos"
 
 sys.path.insert(0, str(DIR_RELATORIO))
 import relatorio  # noqa: E402
@@ -224,6 +225,8 @@ def validar_html_contra_json(html_str: str, estudo: Dict[str, Any]) -> None:
 
         existe, valor_json = _resolver_campo_no_estudo(estudo, campo)
         if not existe:
+            if valor_attr == "null" and texto_visivel == "—":
+                continue
             raise AssertionError(f"Campo '{campo}' presente no HTML não existe no JSON.")
 
         if valor_json is None:
@@ -330,7 +333,8 @@ def validar_html_contra_json(html_str: str, estudo: Dict[str, Any]) -> None:
                 campos_obrigatorios.append(f"opcoes.{oid}.volumes.{idx_v}.recuo_fundos_m")
 
     for c_obrig in campos_obrigatorios:
-        if c_obrig not in campos_vistos:
+        existe, _ = _resolver_campo_no_estudo(estudo, c_obrig)
+        if existe and c_obrig not in campos_vistos:
             raise AssertionError(f"Campo obrigatório do JSON ausente no HTML: '{c_obrig}'")
 
     # 3. Conferir que premissas em premissas.padrao estão marcadas com "padrão"
@@ -433,6 +437,28 @@ class TestRelatorioViabilidade(unittest.TestCase):
                 self.assertEqual(html_gerado.count(revisao), 2 * (1 + len(estudo_dict.get("opcoes", []))))
                 self.assertEqual(html_gerado.count("Volumes hipotéticos de potencial construtivo."), 1 + len(estudo_dict.get("opcoes", [])))
                 validar_html_contra_json(html_gerado, estudo_dict)
+
+    def test_casos_auditoria_com_lote(self) -> None:
+        casos = sorted({*DIR_AUDITORIA.glob("saida-*.json"), *DIR_AUDITORIA.glob("audit5-saida-*.json")})
+        pulados = 0
+        for caminho in casos:
+            estudo = json.loads(caminho.read_text(encoding="utf-8"))
+            if "lote" not in estudo:
+                pulados += 1
+                continue
+            with self.subTest(caso=caminho.name):
+                validar_html_contra_json(relatorio.gerar_html(estudo), estudo)
+        print(f"Casos de auditoria sem lote pulados: {pulados}")
+
+    def test_estudo_sem_opcoes_explicado(self) -> None:
+        estudo = json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))
+        estudo["opcoes"] = []
+        estudo["opcoes_ausentes"] = [{"id": "A", "nome": "Teste", "motivo": "impossivel", "detalhe": "Limite do lote"}]
+        html = relatorio.gerar_html(estudo)
+        validar_html_contra_json(html, estudo)
+        self.assertIn("Nenhuma opção coube neste lote", html)
+        self.assertIn("impossível pelas regras informadas", html)
+        self.assertIn("Limite do lote", html)
 
     def test_falha_quando_numero_html_diverge_do_json(self) -> None:
         """Garante que o validador falha imediatamente se qualquer número do HTML não bater com o JSON."""
