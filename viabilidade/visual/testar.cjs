@@ -3,9 +3,16 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-// shortcut: usa o Playwright já instalado no runtime Codex; rever ao executar fora desta máquina.
-const { chromium } = require('C:/Users/respawn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
-const { PNG } = require('C:/Users/respawn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/lib/utilsBundle.js');
+const runtimeModules = 'C:/Users/respawn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules';
+const load = name => {
+  try { return require(name); }
+  catch (error) {
+    if (error.code !== 'MODULE_NOT_FOUND') throw error;
+    return require(path.join(runtimeModules, name));
+  }
+};
+const { chromium } = load('playwright');
+const { PNG } = load('playwright-core/lib/utilsBundle');
 
 const url = process.env.VISUAL_URL || 'http://127.0.0.1:8765/viabilidade/visual/';
 const output = path.join(__dirname, 'evidencias');
@@ -42,8 +49,10 @@ async function checkWidth(page) {
 
 (async () => {
   fs.mkdirSync(output, { recursive: true });
+  const winChrome = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+  const executablePath = process.env.CHROME_PATH || (fs.existsSync(winChrome) ? winChrome : undefined);
   const browser = await chromium.launch({
-    executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
+    ...(executablePath ? { executablePath } : {}),
     headless: true, args: ['--enable-unsafe-swiftshader'],
   });
   const report = [];
