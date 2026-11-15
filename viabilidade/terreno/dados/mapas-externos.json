@@ -1,0 +1,47 @@
+{
+  "repo": "ZGroote/imobiliaria-artefatos",
+  "release": "viabilidade-mapas-2026-11-14",
+  "uso": "Insumos fora do git da reprodução do terreno (testar_pilotos.py --reproduzir). Baixar: python -I viabilidade/baixar_mapas.py",
+  "arquivos": [
+    {
+      "asset": "anexo02.jpg",
+      "destino": "viabilidade/terreno/dados/zonas-mapas/anexo02.jpg",
+      "sha256": "88c82d6e4a4ea7dac448fb3f945674ef482e9d4d6dadd017bd703824818b1dc8"
+    },
+    {
+      "asset": "lei18053-anexo02.pdf",
+      "destino": "viabilidade/lei/mapa/lei18053_anexos_2017_pdf/ANEXO 02 - Zoneamento Urbano.pdf",
+      "sha256": "f2dbbf98a0698092a78be5585f479db4164267478a5a83b0dc8104917fdf5ef2"
+    },
+    {
+      "asset": "anexo05.jpg",
+      "destino": "viabilidade/terreno/dados/zonas-mapas/anexo05.jpg",
+      "sha256": "57668f8b98db81e7c7f2726960ce48476863fd7e27a78aeed05f158c83c655de"
+    },
+    {
+      "asset": "lei18053-anexo05.pdf",
+      "destino": "viabilidade/lei/mapa/lei18053_anexos_2017_pdf/ANEXO 05 - AEIs Ambientais.pdf",
+      "sha256": "af2d54f9694ea9055273db821609798f51a0dd8d057bace97e9effee2ebddfa7"
+    },
+    {
+      "asset": "anexo06.jpg",
+      "destino": "viabilidade/terreno/dados/zonas-mapas/anexo06.jpg",
+      "sha256": "02464491e46859e7ce95e6b66c2a8fdb26c8d9b7924bc5d7f0c144dfae9b36ed"
+    },
+    {
+      "asset": "lei18053-anexo06.pdf",
+      "destino": "viabilidade/lei/mapa/lei18053_anexos_2017_pdf/ANEXO 06 - AEIs Urbanas.pdf",
+      "sha256": "3bfc5f7b8b79c5016a526cd08ac7f5f0f83f0fb51f27a2d1173785ee2bbc0f5d"
+    },
+    {
+      "asset": "anexo07.jpg",
+      "destino": "viabilidade/terreno/dados/zonas-mapas/anexo07.jpg",
+      "sha256": "f75ebc23d535d05bbd4d2d84e71b9bdee2546c83a66cd2f17453fe44b0fc5139"
+    },
+    {
+      "asset": "lei18053-anexo07.pdf",
+      "destino": "viabilidade/lei/mapa/lei18053_anexos_2017_pdf/ANEXO 07 - AEIs Rurais.pdf",
+      "sha256": "3c290bd44a8e6b5a5effca6715017bff21bdce5357a3d36167af95d3439e8031"
+    }
+  ]
+}
