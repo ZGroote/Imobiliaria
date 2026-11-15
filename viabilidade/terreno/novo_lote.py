@@ -180,7 +180,8 @@ class Cadastro:
             return f"Lote invade o asfalto: {invasao:.2%} da área (limite 2%)"
         d = float(self.tree_ruas.query_nearest(g, return_distance=True)[1][0])
         return ("Lote sem frente para rua: nenhum lado de pelo menos 8 m a até 6 m do asfalto (nem juntando arestas "
-                f"colineares, nem até {gl.TOLERANCIA_M} m sem lote no meio); o asfalto mais próximo da malha está a {d:.1f} m. "
+                f"colineares, nem até {gl.TOLERANCIA_M} m sem lote no meio, nem pela borda da quadra com vão de 8 a 30 m "
+                f"até a quadra da frente ligado ao asfalto); o asfalto mais próximo da malha está a {d:.1f} m. "
                 "A malha de ruas tem buracos: se o lote dá pra rua, informe outro lote ou confira a base")
 
     def gerar(self, indices, zona):
@@ -223,6 +224,10 @@ class Cadastro:
             obs += "Há mais de uma frente candidata; as demais constam em qualidade.frentes. "
         if escolhida.get("regra") == "arestas_colineares":
             obs += f"Frente juntando {len(arestas)} arestas colineares contíguas ({arestas}), a até 6 m do asfalto. "
+        elif escolhida.get("regra") == "borda_de_quadra":
+            obs += (f"AVISO: frente presumida pela borda da quadra (sem asfalto no mapa): o lado dá para um vão de "
+                    f"{escolhida['largura_vao_m']:g} m sem lote até a quadra da frente, e o asfalto mais próximo da malha "
+                    f"está a {escolhida['distancia_max_asfalto_m']:g} m. Conferir no local que o vão é rua com acesso. ")
         elif escolhida.get("regra"):
             obs += (f"AVISO: frente presumida, asfalto da malha a até {escolhida['distancia_max_asfalto_m']:g} m "
                     f"(acima dos 6 m da regra; sem lote entre o lado e o asfalto). A malha de ruas tem buracos: conferir no local. ")

@@ -100,6 +100,27 @@ def testar():
         assert lote["qualidade"]["frentes"][0]["regra"] == regra, (i, lote["qualidade"]["frentes"][0])
         assert ("AVISO: frente presumida" in lote["observacoes"]) == (regra != "arestas_colineares")
     print("OK: frente ampliada: 94130 junta arestas colineares; 23249 aceita asfalto a 10 m com aviso.", flush=True)
+
+    def fileiras(vao, ampliar=True):  # regra 3 sintética: 2 fileiras de lotes 12x30 com `vao` m entre elas; asfalto só na ponta
+        geos = gl.np.array([caixa(12 * k, y, 12 * k + 12, y + 30) for y in (0, 30 + vao) for k in range(10)])
+        malha = gl.np.array([gl.Polygon([(125, 30), (135, 30), (130, 30 + max(vao, 5))])])
+        return gl.avaliar(geos[4], 4, geos, gl.sh.STRtree(geos), malha, gl.sh.STRtree(malha), ampliar=ampliar)
+    q = fileiras(15)
+    assert [(f["regra"], f["pontos"], f["largura_vao_m"]) for f in q["frentes"]] == [("borda_de_quadra", [[60.0, 30.0], [48.0, 30.0]], 15.0)], q
+    assert fileiras(15, ampliar=False) is None  # pilotos: sem ampliar a regra 3 não roda
+    assert fileiras(5) is None and fileiras(0) is None  # viela de 5 m; fundo com fundo (e nada atrás da fileira)
+    # 10 lotes do raio de 300 m do centro e da amostra REVISAO-6, conferidos no desenho: a borda dá para a rua
+    for i, arestas in {92058: [0], 46087: [0, 1], 62350: [1, 2], 91412: [2, 3], 102159: [0], 104833: [4, 5],
+                       77017: [5, 0], 75926: [0], 73863: [0], 77039: [5, 6]}.items():
+        lote = cadastro.gerar([i], "SC-Z1")
+        assert [(f["regra"], f["arestas"]) for f in lote["qualidade"]["frentes"]] == [("borda_de_quadra", arestas)], (i, lote["qualidade"])
+        assert "frente presumida pela borda da quadra (sem asfalto no mapa)" in lote["observacoes"]
+    lote = cadastro.gerar([77033], "SC-Z1")  # esquina: as duas ruas sem asfalto no meio da quadra
+    assert [f["arestas"] for f in lote["qualidade"]["frentes"]] == [[3], [1, 2]] and lote["qualidade"]["esquina_indicada_pela_malha"]
+    assert "Esquina indicada" in lote["observacoes"]
+    recusa(lambda: cadastro.gerar([76495], "SC-Z1"), "nem pela borda da quadra")  # lote solto no miolo vazio da quadra
+    recusa(lambda: cadastro.gerar([76495], "SC-Z1"), "ligado ao asfalto); o asfalto mais próximo da malha está a 26.6 m")
+    print("OK: regra 3 (borda da quadra): corredor aceito, viela e fundo recusados, 10 lotes reais, esquina 77033, miolo 76495.", flush=True)
     cadastro_antigo = Cadastro("antigo")
     antigo = cadastro_antigo.gerar([542], "SC-Z1")
     assert antigo["id"] == "SC-antigo-542" and antigo["crs"] == "EPSG:31983" and antigo["relevo"]

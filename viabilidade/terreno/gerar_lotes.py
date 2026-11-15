@@ -16,6 +16,7 @@ from collections import Counter
 import numpy as np
 import shapely as sh
 from shapely.geometry import LineString, Point, Polygon, shape
+from shapely.ops import substring
 
 try:
     from pyproj import Transformer
@@ -137,6 +138,71 @@ def frentes_ampliadas(g, indice, geos, tree, rua):
     return frentes
 
 
+VAO_M = (8, 30)  # largura do corredor livre de lote em frente a uma borda de quadra (rua sem asfalto na malha)
+ALEM_M = 30  # faixa além do vão: a quadra do outro lado tem que estar lá (vazio grande = praça, área verde, gleba)
+LIVRE_MAX = 0.5  # fração livre de lote nessa faixa acima disso: não é corredor, recusa
+EIXO_M = (60, 250)  # o eixo do corredor segue livre de lote por 60 m ou mais (procura até 250 m para cada lado)
+
+
+def frentes_borda(g, indice, geos, tree, tree_ruas):
+    """Regra 3, só sem asfalto que sirva: lado que não encosta em lote e dá para um corredor de 8 a 30 m até a quadra
+    do outro lado, aberto nas duas pontas e ligado à malha de asfalto (viela, fundo de quadra e lote faltando no miolo
+    não passam)."""
+    def livre(geom, minimo=0.5):  # nenhum lote (nem o próprio) ocupa mais que `minimo` m² de geom
+        return all(geos[j].intersection(geom).area <= minimo for j in tree.query(geom, predicate="intersects"))
+    frentes = []
+    for ks, pts in cadeias(list(g.exterior.coords)):
+        corda = math.dist(pts[0], pts[-1])
+        if corda < 8:
+            continue
+        a, b = np.array(pts[0]), np.array(pts[-1])
+        u = (b - a) / corda
+        n = np.array([u[1], -u[0]])
+        if g.contains(Point(*(a + b) / 2 + n * 0.5)):
+            n = -n  # normal para fora do lote
+        linha = LineString(pts)
+        # (a) lado livre: nenhum lote a 0,5 m do miolo do lado (as pontas podem encostar no vizinho de divisa)
+        miolo = substring(linha, 0.1, 0.9, normalized=True)
+        if any(j != indice and geos[j].distance(miolo) <= 0.5 for j in tree.query(miolo, predicate="dwithin", distance=0.5)):
+            continue
+        # (b) vão: faixa de 8 m à frente sem lote; raios (2 m de largura) de 30 m em 3 pontos batem num lote entre 8 e 30 m
+        p0, p1 = a + u * corda * 0.1, b - u * corda * 0.1
+        if not livre(Polygon([p0 + n * 0.3, p1 + n * 0.3, p1 + n * VAO_M[0], p0 + n * VAO_M[0]])):
+            continue
+        vaos = []
+        for t in (0.15, 0.5, 0.85):
+            p = a + (b - a) * t
+            raio = LineString([p + n * 0.3, p + n * VAO_M[1]]).buffer(1.0, cap_style="flat")  # faixa de 2 m: fresta entre lotes não vaza
+            batidas = [Point(*p).distance(geos[j].intersection(raio)) for j in tree.query(raio, predicate="intersects")
+                       if not geos[j].intersection(raio).is_empty]
+            vaos.append(min(batidas, default=math.inf))
+        if not all(VAO_M[0] <= v <= VAO_M[1] for v in vaos):
+            continue
+        w = float(np.median(vaos))
+        # (c) corredor aberto nas duas pontas: o eixo do vão continua livre 10 m além de cada ponta do lado
+        if not all(livre(Point(*q).buffer(1.0), 0.0) for q in (a - u * 10 + n * w / 2, b + u * 10 + n * w / 2)):
+            continue
+        # (c) praça/área verde: atrás do vão tem que haver quadra; faixa de ALEM_M além do vão mais da metade vazia = recusa
+        faixa = Polygon([a + n * (w + 1), b + n * (w + 1), b + n * (w + 1 + ALEM_M), a + n * (w + 1 + ALEM_M)])
+        ocupado = sh.union_all([geos[j] for j in tree.query(faixa, predicate="intersects")]).intersection(faixa).area
+        if 1 - ocupado / faixa.area > LIVRE_MAX:
+            continue
+        # (c) é rua: o eixo do vão, até o primeiro lote de cada lado, tem 60 m ou mais e passa a até 6 m do asfalto
+        m = (a + b) / 2 + n * w / 2
+        alcance = []
+        for s in (u, -u):
+            eixo = LineString([m, m + s * EIXO_M[1]])
+            alcance.append(min((Point(*m).distance(geos[j].intersection(eixo)) for j in tree.query(eixo, predicate="intersects")
+                                if not geos[j].intersection(eixo).is_empty), default=EIXO_M[1]))
+        eixo = LineString([m - u * alcance[1], m + u * alcance[0]])
+        if eixo.length < EIXO_M[0] or not len(tree_ruas.query(eixo, predicate="dwithin", distance=6)):
+            continue
+        frentes.append({"aresta": ks[0], "arestas": ks, "pontos": [list(pts[0]), list(pts[-1])],
+                        "comprimento_m": round(corda, 3), "largura_vao_m": round(w, 3), "regra": "borda_de_quadra"})
+    frentes.sort(key=lambda f: (-f["comprimento_m"], f["aresta"]))
+    return frentes
+
+
 def avaliar(g, indice, geos, tree, malha, tree_ruas, ampliar=False):
     vizinhos = tree.query(g, predicate="intersects")
     vizinhos = vizinhos[vizinhos != indice]
@@ -146,7 +212,7 @@ def avaliar(g, indice, geos, tree, malha, tree_ruas, ampliar=False):
     perto = tree_ruas.query(g.buffer(12), predicate="intersects")
     rua = sh.union_all(malha[perto])
     invasao = g.intersection(rua).area
-    if rua.is_empty or invasao / g.area > 0.02:
+    if (rua.is_empty and not ampliar) or (not rua.is_empty and invasao / g.area > 0.02):
         return None
     frentes = []
     coords = list(g.exterior.coords)
@@ -155,11 +221,16 @@ def avaliar(g, indice, geos, tree, malha, tree_ruas, ampliar=False):
         if lado.length < 8:
             continue
         distancias = [lado.interpolate(t, normalized=True).distance(rua) for t in (0.15, 0.5, 0.85)]
-        if max(distancias) <= 6:
+        if not rua.is_empty and max(distancias) <= 6:
             frentes.append({"aresta": k, "pontos": [list(a), list(b)], "comprimento_m": round(lado.length, 3),
                             "distancia_max_asfalto_m": round(max(distancias), 3)})
-    if not frentes and ampliar:
+    if not frentes and ampliar and not rua.is_empty:
         frentes = frentes_ampliadas(g, indice, geos, tree, rua)
+    if not frentes and ampliar:
+        frentes = frentes_borda(g, indice, geos, tree, tree_ruas)
+        asfalto = round(float(tree_ruas.query_nearest(g, return_distance=True)[1][0]), 3)
+        for f in frentes:  # o motor lê este campo em toda frente com `regra`
+            f["distancia_max_asfalto_m"] = asfalto
     if not frentes:
         return None
     esquina = False
