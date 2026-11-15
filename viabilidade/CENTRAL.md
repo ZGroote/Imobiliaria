@@ -102,6 +102,8 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - Motor T22: `conferir.py` jogava o stderr do http.server num cano não lido; no Windows enchia e travava o visual (no CI passa). Corrigido: `conferir.py` 8/8 no Windows.
   - Terreno T15 (db9eda3c, feita pelo Visual): frente principal pela borda = a mais perto do asfalto; vizinho inválido passa por make_valid.
   - **ALTA nova (RELATORIO-16, 69da7562):** os anexos 02/05/06/07 estão ~44 m a leste + escala/rotação N-S (erro 40–75 m); cadastro e malha batem com o OSM. Os 3,53 m eram só resíduo de 5 vértices do perímetro. Efeito: 74451 ganhou os 9 m sem estar na subárea; 75352 muda de Z2 para recusado. Central conferiu na sobreposição (c02p.png). → Terreno T17 (Visual): ≥12 cruzamentos por anexo, afim direta 31983→pixel, teste com 8 cruzamentos de verificação, cache com os JSON na chave. **Bloqueia o merge do #124.**
+  - **Terreno T17 entregue (21b1330c, só local até o 8/8):** afim direta por 21 cruzamentos; RMSE 2,9–3,2 m (máx. 6,2), 8 de verificação fora do ajuste a ≤6,8 m (antes 45–101 m). 74451 sai da subárea; 77015/77022/77375 dentro, 80172 fora; ponto do Auditor igual; 75352 recusado (divisa a 9,2 m); 22421 perde a Z2 das alternativas. Código revisado pela central. Resta texto velho "3,53 m" nos pilotos, `lei/FONTES.md` e pacote do arquiteto (tarefa à parte).
+  - Motor T23 (Visual): 3 expectativas do `test_estudar.py` pós-T17 (conferir deu 7/8 só por isso). Em andamento.
   - Auditor parado no pedido de permissão do `maestri ask` final: cancelar é do usuário (o Esc da central foi bloqueado). Parte 2 (perguntas 1–3) sai depois.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
