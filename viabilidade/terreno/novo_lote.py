@@ -1,6 +1,7 @@
 """Lote do cadastro, sem alterar fontes ou pilotos.
 
 python -I -X utf8 viabilidade/terreno/novo_lote.py --base completo --indices 30516 --zona SC-Z4 --saida lote.json
+python -I -X utf8 viabilidade/terreno/novo_lote.py --base completo --indices 19 --zona auto --saida lote.json
 python -I -X utf8 viabilidade/terreno/novo_lote.py --testar
 
 Índices começam em zero. Coordenadas: seis casas; área: três, como os pilotos.
@@ -22,7 +23,9 @@ import preparar_relevo as relevo
 BASES = {"completo": gl.BASES[1], "antigo": gl.BASES[0]}
 
 
-def validar_zona(zona):
+def validar_zona(zona, *, permitir_auto=False):
+    if zona == "auto" and permitir_auto:
+        return
     validas = sorted(z["id"] for z in gl.ler("viabilidade/lei/zonas.json"))
     if zona not in validas:
         raise ValueError(f"Zona inexistente: {zona!r}. Zonas válidas: {', '.join(validas)}")
@@ -94,7 +97,7 @@ class Cadastro:
         return "Lote sem frente para rua: nenhuma aresta de pelo menos 8 m aprovada por avaliar() a até 6 m do asfalto"
 
     def gerar(self, indices, zona):
-        validar_zona(zona)
+        validar_zona(zona, permitir_auto=True)
         if not indices or any(type(i) is not int or i < 0 or i >= len(self.geos) for i in indices):
             raise ValueError(f"Índice inexistente: use índices inteiros entre 0 e {len(self.geos) - 1}")
         if len(set(indices)) != len(indices):
@@ -126,12 +129,20 @@ class Cadastro:
             obs += "Há mais de uma frente candidata; as demais constam em qualidade.frentes. "
         if qualidade["esquina_indicada_pela_malha"]:
             obs += "Esquina indicada pela malha de ruas, sem confirmação em campo. "
-        return {"id": f"SC-{self.base}-{'-'.join(map(str, indices))}", "poligono_utm": coords,
+        lote = {"id": f"SC-{self.base}-{'-'.join(map(str, indices))}", "poligono_utm": coords,
                 "frente": [coords[aresta], coords[aresta + 1]], "area_m2": round(pol.area, 3),
                 "crs": "EPSG:31983", "zona_id": zona, "zona_origem": "informada_pelo_usuario",
                 "zona_conferida": False, "conferido": False, "relevo": resumo,
                 "fonte": {"base": self.base, "arquivo": BASES[self.base], "indices_feicoes_zero_based": indices},
                 "qualidade": qualidade, "observacoes": obs + relevo.AVISO}
+        if zona == "auto":
+            from sugerir_zona import MapaZonas
+            if not hasattr(self, "mapa_zonas"):
+                self.mapa_zonas = MapaZonas()
+            lote["zona_id"], lote["zona_sugestao"] = self.mapa_zonas.sugerir(pol)
+            lote["zona_origem"] = "sugerida_pelo_mapa"
+            lote["observacoes"] = lote["observacoes"].replace("Zona informada pelo usuário", "Zona sugerida pelo mapa")
+        return lote
 
 
 def gravar(saida, lote):
@@ -166,7 +177,7 @@ def main():
     if any(x is None for x in (args.base, args.indices, args.zona, args.saida)):
         parser.error("Geração exige --base, --indices, --zona e --saida")
     try:
-        validar_zona(args.zona)
+        validar_zona(args.zona, permitir_auto=True)
         lote = Cadastro(args.base).gerar(args.indices, args.zona)
         gravar(args.saida, lote)
     except (ValueError, OSError, gl.sh.errors.GEOSException) as erro:
