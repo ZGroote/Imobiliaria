@@ -2,9 +2,11 @@
 
     python -I -X utf8 viabilidade/motor/estudar.py --base completo --indices 30516 --zona SC-Z4 --pasta DESTINO
     python -I -X utf8 viabilidade/motor/estudar.py --base completo --ponto "-22.0175, -47.8908" --zona auto --pasta DESTINO
-        [--premissas premissas.json]
+        [--premissas premissas.json] [--apto-m2 N] [--comum-m2 N] [--laje-min-m2 N]
 
 --ponto ("latitude, longitude", como no Google Maps) acha o lote e vale no lugar de --indices;
+--apto-m2, --comum-m2 e --laje-min-m2 trocam premissas de produto (apartamento, área comum por pavimento, laje mínima)
+e contam como informadas pelo usuário; não valem junto com a mesma premissa em --premissas.
 --zona auto pede a zona ao mapa do Plano Diretor. As duas regras, e as mensagens de recusa, são do terreno/novo_lote.py.
 
 Encadeia, no mesmo processo, as três peças que já existiam:
@@ -32,6 +34,36 @@ from motor import gerar_estudo  # noqa: E402
 ARQUIVOS = ("lote.json", "estudo.json", "relatorio.html", "resumo.txt")
 
 
+# atalho da linha de comando -> (premissa do motor, mínimo, máximo, rótulo no resumo)
+ATALHOS = {
+    "apto_m2": ("area_privativa_por_unidade_m2", 20, 400, "apto"),
+    "comum_m2": ("area_comum_por_pavimento_m2", 0, 400, "comum por pavimento"),
+    "laje_min_m2": ("laje_minima_m2", 20, 1000, "laje mínima"),
+}
+
+
+def juntar_premissas(premissas, **atalhos):
+    """Premissas do JSON + atalhos da linha de comando (valor None = não usado). Recusa fora da faixa e conflito."""
+    premissas = dict(premissas or {})
+    for nome, valor in atalhos.items():
+        if valor is None:
+            continue
+        chave, lo, hi, _ = ATALHOS[nome]
+        flag = "--" + nome.replace("_", "-")
+        if not lo <= valor <= hi:
+            raise ValueError(f"{flag} {valor:g} fora da faixa plausível: de {lo} a {hi} m².")
+        if chave in premissas:
+            raise ValueError(f"{flag} e --premissas trazem {chave}; use só um dos dois.")
+        premissas[chave] = valor
+    return premissas
+
+
+def _linha_premissas(premissas):
+    rotulos = {chave: rot for chave, _, _, rot in ATALHOS.values()}
+    partes = [f"{rotulos[k]} {v:g} m²" if k in rotulos else f"{k} {v}" for k, v in (premissas or {}).items()]
+    return ["Premissas do usuário: " + "; ".join(partes)] if partes else []
+
+
 def _conferir_pasta(pasta):
     if pasta.exists() and (not pasta.is_dir() or any(pasta.iterdir())):
         raise ValueError(f"A pasta {pasta} já existe e não está vazia; escolha outra ou esvazie esta.")
@@ -55,7 +87,7 @@ def _linhas_areas_especiais(lote):
                                                     if nao_verif else "nenhuma")]
 
 
-def _resumo(lote, estudo, rev):
+def _resumo(lote, estudo, rev, premissas=None):
     d = estudo["dominio"]
     dominio = d["status"] + (": " + "; ".join(d["motivos"]) if d["motivos"] else "")
     linhas = [
@@ -63,6 +95,7 @@ def _resumo(lote, estudo, rev):
         f"Área: {lote['area_m2']:.3f} m²",
         _linha_zona(lote),
         *_linhas_areas_especiais(lote),
+        *_linha_premissas(premissas),
         f"Domínio do motor: {dominio}",
         f"Opções calculadas: {len(estudo['opcoes'])} ({', '.join(o['id'] for o in estudo['opcoes']) or 'nenhuma'})",
         f"Opções ausentes: {len(estudo['opcoes_ausentes'])}",
@@ -102,7 +135,7 @@ def estudar(base, indices, zona, pasta, premissas=None, cadastro=None, ponto=Non
     bytes_estudo = (json.dumps(estudo, ensure_ascii=False, indent=1) + "\n").encode("utf-8")
     sha = hashlib.sha256(bytes_estudo).hexdigest()
     html = relatorio.gerar_html(json.loads(bytes_estudo), sha)
-    resumo = _resumo(lote, estudo, sha[:12])
+    resumo = _resumo(lote, estudo, sha[:12], premissas)
     textos = {
         "lote.json": (json.dumps(lote, ensure_ascii=False, indent=2, allow_nan=False) + "\n").encode("utf-8"),
         "estudo.json": bytes_estudo,
@@ -137,6 +170,9 @@ def main(argv=None):
     ap.add_argument("--zona", required=True, help='SC-XX, ou "auto" para o mapa do Plano Diretor sugerir')
     ap.add_argument("--pasta", required=True, type=Path)
     ap.add_argument("--premissas", type=Path, help="JSON com premissas que trocam as do padrão")
+    ap.add_argument("--apto-m2", type=float, help="área privativa por apartamento, m² (padrão 60; aceita 20 a 400)")
+    ap.add_argument("--comum-m2", type=float, help="área comum por pavimento, m² (padrão 40; aceita 0 a 400)")
+    ap.add_argument("--laje-min-m2", type=float, help="laje mínima de uma opção, m² (padrão 80; aceita 20 a 1000)")
     argv = list(sys.argv[1:] if argv is None else argv)
     if "--ponto" in argv and argv.index("--ponto") + 1 < len(argv):  # argparse lê "-22.0,-47.8" como opção
         i = argv.index("--ponto")
@@ -144,6 +180,7 @@ def main(argv=None):
     a = ap.parse_args(argv)
     try:
         premissas = json.loads(a.premissas.read_text(encoding="utf-8")) if a.premissas else None
+        premissas = juntar_premissas(premissas, apto_m2=a.apto_m2, comum_m2=a.comum_m2, laje_min_m2=a.laje_min_m2) or None
         r = estudar(a.base, a.indices, a.zona, a.pasta, premissas, ponto=a.ponto)
     except Exception as erro:  # a mensagem da etapa que falhou (novo_lote, motor ou relatório) vai inteira
         ap.exit(2, f"Erro: {erro}\n")

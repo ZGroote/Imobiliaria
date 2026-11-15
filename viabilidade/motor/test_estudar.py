@@ -2,6 +2,8 @@
 
     python -I -X utf8 viabilidade/motor/test_estudar.py
 """
+import contextlib
+import io
 import json
 import re
 import sys
@@ -13,6 +15,7 @@ AQUI = Path(__file__).resolve().parent
 sys.path.insert(0, str(AQUI))
 import estudar  # noqa: E402
 import novo_lote  # noqa: E402  (estudar já pôs terreno/ no path)
+from test_motor import confere  # noqa: E402  (as mesmas conferências de lei do motor)
 
 ARQUIVOS = {"lote.json", "estudo.json", "relatorio.html", "resumo.txt"}
 
@@ -198,8 +201,6 @@ def main():
             assert not (tmp / nome).exists(), f"{nome}: deixou pasta"
 
         # a linha de comando aceita --ponto com coordenada negativa e mostra a recusa inteira, sem pasta
-        import contextlib
-        import io
         erro = io.StringIO()
         try:
             with contextlib.redirect_stderr(erro):
@@ -218,6 +219,41 @@ def main():
         else:
             raise AssertionError("CLI devia recusar --indices com --ponto")
         assert not (tmp / "cli3").exists()
+
+        # (g) tarefa 18: premissas de produto pela linha de comando. 75902 é estreito (9,2 m úteis): com apto de 60 m² só a lâmina cabe
+        ponto = "-22.0175, -47.8908"
+        estudar.estudar("completo", None, "auto", tmp / "g60", cadastro=cad, ponto=ponto)
+        r35 = estudar.estudar("completo", None, "auto", tmp / "g35", cadastro=cad, ponto=ponto,
+                              premissas=estudar.juntar_premissas(None, apto_m2=35.0))
+        e60, e35 = (json.loads((tmp / n / "estudo.json").read_text(encoding="utf-8")) for n in ("g60", "g35"))
+        ids60, ids35 = {o["id"] for o in e60["opcoes"]}, {o["id"] for o in e35["opcoes"]}
+        assert ids60 == {"C"} and ids35 >= {"A", "B", "C"} and ids60 < ids35, (ids60, ids35)
+        confere(e35)  # CA, TO, permeabilidade, recuos, altura: nenhuma opção nova passa do que a lei deixa
+        assert e35["premissas"]["area_privativa_por_unidade_m2"] == 35 and "area_privativa_por_unidade_m2" not in e35["premissas"]["padrao"]
+        assert "Premissas do usuário: apto 35 m²\n" in r35["resumo"], r35["resumo"]
+        assert "Premissas do usuário" not in (tmp / "g60" / "resumo.txt").read_text(encoding="utf-8")
+        assert estudar.juntar_premissas({"eficiencia": 0.7}, apto_m2=40.0, comum_m2=0.0, laje_min_m2=60.0) == {
+            "eficiencia": 0.7, "area_privativa_por_unidade_m2": 40.0, "area_comum_por_pavimento_m2": 0.0, "laje_minima_m2": 60.0}
+        assert "apto 40 m²; comum por pavimento 0 m²; laje mínima 60 m²" in estudar._linha_premissas(
+            estudar.juntar_premissas(None, apto_m2=40.0, comum_m2=0.0, laje_min_m2=60.0))[0]
+        # recusas: fora da faixa e conflito com --premissas, pela linha de comando, sem pasta
+        (tmp / "conflito.json").write_text('{"area_privativa_por_unidade_m2": 50}', encoding="utf-8")
+        for nome, extra, trecho in (
+            ("apto_baixo", ["--apto-m2", "10"], "--apto-m2 10 fora da faixa"),
+            ("apto_alto", ["--apto-m2", "500"], "--apto-m2 500 fora da faixa"),
+            ("comum_neg", ["--comum-m2=-5"], "--comum-m2 -5 fora da faixa"),
+            ("laje_baixa", ["--laje-min-m2", "5"], "--laje-min-m2 5 fora da faixa"),
+            ("conflito", ["--apto-m2", "35", "--premissas", str(tmp / "conflito.json")], "use só um dos dois"),
+        ):
+            erro = io.StringIO()
+            try:
+                with contextlib.redirect_stderr(erro):
+                    estudar.main(["--base", "completo", "--indices", "8697", "--zona", "SC-Z4", "--pasta", str(tmp / nome), *extra])
+            except SystemExit as e:
+                assert e.code == 2, nome
+            else:
+                raise AssertionError(f"{nome}: devia recusar")
+            assert trecho in erro.getvalue() and not (tmp / nome).exists(), f"{nome}: {erro.getvalue()}"
     print("ok")
 
 
