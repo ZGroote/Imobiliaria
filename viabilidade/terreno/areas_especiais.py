@@ -46,7 +46,32 @@ def registro(anexo, tipo, nome, incidencia, motivo, margem_m=DIVISA_M, **evidenc
             "anexo": anexo, **evidencia}
 
 
-NADA_ENCONTRADO = "Leitura automática dos Anexos 05/06/07: nenhuma área especial encontrada — não conferida"
+def nada_encontrado(anexo, margem_m):
+    """Ressalva de um anexo lido que não achou nada no lote: silêncio não é "livre" (AUDITORIA-6b, achado 1)."""
+    return registro(anexo, "nao_verificada", f"Leitura automática do Anexo {anexo}: nenhuma área especial encontrada — não conferida",
+                    "nao_verificada", f"Leitura automática sem cor da legenda nem cone no lote e na margem de ~{margem_m:g} m",
+                    margem_m, evidencia=f"dados/zonas-mapas/anexo{anexo}.jpg; centros dos pixels do lote e margem de {margem_m:g} m + 4 pixels")
+
+
+LEI_19166 = "https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_339"
+LEI_18927 = "https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_754"
+LEI_18927_PDF = "https://www.saocarlos.sp.gov.br/images/stories/pdf/conselhos/lei18927-digital.pdf"
+
+
+def leis_posteriores():
+    """Registro fixo de todo lote: os mapas são de dez/2016 e duas leis depois deles não estão desenhadas (AUDITORIA-6b, achado 2).
+    Nada de polígono nem raio: o perímetro da Lei 19.166/2019 só existe em texto (rumos e distâncias, sem coordenadas)."""
+    return {"tipo": "nao_verificada", "nome": "Leis posteriores aos mapas de dez/2016 (19.166/2019 e 18.927/2018): não desenhadas", "incidencia": "nao_verificada",
+            "conferido": False,
+            "fonte": f"Lei 19.166/2019 ({LEI_19166}); Lei 18.927/2018 ({LEI_18927}; PDF {LEI_18927_PDF})",
+            "observacoes": ("Os mapas lidos (Anexos 05, 06 e 07 da Lei 18.053/2016) são de dez/2016 e não trazem estas alterações, que não estão desenhadas aqui: "
+                            "Lei 19.166/2019, AEI de Interesse Industrial e de Serviços 44 e 45 (Anexo 6), áreas N e O do Anexo 9-A e ZUPI-II, "
+                            "na SP-318 km 236, com perímetro só em texto (rumos e distâncias, sem coordenadas); "
+                            "Lei 18.927/2018, Zona 6E (Santa Eudóxia), sem mapa. "
+                            "O Anexo 9-A (áreas compatíveis com usos incômodos) não é lido por nenhum módulo: não verificado. "
+                            "Confirmar na Prefeitura, sobretudo perto da SP-318 km 236; sem altura numérica aplicada."),
+            "evidencia": "AUDITORIA-6b: a legenda do anexo06.jpg lista AEI só até o item 43; o Anexo 9-A de 2016 vai de A a M; os textos das leis não trazem coordenadas",
+            "anexo": "06/09-A"}
 
 
 def nao_verificada(anexo, motivo, margem_m=DIVISA_M):
@@ -183,12 +208,8 @@ class AreasEspeciais:
             if isinstance(mapa, str):
                 resultado.append(nao_verificada(anexo, mapa))
             else:
-                resultado.extend(mapa.ler(pol))
-        if not resultado:
-            # Lista vazia não pode virar silêncio: o motor alerta todo registro sem altura e o resumo do
-            # estudar.py lista os "nao_verificada", então "nada encontrado" sai como ressalva explícita.
-            resultado.append(registro("05/06/07", "nao_verificada", NADA_ENCONTRADO, "nao_verificada",
-                                      "Leitura automática sem cor da legenda nem cone no lote e na margem de ~10 a 12 m",
-                                      evidencia="dados/zonas-mapas/anexo05.jpg, anexo06.jpg e anexo07.jpg; "
-                                                "centros dos pixels do lote e margem de 10 a 12 m + 4 pixels"))
+                # Lista vazia não pode virar silêncio: o motor alerta todo registro sem altura e o resumo do estudar.py
+                # lista os "nao_verificada". Vale por anexo: o 07 acusar o cone não torna o 06 vazio "livre".
+                resultado.extend(mapa.ler(pol) or [nada_encontrado(anexo, mapa.divisa_m)])
+        resultado.append(leis_posteriores())
         return resultado

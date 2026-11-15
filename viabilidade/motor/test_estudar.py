@@ -162,7 +162,7 @@ def main():
         assert lote["zona_origem"] == "sugerida_pelo_mapa" and lote["zona_conferida"] is False
         resumo = (tmp / "p" / "resumo.txt").read_text(encoding="utf-8")
         assert "Zona: SC-Z1 (sugerida pelo mapa do Plano Diretor, não conferida; outras zonas por perto: nenhuma)" in resumo, resumo
-        assert "Áreas especiais encontradas: nenhuma" in resumo and "Áreas especiais não verificadas: Anexo 07" in resumo, resumo
+        assert "Áreas especiais encontradas: nenhuma" in resumo and "Áreas especiais não verificadas: Anexo 05, Anexo 06, Anexo 07, Anexo 06/09-A" in resumo, resumo  # terreno tarefa 13: ressalva por anexo + leis posteriores
         assert "informada pelo usuário" not in resumo
         assert 5 <= len(resumo.splitlines()) <= 12, resumo
         estudar.estudar("completo", [25297], "SC-Z1", tmp / "q", cadastro=cad)

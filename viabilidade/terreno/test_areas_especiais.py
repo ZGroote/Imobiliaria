@@ -1,11 +1,15 @@
 """Regressões da tarefa 6, executadas por novo_lote.py --testar."""
 import json
+import sys
 import time
+from pathlib import Path
 from unittest.mock import patch
 
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # roda sozinho com -I, que não põe a pasta do script no path
+from novo_lote import AQUI, gl  # antes do PIL: ele acerta o path das bibliotecas
 from PIL import Image
-from novo_lote import AQUI, gl
-from areas_especiais import FUNDOS, AreasEspeciais
+from areas_especiais import FUNDOS, AreasEspeciais, leis_posteriores
 
 
 def testar_leitura(leitor):
@@ -78,7 +82,7 @@ def testar_leitura(leitor):
                 assert "gabarito_aeronautico" in tipos and ("transporte_aereo" in tipos) == aei, (x, y, tipos)
     with patch("areas_especiais.MapaEspecial", side_effect=ValueError("Mapa ausente ou SHA256 divergente")):
         faltantes = AreasEspeciais().ler(pol)
-    assert {a["anexo"] for a in faltantes} == {"05", "06", "07"}
+    assert {a["anexo"] for a in faltantes} == {"05", "06", "07", "06/09-A"}  # os três anexos ausentes + o registro das leis posteriores
     assert all(a["incidencia"] == "nao_verificada" for a in faltantes)
     print("OK: legendas, mancha a 7 m, cor encoberta, fora do quadro, fonte ausente/divergente e interiores dos dois cones; cor composta do Histórico, traço cinza não é Chácaras, margem por anexo, Subárea do art. 80, vão dos cones e AEI do Transporte Aéreo.", flush=True)
 
@@ -112,3 +116,63 @@ def testar(cadastro, pilotos, pasta):
     assert "gabarito_aeronautico" in (destino / "relatorio.html").read_text(encoding="utf-8")
     print(f"OK: estudar.py completo/22420: alerta ÁREA ESPECIAL/gabarito_aeronautico no estudo e relatório; CLI {time.perf_counter()-cli_inicio:.3f} s.", flush=True)
     print(f"Tempo dos ensaios de áreas especiais: {time.perf_counter()-inicio:.3f} s.", flush=True)
+
+
+PONTO_AUDITOR = (-21.985132, -47.885094)  # AUDITORIA-6b: perto da SP-318 km 236; o 07 acusa o cone e o 06 volta vazio
+NOMES_NOVOS = ("Leitura automática do Anexo ", "Leis posteriores aos mapas")
+
+
+def quadrado(lat, lon, lado=20):
+    x, y = gl.UTM.transform(lon, lat)
+    return gl.Polygon([(x - lado/2, y - lado/2), (x + lado/2, y - lado/2), (x + lado/2, y + lado/2), (x - lado/2, y + lado/2)])
+
+
+def testar_ressalvas(leitor):
+    """Tarefa 13: ressalva por anexo e registro das leis posteriores aos mapas."""
+    pol = quadrado(*PONTO_AUDITOR)
+    areas = leitor.ler(pol)
+    assert any(a["tipo"] == "gabarito_aeronautico" for a in areas), [a["tipo"] for a in areas]  # o alerta do 07 continua
+    seis = [a for a in areas if a["anexo"] == "06"]
+    assert seis and seis[0]["tipo"] == "nao_verificada" and "nenhuma área especial encontrada — não conferida" in seis[0]["nome"], seis  # e a ressalva do 06
+    for anexo, mapa in leitor.mapas.items():  # cada anexo vazio tem a sua; anexo que achou algo não ganha a ressalva
+        vazio = not mapa.ler(pol)
+        assert any(a["anexo"] == anexo and a["nome"].startswith("Leitura automática do Anexo ") for a in areas) == vazio, anexo
+    # um lote qualquer (um quadrado no centro da cidade, sem cone) traz o registro das leis posteriores, e só uma vez
+    for lote in (pol, quadrado(-22.0175, -47.8908)):
+        leis = [a for a in leitor.ler(lote) if a["nome"].startswith("Leis posteriores")]
+        assert len(leis) == 1, leis
+    l = leis[0]
+    assert l["tipo"] == l["incidencia"] == "nao_verificada" and l["conferido"] is False and not l.get("altura_max_m"), l
+    for trecho in ("dez/2016", "19.166/2019", "AEI", "44 e 45", "N e O", "ZUPI-II", "SP-318 km 236", "só em texto", "sem coordenadas",
+                   "18.927/2018", "Zona 6E", "9-A", "não é lido por nenhum módulo", "não verificado"):
+        assert trecho in l["nome"] + l["observacoes"], trecho
+    for link in ("acao=14&lei=1_339", "acao=14&lei=1_754", "lei18927-digital.pdf"):
+        assert link in l["fonte"], link
+    assert not {"poligono", "poligono_utm", "raio", "raio_m", "geometria"} & set(l)  # nada de polígono nem raio inventado
+    # o registro é novo a cada leitura: quem mexer num lote não muda o dos outros
+    assert leis_posteriores() is not leis_posteriores()
+    print("OK: ponto do Auditor sai com o gabarito do 07 e a ressalva do 06; registro das leis posteriores em todo lote, sem polígono nem raio.", flush=True)
+
+
+def testar_pilotos_inalterados(leitor, pilotos):
+    """Os pilotos seguem como antes, fora dos registros novos: ressalva de cada anexo vazio e leis posteriores."""
+    for piloto in pilotos:
+        pol = gl.Polygon(piloto["poligono_utm"])
+        bruto = [r for m in leitor.mapas.values() for r in m.ler(pol)]  # o que cada anexo achava sozinho: o comportamento antigo
+        novas = [a for a in leitor.ler(pol) if a["nome"].startswith(NOMES_NOVOS)]
+        assert [a for a in leitor.ler(pol) if a not in novas] == bruto, piloto["id"]
+        vazios = sum(not m.ler(pol) for m in leitor.mapas.values())
+        assert len(novas) == vazios + 1, (piloto["id"], len(novas), vazios)
+        print(f"  piloto {piloto['id']}: registros antigos iguais ({len(bruto)}); novos: {len(novas)} ({vazios} anexo(s) vazio(s) + leis posteriores)", flush=True)
+    print("OK: nos pilotos só mudam os registros novos (um por anexo vazio e o das leis posteriores).", flush=True)
+
+
+def main():
+    leitor = AreasEspeciais()
+    testar_ressalvas(leitor)
+    testar_pilotos_inalterados(leitor, gl.ler("viabilidade/terreno/lotes-piloto.json"))
+    print("ok")
+
+
+if __name__ == "__main__":
+    main()
