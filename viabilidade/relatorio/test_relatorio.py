@@ -606,6 +606,12 @@ class TestRelatorioViabilidade(unittest.TestCase):
 
         html_com_vgv = relatorio.gerar_html(estudo_dict)
         validar_html_contra_json(html_com_vgv, estudo_dict)
+        # Tarefa 19: a frase do que o VGV não é fica perto do número (tabela + cartão de cada opção).
+        frase = "VGV = área privativa × preço por m² informado pelo usuário. Não é lucro, receita garantida nem valor de mercado validado."
+        self.assertEqual(relatorio.AVISO_VGV, frase)
+        self.assertEqual(html_com_vgv.count(frase), 1 + len(estudo_dict["opcoes"]))
+        self.assertIn(f'<tr class="linha-aviso-vgv"><td colspan="{len(estudo_dict["opcoes"]) + 1}">{frase}</td></tr>', html_com_vgv)
+        self.assertNotIn(frase, relatorio.gerar_html(json.loads(self.arquivo_exemplo.read_text(encoding="utf-8"))), "Sem preço, sem VGV e sem a frase.")
 
     def test_contrato_v4_e_campos_v5_opcionais(self) -> None:
         """Mantém v4 e apresenta ausências, critério e ressalva de relevo v5."""

@@ -173,12 +173,24 @@ async function checkPriceSimulation(page) {
     const vgv = await valores();
     assert.equal(vgv.length, opcoes.length);
     opcoes.forEach((o, i) => assert(Math.abs(vgv[i] - o.metricas.area_privativa_m2 * preco) <= 1, `VGV ${o.id}: ${vgv[i]} x ${o.metricas.area_privativa_m2 * preco}`));
+    await avisoVisivel(opcoes.length);
+  };
+  const frase = 'VGV = área privativa × preço por m² informado pelo usuário. Não é lucro, receita garantida nem valor de mercado validado.';
+  const avisoVisivel = async quantos => {
+    const avisos = page.locator('.vgv-aviso');
+    assert.equal(await avisos.count(), quantos);
+    for (let i = 0; i < quantos; i++) {
+      assert.equal(await avisos.nth(i).innerText(), frase);
+      assert(await avisos.nth(i).isVisible(), 'A frase do VGV fica visível sem hover.');
+      assert(await avisos.nth(i).evaluate(node => node.previousElementSibling.classList.contains('highlights')), 'A frase fica logo abaixo dos números.');
+    }
   };
   assert.equal(await page.locator('.vgv-tela').first().isVisible(), false, 'Campo vazio: sem VGV simulado.');
+  assert.equal(await page.locator('.vgv-aviso').first().isVisible(), false, 'Sem VGV, sem a frase.');
   for (const [texto, preco] of [['8.500', 8500], ['8500', 8500], ['8500,50', 8500.5], ['R$ 8.500,50', 8500.5]]) {
     await page.locator('#preco-tela').fill(texto);
     assert.equal(await page.locator('#preco-tela').getAttribute('aria-invalid'), 'false', texto);
-    assert.match(await page.locator('.vgv-tela dt').first().innerText(), /VGV estimado \(preço digitado na tela\)/);
+    assert.match(await page.locator('.vgv-tela dt').first().innerText(), /VGV estimado \(preço informado pelo usuário na tela\)/);
     await conferir(preco, [example.opcoes[0]]);
   }
   await page.getByRole('button', { name: 'Lado a lado', exact: true }).click();
@@ -188,6 +200,7 @@ async function checkPriceSimulation(page) {
     assert.match(await page.locator('#preco-ajuda').innerText(), mensagem, texto);
     assert.equal(await page.locator('#preco-tela').getAttribute('aria-invalid'), 'true', texto);
     assert.equal(await page.locator('.vgv-tela').first().isVisible(), false, texto + ': sem VGV com preço inválido.');
+    assert.equal(await page.locator('.vgv-aviso').first().isVisible(), false, texto + ': sem a frase com preço inválido.');
   }
   assert.equal(await page.locator('#revisao').innerText(), revisao, 'O preço da tela não muda a revisão.');
   const comPreco = structuredClone(example);
@@ -197,12 +210,13 @@ async function checkPriceSimulation(page) {
   await upload(page, JSON.stringify(comPreco), 'estudo-com-preco.json');
   await page.waitForFunction(() => document.querySelector('#status').textContent.includes('estudo-com-preco.json'));
   const destaques = await page.locator('.highlights').innerText();
-  assert.match(destaques, /VGV estimado \(preço do estudo\)/);
-  assert.match(destaques, /VGV estimado \(preço digitado na tela\)/);
+  assert.match(destaques, /VGV estimado \(preço informado no estudo\)/);
+  assert.match(destaques, /VGV estimado \(preço informado pelo usuário na tela\)/);
   assert(destaques.includes(new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(comPreco.opcoes[0].metricas.vgv_estimado)));
   await conferir(9000, [comPreco.opcoes[0]]);
   await page.locator('#preco-tela').fill('');
   assert.equal(await page.locator('.vgv-tela').first().isVisible(), false);
+  await avisoVisivel(1); // o preço do estudo continua com a frase
 }
 
 (async () => {

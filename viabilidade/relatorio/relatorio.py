@@ -30,6 +30,12 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 
+# Pedido da revisão (tarefa 19): o VGV não é lucro nem valor validado; mesma frase da tela.
+AVISO_VGV = (
+    "VGV = área privativa × preço por m² informado pelo usuário. "
+    "Não é lucro, receita garantida nem valor de mercado validado."
+)
+
 RODAPE_FIXO = (
     "Estudo preliminar automático. Não substitui o arquiteto responsável "
     "nem garante aprovação na prefeitura."
@@ -1082,6 +1088,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
           {linha_metrica("2. Área privativa vendável", "area_privativa_m2", "m²", destaque=True)}
           {linha_metrica("3. Vagas de garagem", "vagas", "vagas", destaque=True)}
           {linha_metrica("4. VGV estimado", "vgv_estimado", "R$", destaque=True, eh_vgv=True)}
+          {f'<tr class="linha-aviso-vgv"><td colspan="{len(opcoes) + 1}">{esc(AVISO_VGV)}</td></tr>' if any((op.get("metricas") or {}).get("vgv_estimado") is not None for op in opcoes) else ""}
           {linha_metrica("CA usado", "ca_usado", "", destaque=False)}
           {linha_metrica("Taxa de ocupação usada (TO)", "to_usada", "", destaque=False)}
           {linha_metrica("Pavimentos (acima do solo)", "pavimentos", "pav.", destaque=False)}
@@ -1370,6 +1377,7 @@ def _gerar_pagina_opcao(estudo: Dict[str, Any], opcao: Dict[str, Any]) -> str:
           <div class="card-numero-rotulo">VGV Estimado</div>
           <div class="card-numero-valor card-numero-vgv">{vgv_html}</div>
           <div class="card-numero-sub">{esc(vgv_sub)}</div>
+          {f'<div class="card-numero-sub aviso-vgv">{esc(AVISO_VGV)}</div>' if vgv_val is not None else ""}
         </div>
       </div>
 
@@ -1789,6 +1797,16 @@ body {
 .card-numero-sub {
   font-size: 6.8pt;
   color: #475569;
+}
+.aviso-vgv,
+.tabela-comparacao tr.linha-aviso-vgv td {
+  font-size: 6.5pt;
+  line-height: 1.25;
+  color: #7c2d12;
+  font-weight: 600;
+}
+.tabela-comparacao tr.linha-aviso-vgv td {
+  text-align: left;
 }
 .grade-meio {
   display: grid;

@@ -19,7 +19,7 @@
     select{font:inherit;min-height:44px;padding:10px;border:1px solid #6b7b80;border-radius:6px;background:var(--raised);color:var(--ink)}
     select:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
     .simulacao{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:8px 0}.simulacao input{font:inherit;min-height:44px;width:11em;max-width:100%;padding:10px;border:1px solid #6b7b80;border-radius:6px;background:var(--raised);color:var(--ink)}
-    .simulacao input:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.simulacao input[aria-invalid="true"]{border-color:#ff9a7a}#preco-erro{color:#ffc9b8}
+    .simulacao input:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.simulacao input[aria-invalid="true"]{border-color:#ff9a7a}.vgv-aviso{margin:4px 0 12px;padding:6px 10px;border-left:3px solid var(--gold);color:var(--ink);font-size:13px;line-height:1.4}
     canvas:focus-visible{outline-color:#0e151b;outline-offset:-4px}
   </style>
   <script type="importmap">{"imports":{"viabilidade-three":"./vendor/three-viabilidade.min.js"}}</script>
@@ -173,10 +173,13 @@
       const preco = estudo.premissas.preco_venda_m2_privativo;
       linha(destaques, 'VGV estimado', !finito(preco) ? 'Informe o preço' : finito(m.vgv_estimado) ? reais.format(m.vgv_estimado) : 'Não informado');
       if (!finito(preco)) destaques.lastElementChild.querySelector('dd').className = 'sem-preco';
-      else destaques.lastElementChild.querySelector('dt').textContent = 'VGV estimado (preço do estudo)';
-      linha(destaques, 'VGV estimado (preço digitado na tela)', '');
+      else destaques.lastElementChild.querySelector('dt').textContent = 'VGV estimado (preço informado no estudo)';
+      linha(destaques, 'VGV estimado (preço informado pelo usuário na tela)', '');
       Object.assign(destaques.lastElementChild, { className: 'vgv-tela', hidden: precoTela === null }).dataset.area = m.area_privativa_m2;
-      painel.append(destaques);
+      const aviso = el('p', 'VGV = área privativa × preço por m² informado pelo usuário. Não é lucro, receita garantida nem valor de mercado validado.', 'vgv-aviso');
+      if (finito(preco)) aviso.dataset.estudo = '1';
+      aviso.hidden = !finito(preco) && precoTela === null;
+      painel.append(destaques, aviso);
       const dl = el('dl', undefined, 'details');
       linha(dl, 'Área computável máxima (lei)', estudo.caixa_maxima.area_computavel_max_m2 === null ? 'Sem limite na lei' : formatar(estudo.caixa_maxima.area_computavel_max_m2, ' m²'));
       for (const [key, label, unit] of campos) linha(dl, label, finito(m[key]) ? (key === 'ca_usado' ? numeroPreciso.format(m[key]) : numero.format(key === 'to_usada' ? m[key] * 100 : m[key])) + unit : 'Não informado');
@@ -310,6 +313,7 @@
         row.hidden = precoTela === null;
         row.querySelector('dd').textContent = finito(area) ? reais.format(area * precoTela) : 'Área privativa não informada';
       }
+      for (const aviso of document.querySelectorAll('.vgv-aviso')) aviso.hidden = !aviso.dataset.estudo && precoTela === null;
     }
     // Aceita 8500, 8.500, 8500,50 e 8.500,50 (ponto é milhar, vírgula é decimal).
     function lerPreco(texto) {
