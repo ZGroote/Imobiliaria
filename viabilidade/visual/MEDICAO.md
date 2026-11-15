@@ -27,3 +27,16 @@ Memória: fotografia de `performance.memory` após a órbita e a troca de opçã
 | remembramento-75352-75354 | celular | 13364 | 405220 | 60.2 | 402 | 12.0 |
 
 Observações: valores são medições deste ambiente, sem metas de aprovação e sem otimizações nesta tarefa.
+
+## Depois da tarefa 9
+
+Nova medição pendente: este ambiente bloqueia o bind do servidor HTTP local, então não consegui reexecutar o `medir.cjs` para Exemplo e remembramento. Os números acima seguem sendo a linha de base da tarefa 8. A instrumentação atual mede o tempo total até o primeiro render, não os tempos separados de cada etapa; não há valores pós-tarefa para comparar.
+
+Diagnóstico por código: a primeira maquete espera os imports do Three.js/OrbitControls e depois busca, valida, faz hash e desenha o estudo. A conferência do relatório só busca o HTML após clique, portanto fica fora desse caminho. O HTML do remembramento não tem `estudo-sha256` e é da revisão 0.8.0; o JSON atual é 0.8.1, então o relatório está desatualizado, mas isso só afeta o clique. O arquivo do remembramento tem 47.644 bytes e 448 vértices; parse e SHA-256 em Node local levaram 0,53 ms e 0,69 ms (não são tempos do Chrome). A variação de 346 ms para 9.515/9.520 ms veio com diferença de 88.194 bytes; a saída agregada não separa espera dos imports CDN, fetch do estudo ou criação WebGL.
+
+## Diagnóstico da central (15/11, depois da tarefa 9)
+
+Tempos por requisição (Playwright `request.timing()`), contexto novo a cada rodada, desktop:
+- Numa primeira sessão, `three.module.js` do **jsdelivr** levou **~1,1 s** em todas as aberturas; minutos depois, as 4 rodadas do remembramento e do exemplo deram **0,29–0,63 s** até a primeira maquete, sem nenhuma requisição acima de 0,7 s.
+- Conclusão: o patamar de ~1,3 s e os 9,5 s do remembramento vêm da **latência variável do CDN** (`cdn.jsdelivr.net/npm/three@0.186.1`), não do estudo (47 KB, parse/hash < 1 ms). A medição de cima mede o CDN daquele momento.
+- Correção proposta: servir o three 0.186.1 junto da página (a mesma versão existe em `experimentos/liv-experimental-2026-10-14/node_modules/three` da `main`), eliminando a dependência de rede externa.
