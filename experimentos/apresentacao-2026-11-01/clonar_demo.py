@@ -46,7 +46,7 @@ FORA = {"site-baseline", "diagnostico.html", "diagnostico.js", "index.html",
         # derruba a planta ("não pôde ser conferida"). A maquete já sabe viver sem ele.
         "transfer-worker.js"}
 TEXTO = {".js", ".mjs", ".json", ".html", ".css", ".txt"}
-PROIBIDO = re.compile(r"(?i:ipanema|livon|googletagmanager|gtag\(|analytics/|firestore|run\.app|cloudfunctions)|AIza|-21\.98|-47\.92")
+PROIBIDO = re.compile(r"(?i:ipanema|livon|googletagmanager|gtag\(|analytics/|firestore|run\.app|cloudfunctions)|AIza[0-9A-Za-z_-]{35}|-21\.98|-47\.92")
 
 trocados = {}  # sha256 antigo -> (sha256 novo, bytes novos)
 
@@ -69,6 +69,20 @@ def trocar_nome(texto):
     for antigo, novo in TROCAS:
         texto = texto.replace(antigo, novo)
     return texto
+
+
+def sem_fonte_do_cliente(valor):
+    # As unidades e a cena guardam de onde vieram (site e book do cliente); a demonstração não.
+    if isinstance(valor, dict):
+        # bookSHA256 amarra tabela, vínculos e unidades: vira o mesmo código falso em todos.
+        return {chave: LIVRO_FALSO if chave == "bookSHA256" else sem_fonte_do_cliente(filho)
+                for chave, filho in valor.items()
+                if not (isinstance(filho, str) and "livonincorporadora" in filho)}
+    if isinstance(valor, list):
+        return [sem_fonte_do_cliente(filho) for filho in valor]
+    if valor == "livon-shop":  # área comum com o nome do cliente (outline.site.amenities da cena)
+        return "loja"
+    return valor
 
 
 def esconder_letreiro(texto):
@@ -98,6 +112,11 @@ def renomear_tudo():
             except (OSError, UnicodeDecodeError):
                 continue
             novo = esconder_letreiro(trocar_nome(texto))
+            if re.search(r"(?i)livon", novo):
+                try:
+                    novo = json.dumps(sem_fonte_do_cliente(json.loads(novo)), ensure_ascii=False, separators=(",", ":"))
+                except ValueError:
+                    pass  # não é JSON: a conferência final acusa a sobra
             if novo != texto:
                 # O hash do conteúdo descomprimido também aparece nos manifestos.
                 trocados[sha(texto.encode())] = (sha(novo.encode()), len(novo.encode()))
@@ -123,16 +142,6 @@ def ajustar_dados():
         unidade["conditions"] = "Valores ilustrativos, só para demonstração" if unidade["availability"] == "disponivel" else None
     caminho.write_text(json.dumps(comercial, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    def sem_fonte_do_cliente(valor):
-        # As unidades guardam de onde vieram (o book do cliente); a demonstração não.
-        if isinstance(valor, dict):
-            # bookSHA256 amarra tabela, vínculos e unidades: vira o mesmo código falso em todos.
-            return {chave: LIVRO_FALSO if chave == "bookSHA256" else sem_fonte_do_cliente(filho)
-                    for chave, filho in valor.items()
-                    if not (isinstance(filho, str) and "livonincorporadora" in filho)}
-        if isinstance(valor, list):
-            return [sem_fonte_do_cliente(filho) for filho in valor]
-        return valor
     for caminho in DESTINO.rglob("*.json"):
         texto = caminho.read_text(encoding="utf-8")
         if "livonincorporadora" in texto or '"bookSHA256"' in texto:
@@ -851,12 +860,24 @@ def recalcular_hashes():
 def conferir():
     sobras = []
     for caminho in DESTINO.rglob("*"):
-        if caminho.is_file() and caminho.suffix in TEXTO:
-            for achado in PROIBIDO.finditer(caminho.read_text(encoding="utf-8")):
-                sobras.append(f"{caminho.relative_to(DESTINO)}: {achado.group(0)}")
+        if not caminho.is_file():
+            continue
+        if caminho.suffix in TEXTO:
+            texto = caminho.read_text(encoding="utf-8")
+        elif caminho.suffix == ".gz":
+            try:
+                texto = gzip.decompress(caminho.read_bytes()).decode("utf-8")
+            except (OSError, UnicodeDecodeError):
+                continue  # binário (luz, geometria): não guarda texto do cliente
+        else:
+            continue
+        for achado in PROIBIDO.finditer(texto):
+            sobras.append(f"{caminho.relative_to(DESTINO)}: {achado.group(0)}")
     tamanho = sum(p.stat().st_size for p in DESTINO.rglob("*") if p.is_file())
     print(f"{DESTINO.relative_to(RAIZ)}: {tamanho / 2**20:.0f} MB, {len(trocados)} arquivos trocados")
     print("\n".join(sorted(set(sobras))[:60]) or "nenhum rastro do cliente")
+    if sobras:
+        raise SystemExit("rastro do cliente na demo: não publicar")
 
 
 if __name__ == "__main__":
