@@ -148,8 +148,11 @@ def frentes_borda(g, indice, geos, tree, tree_ruas):
     """Regra 3, só sem asfalto que sirva: lado que não encosta em lote e dá para um corredor de 8 a 30 m até a quadra
     do outro lado, aberto nas duas pontas e ligado à malha de asfalto (viela, fundo de quadra e lote faltando no miolo
     não passam)."""
+    def lote(j):  # vizinho inválido no cadastro (laço, anel de 3 pontos) é consertado antes de cruzar com qualquer coisa
+        return geos[j] if geos[j].is_valid else sh.make_valid(geos[j])
+
     def livre(geom, minimo=0.5):  # nenhum lote (nem o próprio) ocupa mais que `minimo` m² de geom
-        return all(geos[j].intersection(geom).area <= minimo for j in tree.query(geom, predicate="intersects"))
+        return all(lote(j).intersection(geom).area <= minimo for j in tree.query(geom, predicate="intersects"))
     frentes = []
     for ks, pts in cadeias(list(g.exterior.coords)):
         corda = math.dist(pts[0], pts[-1])
@@ -163,7 +166,7 @@ def frentes_borda(g, indice, geos, tree, tree_ruas):
         linha = LineString(pts)
         # (a) lado livre: nenhum lote a 0,5 m do miolo do lado (as pontas podem encostar no vizinho de divisa)
         miolo = substring(linha, 0.1, 0.9, normalized=True)
-        if any(j != indice and geos[j].distance(miolo) <= 0.5 for j in tree.query(miolo, predicate="dwithin", distance=0.5)):
+        if any(j != indice and lote(j).distance(miolo) <= 0.5 for j in tree.query(miolo, predicate="dwithin", distance=0.5)):
             continue
         # (b) vão: faixa de 8 m à frente sem lote; raios (2 m de largura) de 30 m em 3 pontos batem num lote entre 8 e 30 m
         p0, p1 = a + u * corda * 0.1, b - u * corda * 0.1
@@ -173,8 +176,8 @@ def frentes_borda(g, indice, geos, tree, tree_ruas):
         for t in (0.15, 0.5, 0.85):
             p = a + (b - a) * t
             raio = LineString([p + n * 0.3, p + n * VAO_M[1]]).buffer(1.0, cap_style="flat")  # faixa de 2 m: fresta entre lotes não vaza
-            batidas = [Point(*p).distance(geos[j].intersection(raio)) for j in tree.query(raio, predicate="intersects")
-                       if not geos[j].intersection(raio).is_empty]
+            batidas = [Point(*p).distance(lote(j).intersection(raio)) for j in tree.query(raio, predicate="intersects")
+                       if not lote(j).intersection(raio).is_empty]
             vaos.append(min(batidas, default=math.inf))
         if not all(VAO_M[0] <= v <= VAO_M[1] for v in vaos):
             continue
@@ -184,7 +187,7 @@ def frentes_borda(g, indice, geos, tree, tree_ruas):
             continue
         # (c) praça/área verde: atrás do vão tem que haver quadra; faixa de ALEM_M além do vão mais da metade vazia = recusa
         faixa = Polygon([a + n * (w + 1), b + n * (w + 1), b + n * (w + 1 + ALEM_M), a + n * (w + 1 + ALEM_M)])
-        ocupado = sh.union_all([geos[j] for j in tree.query(faixa, predicate="intersects")]).intersection(faixa).area
+        ocupado = sh.union_all([lote(j) for j in tree.query(faixa, predicate="intersects")]).intersection(faixa).area
         if 1 - ocupado / faixa.area > LIVRE_MAX:
             continue
         # (c) é rua: o eixo do vão, até o primeiro lote de cada lado, tem 60 m ou mais e passa a até 6 m do asfalto
@@ -192,14 +195,20 @@ def frentes_borda(g, indice, geos, tree, tree_ruas):
         alcance = []
         for s in (u, -u):
             eixo = LineString([m, m + s * EIXO_M[1]])
-            alcance.append(min((Point(*m).distance(geos[j].intersection(eixo)) for j in tree.query(eixo, predicate="intersects")
-                                if not geos[j].intersection(eixo).is_empty), default=EIXO_M[1]))
+            alcance.append(min((Point(*m).distance(lote(j).intersection(eixo)) for j in tree.query(eixo, predicate="intersects")
+                                if not lote(j).intersection(eixo).is_empty), default=EIXO_M[1]))
         eixo = LineString([m - u * alcance[1], m + u * alcance[0]])
         if eixo.length < EIXO_M[0] or not len(tree_ruas.query(eixo, predicate="dwithin", distance=6)):
             continue
         frentes.append({"aresta": ks[0], "arestas": ks, "pontos": [list(pts[0]), list(pts[-1])],
                         "comprimento_m": round(corda, 3), "largura_vao_m": round(w, 3), "regra": "borda_de_quadra"})
     frentes.sort(key=lambda f: (-f["comprimento_m"], f["aresta"]))
+    # a principal é a que chega mais perto do asfalto (o cruzamento encosta na rua de verdade, o vazio do miolo fica longe
+    # dele); diferença de até 1 m fica a mais comprida
+    perto = [float(tree_ruas.query_nearest(LineString(f["pontos"]), return_distance=True)[1][0]) for f in frentes]
+    k = int(np.argmin(perto)) if frentes else 0
+    if frentes and perto[k] < perto[0] - 1:
+        frentes.insert(0, frentes.pop(k))
     return frentes
 
 
