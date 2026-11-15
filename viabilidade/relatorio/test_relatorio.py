@@ -389,7 +389,7 @@ class TestRelatorioViabilidade(unittest.TestCase):
         cls.arquivos_pilotos = sorted(DIR_PILOTOS.glob("*.json"))
         cls.arquivo_exemplo = DIR_EXEMPLOS / "estudo-exemplo.json"
 
-    def test_rejeita_payload_nos_numeros_e_escapa_todos_os_textos(self) -> None:
+    def test_payload_em_todas_as_folhas_dos_oito_estudos(self) -> None:
         import copy
 
         payload = '<img src=x onerror=alert(1)>'
@@ -408,15 +408,6 @@ class TestRelatorioViabilidade(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, r"opcoes\[0\]\.metricas\.ca_usado deve ser número ou null"):
             relatorio.gerar_html(estudo_metrica_invalida)
 
-        def injetar_textos(valor: Any) -> Any:
-            if isinstance(valor, dict):
-                return {chave: injetar_textos(item) for chave, item in valor.items()}
-            if isinstance(valor, list):
-                return [injetar_textos(item) for item in valor]
-            return payload if isinstance(valor, str) else valor
-
-        html_injetado = relatorio.gerar_html(injetar_textos(copy.deepcopy(estudo)))
-
         class DetectorTagsAtivas(HTMLParser):
             def __init__(self) -> None:
                 super().__init__()
@@ -426,10 +417,61 @@ class TestRelatorioViabilidade(unittest.TestCase):
                 if tag in {"img", "script", "iframe", "object", "embed"} or any(nome.lower().startswith("on") for nome, _ in attrs):
                     self.ativas.append(tag)
 
+        fixo = DIR_VIABILIDADE / "revisao/tarefa3/casos/xss-pavimentos.json"
+        with self.assertRaisesRegex(ValueError, r"opcoes\[.*\]\.volumes\[.*\]\.pavimentos"):
+            relatorio.gerar_html(json.loads(fixo.read_text(encoding="utf-8")))
+        payload = '</title><img src=x onerror=alert(1)><svg>'
+        for valor in (-1, 1.5, True, None, [], {}):
+            invalido = copy.deepcopy(estudo)
+            invalido["opcoes"][0]["volumes"][0]["pavimentos"] = valor
+            with self.subTest(pavimentos=valor), self.assertRaisesRegex(ValueError, r"opcoes\[0\]\.volumes\[0\]\.pavimentos"):
+                relatorio.gerar_html(invalido)
+
+        # Mesmo sem passar pela validação de entrada, o SVG deve escapar o valor.
+        direto = copy.deepcopy(estudo)
+        direto["opcoes"][0]["volumes"][0]["pavimentos"] = payload
         detector = DetectorTagsAtivas()
-        detector.feed(html_injetado)
+        detector.feed(relatorio.gerar_svg_planta(direto["lote"], direto["caixa_maxima"], direto["opcoes"][0]))
         self.assertEqual(detector.ativas, [])
+
+        def folhas(valor, caminho=()):
+            if isinstance(valor, dict):
+                for chave, item in valor.items():
+                    yield from folhas(item, (*caminho, chave))
+            elif isinstance(valor, list):
+                for indice, item in enumerate(valor):
+                    yield from folhas(item, (*caminho, indice))
+            else:
+                yield caminho, valor
+
+        total = recusadas = 0
+        tipos = set()
+        for arquivo in [self.arquivo_exemplo, *self.arquivos_pilotos]:
+            base = json.loads(arquivo.read_text(encoding="utf-8"))
+            for caminho, original in list(folhas(base)):
+                with self.subTest(estudo=arquivo.name, caminho=caminho):
+                    pai = base
+                    for chave in caminho[:-1]:
+                        pai = pai[chave]
+                    pai[caminho[-1]] = payload
+                    total += 1
+                    tipos.add(type(original))
+                    try:
+                        try:
+                            resultado = relatorio.gerar_html(base)
+                        except ValueError as erro:
+                            self.assertTrue(str(erro))
+                            recusadas += 1
+                        else:
+                            detector = DetectorTagsAtivas()
+                            detector.feed(resultado)
+                            self.assertEqual(detector.ativas, [])
+                    finally:
+                        pai[caminho[-1]] = original
+        self.assertEqual(tipos, {str, int, float, bool, type(None)})
+        self.assertGreater(total - recusadas, 0)
         self.assertEqual(relatorio.formatar_numero_ptbr(payload), relatorio.esc(payload))
+        print(f"Mutações: {total}; recusadas: {recusadas}; HTML seguro: {total - recusadas}; sem amostragem.")
 
     @classmethod
     def tearDownClass(cls) -> None:

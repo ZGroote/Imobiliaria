@@ -67,6 +67,8 @@ async function checkWidth(page) {
         isMobile: mobile, hasTouch: mobile, deviceScaleFactor: 1,
       });
       const errors = [];
+      const dialogs = [];
+      page.on('dialog', async dialog => { dialogs.push(dialog.message()); await dialog.dismiss(); });
       page.on('pageerror', error => errors.push(error.message));
       page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
       page.on('request', request => {
@@ -77,6 +79,22 @@ async function checkWidth(page) {
       });
       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+      const payload = '</title><img src=x onerror=alert(1)><svg>';
+      for (const campo of ['volume', 'incerteza', 'lote']) {
+        const mutacao = structuredClone(example);
+        if (campo === 'volume') mutacao.opcoes[0].volumes[0].pavimentos = payload;
+        if (campo === 'incerteza') mutacao.incertezas = [payload];
+        if (campo === 'lote') mutacao.lote.id = payload;
+        const nome = 'xss-' + campo + '.json';
+        await upload(page, JSON.stringify(mutacao), nome);
+        await page.waitForFunction(nome => document.querySelector('#status').textContent.includes(nome) || !document.querySelector('#erro').hidden, nome);
+        await page.waitForTimeout(100);
+        assert.equal(dialogs.length, 0, campo + ': nenhum dialog deve disparar');
+        assert.equal(await page.locator('#cards img, #incertezas img, #lote img').count(), 0);
+      }
+      await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+      await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+
       await page.locator('canvas').first().waitFor();
       assert.equal(await page.locator('#relatorio').getAttribute('href'), '../relatorio/saida/estudo-exemplo.html');
       const exampleSha = crypto.createHash('sha256').update(exampleBytes).digest('hex');
