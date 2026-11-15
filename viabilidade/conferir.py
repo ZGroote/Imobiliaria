@@ -24,6 +24,7 @@ PY = [sys.executable, "-I", "-X", "utf8"]
 TESTES = {
     "motor": ("viabilidade/motor/test_motor.py", PY + ["viabilidade/motor/test_motor.py"]),
     "terreno": ("viabilidade/terreno/testar_pilotos.py", PY + ["viabilidade/terreno/testar_pilotos.py", "--reproduzir"]),
+    "lote-novo": ("viabilidade/terreno/novo_lote.py", PY + ["viabilidade/terreno/novo_lote.py", "--testar"]),
     "relatorio": ("viabilidade/relatorio/test_relatorio.py", PY + ["viabilidade/relatorio/test_relatorio.py"]),
     "lei": ("viabilidade/lei/gera_zonas.py", None),  # refaz zonas.json e compara bytes
     "visual": ("viabilidade/visual/testar.cjs", ["node", "viabilidade/visual/testar.cjs"]),
