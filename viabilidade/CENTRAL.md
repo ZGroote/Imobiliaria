@@ -17,7 +17,9 @@ Atualizado: 14/11/2026, ~13h. Galho `feat/viabilidade` (worktree `Desktop/imobil
 
 Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota Gemini/Claude/GPT dele); programação em Claude/Codex; central no Opus. Antigravity não assina commit: só escreve na pasta dele e a central commita. Ajudantes (subagentes) só quando houver partes separadas. Esforço (usuário, 14/11): **médio** no simples (ajuste de tela, pesquisa curta, tarefa bem definida); **alto** no Motor, Auditor, Conferência e em investigação de defeito.
 
-**Maestri, Fase A (14/11):** Relatorio (Antigravity Sonnet alto) pesquisa capacidade/eficiência das IAs, só leitura, em `Desktop/imobiliaria-viabilidade-gemini/maestri-capacidade/` (TAREFA.md). Entrega: 4 docs + PREVISOES.md + RESUMO.md; a central confere as referências e PARA aguardando autorização. Sem commit/push dessa pasta.
+**Maestri, Fase A (14/11):** Relatorio (Antigravity Sonnet alto) pesquisa capacidade/eficiência das IAs, só leitura, em `Desktop/imobiliaria-viabilidade-gemini/maestri-capacidade/` (TAREFA.md). Entrega: 4 docs + PREVISOES.md + RESUMO.md; a central confere as referências e PARA aguardando autorização. Sem commit/push dessa pasta. **ENTREGUE 15/11 ~00:25**; conferência da central em `CONFERENCIA-CENTRAL.md` (P-05 inválida, P-02 com base velha). Aguardando autorização do usuário pro Passo 1.
+
+**Cotas lidas em `~/.maestri/usage/providers/.status.json` (15/11 03:23Z):** Codex semanal 90% (renova 16/11 11:57 -03) e 84% (renova 21/11 12:36 -03): **usar Codex só no essencial**. Antigravity: pool "Claude and GPT" 5h 100% (semanal 54%), Argon 100% até 21/11 13:12 -03, Gemini (Hydrogen/Carbon/Flash) ~0%. Claude Code: 11% (5h), 6% (semana).
 
 ## Ao chegar um relatório
 
