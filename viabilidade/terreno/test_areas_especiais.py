@@ -54,8 +54,8 @@ def testar_leitura(leitor):
             if mapa.legenda[0][2] == "chacaras_recreio":
                 assert not any(a["tipo"] == "chacaras_recreio" for a in mapa.ler(pol))
             raster.linha = None
-            # achado 8: margem >= maior resíduo do anexo
-            assert mapa.divisa_m == {"05": 10, "06": 11, "07": 12}[anexo], (anexo, mapa.divisa_m)
+            # achado 8: margem >= maior resíduo do anexo; com os 21 cruzamentos (tarefa 17) o piso de 10 m vale para todos
+            assert mapa.divisa_m == 10, (anexo, mapa.divisa_m)
             raster.faixa = True
             areas = mapa.ler(pol)
             assert any(a["incidencia"] == "possivel_incidencia" and a["distancia_conservadora_m"] <= mapa.divisa_m for a in areas)
@@ -118,16 +118,17 @@ def testar(cadastro, pilotos, pasta):
                for opcao in estudo["opcoes"] for alerta in opcao["alertas"])
     assert "gabarito_aeronautico" in (destino / "relatorio.html").read_text(encoding="utf-8")
     print(f"OK: estudar.py completo/22420: alerta ÁREA ESPECIAL/gabarito_aeronautico no estudo e relatório; CLI {time.perf_counter()-cli_inicio:.3f} s.", flush=True)
-    for i in (74451, 77015, 77022, 77375):  # REVISAO-7: dentro do tracejado magenta, os 9 m vão gravados
+    for i in (77015, 77022, 77375):  # REVISAO-7: dentro do tracejado magenta, os 9 m vão gravados
         assert [a["altura_max_m"] for a in cadastro.gerar([i], "SC-Z1")["areas_especiais"] if a["tipo"] == "restricao_gabarito_historico"] == [9], i
-    assert not any(a["tipo"] == "restricao_gabarito_historico" for a in cadastro.gerar([80172], "SC-Z1")["areas_especiais"])
+    for i in (74451, 80172):  # 74451: dentro só pela posição antiga (~44 m a leste); corrigida, fica a leste do tracejado (tarefa 17)
+        assert not any(a["tipo"] == "restricao_gabarito_historico" for a in cadastro.gerar([i], "SC-Z1")["areas_especiais"]), i
     destino = pasta / "estudo-gabarito"
     r = executar(AQUI.parent / "motor/estudar.py", "--base", "completo", "--indices", 77022, "--zona", "SC-Z1", "--pasta", destino)
     assert r.returncode == 0, r.stderr
     estudo = json.loads((destino / "estudo.json").read_text(encoding="utf-8"))
     topo = max(v["z0_m"] + v["altura_m"] for o in estudo["opcoes"] for v in o["volumes"])
     assert estudo["opcoes"] and topo <= 9, topo
-    print(f"OK: subárea do art. 80 com 9 m em 74451, 77015, 77022 e 77375, fora em 80172; estudar.py 77022 sai com no máximo {topo:g} m.", flush=True)
+    print(f"OK: subárea do art. 80 com 9 m em 77015, 77022 e 77375, fora em 74451 e 80172; estudar.py 77022 sai com no máximo {topo:g} m.", flush=True)
     print(f"Tempo dos ensaios de áreas especiais: {time.perf_counter()-inicio:.3f} s.", flush=True)
 
 

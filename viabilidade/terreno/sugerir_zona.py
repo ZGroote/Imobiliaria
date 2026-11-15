@@ -10,7 +10,6 @@ import cache
 import gerar_lotes as gl
 from cache import sha
 from PIL import Image, ImageFilter
-from pyproj import Transformer
 
 AQUI = Path(__file__).resolve().parent
 ZONAS = ["SC-Z1", "SC-Z2", "SC-Z3", "SC-Z4", "SC-Z5A", "SC-Z5B"]
@@ -21,9 +20,6 @@ TOLERANCIA_COR = 18
 # Cor a menos de 3 unidades RGB de empatar entre duas da paleta não decide (AUDITORIA-6: Represa x Z3 a 9,1;
 # Z5B x Parque a 22,2): vira 0, como traço, e só herda classe de vizinho a até 3 px.
 MARGEM_COR = 3
-# Um par por processo, não um por mapa: cada from_crs custa ~11 ms.
-SAD = Transformer.from_crs(31983, 29183, always_xy=True)
-SIRGAS = Transformer.from_crs(29183, 31983, always_xy=True)
 # Vizinhos a até 3 pixels, do mais perto ao mais longe; no empate, menor coluna e depois menor linha,
 # o mesmo desempate do scipy.ndimage.distance_transform_edt que esta busca substitui (sem scipy no CI).
 VIZINHOS_3PX = sorted(((dy, dx) for dy in range(-3, 4) for dx in range(-3, 4) if 0 < dy*dy + dx*dx <= 9),
@@ -104,27 +100,28 @@ class MapaGeorreferenciado:
             if self.imagem.size != (8858, 12746):
                 raise ValueError(f"Dimensões do Anexo {anexo} incompatíveis com os controles")
             self.imagem = cache.Imagem(arquivo, self.imagem)  # decodifica uma vez; depois lê blocos de .cache/
-        pos = json.loads((AQUI / "dados/zonas-posicionamento.json").read_text(encoding="utf-8"))[anexo]
+        # Afim direta EPSG:31983 -> pixel por 21 cruzamentos de rua (tarefa 17). O ajuste antigo do mesmo arquivo
+        # (5 vértices, SAD69 "ballpark") errava 40-100 m na cidade e fica só para reproduzir as anotações à mão.
+        pos = json.loads((AQUI / "dados/zonas-posicionamento.json").read_text(encoding="utf-8"))[anexo]["afim_31983"]
         self.coef = gl.np.array(pos["afim_utm_menos_origem_para_pixel"])
         self.origem = gl.np.array(pos["origem_utm"])
-        controles = json.loads((AQUI / "dados/zonas-controles.json").read_text(encoding="utf-8"))["mapas"][anexo]
-        mundo = gl.np.array([p["utm_sad69"] for p in controles])
-        pixels = gl.np.array([p["pixel"] for p in controles])
-        ajuste = gl.np.linalg.lstsq(gl.np.column_stack([mundo - self.origem, gl.np.ones(len(mundo))]), pixels, rcond=None)[0]
-        if not gl.np.allclose(ajuste, self.coef, rtol=0, atol=1e-8):
+        controles = json.loads((AQUI / "dados/zonas-controles.json").read_text(encoding="utf-8"))["cruzamentos"]["pontos"]
+        matriz = gl.np.column_stack([[p["utm"] for p in controles] - self.origem, gl.np.ones(len(controles))])
+        pixels = gl.np.array([p["pixel"][anexo] for p in controles])
+        ajuste = gl.np.linalg.lstsq(matriz, pixels, rcond=None)[0]
+        residuos = gl.np.linalg.norm(matriz @ ajuste - pixels, axis=1) / gl.np.sqrt(abs(gl.np.linalg.det(ajuste[:2])))
+        if not (gl.np.allclose(ajuste, self.coef, rtol=0, atol=1e-8)
+                and gl.np.allclose(residuos, pos["residuos_controles_m"], rtol=0, atol=1e-6)):
             raise ValueError(f"Posicionamento não corresponde aos controles do Anexo {anexo}")
-        self.residuo_max = max(pos["residuos_controles_m"])
-        self.sad, self.sirgas = SAD, SIRGAS
+        self.residuo_max = float(residuos.max())
         self.escala_min, self.escala_max = sorted(gl.np.linalg.svd(self.coef[:2], compute_uv=False))
 
     def pixel(self, coords):
-        coords = gl.np.asarray(coords)
-        x, y = self.sad.transform(coords[:, 0], coords[:, 1])
-        return gl.np.column_stack([gl.np.column_stack([x, y]) - self.origem, gl.np.ones(len(coords))]) @ self.coef
+        coords = gl.np.asarray(coords)[:, :2]
+        return gl.np.column_stack([coords - self.origem, gl.np.ones(len(coords))]) @ self.coef
 
     def utm(self, coords):
-        sad = (gl.np.asarray(coords) - self.coef[2]) @ gl.np.linalg.inv(self.coef[:2]) + self.origem
-        return gl.np.column_stack(self.sirgas.transform(sad[:, 0], sad[:, 1]))
+        return (gl.np.asarray(coords) - self.coef[2]) @ gl.np.linalg.inv(self.coef[:2]) + self.origem
 
 
 class MapaZonas(MapaGeorreferenciado):
@@ -153,11 +150,11 @@ class MapaZonas(MapaGeorreferenciado):
         x0, y0, x1, y1 = pixel_pol.bounds
         caixa = (int(gl.np.floor(x0-margem)), int(gl.np.floor(y0-margem)),
                  int(gl.np.ceil(x1+margem)), int(gl.np.ceil(y1+margem)))
-        info = {"metodo": "Anexo 02 verificado por SHA256; EPSG:31983→29183, afim de 5 controles; "
+        info = {"metodo": "Anexo 02 verificado por SHA256; afim direta EPSG:31983→pixel por 21 cruzamentos de rua; "
                 "centros de todos os pixels interiores (~1,4 m), RGB da legenda (tolerância 18); "
                 "cor ambígua (empate a menos de 3) não decide; traços recuperados até 3 pixels; divisa conservadora "
                 ">=10 m; busca 250 m; Eixo (traço de 3x3 px ou mais) a <=60 m recusa. "
-                "RMSE 3,53 m não é acurácia cadastral.", "pontos": [], "proporcao_por_zona": {},
+                "RMSE 2,9 m (máx. 6,2) nos cruzamentos não é acurácia cadastral.", "pontos": [], "proporcao_por_zona": {},
                 "distancia_divisa_m": None, "alternativas": [], "motivo_duvida": None}
         # Fora do quadro principal há legendas e quadros sem o mesmo georreferenciamento.
         if pol.area > 1_000_000 or (caixa[2]-caixa[0]) * (caixa[3]-caixa[1]) > 2_000_000:

@@ -22,6 +22,8 @@ A Z2 foi escolhida mais afastada da divisa: `dados/anotacao-z2.json` registra o 
 
 ## Método e controles
 
+> **Tarefa 17 (15/11/2026).** O método abaixo é o das anotações à mão de 14/11 e continua só para reproduzi-las. Os 5 vértices ficam todos no sul e no oeste e o SAD69 "ballpark" desloca as ruas ~44 m para leste e até ~55 m no norte-sul (RELATORIO-16). A leitura automática (`sugerir_zona.py`, `areas_especiais.py`) usa agora a afim direta 31983 → pixel por 21 cruzamentos de rua (bloco `afim_31983`; resíduo máximo 6,1–6,2 m por anexo; ver `ZONA-AUTO.md`). As zonas anotadas à mão não mudam; a frase sobre o 22421 abaixo vale para a posição antiga: na nova, ele fica a ~13 m da divisa, só com Z1/Eixo.
+
 Extraí o JPEG de 8858 × 12746 pixels de cada PDF oficial. Localizei manualmente cinco quinas/interseções do perímetro urbano e usei as coordenadas SAD69 do Anexo 02.A: vértices 17, 18 e 19 no sul (CEAT); 31 a oeste (Córrego Água Fria e estrada Cônego Washington José Pera); 54 a noroeste (limite da USP 2 e ferrovia). As coordenadas e pixels estão em `dados/zonas-controles.json`. Não há grade numerada aproveitável no raster; foram usados esses vértices do memorial, e não os campos fx/fy.
 
 O ajuste é afim por mínimos quadrados, independente para cada anexo. Transformei todos os vértices dos lotes de EPSG:31983 para EPSG:29183 com pyproj. Inspecionei o polígono completo, a legenda e as vias nomeadas ao redor. Os nomes de bairros apenas ajudam a descrever o recorte; não determinaram a zona. Os KMLs de proposta e o mapa antigo do SigaSC não foram usados.

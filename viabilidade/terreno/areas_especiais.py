@@ -3,7 +3,7 @@ import math
 
 import cache
 import gerar_lotes as gl
-from sugerir_zona import MapaGeorreferenciado, DIVISA_M, classificar, mancha, recuperar_tracos
+from sugerir_zona import AQUI, MapaGeorreferenciado, DIVISA_M, classificar, mancha, recuperar_tracos
 
 # Centros das amostras das legendas dos JPEGs verificados pelo manifesto.
 LEGENDAS = {
@@ -96,7 +96,7 @@ class MapaEspecial(MapaGeorreferenciado):
         super().__init__(anexo)
         self.anexo = anexo
         self.legenda = LEGENDAS[anexo]
-        # Margem >= maior resíduo dos controles do anexo (06: 10,46 m; 07: 11,37 m), nunca menos que 10 m.
+        # Margem >= maior resíduo dos 21 cruzamentos do anexo (tarefa 17: 6,1-6,3 m), nunca menos que 10 m.
         self.divisa_m = max(DIVISA_M, float(math.ceil(self.residuo_max)))
         pontos = [(x, y) for x, y, *_ in self.legenda] + FUNDOS[anexo]
         cores = [gl.np.median(gl.np.asarray(self.imagem.crop((x-10, y-10, x+10, y+10))), axis=(0, 1)) for x, y in pontos]
@@ -109,14 +109,17 @@ class MapaEspecial(MapaGeorreferenciado):
                     self.codigo.append(i + 1)
         self.paleta = gl.np.array(cores + [[255, 255, 255]] + compostas)
         self.codigo = gl.np.array(self.codigo)
+        # A subárea e os cones são lidos em pixel e levados a UTM pela afim: mudou o posicionamento, refaz.
+        posicao = [self.arquivo, __file__, AQUI / "sugerir_zona.py",
+                   AQUI / "dados/zonas-controles.json", AQUI / "dados/zonas-posicionamento.json"]
         if anexo == "06":
             import PIL
-            self.subarea = cache.poligonos("subarea-06", [self.arquivo, __file__], lambda: [self.ler_subarea()],
+            self.subarea = cache.poligonos("subarea-06", posicao, lambda: [self.ler_subarea()],
                                            f"Pillow {PIL.__version__}")[0]
         if anexo == "07":
-            # O contorno só depende do JPEG e deste código: guardado em .cache/ (0,8 s a menos por lote).
+            # Guardado em .cache/ (0,8 s a menos por lote).
             import PIL
-            partes = cache.poligonos("cones-07", [self.arquivo, __file__], lambda: gl.sh.get_parts(self.ler_cones()),
+            partes = cache.poligonos("cones-07", posicao, lambda: gl.sh.get_parts(self.ler_cones()),
                                      f"Pillow {PIL.__version__}")
             self.cones = partes[0] if len(partes) == 1 else gl.sh.multipolygons(partes)
             self.aei_aerea = gl.Polygon(self.utm(gl.sh.box(*AEI_TRANSPORTE_AEREO).exterior.coords))

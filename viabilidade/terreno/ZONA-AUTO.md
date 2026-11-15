@@ -6,7 +6,7 @@
 
 O JPEG integral é conferido pelo SHA256 de `dados/mapas-externos.json`. Quando ausente, baixa somente `anexo02.jpg` da mesma release usada por `viabilidade/baixar_mapas.py`, com `gh` autenticado, verificando o hash antes de salvar. Um arquivo existente divergente é recusado. Não há consulta online quando o mapa está disponível e íntegro.
 
-Reutiliza `zonas-posicionamento.json` e confere a matriz com os cinco pontos de `zonas-controles.json`. Converte EPSG:31983 para EPSG:29183 antes da transformação afim. O RMSE 3,53 m é ajuste aos controles, **não acurácia cadastral**. Nenhuma coordenada fx/fy é usada.
+Usa a afim direta EPSG:31983 → pixel de `zonas-posicionamento.json` (bloco `afim_31983` de cada anexo) e, ao carregar, refaz o ajuste com os 21 cruzamentos de rua de `zonas-controles.json` (`cruzamentos`) e confere matriz e resíduos. RMSE 2,9 m no 02 (máx. 6,2 m; 05/06/07: 2,9–3,2 m, máx. 6,1–6,2 m); 8 cruzamentos fora do ajuste ficam a até 6,7 m (`test_sugerir_zona.py`). Isso é ajuste a cruzamentos, **não acurácia cadastral**. Até a tarefa 17 o ajuste era de 5 vértices do perímetro em SAD69 "ballpark" (RMSE 3,53 m nos próprios vértices), que deixava as ruas 40–100 m fora do lugar (RELATORIO-16); esses campos continuam no arquivo só para reproduzir as anotações à mão. Nenhuma coordenada fx/fy é usada.
 
 A paleta vem dos miolos dos oito retângulos da legenda: x=4280–4330, y=10855/10934/11013/11092/11171/11250/11329/11408 ±10 pixels. Z1–Z5B são as seis primeiras cores; campus e parque são reconhecidos, mas recusados como zona operacional. Branco também não é zona. Correspondência por distância euclidiana RGB ≤18. O traço Eixo vem de x=3265–3345, y=11165–11170, tolerância RGB 35; nunca determina `zona_id`.
 
