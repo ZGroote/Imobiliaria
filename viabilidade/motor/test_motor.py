@@ -21,7 +21,7 @@ from shapely.geometry import LineString, Point, Polygon  # noqa: E402
 from shapely.ops import unary_union  # noqa: E402
 
 from utm import para_utm23s  # noqa: E402
-from motor import PREMISSAS_PADRAO, _avaliar, _chave, _maior_lamina, caixa_recuada, dois_quadrados, gerar_estudo, maior_retangulo, recuo_divisa  # noqa: E402
+from motor import AVISO_GARAGEM, PREMISSAS_PADRAO, _avaliar, _chave, _maior_lamina, caixa_recuada, dois_quadrados, gerar_estudo, maior_retangulo, recuo_divisa  # noqa: E402
 from dominio import AVISO_FORA, carregar, classificar, construir, corpus, medir  # noqa: E402
 
 
@@ -444,7 +444,7 @@ def test_d2_metricas_subsolo_final():
         estudos.append(gerar_estudo(_carrega("lote-exemplo.json"), z))
     for e in estudos:
         confere(e)
-        assert not any("NÃO é monotônico" in i for i in e["incertezas"])
+        assert AVISO_GARAGEM in e["incertezas"]
         for o in e["opcoes"]:
             subs = [v for v in o["volumes"] if v["uso"] == "garagem"]
             garagem = sum(Polygon(v["base_utm"]).area for v in subs)
@@ -489,7 +489,7 @@ def test_d7_criterio_reflete_chave():
     assert ordem == ["unidades_estimadas desc", "area_privativa_m2 desc"]
     for o in e["opcoes"]:
         assert _chave((None, o["metricas"])) == tuple(o["metricas"][campo.split()[0]] for campo in ordem)
-    assert e["versao_motor"] == "0.8.2"
+    assert e["versao_motor"] == "0.8.3"
 
 
 def test_d8_aviso_apenas_garagem_computavel_com_vagas():
@@ -497,7 +497,7 @@ def test_d8_aviso_apenas_garagem_computavel_com_vagas():
     for gc, vagas in ((True, 1), (False, 1), (True, 0)):
         zona["parametros"]["garagem_computavel"] = gc
         e = gerar_estudo(lote, zona, {"vagas_por_unidade": vagas})
-        assert not any("NÃO é monotônico" in i for i in e["incertezas"])
+        assert (AVISO_GARAGEM in e["incertezas"]) == (gc and vagas > 0)
         assert any("garagem_computavel" in i and "meta de vagas" in i for i in e["incertezas"]) == (gc and vagas > 0)
 
 
@@ -626,7 +626,25 @@ def test_dominio():
         assert classificar(lote, z)["status"] == "dados_insuficientes", chave
 
 
+def test_revisao1():
+    pasta = Path(AQUI).parent / "revisao" / "casos"
+    pares = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(pasta.glob("*.json"))]
+    pares = [p for p in pares if "antes" in p]
+    assert len(pares) == 12
+    for p in pares:
+        estudos = [gerar_estudo(p["lote"], p[k], p["premissas"]) for k in ("antes", "depois")]
+        for e in estudos:
+            confere(e)
+            assert (AVISO_GARAGEM in e["incertezas"]) == (e["premissas"]["garagem_computavel"] and e["premissas"]["vagas_por_unidade"] > 0)
+        _par_monotono(*estudos, p["id"])
+        anterior = json.loads((pasta / (p["id"] + "-antes-saida.json")).read_text(encoding="utf-8"))
+        _par_monotono(anterior, estudos[0], p["id"] + " contra 0.8.1")
+        anterior["zona"], anterior["caixa_maxima"] = p["depois"], estudos[1]["caixa_maxima"]
+        confere(anterior)  # testemunha: a implantação/subsolo anterior ainda é legal na regra nova
+
+
 def main():
+    test_revisao1()
     test_dominio()
     test_tarefa10()
     test_42_casos_auditoria()

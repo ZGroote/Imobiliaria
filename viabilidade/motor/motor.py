@@ -12,7 +12,8 @@ from shapely.geometry import LineString, Point, Polygon, box
 from shapely.ops import nearest_points, unary_union
 from dominio import AVISO_FORA, classificar, entradas_calculaveis
 
-VERSAO = "0.8.2"
+VERSAO = "0.8.3"
+AVISO_GARAGEM = "Garagem conta no CA: nesse regime o resultado NÃO é monotônico; afrouxar uma regra pode reduzir apartamentos."
 
 # Premissas de projeto (não são lei). Quem chamar pode trocar qualquer uma; as que ficarem
 # no valor daqui saem listadas em premissas.padrao (aparecem como "padrão" no relatório).
@@ -440,13 +441,32 @@ def _avaliar(vols, ctx, comparar_subsolo=True):
     ocupado_max = A - ctx.get("perm_min", (zp.get("taxa_permeabilidade") or 0) * A)
     if comparar_subsolo and pr["garagem_computavel"] and pr["garagem"] == "subsolo" and vagas:
         compacto = _maior_parte(projecao.convex_hull.intersection(ctx["subsolo"]))
-        if not compacto.is_empty and compacto.area < ctx["subsolo"].area - 0.01:
-            candidatos = [_avaliar(vols, c, comparar_subsolo=False) for c in (ctx, dict(ctx, subsolo=compacto))]
-            def prioridade(candidato):
-                m = candidato[0]
-                cabe = m["area_computavel_m2"] <= ctx.get("cap", math.inf) + 0.01 and m["area_permeavel_m2"] >= A - ocupado_max - 0.1
-                return cabe, m["vagas"] if cabe else -m["area_computavel_m2"], -m["area_computavel_m2"]
-            return max(candidatos, key=prioridade)
+        regioes = [ctx["subsolo"]]
+        for g in [compacto] + [_maior_parte(v["_geom"].intersection(ctx["subsolo"])) for v in vols]:
+            if not g.is_empty and not any(g.equals(r) for r in regioes):
+                regioes.append(g)
+        def prioridade(candidato):
+            m = candidato[0]
+            cabe = m["area_computavel_m2"] <= ctx.get("cap", math.inf) + 0.01 and m["area_permeavel_m2"] >= A - ocupado_max - 0.1
+            return cabe, m["vagas"] if cabe else -m["area_computavel_m2"], -m["area_computavel_m2"]
+        candidatos = [_avaliar(vols, dict(ctx, subsolo=r), comparar_subsolo=False) for r in regioes]
+        melhor = max(candidatos, key=prioridade)
+        if prioridade(melhor)[0]:
+            return melhor
+        saldo = ctx.get("cap", math.inf) - (acima - nucleos)
+        teto = min(vagas, max(1, math.floor((saldo + 0.01) / pr["area_por_vaga_m2"]))) if math.isfinite(saldo) else vagas
+        # Acima do teto de vagas o CA já prova inviabilidade. Desce até o primeiro patamar viável; não escolhe zero para ganhar CA.
+        for q in range(teto, 0, -1):
+            for regiao in regioes:
+                candidato = _avaliar(vols, dict(ctx, subsolo=regiao, vagas_limite=q), comparar_subsolo=False)
+                if prioridade(candidato) > prioridade(melhor):
+                    melhor = candidato
+            if prioridade(melhor)[0]:
+                break
+        return melhor
+    if "vagas_limite" in ctx and vagas > ctx["vagas_limite"]:
+        avisos.append(f"Faltam vagas: meta de {vagas}; patamar de {ctx['vagas_limite']} vagas concorre para preservar unidades e área privativa.")
+        vagas = ctx["vagas_limite"]
     if pr["garagem"] == "subsolo":
         nivel = min(ctx["subsolo"].area, ocupado_max)
         if not vagas:
@@ -520,15 +540,29 @@ def _cabe(m, vols, ctx):
     return m["unidades_estimadas"] >= 1  # opção sem apartamento não é opção
 
 
+def _excede_ajustavel(m, ctx):
+    return (m["area_computavel_m2"] > ctx["cap"] + 0.01 or m["area_permeavel_m2"] < ctx["perm_min"] - 0.1
+            or m["to_usada"] > (ctx["zp"].get("taxa_ocupacao") or 1.0) + 1e-6)
+
+
+def _computavel_para_ajuste(m, ctx):
+    pr = ctx["pr"]
+    if pr["garagem_computavel"] and pr["garagem"] == "subsolo" and pr["vagas_por_unidade"] > 0:
+        # Garagem maior não é motivo para encerrar a busca: ainda cabe trocar vagas por privativa.
+        return m["area_computavel_m2"] - m["area_garagem_m2"] + pr["area_por_vaga_m2"]
+    return m["area_computavel_m2"]
+
+
 def _ajusta_ao_ca(fazer, n, ctx, m, cap):
-    """O prédio de n andares passou do CA. Em vez de descartar (e piorar quando a regra afrouxa: andar é inteiro),
-    encolhe as lajes (fator f da área natural) até o computável encostar no teto. Secante, poucas rodadas."""
-    f0, c0, f = 1.0, m["area_computavel_m2"], 1.0
+    """Ajusta a área das lajes para CA, TO e permeabilidade, preservando o melhor candidato viável."""
+    f0, c0, f = 1.0, _computavel_para_ajuste(m, ctx), 1.0
     achado = None
     f = f0 * cap / c0 * 0.9995
     if not ctx["pr"]["garagem_computavel"]:
         acima = m["area_construida_m2"] - m["area_garagem_m2"]
         f = (cap + acima - c0) / acima
+    if not 0 < f < 1:
+        f = 0.5  # CA folgado: quem pede redução é a TO/permeabilidade
     ok, ko = 0.0, 1.0  # intervalo salvaguarda a secante nos degraus de unidades e coordenadas
     for _ in range(28):
         vols = fazer(n, f)
@@ -542,7 +576,7 @@ def _ajusta_ao_ca(fazer, n, ctx, m, cap):
             if achado is None or _chave(candidato) > _chave(achado):
                 achado = candidato
             ok = max(ok, f)
-            if m1["area_computavel_m2"] >= cap - 0.01:
+            if _computavel_para_ajuste(m1, ctx) >= cap - 0.01:
                 return achado
         if m1["area_computavel_m2"] > cap + 0.01:
             ko = min(ko, f)
@@ -550,7 +584,7 @@ def _ajusta_ao_ca(fazer, n, ctx, m, cap):
             ok = max(ok, f)
         elif not _cabe(m1, vols, ctx):
             ko = min(ko, f)
-        c1 = m1["area_computavel_m2"]
+        c1 = _computavel_para_ajuste(m1, ctx)
         alvo = cap
         nf = f + (alvo - c1) * (f - f0) / (c1 - c0) if abs(c1 - c0) >= 1e-6 else ok  # ok: cai fora do intervalo e força a bisseção
         if not ok < nf < ko:  # a secante saiu do intervalo (ou empacou): vai pro meio dele
@@ -576,7 +610,7 @@ def _parou_no_teto(fazer, n, ctx, melhor, base):
     if vols is None or (ctx["altura_max"] and max(v["z0_m"] + v["altura_m"] for v in vols) > ctx["altura_max"] + 1e-6):
         return False
     m, sub, av = _avaliar(vols, solto)
-    achado = (vols, m, sub, av) if _cabe(m, vols, solto) else _ajusta_ao_ca(fazer, n + 1, solto, m, solto["cap"]) if m["area_computavel_m2"] > solto["cap"] + 0.01 else None
+    achado = (vols, m, sub, av) if _cabe(m, vols, solto) else _ajusta_ao_ca(fazer, n + 1, solto, m, solto["cap"]) if _excede_ajustavel(m, solto) else None
     return achado is not None and _chave(achado) > _chave(melhor)
 
 
@@ -597,7 +631,7 @@ def _melhor(fazer, n_max, ctx, base=0, falhou=None):
         m, sub, av = _avaliar(vols, ctx)
         if _cabe(m, vols, ctx):
             achado = (vols, m, sub, av)
-        elif m["area_computavel_m2"] > cap + 0.01:
+        elif _excede_ajustavel(m, ctx):
             achado = _ajusta_ao_ca(fazer, n, ctx, m, cap)
         else:
             achado = None
@@ -760,6 +794,7 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
                           "Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).")
     incertezas.append("Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.")
     if pr["garagem_computavel"] and pr["vagas_por_unidade"] > 0:
+        incertezas.append(AVISO_GARAGEM)
         incertezas.append("Garagem conta no CA (garagem_computavel): concorrem subsolos na caixa legal e junto à implantação do prédio. "
                           "O critério prioriza unidades e área privativa; a meta de vagas pode não ser atendida, com déficit indicado nos alertas. "
                           "Entre garagens viáveis para o mesmo prédio, escolhe a que oferece mais vagas. A busca não prova ótimo global.")
