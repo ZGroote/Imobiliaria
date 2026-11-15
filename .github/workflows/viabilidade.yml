@@ -48,6 +48,12 @@ jobs:
         env:
           NODE_PATH: /tmp/viabilidade-pw/node_modules
         run: python -I -X utf8 viabilidade/conferir.py --base origin/main
+      # quando falha, o que a reprodução mudou em arquivos versionados vai junto no artefato
+      - name: Guardar diferenças dos arquivos versionados
+        if: failure()
+        run: |
+          git status --short > viabilidade/.conferir/git-status.txt
+          git diff > viabilidade/.conferir/git-diff.txt
       - name: Publicar logs e resumo (.conferir/) como artefato
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
