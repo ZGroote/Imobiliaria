@@ -21,6 +21,8 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
 
 **Cotas lidas em `~/.maestri/usage/providers/.status.json` (15/11 03:23Z):** Codex semanal 90% (renova 16/11 11:57 -03) e 84% (renova 21/11 12:36 -03): **usar Codex só no essencial**. Antigravity: pool "Claude and GPT" 5h 100% (semanal 54%), Argon 100% até 21/11 13:12 -03, Gemini (Hydrogen/Carbon/Flash) ~0%. Claude Code: 11% (5h), 6% (semana).
 
+**Portão 1B AUTORIZADO (15/11)**, galho `fix/viabilidade-1b` (worktree nele), PR próprio para `feat/viabilidade`. Usuário: "pode usar o máximo possível dos planos Codex" (1 redefinição por conta). Em paralelo, por arquivo: **Terreno (Codex Astra high) faz o MOTOR** (`motor/TAREFA-8.md`: D1–D8, contrato v5 `opcoes_ausentes`/`criterio_escolha`, motor 0.8.0); **Visual (Codex Luna)** faz tela + relatório (`visual/TAREFA-5.md`). Ao chegar: conferir.py, Chrome do visual pela central, auditoria independente (Auditor no Gemini) antes do PR.
+
 ## Ao chegar um relatório
 
 Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + arquivos soltos, sem gastar IA; só abrir o relatório se algo falhar), commitar só a pasta da frente, `git push`, atualizar `maestri floor status --floor "Viabilidade"`.
