@@ -97,6 +97,10 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - REVISAO-7 (e7a79f13): sem ALTA; os 4 ALTA anteriores conferidos (3 fechados, 1 parcial) → Terreno T14 (9 m do art. 80, contorno da subárea, cache entre processos).
   - Terreno T12 (fc1b070e): frente presumida pela borda da quadra (`regra: borda_de_quadra`).
   - Motor T21 (59a1b20c): um alerta só por opção para as áreas não verificadas; texto próprio da frente pela borda da quadra.
+  - Terreno T14 (3cc2e9b5): 9 m do art. 80 no cálculo para lote dentro do tracejado; contorno da subárea pelo tracejado; cache tolerante a dois processos.
+  - AUDITORIA-7 parte 1 (perguntas 4 e 5; arquivo sem commit até a parte 2): alertas agrupados OK; MÉDIA 75931 (frente pelo miolo da quadra) e BAIXA TopologyException → Terreno T15, feita pelo Visual (conta Padrão).
+  - Motor T22: `conferir.py` jogava o stderr do http.server num cano não lido; no Windows enchia e travava o visual (no CI passa). Em andamento.
+  - Auditor parado no pedido de permissão do `maestri ask` final: cancelar é do usuário (o Esc da central foi bloqueado). Parte 2 (perguntas 1–3) sai depois.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
   - P12: nenhuma alteração de índice desde 2016. A Lei 19.166/2019 acrescenta as AEI 44/45 ao Anexo 6, e a 18.927/2018 cria a Z6E; os dois casos foram passados ao Auditor.
