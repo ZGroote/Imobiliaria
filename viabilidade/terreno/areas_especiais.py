@@ -1,7 +1,7 @@
 """Triagem dos Anexos 05/06/07; não substitui conferência cadastral ou DECEA."""
 import cache
 import gerar_lotes as gl
-from sugerir_zona import MapaGeorreferenciado, DIVISA_M, distance_transform_edt
+from sugerir_zona import MapaGeorreferenciado, DIVISA_M, recuperar_tracos
 
 # Centros das amostras das legendas dos JPEGs verificados pelo manifesto.
 LEGENDAS = {
@@ -83,10 +83,7 @@ class MapaEspecial(MapaGeorreferenciado):
         dist = gl.np.linalg.norm(rgb[..., None, :].astype(float) - self.paleta, axis=-1)
         classes = dist.argmin(axis=-1) + 1
         classes[dist.min(axis=-1) > 18] = 0
-        distancia, perto = distance_transform_edt(classes == 0, return_indices=True)
-        recuperar = (classes == 0) & (distancia <= 3)
-        leitura = classes.copy()
-        leitura[recuperar] = classes[tuple(perto[:, recuperar])]
+        _, leitura = recuperar_tracos(classes)
         yy, xx = gl.np.indices(classes.shape)
         xy = gl.np.column_stack([xx.ravel()+caixa[0]+.5, yy.ravel()+caixa[1]+.5])
         interior = gl.sh.contains_xy(pix, xy[:, 0], xy[:, 1])

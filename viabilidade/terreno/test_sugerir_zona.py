@@ -4,7 +4,19 @@ import time
 from PIL import Image
 
 from novo_lote import AQUI, gl
-from sugerir_zona import MapaZonas, ZonaIncerta
+from sugerir_zona import MapaZonas, ZonaIncerta, recuperar_tracos
+
+
+def testar_tracos():
+    # Empates conferidos contra scipy.ndimage.distance_transform_edt (1.18.1): menor coluna, depois menor linha.
+    for vizinhos, esperado in ((((2, 0), (2, 4), (0, 2), (4, 2)), 1), (((1, 3), (3, 3), (3, 1), (1, 1)), 4),
+                               (((1, 3), (3, 1)), 2), (((2, 5),), 1), (((4, 5),), 0)):
+        classes = gl.np.zeros((5, 7), int)
+        for c, yx in enumerate(vizinhos, 1):
+            classes[yx] = c
+        recuperada, leitura = recuperar_tracos(classes)
+        assert leitura[2, 2] == esperado and recuperada[2, 2] == (esperado > 0), (vizinhos, leitura[2, 2])
+    assert not recuperar_tracos(gl.np.zeros((2, 1), int))[0].any()  # recorte menor que 3 px não dá a volta
 
 
 def testar_cores(mapa):
@@ -77,6 +89,7 @@ def testar_cores(mapa):
 def testar(cadastro, pilotos, pasta):
     from test_novo_lote import executar
     inicio = time.perf_counter()
+    testar_tracos()
     cadastro.mapa_zonas = MapaZonas()
     testar_cores(cadastro.mapa_zonas)
     esperadas = {"30516": "SC-Z4", "37607": "SC-Z4", "25297": "SC-Z1", "75352-75354": "SC-Z2"}

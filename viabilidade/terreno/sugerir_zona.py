@@ -11,7 +11,6 @@ import gerar_lotes as gl
 from cache import sha
 from PIL import Image
 from pyproj import Transformer
-from scipy.ndimage import distance_transform_edt
 
 AQUI = Path(__file__).resolve().parent
 ZONAS = ["SC-Z1", "SC-Z2", "SC-Z3", "SC-Z4", "SC-Z5A", "SC-Z5B"]
@@ -21,6 +20,27 @@ BUSCA_M = 250.0
 # Um par por processo, não um por mapa: cada from_crs custa ~11 ms.
 SAD = Transformer.from_crs(31983, 29183, always_xy=True)
 SIRGAS = Transformer.from_crs(29183, 31983, always_xy=True)
+# Vizinhos a até 3 pixels, do mais perto ao mais longe; no empate, menor coluna e depois menor linha,
+# o mesmo desempate do scipy.ndimage.distance_transform_edt que esta busca substitui (sem scipy no CI).
+VIZINHOS_3PX = sorted(((dy, dx) for dy in range(-3, 4) for dx in range(-3, 4) if 0 < dy*dy + dx*dx <= 9),
+                      key=lambda o: (o[0]**2 + o[1]**2, o[1], o[0]))
+
+
+def recuperar_tracos(classes):
+    """Pixel sem cor da legenda (traço, texto) a até 3 px de um colorido herda a classe do mais próximo."""
+    altura, largura = classes.shape
+    leitura = classes.copy()
+    pendente = classes == 0
+    for dy, dx in VIZINHOS_3PX:
+        if abs(dy) >= altura or abs(dx) >= largura:
+            continue  # recorte menor que o deslocamento (e o fim negativo do slice daria a volta)
+        # Vizinho de (y, x) é (y+dy, x+dx): recortes alinhados das duas grades.
+        alvo = (slice(max(0, -dy), altura - max(0, dy)), slice(max(0, -dx), largura - max(0, dx)))
+        fonte = (slice(max(0, dy), altura + min(0, dy)), slice(max(0, dx), largura + min(0, dx)))
+        achou = pendente[alvo] & (classes[fonte] != 0)
+        leitura[alvo][achou] = classes[fonte][achou]
+        pendente[alvo] &= ~achou
+    return (classes == 0) & ~pendente, leitura
 
 
 class ZonaIncerta(ValueError):
@@ -117,11 +137,8 @@ class MapaZonas(MapaGeorreferenciado):
             raise ZonaIncerta(info)
         rgb = gl.np.asarray(self.imagem.crop(caixa))
         classes = self.classificar(rgb)
-        distancia, perto = distance_transform_edt(classes == 0, return_indices=True)
         # shortcut: texto grosso e detalhes subpixel permanecem incertos; substituir quando houver vetor oficial.
-        recuperadas = (classes == 0) & (distancia <= 3)
-        leitura = classes.copy()
-        leitura[recuperadas] = classes[tuple(perto[:, recuperadas])]
+        recuperadas, leitura = recuperar_tracos(classes)
         yy, xx = gl.np.indices(classes.shape)
         xy = gl.np.column_stack([xx.ravel() + caixa[0] + .5, yy.ravel() + caixa[1] + .5])
         interior = gl.sh.contains_xy(pixel_pol, xy[:, 0], xy[:, 1])
