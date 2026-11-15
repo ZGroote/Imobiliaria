@@ -124,6 +124,7 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - **T21 entregue:** vizinho inválido consertado + rua do OSM como 2ª fonte de frente. Sorteio de 500: aceitos 171 → 214 (34,2% → 42,8%); rua_osm 31, 2 duvidosos na foto (44140, 53547), 1 estrada de terra (61394). Pilotos e T15 iguais. conferir 8/8. Fonte/licença OSM no `terreno/LOTES.md` (FONTES.md é só de leis).
   - → Motor T28 (alerta próprio pra `rua_osm` + BAIXA da REVISAO-9); Terreno T22 (grava `relevo.desnivel_lote_rua_m` no lote novo).
   - **T28 entregue:** alerta próprio pra frente `rua_osm`; `acrescimo_topo_m` validado sempre (BAIXA da REVISAO-9 fechada). Pilotos iguais. `test_estudar` só falha pelo campo novo da T22 em andamento (lista de alertas do lote novo) → ajuste pedido ao Motor.
+  - **T22 entregue:** lote novo grava `relevo.desnivel_lote_rua_m` (DSM no centroide − mediana do asfalto a ≤25 m da frente). 26/214 aceitos (12%) com |desnível| ≥2 m ganham o aviso da T27; 53 sem asfalto perto ficam sem o campo. 77015 −5,0, 77022 +5,2. `lotes-piloto.json` NÃO ganhou o campo (30516 e 22421 dariam −2,4 → aviso): pilotos ficam como referência fixa. conferir 8/8.
   - PR para a main só no fim, e merge só com nova autorização do usuário.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
