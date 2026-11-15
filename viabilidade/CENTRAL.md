@@ -119,6 +119,10 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - **T25 entregue:** os 29 "cor sem zona" são texto do mapa por cima da zona (15) ou recusa certa (campus, branco, fora do mapa). Conserto A+B daria só 6/500 a mais (a divisa de 10 m pega o resto); **adiado** (zona errada é pior que recusar; ganho 1,2%). Fica na fila se a cobertura voltar a ser prioridade.
   - Terreno T21: OSM em `dados/osm-vias-sao-carlos.json.gz` (gzip, < 1 MiB, sem mexer no teste de tamanho da main). Motor T26: investigar se o relevo Copernicus (DSM, 30 m) serve.
   - **T26 entregue:** Copernicus (DSM 30 m) serve só pra triagem (declive ≥10% em 10% dos aceitos); nível absoluto carrega +5 m de prédio; lote − rua é estável (72% dentro de 1 m entre fontes). 77015 −3 a −5 m, 77022 +3 a +5 m da rua. Fonte melhor aberta: não há com licença (MDE-SP sem licença declarada). → Motor T27: só alerta (declive ≥10% ou |lote−rua| ≥2 m), conta não muda. Depois: Terreno grava `relevo.desnivel_lote_rua_m` no novo_lote (após a T21).
+  - **REVISAO-9:** T19 e T24 aprovadas; 1 BAIXA (`acrescimo_topo_m` inválido passa calado sem gabarito) → Motor T28.
+  - **T27 entregue:** alerta de relevo (declive ≥10% ou |lote−rua| ≥2 m), conta igual; mudou só o piloto 37607 e o SHA dele na linha de base.
+  - **T21 entregue:** vizinho inválido consertado + rua do OSM como 2ª fonte de frente. Sorteio de 500: aceitos 171 → 214 (34,2% → 42,8%); rua_osm 31, 2 duvidosos na foto (44140, 53547), 1 estrada de terra (61394). Pilotos e T15 iguais. conferir 8/8. Fonte/licença OSM no `terreno/LOTES.md` (FONTES.md é só de leis).
+  - → Motor T28 (alerta próprio pra `rua_osm` + BAIXA da REVISAO-9); Terreno T22 (grava `relevo.desnivel_lote_rua_m` no lote novo).
   - PR para a main só no fim, e merge só com nova autorização do usuário.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
