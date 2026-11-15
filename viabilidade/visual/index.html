@@ -66,6 +66,15 @@
       if (d.dominio !== undefined && (!d.dominio || typeof d.dominio !== 'object' || Array.isArray(d.dominio) || !['dentro', 'fora', 'dados_insuficientes'].includes(d.dominio.status) || !Array.isArray(d.dominio.motivos) || d.dominio.motivos.some(m => typeof m !== 'string' || !m.trim()) || (d.dominio.status !== 'dentro' && !d.dominio.motivos.length) || typeof d.dominio.versao !== 'string' || !d.dominio.versao.trim())) throw Error('Domínio inválido: informe status reconhecido, motivos textuais e versão.');
       if (d.zona.fontes !== undefined && (!Array.isArray(d.zona.fontes) || d.zona.fontes.some(f => !f || typeof f !== 'object' || Array.isArray(f)))) throw Error('Fontes da zona: use uma lista de objetos com lei, artigo, URL e data.');
       const preco = d.premissas.preco_venda_m2_privativo;
+      if (d.lote.zona_sugestao !== undefined) {
+        const s = d.lote.zona_sugestao;
+        const objeto = v => v !== null && typeof v === 'object' && !Array.isArray(v);
+        if (!objeto(s)) throw Error('lote.zona_sugestao deve ser objeto.');
+        for (const k of ['metodo', 'motivo_duvida']) if (s[k] !== undefined && !(k === 'motivo_duvida' && s[k] === null) && typeof s[k] !== 'string') throw Error('lote.zona_sugestao.' + k + ' deve ser texto.');
+        if (s.alternativas !== undefined && (!Array.isArray(s.alternativas) || s.alternativas.some(v => typeof v !== 'string'))) throw Error('lote.zona_sugestao.alternativas deve ser lista de textos.');
+        if (s.distancia_divisa_m !== undefined && s.distancia_divisa_m !== null && !finito(s.distancia_divisa_m)) throw Error('lote.zona_sugestao.distancia_divisa_m deve ser número ou null.');
+        if (s.proporcao_por_zona !== undefined && (!objeto(s.proporcao_por_zona) || Object.values(s.proporcao_por_zona).some(v => v !== null && !finito(v)))) throw Error('lote.zona_sugestao.proporcao_por_zona deve conter números ou null.');
+      }
       if (preco !== undefined && preco !== null && (!finito(preco) || preco < 0)) throw Error('Preço por m² privativo inválido.');
       poligono(d.lote.poligono_utm, 'Lote');
       // O Motor pode devolver caixa vazia quando os recuos consomem o lote.
@@ -202,11 +211,21 @@
       const conferido = estudo.zona.conferido === true && fontes.length > 0 && fontes.every(f => ['lei', 'artigo', 'url', 'data'].every(k => typeof f[k] === 'string' && f[k].trim()));
       const lei = el('span', 'Números da zona ' + (estudo.zona.id || '') + ': ' + (conferido ? 'conferidos na lei, conforme o arquivo.' : 'não conferidos ou sem fonte completa.'), 'conferencia-item'); lei.id = 'conferencia-lei';
       const origem = estudo.lote.zona_origem;
-      const origemTexto = origem === 'oficial' ? 'mapa digital oficial' : origem === 'anotada_a_mao' ? 'anotada à mão no anexo' : origem === 'teste' ? 'escolhida para teste' : 'origem não informada ou não reconhecida';
+      const novasOrigens = { informada_pelo_usuario: 'zona informada por quem pediu o estudo · não conferida', sugerida_pelo_mapa: 'zona sugerida pela leitura automática do mapa do Plano Diretor · não conferida' };
+      const origemTexto = novasOrigens[origem] || (origem === 'oficial' ? 'mapa digital oficial' : origem === 'anotada_a_mao' ? 'anotada à mão no anexo' : origem === 'teste' ? 'escolhida para teste' : 'origem não informada ou não reconhecida');
       const mesmaZona = typeof estudo.zona.id === 'string' && estudo.zona.id.trim().length > 0 && estudo.lote.zona_id === estudo.zona.id;
       const loteConferido = estudo.lote.zona_conferida === true && ['oficial', 'anotada_a_mao'].includes(origem) && mesmaZona;
       const lote = el('span', 'Zona do terreno: ' + origemTexto + ' · ' + (loteConferido ? 'conferida no arquivo.' : 'não conferida para este terreno.') + (!mesmaZona ? ' Os identificadores da zona estão ausentes ou diferem entre lote e estudo.' : ''), 'conferencia-item'); lote.id = 'conferencia-lote';
       $('conferencia').replaceChildren(lei, lote);
+      if (origem === 'sugerida_pelo_mapa' && estudo.lote.zona_sugestao) {
+        const s = estudo.lote.zona_sugestao;
+        if (s.alternativas?.length) lote.append(el('span', 'Alternativas: ' + s.alternativas.join(', ') + '.', 'conferencia-item'));
+        if (s.motivo_duvida) lote.append(el('span', 'Motivo de dúvida: ' + s.motivo_duvida + '.', 'conferencia-item'));
+      }
+      if (Object.hasOwn(novasOrigens, origem)) {
+        $('conferencia').prepend(lote);
+        $('resumo').prepend($('conferencia'));
+      } else $('dominio').after($('conferencia'));
       const faixaCega = temFaixaCega(estudo.caixa_maxima);
       $('legenda-parede-cega').hidden = !faixaCega && !estudo.opcoes.some(o => o.volumes.some(v => v.parede_cega === true));
       $('texto-parede-cega').textContent = faixaCega ? 'Parede cega: faixa tracejada até ' + formatar(estudo.caixa_maxima.parede_cega_ate_m, ' m') + '; volumes em azul' : 'Volumes com parede cega em azul';

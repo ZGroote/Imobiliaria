@@ -59,6 +59,8 @@ NOMES_PREMISSAS: Dict[str, Tuple[str, str]] = {
 }
 
 DESCRICAO_ZONA_ORIGEM: Dict[str, str] = {
+    "informada_pelo_usuario": "zona informada por quem pediu o estudo · não conferida",
+    "sugerida_pelo_mapa": "zona sugerida pela leitura automática do mapa do Plano Diretor · não conferida",
     "oficial": "Mapa digital oficial",
     "anotada_a_mao": "Anotada à mão (lida no anexo em PDF)",
     "teste": "Teste (escolhida só para testar)",
@@ -175,6 +177,8 @@ def validar_estudo(estudo):
         **dict.fromkeys("id zona_id zona_origem observacoes crs categoria".split(), str),
         **numeros("area_m2 lid"), "poligono_utm": "pares", "frente": "pares",
         "zona_conferida": bool, "conferido": bool,
+        "zona_sugestao": {"metodo": str, "proporcao_por_zona": {"*": "numero"},
+                          "distancia_divisa_m": "numero", "alternativas": [str], "motivo_duvida": (str,)},
         "areas_especiais": [{**dict.fromkeys("tipo nome observacoes fonte incidencia evidencia".split(), str), "conferido": bool}],
         "anotacao_zoneamento": {"zona_ambigua": bool, "alternativas_zona_id": [str]},
         "fonte": {"propriedades": {}, "propriedades_componentes": [{}]},
@@ -720,7 +724,7 @@ def _gerar_painel_conferencia(lote: Dict[str, Any], zona: Dict[str, Any], compac
     2) O terreno está nessa zona (lote.zona_conferida e lote.zona_origem)
     """
     zona_conf = bool(zona.get("conferido"))
-    lote_zona_conf = bool(lote.get("zona_conferida"))
+    lote_zona_conf = bool(lote.get("zona_conferida")) and lote.get("zona_origem") not in {"informada_pelo_usuario", "sugerida_pelo_mapa"}
     zona_origem_cod = str(lote.get("zona_origem") or "não informada")
     zona_origem_desc = DESCRICAO_ZONA_ORIGEM.get(zona_origem_cod, zona_origem_cod)
 
@@ -734,6 +738,13 @@ def _gerar_painel_conferencia(lote: Dict[str, Any], zona: Dict[str, Any], compac
     zona_ambigua = bool(anotacao.get("zona_ambigua"))
     alternativas = anotacao.get("alternativas_zona_id") or []
     aviso_ambigua = ""
+    sugestao = lote.get("zona_sugestao") or {}
+    aviso_sugestao = ""
+    if zona_origem_cod == "sugerida_pelo_mapa":
+        if sugestao.get("alternativas"):
+            aviso_sugestao += f'<div class="conf-subalerta">Alternativas: {esc(", ".join(sugestao["alternativas"]))}.</div>'
+        if sugestao.get("motivo_duvida"):
+            aviso_sugestao += f'<div class="conf-subalerta">Motivo de dúvida: {esc(sugestao["motivo_duvida"])}.</div>'
     if zona_ambigua or alternativas:
         alt_str = ", ".join(str(a) for a in alternativas) if alternativas else ""
         aviso_ambigua = (
@@ -766,6 +777,7 @@ def _gerar_painel_conferencia(lote: Dict[str, Any], zona: Dict[str, Any], compac
               <span class="conf-detalhe">{span_num("lote.zona_conferida", lote.get("zona_conferida"))} — Origem: <strong>{esc(zona_origem_desc)}</strong> (<code>{esc(zona_origem_cod)}</code>)</span>
             </div>
             {aviso_ambigua}
+            {aviso_sugestao}
           </div>
         </div>
         """
@@ -796,6 +808,7 @@ def _gerar_painel_conferencia(lote: Dict[str, Any], zona: Dict[str, Any], compac
           {"foi conferido em mapa/certidão oficial" if lote_zona_conf else "NÃO está conferido oficialmente e exige confirmação na prefeitura/matrícula"}.
         </div>
         {aviso_ambigua}
+        {aviso_sugestao}
       </div>
     </div>
     """
