@@ -4,6 +4,8 @@ python -I -B -X utf8 viabilidade/revisao/revisar.py varredura
 python -I -B -X utf8 viabilidade/revisao/revisar.py caso <id>
 python -I -B -X utf8 viabilidade/revisao/revisar.py auditoria
 python -I -B -X utf8 viabilidade/revisao/revisar.py suite
+python -I -B -X utf8 viabilidade/revisao/revisar.py varredura --atual
+python -I -B -X utf8 viabilidade/revisao/revisar.py direcionados --atual
 """
 import copy
 import hashlib
@@ -20,7 +22,11 @@ sys.dont_write_bytecode = True
 sys.path.append(site.getusersitepackages())
 AQUI = Path(__file__).resolve().parent
 VIAB = AQUI.parent
-REFERENCIA = AQUI / "referencias/0.8.1"
+ATUAL = "--atual" in sys.argv
+if ATUAL:
+    sys.argv.remove("--atual")
+REFERENCIA = VIAB / "motor" if ATUAL else AQUI / "referencias/0.8.1"
+DESTINO = AQUI / "tarefa3" if ATUAL else AQUI
 sys.path.insert(0, str(REFERENCIA))
 import motor
 import test_motor
@@ -32,8 +38,7 @@ def ler(p):
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-# O motor pode evoluir durante a revisão. Código e exemplos ficam presos em 947e2ec8;
-# auditoria, lei e terreno continuam sendo as entradas compartilhadas, somente lidas.
+# Sem --atual, preserva a revisão histórica de 947e2ec8.
 test_motor.AQUI = str(VIAB / "motor")
 test_motor._carrega = lambda nome: ler(REFERENCIA / "exemplos" / nome)
 
@@ -125,14 +130,18 @@ def executar_par(p, salvar=False):
     a, b = map(metricas, es)
     resultado = {"id": p["id"], "antes": a, "depois": b, "perdas": perdas(a, b),
                  "invariantes": [invariantes(e) for e in es], "segundos": round(time.perf_counter() - ts, 3)}
+    if ATUAL:
+        resultado["avisos_garagem"] = [
+            {"exigido": bool(e["premissas"]["garagem_computavel"] and e["premissas"]["vagas_por_unidade"] > 0),
+             "presente": motor.AVISO_GARAGEM in e["incertezas"]} for e in es]
     testemunha = copy.deepcopy(es[0])
     testemunha["zona"] = p["depois"]
     testemunha["caixa_maxima"] = es[1]["caixa_maxima"]
     resultado["solucao_anterior_sob_regra_nova"] = invariantes(testemunha)
     if salvar and (resultado["perdas"] or any(resultado["invariantes"])):
-        gravar(AQUI / "casos" / (p["id"] + ".json"), p)
+        gravar(DESTINO / "casos" / (p["id"] + ".json"), p)
         for k, e in zip(("antes", "depois"), es):
-            gravar(AQUI / "casos" / (p["id"] + "-" + k + "-saida.json"), e)
+            gravar(DESTINO / "casos" / (p["id"] + "-" + k + "-saida.json"), e)
     return resultado
 
 
@@ -219,20 +228,30 @@ def regressao():
 
 
 def main():
-    esperado = subprocess.check_output(["git", "show", "947e2ec8:viabilidade/motor/motor.py"])
-    assert hashlib.sha256(Path(motor.__file__).read_bytes()).digest() == hashlib.sha256(esperado).digest(), "snapshot do motor divergente"
+    alvo = "HEAD" if ATUAL else "947e2ec8"
+    esperado = subprocess.check_output(["git", "show", alvo + ":viabilidade/motor/motor.py"])
+    local = Path(motor.__file__).read_bytes()
+    assert (local.replace(b"\r\n", b"\n") == esperado.replace(b"\r\n", b"\n") if ATUAL else local == esperado), "snapshot do motor divergente"
     assert perdas({"A": {"unidades_estimadas": 2, "area_privativa_m2": 120}}, {"A": {"unidades_estimadas": 1, "area_privativa_m2": 150}})
     assert not perdas({"A": {"unidades_estimadas": 1, "area_privativa_m2": 200}}, {"A": {"unidades_estimadas": 2, "area_privativa_m2": 150}})
     modo = sys.argv[1]
+    if ATUAL:
+        assert modo in ("varredura", "direcionados", "caso")
+        assert Path(motor.__file__).resolve() == (VIAB / "motor/motor.py").resolve()
+        gravar(DESTINO / "evidencias/versao.json", {
+            "commit": subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip(),
+            "motor": motor.VERSAO, "sha256": hashlib.sha256(esperado).hexdigest(),
+            "sha256_checkout": hashlib.sha256(local).hexdigest(),
+            "arquivo": str(Path(motor.__file__).resolve())})
     if modo in ("varredura", "direcionados"):
         ps = pares() if modo == "varredura" else direcionados()
-        gravar(AQUI / "evidencias" / (modo + "-pares.json"), ps)
+        gravar(DESTINO / "evidencias" / (modo + "-pares.json"), ps)
         rs = []
         for i, p in enumerate(ps, 1):
             r = executar_par(p, salvar=True)
             rs.append(r)
             print(f"{i}/{len(ps)} {r['id']}: perdas={r['perdas']}, invariantes={r['invariantes']}", flush=True)
-            gravar(AQUI / "evidencias" / (modo + ".json"), rs)
+            gravar(DESTINO / "evidencias" / (modo + ".json"), rs)
     elif modo == "caso":
         nome = sys.argv[2]
         p = next((p for p in pares() + direcionados() if p["id"] == nome), None)

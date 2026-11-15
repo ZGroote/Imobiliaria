@@ -1,0 +1,5228 @@
+[
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "A",
+    "json": {
+      "area_construida_m2": 4676.03,
+      "area_computavel_m2": 3161.04,
+      "area_nao_computavel_m2": 1514.99,
+      "area_privativa_m2": 2768.83,
+      "area_acima_ca_basico_m2": 123.04,
+      "area_garagem_m2": 1214.99,
+      "vagas": 45,
+      "area_permeavel_m2": 855.08,
+      "ca_usado": 2.081,
+      "to_usada": 0.139,
+      "pavimentos": 15,
+      "unidades_estimadas": 45,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "45",
+        "texto": "45",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "2768.83",
+        "texto": "2.768,83",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "45",
+        "texto": "45",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "2.081",
+        "texto": "2,081",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.139",
+        "texto": "0,139",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "15",
+        "texto": "15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "4676.03",
+        "texto": "4.676,03",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "3161.04",
+        "texto": "3.161,04",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "1514.99",
+        "texto": "1.514,99",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "123.04",
+        "texto": "123,04",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "1214.99",
+        "texto": "1.214,99",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "855.08",
+        "texto": "855,08",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "45",
+        "texto": "45",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "2768.83",
+        "texto": "2.768,83",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "45",
+        "texto": "45",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "1214.99",
+        "texto": "1.214,99",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "2.081",
+        "texto": "2,081",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "3161.04",
+        "texto": "3.161,04",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "123.04",
+        "texto": "123,04",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.139",
+        "texto": "0,139",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "855.08",
+        "texto": "855,08",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "15",
+        "texto": "15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "4676.03",
+        "texto": "4.676,03",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "3161.04",
+        "texto": "3.161,04",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "1514.99",
+        "texto": "1.514,99",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "1214.99",
+        "texto": "1.214,99",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "2768.83",
+        "texto": "2.768,83",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "123.04",
+        "texto": "123,04",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "B",
+    "json": {
+      "area_construida_m2": 7740.42,
+      "area_computavel_m2": 5316.43,
+      "area_nao_computavel_m2": 2423.99,
+      "area_privativa_m2": 4637.15,
+      "area_acima_ca_basico_m2": 2278.43,
+      "area_garagem_m2": 1943.99,
+      "vagas": 71,
+      "area_permeavel_m2": 527.07,
+      "ca_usado": 3.5,
+      "to_usada": 0.292,
+      "pavimentos": 12,
+      "unidades_estimadas": 72,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "72",
+        "texto": "72",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "4637.15",
+        "texto": "4.637,15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "71",
+        "texto": "71",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "3.5",
+        "texto": "3,5",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.292",
+        "texto": "0,292",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "7740.42",
+        "texto": "7.740,42",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "5316.43",
+        "texto": "5.316,43",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "2423.99",
+        "texto": "2.423,99",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2278.43",
+        "texto": "2.278,43",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1943.99",
+        "texto": "1.943,99",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "527.07",
+        "texto": "527,07",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "72",
+        "texto": "72",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "4637.15",
+        "texto": "4.637,15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "71",
+        "texto": "71",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1943.99",
+        "texto": "1.943,99",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "3.5",
+        "texto": "3,5",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "5316.43",
+        "texto": "5.316,43",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2278.43",
+        "texto": "2.278,43",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.292",
+        "texto": "0,292",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "527.07",
+        "texto": "527,07",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "7740.42",
+        "texto": "7.740,42",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "5316.43",
+        "texto": "5.316,43",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "2423.99",
+        "texto": "2.423,99",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1943.99",
+        "texto": "1.943,99",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "4637.15",
+        "texto": "4.637,15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2278.43",
+        "texto": "2.278,43",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "C",
+    "json": {
+      "area_construida_m2": 5807.59,
+      "area_computavel_m2": 4215.6,
+      "area_nao_computavel_m2": 1592.0,
+      "area_privativa_m2": 3436.48,
+      "area_acima_ca_basico_m2": 1177.6,
+      "area_garagem_m2": 1512.0,
+      "vagas": 56,
+      "area_permeavel_m2": 445.1,
+      "ca_usado": 2.775,
+      "to_usada": 0.694,
+      "pavimentos": 4,
+      "unidades_estimadas": 56,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "56",
+        "texto": "56",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "3436.48",
+        "texto": "3.436,48",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "56",
+        "texto": "56",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "2.775",
+        "texto": "2,775",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.694",
+        "texto": "0,694",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "5807.59",
+        "texto": "5.807,59",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "4215.6",
+        "texto": "4.215,6",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "1592.0",
+        "texto": "1.592,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "1177.6",
+        "texto": "1.177,6",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "1512.0",
+        "texto": "1.512,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "445.1",
+        "texto": "445,1",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "56",
+        "texto": "56",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "3436.48",
+        "texto": "3.436,48",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "56",
+        "texto": "56",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "1512.0",
+        "texto": "1.512,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "2.775",
+        "texto": "2,775",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "4215.6",
+        "texto": "4.215,6",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "1177.6",
+        "texto": "1.177,6",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.694",
+        "texto": "0,694",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "445.1",
+        "texto": "445,1",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "5807.59",
+        "texto": "5.807,59",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "4215.6",
+        "texto": "4.215,6",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "1592.0",
+        "texto": "1.592,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "1512.0",
+        "texto": "1.512,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "3436.48",
+        "texto": "3.436,48",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "1177.6",
+        "texto": "1.177,6",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "estudo-exemplo",
+    "opcao": "D",
+    "json": {
+      "area_construida_m2": 5267.76,
+      "area_computavel_m2": 3914.77,
+      "area_nao_computavel_m2": 1353.0,
+      "area_privativa_m2": 2399.66,
+      "area_acima_ca_basico_m2": 876.77,
+      "area_garagem_m2": 1053.0,
+      "vagas": 39,
+      "area_permeavel_m2": 447.28,
+      "ca_usado": 2.577,
+      "to_usada": 0.387,
+      "pavimentos": 15,
+      "unidades_estimadas": 39,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "39",
+        "texto": "39",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "2399.66",
+        "texto": "2.399,66",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "39",
+        "texto": "39",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "2.577",
+        "texto": "2,577",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.387",
+        "texto": "0,387",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "15",
+        "texto": "15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "5267.76",
+        "texto": "5.267,76",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "3914.77",
+        "texto": "3.914,77",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "1353.0",
+        "texto": "1.353,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "876.77",
+        "texto": "876,77",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "1053.0",
+        "texto": "1.053,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "447.28",
+        "texto": "447,28",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "39",
+        "texto": "39",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "2399.66",
+        "texto": "2.399,66",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "39",
+        "texto": "39",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "1053.0",
+        "texto": "1.053,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "2.577",
+        "texto": "2,577",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "3914.77",
+        "texto": "3.914,77",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "876.77",
+        "texto": "876,77",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.387",
+        "texto": "0,387",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "447.28",
+        "texto": "447,28",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "15",
+        "texto": "15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "5267.76",
+        "texto": "5.267,76",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "3914.77",
+        "texto": "3.914,77",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "1353.0",
+        "texto": "1.353,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "1053.0",
+        "texto": "1.053,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "2399.66",
+        "texto": "2.399,66",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "876.77",
+        "texto": "876,77",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "A",
+    "json": {
+      "area_construida_m2": 512.98,
+      "area_computavel_m2": 324.97,
+      "area_nao_computavel_m2": 188.0,
+      "area_privativa_m2": 244.97,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 108.0,
+      "vagas": 4,
+      "area_permeavel_m2": 480.36,
+      "ca_usado": 0.499,
+      "to_usada": 0.125,
+      "pavimentos": 4,
+      "unidades_estimadas": 4,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "244.97",
+        "texto": "244,97",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "0.499",
+        "texto": "0,499",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.125",
+        "texto": "0,125",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "512.98",
+        "texto": "512,98",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "324.97",
+        "texto": "324,97",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "188.0",
+        "texto": "188,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "108.0",
+        "texto": "108,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "480.36",
+        "texto": "480,36",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "244.97",
+        "texto": "244,97",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "108.0",
+        "texto": "108,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "0.499",
+        "texto": "0,499",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "324.97",
+        "texto": "324,97",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.125",
+        "texto": "0,125",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "480.36",
+        "texto": "480,36",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "512.98",
+        "texto": "512,98",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "324.97",
+        "texto": "324,97",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "188.0",
+        "texto": "188,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "108.0",
+        "texto": "108,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "244.97",
+        "texto": "244,97",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "B",
+    "json": {
+      "area_construida_m2": 1025.96,
+      "area_computavel_m2": 649.96,
+      "area_nao_computavel_m2": 376.0,
+      "area_privativa_m2": 489.96,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 216.0,
+      "vagas": 8,
+      "area_permeavel_m2": 369.73,
+      "ca_usado": 0.998,
+      "to_usada": 0.249,
+      "pavimentos": 4,
+      "unidades_estimadas": 8,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "8",
+        "texto": "8",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "489.96",
+        "texto": "489,96",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "8",
+        "texto": "8",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "0.998",
+        "texto": "0,998",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.249",
+        "texto": "0,249",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "1025.96",
+        "texto": "1.025,96",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "649.96",
+        "texto": "649,96",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "376.0",
+        "texto": "376,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "216.0",
+        "texto": "216,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "369.73",
+        "texto": "369,73",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "8",
+        "texto": "8",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "489.96",
+        "texto": "489,96",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "8",
+        "texto": "8",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "216.0",
+        "texto": "216,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "0.998",
+        "texto": "0,998",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "649.96",
+        "texto": "649,96",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.249",
+        "texto": "0,249",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "369.73",
+        "texto": "369,73",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "1025.96",
+        "texto": "1.025,96",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "649.96",
+        "texto": "649,96",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "376.0",
+        "texto": "376,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "216.0",
+        "texto": "216,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "489.96",
+        "texto": "489,96",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "C",
+    "json": {
+      "area_construida_m2": 1306.0,
+      "area_computavel_m2": 902.0,
+      "area_nao_computavel_m2": 404.0,
+      "area_privativa_m2": 785.6,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 324.0,
+      "vagas": 12,
+      "area_permeavel_m2": 315.91,
+      "ca_usado": 1.384,
+      "to_usada": 0.346,
+      "pavimentos": 4,
+      "unidades_estimadas": 12,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "785.6",
+        "texto": "785,6",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "1.384",
+        "texto": "1,384",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.346",
+        "texto": "0,346",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "1306.0",
+        "texto": "1.306,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "902.0",
+        "texto": "902,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "404.0",
+        "texto": "404,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "324.0",
+        "texto": "324,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "315.91",
+        "texto": "315,91",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "785.6",
+        "texto": "785,6",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "324.0",
+        "texto": "324,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "1.384",
+        "texto": "1,384",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "902.0",
+        "texto": "902,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.346",
+        "texto": "0,346",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "315.91",
+        "texto": "315,91",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "1306.0",
+        "texto": "1.306,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "902.0",
+        "texto": "902,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "404.0",
+        "texto": "404,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "324.0",
+        "texto": "324,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "785.6",
+        "texto": "785,6",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-22421",
+    "opcao": "D",
+    "json": {
+      "area_construida_m2": 777.77,
+      "area_computavel_m2": 643.77,
+      "area_nao_computavel_m2": 134.0,
+      "area_privativa_m2": 122.51,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 54.0,
+      "vagas": 2,
+      "area_permeavel_m2": 382.91,
+      "ca_usado": 0.988,
+      "to_usada": 0.369,
+      "pavimentos": 4,
+      "unidades_estimadas": 2,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "2",
+        "texto": "2",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "122.51",
+        "texto": "122,51",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "2",
+        "texto": "2",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "0.988",
+        "texto": "0,988",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.369",
+        "texto": "0,369",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "777.77",
+        "texto": "777,77",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "643.77",
+        "texto": "643,77",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "134.0",
+        "texto": "134,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "54.0",
+        "texto": "54,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "382.91",
+        "texto": "382,91",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "2",
+        "texto": "2",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "122.51",
+        "texto": "122,51",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "2",
+        "texto": "2",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "54.0",
+        "texto": "54,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "0.988",
+        "texto": "0,988",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "643.77",
+        "texto": "643,77",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.369",
+        "texto": "0,369",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "382.91",
+        "texto": "382,91",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "777.77",
+        "texto": "777,77",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "643.77",
+        "texto": "643,77",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "134.0",
+        "texto": "134,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "54.0",
+        "texto": "54,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "122.51",
+        "texto": "122,51",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-22426",
+    "opcao": "C",
+    "json": {
+      "area_construida_m2": 1235.33,
+      "area_computavel_m2": 831.32,
+      "area_nao_computavel_m2": 404.0,
+      "area_privativa_m2": 729.06,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 324.0,
+      "vagas": 12,
+      "area_permeavel_m2": 277.05,
+      "ca_usado": 1.381,
+      "to_usada": 0.345,
+      "pavimentos": 4,
+      "unidades_estimadas": 12,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "729.06",
+        "texto": "729,06",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "1.381",
+        "texto": "1,381",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.345",
+        "texto": "0,345",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "1235.33",
+        "texto": "1.235,33",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "831.32",
+        "texto": "831,32",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "404.0",
+        "texto": "404,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "324.0",
+        "texto": "324,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "277.05",
+        "texto": "277,05",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "729.06",
+        "texto": "729,06",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "324.0",
+        "texto": "324,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "1.381",
+        "texto": "1,381",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "831.32",
+        "texto": "831,32",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.345",
+        "texto": "0,345",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "277.05",
+        "texto": "277,05",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "1235.33",
+        "texto": "1.235,33",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "831.32",
+        "texto": "831,32",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "404.0",
+        "texto": "404,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "324.0",
+        "texto": "324,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "729.06",
+        "texto": "729,06",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-25297",
+    "opcao": "C",
+    "json": {
+      "area_construida_m2": 597.9,
+      "area_computavel_m2": 409.9,
+      "area_nao_computavel_m2": 188.0,
+      "area_privativa_m2": 329.9,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 108.0,
+      "vagas": 4,
+      "area_permeavel_m2": 200.38,
+      "ca_usado": 1.255,
+      "to_usada": 0.314,
+      "pavimentos": 4,
+      "unidades_estimadas": 4,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "329.9",
+        "texto": "329,9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "1.255",
+        "texto": "1,255",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.314",
+        "texto": "0,314",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "597.9",
+        "texto": "597,9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "409.9",
+        "texto": "409,9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "188.0",
+        "texto": "188,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "108.0",
+        "texto": "108,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "200.38",
+        "texto": "200,38",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "329.9",
+        "texto": "329,9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "108.0",
+        "texto": "108,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "1.255",
+        "texto": "1,255",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "409.9",
+        "texto": "409,9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.314",
+        "texto": "0,314",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "200.38",
+        "texto": "200,38",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "597.9",
+        "texto": "597,9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "409.9",
+        "texto": "409,9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "188.0",
+        "texto": "188,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "108.0",
+        "texto": "108,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "329.9",
+        "texto": "329,9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "A",
+    "json": {
+      "area_construida_m2": 2176.15,
+      "area_computavel_m2": 1436.15,
+      "area_nao_computavel_m2": 740.0,
+      "area_privativa_m2": 1236.15,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 540.0,
+      "vagas": 20,
+      "area_permeavel_m2": 1041.9,
+      "ca_usado": 0.895,
+      "to_usada": 0.089,
+      "pavimentos": 10,
+      "unidades_estimadas": 20,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "20",
+        "texto": "20",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "1236.15",
+        "texto": "1.236,15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "20",
+        "texto": "20",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "0.895",
+        "texto": "0,895",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.089",
+        "texto": "0,089",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "10",
+        "texto": "10",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "2176.15",
+        "texto": "2.176,15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "1436.15",
+        "texto": "1.436,15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "740.0",
+        "texto": "740,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "540.0",
+        "texto": "540,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "1041.9",
+        "texto": "1.041,9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "20",
+        "texto": "20",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "1236.15",
+        "texto": "1.236,15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "20",
+        "texto": "20",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "540.0",
+        "texto": "540,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "0.895",
+        "texto": "0,895",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "1436.15",
+        "texto": "1.436,15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.089",
+        "texto": "0,089",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "1041.9",
+        "texto": "1.041,9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "10",
+        "texto": "10",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "2176.15",
+        "texto": "2.176,15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "1436.15",
+        "texto": "1.436,15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "740.0",
+        "texto": "740,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "540.0",
+        "texto": "540,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "1236.15",
+        "texto": "1.236,15",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "B",
+    "json": {
+      "area_construida_m2": 3430.52,
+      "area_computavel_m2": 2246.52,
+      "area_nao_computavel_m2": 1184.0,
+      "area_privativa_m2": 1926.52,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 864.0,
+      "vagas": 32,
+      "area_permeavel_m2": 740.29,
+      "ca_usado": 1.4,
+      "to_usada": 0.175,
+      "pavimentos": 8,
+      "unidades_estimadas": 32,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "32",
+        "texto": "32",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "1926.52",
+        "texto": "1.926,52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "32",
+        "texto": "32",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "1.4",
+        "texto": "1,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.175",
+        "texto": "0,175",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "8",
+        "texto": "8",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "3430.52",
+        "texto": "3.430,52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "2246.52",
+        "texto": "2.246,52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "1184.0",
+        "texto": "1.184,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "864.0",
+        "texto": "864,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "740.29",
+        "texto": "740,29",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "32",
+        "texto": "32",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "1926.52",
+        "texto": "1.926,52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "32",
+        "texto": "32",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "864.0",
+        "texto": "864,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "1.4",
+        "texto": "1,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "2246.52",
+        "texto": "2.246,52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.175",
+        "texto": "0,175",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "740.29",
+        "texto": "740,29",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "8",
+        "texto": "8",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "3430.52",
+        "texto": "3.430,52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "2246.52",
+        "texto": "2.246,52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "1184.0",
+        "texto": "1.184,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "864.0",
+        "texto": "864,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "1926.52",
+        "texto": "1.926,52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "C",
+    "json": {
+      "area_construida_m2": 1290.02,
+      "area_computavel_m2": 886.02,
+      "area_nao_computavel_m2": 404.0,
+      "area_privativa_m2": 772.82,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 324.0,
+      "vagas": 12,
+      "area_permeavel_m2": 1138.92,
+      "ca_usado": 0.552,
+      "to_usada": 0.138,
+      "pavimentos": 4,
+      "unidades_estimadas": 12,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "772.82",
+        "texto": "772,82",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "0.552",
+        "texto": "0,552",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.138",
+        "texto": "0,138",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "1290.02",
+        "texto": "1.290,02",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "886.02",
+        "texto": "886,02",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "404.0",
+        "texto": "404,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "324.0",
+        "texto": "324,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "1138.92",
+        "texto": "1.138,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "772.82",
+        "texto": "772,82",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "12",
+        "texto": "12",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "324.0",
+        "texto": "324,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "0.552",
+        "texto": "0,552",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "886.02",
+        "texto": "886,02",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.138",
+        "texto": "0,138",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "1138.92",
+        "texto": "1.138,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "1290.02",
+        "texto": "1.290,02",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "886.02",
+        "texto": "886,02",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "404.0",
+        "texto": "404,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "324.0",
+        "texto": "324,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "772.82",
+        "texto": "772,82",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-30516",
+    "opcao": "D",
+    "json": {
+      "area_construida_m2": 2268.97,
+      "area_computavel_m2": 1636.97,
+      "area_nao_computavel_m2": 632.0,
+      "area_privativa_m2": 988.89,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 432.0,
+      "vagas": 16,
+      "area_permeavel_m2": 1047.18,
+      "ca_usado": 1.02,
+      "to_usada": 0.152,
+      "pavimentos": 10,
+      "unidades_estimadas": 16,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "16",
+        "texto": "16",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "988.89",
+        "texto": "988,89",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "16",
+        "texto": "16",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "1.02",
+        "texto": "1,02",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.152",
+        "texto": "0,152",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "10",
+        "texto": "10",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "2268.97",
+        "texto": "2.268,97",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "1636.97",
+        "texto": "1.636,97",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "632.0",
+        "texto": "632,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "432.0",
+        "texto": "432,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "1047.18",
+        "texto": "1.047,18",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "16",
+        "texto": "16",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "988.89",
+        "texto": "988,89",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "16",
+        "texto": "16",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "432.0",
+        "texto": "432,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "1.02",
+        "texto": "1,02",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "1636.97",
+        "texto": "1.636,97",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.152",
+        "texto": "0,152",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "1047.18",
+        "texto": "1.047,18",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "10",
+        "texto": "10",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "2268.97",
+        "texto": "2.268,97",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "1636.97",
+        "texto": "1.636,97",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "632.0",
+        "texto": "632,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "432.0",
+        "texto": "432,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "988.89",
+        "texto": "988,89",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "A",
+    "json": {
+      "area_construida_m2": 5576.92,
+      "area_computavel_m2": 3758.92,
+      "area_nao_computavel_m2": 1818.0,
+      "area_privativa_m2": 3295.13,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 1458.0,
+      "vagas": 54,
+      "area_permeavel_m2": 1226.94,
+      "ca_usado": 1.4,
+      "to_usada": 0.078,
+      "pavimentos": 18,
+      "unidades_estimadas": 54,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "54",
+        "texto": "54",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "3295.13",
+        "texto": "3.295,13",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "54",
+        "texto": "54",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "1.4",
+        "texto": "1,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.078",
+        "texto": "0,078",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "18",
+        "texto": "18",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "5576.92",
+        "texto": "5.576,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "3758.92",
+        "texto": "3.758,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "1818.0",
+        "texto": "1.818,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "1458.0",
+        "texto": "1.458,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "1226.94",
+        "texto": "1.226,94",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "54",
+        "texto": "54",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "3295.13",
+        "texto": "3.295,13",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "54",
+        "texto": "54",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "1458.0",
+        "texto": "1.458,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "1.4",
+        "texto": "1,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "3758.92",
+        "texto": "3.758,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.078",
+        "texto": "0,078",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "1226.94",
+        "texto": "1.226,94",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "18",
+        "texto": "18",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "5576.92",
+        "texto": "5.576,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "3758.92",
+        "texto": "3.758,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "1818.0",
+        "texto": "1.818,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "1458.0",
+        "texto": "1.458,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "3295.13",
+        "texto": "3.295,13",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "B",
+    "json": {
+      "area_construida_m2": 5576.92,
+      "area_computavel_m2": 3758.92,
+      "area_nao_computavel_m2": 1818.0,
+      "area_privativa_m2": 3295.13,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 1458.0,
+      "vagas": 54,
+      "area_permeavel_m2": 1226.94,
+      "ca_usado": 1.4,
+      "to_usada": 0.156,
+      "pavimentos": 9,
+      "unidades_estimadas": 54,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "54",
+        "texto": "54",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "3295.13",
+        "texto": "3.295,13",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "54",
+        "texto": "54",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "1.4",
+        "texto": "1,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.156",
+        "texto": "0,156",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "9",
+        "texto": "9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "5576.92",
+        "texto": "5.576,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "3758.92",
+        "texto": "3.758,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "1818.0",
+        "texto": "1.818,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1458.0",
+        "texto": "1.458,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "1226.94",
+        "texto": "1.226,94",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "54",
+        "texto": "54",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "3295.13",
+        "texto": "3.295,13",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "54",
+        "texto": "54",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1458.0",
+        "texto": "1.458,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "1.4",
+        "texto": "1,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "3758.92",
+        "texto": "3.758,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.156",
+        "texto": "0,156",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "1226.94",
+        "texto": "1.226,94",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "9",
+        "texto": "9",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "5576.92",
+        "texto": "5.576,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "3758.92",
+        "texto": "3.758,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "1818.0",
+        "texto": "1.818,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1458.0",
+        "texto": "1.458,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "3295.13",
+        "texto": "3.295,13",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "C",
+    "json": {
+      "area_construida_m2": 5148.93,
+      "area_computavel_m2": 3758.92,
+      "area_nao_computavel_m2": 1390.0,
+      "area_privativa_m2": 3039.14,
+      "area_acima_ca_basico_m2": 0.01,
+      "area_garagem_m2": 1350.0,
+      "vagas": 50,
+      "area_permeavel_m2": 785.48,
+      "ca_usado": 1.4,
+      "to_usada": 0.7,
+      "pavimentos": 2,
+      "unidades_estimadas": 50,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "50",
+        "texto": "50",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "3039.14",
+        "texto": "3.039,14",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "50",
+        "texto": "50",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "1.4",
+        "texto": "1,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.7",
+        "texto": "0,7",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "2",
+        "texto": "2",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "5148.93",
+        "texto": "5.148,93",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "3758.92",
+        "texto": "3.758,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "1390.0",
+        "texto": "1.390,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.01",
+        "texto": "0,01",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "1350.0",
+        "texto": "1.350,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "785.48",
+        "texto": "785,48",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "50",
+        "texto": "50",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "3039.14",
+        "texto": "3.039,14",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "50",
+        "texto": "50",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "1350.0",
+        "texto": "1.350,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "1.4",
+        "texto": "1,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "3758.92",
+        "texto": "3.758,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.01",
+        "texto": "0,01",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.7",
+        "texto": "0,7",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "785.48",
+        "texto": "785,48",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "2",
+        "texto": "2",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "5148.93",
+        "texto": "5.148,93",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "3758.92",
+        "texto": "3.758,92",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "1390.0",
+        "texto": "1.390,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "1350.0",
+        "texto": "1.350,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "3039.14",
+        "texto": "3.039,14",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.01",
+        "texto": "0,01",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-37607",
+    "opcao": "D",
+    "json": {
+      "area_construida_m2": 5414.91,
+      "area_computavel_m2": 3758.91,
+      "area_nao_computavel_m2": 1656.0,
+      "area_privativa_m2": 2892.93,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 1296.0,
+      "vagas": 48,
+      "area_permeavel_m2": 1388.94,
+      "ca_usado": 1.4,
+      "to_usada": 0.086,
+      "pavimentos": 18,
+      "unidades_estimadas": 48,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "48",
+        "texto": "48",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "2892.93",
+        "texto": "2.892,93",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "48",
+        "texto": "48",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "1.4",
+        "texto": "1,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.086",
+        "texto": "0,086",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "18",
+        "texto": "18",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "5414.91",
+        "texto": "5.414,91",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "3758.91",
+        "texto": "3.758,91",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "1656.0",
+        "texto": "1.656,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "1296.0",
+        "texto": "1.296,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "1388.94",
+        "texto": "1.388,94",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "48",
+        "texto": "48",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "2892.93",
+        "texto": "2.892,93",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "48",
+        "texto": "48",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "1296.0",
+        "texto": "1.296,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "1.4",
+        "texto": "1,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "3758.91",
+        "texto": "3.758,91",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.086",
+        "texto": "0,086",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "1388.94",
+        "texto": "1.388,94",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "18",
+        "texto": "18",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "5414.91",
+        "texto": "5.414,91",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "3758.91",
+        "texto": "3.758,91",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "1656.0",
+        "texto": "1.656,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "1296.0",
+        "texto": "1.296,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "2892.93",
+        "texto": "2.892,93",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "A",
+    "json": {
+      "area_construida_m2": 8651.84,
+      "area_computavel_m2": 5963.85,
+      "area_nao_computavel_m2": 2688.0,
+      "area_privativa_m2": 5107.08,
+      "area_acima_ca_basico_m2": 2765.63,
+      "area_garagem_m2": 2268.0,
+      "vagas": 84,
+      "area_permeavel_m2": 452.94,
+      "ca_usado": 3.729,
+      "to_usada": 0.178,
+      "pavimentos": 21,
+      "unidades_estimadas": 84,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "84",
+        "texto": "84",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "5107.08",
+        "texto": "5.107,08",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "84",
+        "texto": "84",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "3.729",
+        "texto": "3,729",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.178",
+        "texto": "0,178",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "21",
+        "texto": "21",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "8651.84",
+        "texto": "8.651,84",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "5963.85",
+        "texto": "5.963,85",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "2688.0",
+        "texto": "2.688,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2765.63",
+        "texto": "2.765,63",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "2268.0",
+        "texto": "2.268,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "452.94",
+        "texto": "452,94",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "84",
+        "texto": "84",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "5107.08",
+        "texto": "5.107,08",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "84",
+        "texto": "84",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "2268.0",
+        "texto": "2.268,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "3.729",
+        "texto": "3,729",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "5963.85",
+        "texto": "5.963,85",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2765.63",
+        "texto": "2.765,63",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.178",
+        "texto": "0,178",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "452.94",
+        "texto": "452,94",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "21",
+        "texto": "21",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "8651.84",
+        "texto": "8.651,84",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "5963.85",
+        "texto": "5.963,85",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "2688.0",
+        "texto": "2.688,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "2268.0",
+        "texto": "2.268,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "5107.08",
+        "texto": "5.107,08",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2765.63",
+        "texto": "2.765,63",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "B",
+    "json": {
+      "area_construida_m2": 7379.95,
+      "area_computavel_m2": 4863.95,
+      "area_nao_computavel_m2": 2516.0,
+      "area_privativa_m2": 4183.95,
+      "area_acima_ca_basico_m2": 1665.74,
+      "area_garagem_m2": 1836.0,
+      "vagas": 68,
+      "area_permeavel_m2": 656.22,
+      "ca_usado": 3.042,
+      "to_usada": 0.179,
+      "pavimentos": 17,
+      "unidades_estimadas": 68,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "68",
+        "texto": "68",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "4183.95",
+        "texto": "4.183,95",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "68",
+        "texto": "68",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "3.042",
+        "texto": "3,042",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.179",
+        "texto": "0,179",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "17",
+        "texto": "17",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "7379.95",
+        "texto": "7.379,95",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "4863.95",
+        "texto": "4.863,95",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "2516.0",
+        "texto": "2.516,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "1665.74",
+        "texto": "1.665,74",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1836.0",
+        "texto": "1.836,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "656.22",
+        "texto": "656,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "68",
+        "texto": "68",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "4183.95",
+        "texto": "4.183,95",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "68",
+        "texto": "68",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1836.0",
+        "texto": "1.836,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "3.042",
+        "texto": "3,042",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "4863.95",
+        "texto": "4.863,95",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "1665.74",
+        "texto": "1.665,74",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.179",
+        "texto": "0,179",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "656.22",
+        "texto": "656,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "17",
+        "texto": "17",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "7379.95",
+        "texto": "7.379,95",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "4863.95",
+        "texto": "4.863,95",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "2516.0",
+        "texto": "2.516,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1836.0",
+        "texto": "1.836,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "4183.95",
+        "texto": "4.183,95",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "1665.74",
+        "texto": "1.665,74",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "C",
+    "json": {
+      "area_construida_m2": 3497.85,
+      "area_computavel_m2": 2553.85,
+      "area_nao_computavel_m2": 944.0,
+      "area_privativa_m2": 2107.08,
+      "area_acima_ca_basico_m2": 0.0,
+      "area_garagem_m2": 864.0,
+      "vagas": 32,
+      "area_permeavel_m2": 638.48,
+      "ca_usado": 1.597,
+      "to_usada": 0.399,
+      "pavimentos": 4,
+      "unidades_estimadas": 32,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "32",
+        "texto": "32",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "2107.08",
+        "texto": "2.107,08",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "32",
+        "texto": "32",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "1.597",
+        "texto": "1,597",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.399",
+        "texto": "0,399",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "3497.85",
+        "texto": "3.497,85",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "2553.85",
+        "texto": "2.553,85",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "944.0",
+        "texto": "944,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "864.0",
+        "texto": "864,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "638.48",
+        "texto": "638,48",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "32",
+        "texto": "32",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "2107.08",
+        "texto": "2.107,08",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "32",
+        "texto": "32",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "864.0",
+        "texto": "864,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "1.597",
+        "texto": "1,597",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "2553.85",
+        "texto": "2.553,85",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.399",
+        "texto": "0,399",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "638.48",
+        "texto": "638,48",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "3497.85",
+        "texto": "3.497,85",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "2553.85",
+        "texto": "2.553,85",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "944.0",
+        "texto": "944,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "864.0",
+        "texto": "864,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "2107.08",
+        "texto": "2.107,08",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "0.0",
+        "texto": "0,0",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-q1382-11984-11988",
+    "opcao": "D",
+    "json": {
+      "area_construida_m2": 8780.83,
+      "area_computavel_m2": 6308.83,
+      "area_nao_computavel_m2": 2472.0,
+      "area_privativa_m2": 4620.69,
+      "area_acima_ca_basico_m2": 3110.62,
+      "area_garagem_m2": 2052.0,
+      "vagas": 76,
+      "area_permeavel_m2": 535.34,
+      "ca_usado": 3.945,
+      "to_usada": 0.285,
+      "pavimentos": 21,
+      "unidades_estimadas": 76,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "76",
+        "texto": "76",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "4620.69",
+        "texto": "4.620,69",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "76",
+        "texto": "76",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "3.945",
+        "texto": "3,945",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.285",
+        "texto": "0,285",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "21",
+        "texto": "21",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "8780.83",
+        "texto": "8.780,83",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "6308.83",
+        "texto": "6.308,83",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "2472.0",
+        "texto": "2.472,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "3110.62",
+        "texto": "3.110,62",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "2052.0",
+        "texto": "2.052,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "535.34",
+        "texto": "535,34",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "76",
+        "texto": "76",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "4620.69",
+        "texto": "4.620,69",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "76",
+        "texto": "76",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "2052.0",
+        "texto": "2.052,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "3.945",
+        "texto": "3,945",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "6308.83",
+        "texto": "6.308,83",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "3110.62",
+        "texto": "3.110,62",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.285",
+        "texto": "0,285",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "535.34",
+        "texto": "535,34",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "21",
+        "texto": "21",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "8780.83",
+        "texto": "8.780,83",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "6308.83",
+        "texto": "6.308,83",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "2472.0",
+        "texto": "2.472,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "2052.0",
+        "texto": "2.052,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "4620.69",
+        "texto": "4.620,69",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "3110.62",
+        "texto": "3.110,62",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "A",
+    "json": {
+      "area_construida_m2": 8354.22,
+      "area_computavel_m2": 5627.22,
+      "area_nao_computavel_m2": 2727.0,
+      "area_privativa_m2": 4933.78,
+      "area_acima_ca_basico_m2": 2411.67,
+      "area_garagem_m2": 2187.0,
+      "vagas": 81,
+      "area_permeavel_m2": 500.63,
+      "ca_usado": 3.5,
+      "to_usada": 0.13,
+      "pavimentos": 27,
+      "unidades_estimadas": 81,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "81",
+        "texto": "81",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "4933.78",
+        "texto": "4.933,78",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "81",
+        "texto": "81",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "3.5",
+        "texto": "3,5",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.13",
+        "texto": "0,13",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "27",
+        "texto": "27",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "8354.22",
+        "texto": "8.354,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "5627.22",
+        "texto": "5.627,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "2727.0",
+        "texto": "2.727,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2411.67",
+        "texto": "2.411,67",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "2187.0",
+        "texto": "2.187,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "500.63",
+        "texto": "500,63",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.unidades_estimadas",
+        "valor_attr": "81",
+        "texto": "81",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "4933.78",
+        "texto": "4.933,78",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vagas",
+        "valor_attr": "81",
+        "texto": "81",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "2187.0",
+        "texto": "2.187,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.A.metricas.ca_usado",
+        "valor_attr": "3.5",
+        "texto": "3,5",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "5627.22",
+        "texto": "5.627,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2411.67",
+        "texto": "2.411,67",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.to_usada",
+        "valor_attr": "0.13",
+        "texto": "0,13",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_permeavel_m2",
+        "valor_attr": "500.63",
+        "texto": "500,63",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.pavimentos",
+        "valor_attr": "27",
+        "texto": "27",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_construida_m2",
+        "valor_attr": "8354.22",
+        "texto": "8.354,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_computavel_m2",
+        "valor_attr": "5627.22",
+        "texto": "5.627,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_nao_computavel_m2",
+        "valor_attr": "2727.0",
+        "texto": "2.727,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_garagem_m2",
+        "valor_attr": "2187.0",
+        "texto": "2.187,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_privativa_m2",
+        "valor_attr": "4933.78",
+        "texto": "4.933,78",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.A.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2411.67",
+        "texto": "2.411,67",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "B",
+    "json": {
+      "area_construida_m2": 6878.56,
+      "area_computavel_m2": 4656.56,
+      "area_nao_computavel_m2": 2222.0,
+      "area_privativa_m2": 4077.25,
+      "area_acima_ca_basico_m2": 1441.01,
+      "area_garagem_m2": 1782.0,
+      "vagas": 66,
+      "area_permeavel_m2": 615.38,
+      "ca_usado": 2.896,
+      "to_usada": 0.263,
+      "pavimentos": 11,
+      "unidades_estimadas": 66,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "66",
+        "texto": "66",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "4077.25",
+        "texto": "4.077,25",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "66",
+        "texto": "66",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "2.896",
+        "texto": "2,896",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.263",
+        "texto": "0,263",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "11",
+        "texto": "11",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "6878.56",
+        "texto": "6.878,56",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "4656.56",
+        "texto": "4.656,56",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "2222.0",
+        "texto": "2.222,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "1441.01",
+        "texto": "1.441,01",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1782.0",
+        "texto": "1.782,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "615.38",
+        "texto": "615,38",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.unidades_estimadas",
+        "valor_attr": "66",
+        "texto": "66",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "4077.25",
+        "texto": "4.077,25",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vagas",
+        "valor_attr": "66",
+        "texto": "66",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1782.0",
+        "texto": "1.782,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.B.metricas.ca_usado",
+        "valor_attr": "2.896",
+        "texto": "2,896",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "4656.56",
+        "texto": "4.656,56",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "1441.01",
+        "texto": "1.441,01",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.to_usada",
+        "valor_attr": "0.263",
+        "texto": "0,263",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_permeavel_m2",
+        "valor_attr": "615.38",
+        "texto": "615,38",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.pavimentos",
+        "valor_attr": "11",
+        "texto": "11",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_construida_m2",
+        "valor_attr": "6878.56",
+        "texto": "6.878,56",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_computavel_m2",
+        "valor_attr": "4656.56",
+        "texto": "4.656,56",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_nao_computavel_m2",
+        "valor_attr": "2222.0",
+        "texto": "2.222,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_garagem_m2",
+        "valor_attr": "1782.0",
+        "texto": "1.782,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_privativa_m2",
+        "valor_attr": "4077.25",
+        "texto": "4.077,25",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.B.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "1441.01",
+        "texto": "1.441,01",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "C",
+    "json": {
+      "area_construida_m2": 5480.76,
+      "area_computavel_m2": 3996.75,
+      "area_nao_computavel_m2": 1484.0,
+      "area_privativa_m2": 3261.4,
+      "area_acima_ca_basico_m2": 781.2,
+      "area_garagem_m2": 1404.0,
+      "vagas": 52,
+      "area_permeavel_m2": 546.61,
+      "ca_usado": 2.486,
+      "to_usada": 0.621,
+      "pavimentos": 4,
+      "unidades_estimadas": 52,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "52",
+        "texto": "52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "3261.4",
+        "texto": "3.261,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "52",
+        "texto": "52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "2.486",
+        "texto": "2,486",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.621",
+        "texto": "0,621",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "5480.76",
+        "texto": "5.480,76",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "3996.75",
+        "texto": "3.996,75",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "1484.0",
+        "texto": "1.484,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "781.2",
+        "texto": "781,2",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "1404.0",
+        "texto": "1.404,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "546.61",
+        "texto": "546,61",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.unidades_estimadas",
+        "valor_attr": "52",
+        "texto": "52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "3261.4",
+        "texto": "3.261,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vagas",
+        "valor_attr": "52",
+        "texto": "52",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "1404.0",
+        "texto": "1.404,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.C.metricas.ca_usado",
+        "valor_attr": "2.486",
+        "texto": "2,486",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "3996.75",
+        "texto": "3.996,75",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "781.2",
+        "texto": "781,2",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.to_usada",
+        "valor_attr": "0.621",
+        "texto": "0,621",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_permeavel_m2",
+        "valor_attr": "546.61",
+        "texto": "546,61",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.pavimentos",
+        "valor_attr": "4",
+        "texto": "4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_construida_m2",
+        "valor_attr": "5480.76",
+        "texto": "5.480,76",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_computavel_m2",
+        "valor_attr": "3996.75",
+        "texto": "3.996,75",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_nao_computavel_m2",
+        "valor_attr": "1484.0",
+        "texto": "1.484,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_garagem_m2",
+        "valor_attr": "1404.0",
+        "texto": "1.404,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_privativa_m2",
+        "valor_attr": "3261.4",
+        "texto": "3.261,4",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.C.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "781.2",
+        "texto": "781,2",
+        "classes": "num"
+      }
+    ]
+  },
+  {
+    "estudo": "SC-completo-remembramento-75352-75354",
+    "opcao": "D",
+    "json": {
+      "area_construida_m2": 8192.22,
+      "area_computavel_m2": 5627.22,
+      "area_nao_computavel_m2": 2565.0,
+      "area_privativa_m2": 4530.65,
+      "area_acima_ca_basico_m2": 2411.67,
+      "area_garagem_m2": 2025.0,
+      "vagas": 75,
+      "area_permeavel_m2": 566.76,
+      "ca_usado": 3.5,
+      "to_usada": 0.144,
+      "pavimentos": 27,
+      "unidades_estimadas": 75,
+      "vgv_estimado": null
+    },
+    "relatorio": [
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "75",
+        "texto": "75",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "4530.65",
+        "texto": "4.530,65",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "75",
+        "texto": "75",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "3.5",
+        "texto": "3,5",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.144",
+        "texto": "0,144",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "27",
+        "texto": "27",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "8192.22",
+        "texto": "8.192,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "5627.22",
+        "texto": "5.627,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "2565.0",
+        "texto": "2.565,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2411.67",
+        "texto": "2.411,67",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "2025.0",
+        "texto": "2.025,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "566.76",
+        "texto": "566,76",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.unidades_estimadas",
+        "valor_attr": "75",
+        "texto": "75",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "4530.65",
+        "texto": "4.530,65",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vagas",
+        "valor_attr": "75",
+        "texto": "75",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "2025.0",
+        "texto": "2.025,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.vgv_estimado",
+        "valor_attr": "null",
+        "texto": "informe o preço",
+        "classes": "num num-nulo"
+      },
+      {
+        "campo": "opcoes.D.metricas.ca_usado",
+        "valor_attr": "3.5",
+        "texto": "3,5",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "5627.22",
+        "texto": "5.627,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2411.67",
+        "texto": "2.411,67",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.to_usada",
+        "valor_attr": "0.144",
+        "texto": "0,144",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_permeavel_m2",
+        "valor_attr": "566.76",
+        "texto": "566,76",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.pavimentos",
+        "valor_attr": "27",
+        "texto": "27",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_construida_m2",
+        "valor_attr": "8192.22",
+        "texto": "8.192,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_computavel_m2",
+        "valor_attr": "5627.22",
+        "texto": "5.627,22",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_nao_computavel_m2",
+        "valor_attr": "2565.0",
+        "texto": "2.565,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_garagem_m2",
+        "valor_attr": "2025.0",
+        "texto": "2.025,0",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_privativa_m2",
+        "valor_attr": "4530.65",
+        "texto": "4.530,65",
+        "classes": "num"
+      },
+      {
+        "campo": "opcoes.D.metricas.area_acima_ca_basico_m2",
+        "valor_attr": "2411.67",
+        "texto": "2.411,67",
+        "classes": "num"
+      }
+    ]
+  }
+]
