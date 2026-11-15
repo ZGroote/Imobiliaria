@@ -80,6 +80,27 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - Os agentes reiniciados perdem o contexto: mandar o papel e onde estão os RELATORIO na primeira mensagem.
   - **Armadilha:** comando `/` não enviado (por exemplo `/status`) fica na caixa de entrada e gruda na mensagem seguinte. Conferir com `maestri check` se a tarefa começou ("Working" ou "esc to interrupt").
 
+**PR #124 (`viabilidade/lote-livre` → main), 15/11.**
+- Substitui o #122, que mostrava 105 arquivos de outras frentes porque o `feat/viabilidade` estava 12 commits atrás da main.
+- Galho limpo a partir da main, commits em linha. Fora de `viabilidade/`, só o gatilho do CI.
+- **Ordem do usuário para o merge:**
+  1. CI verde no HEAD final;
+  2. Revisor e Auditor entregues;
+  3. achado ALTA corrigido e CI de novo;
+  4. pedir autorização. Sem publicação em produção.
+- **REVISAO-6 (Revisor):** sem quebra.
+  - Achado 2 corrigido (Motor T17).
+  - Achado 1 (área especial vazia sem menção) e Observação 3 (80% recusados por frente) estão na Terreno T10.
+- **CI quebrou por scipy:** removido na Terreno T9 (4965cec9).
+- **Lei:**
+  - P23: os 6 decretos não mudam índice.
+  - P12: nenhuma alteração de índice desde 2016. A Lei 19.166/2019 acrescenta as AEI 44/45 ao Anexo 6, e a 18.927/2018 cria a Z6E; os dois casos foram passados ao Auditor.
+  - `DIREITOS-MAPAS.md`: a republicação dos recortes municipais fica como ressalva para advogado; Copernicus está ok com atribuição.
+- **Motor T16:** lote pequeno sem opção é geometria e premissa (apto de 60 m², laje de 80 m²), não falha da busca. A T18 expõe as premissas no comando.
+- **Terreno T8/T9:** lote novo de ~13 s para ~1,5 s (cache `.npz` fora do git).
+- **Visual T18/T19:** simulação de VGV, com a frase de que não é lucro nem receita garantida.
+- **Armadilha:** o texto cinza na caixa de entrada do Claude Code é sugestão automática, não ordem pendente.
+
 ## Ao chegar um relatório
 
 Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + arquivos soltos, sem gastar IA; só abrir o relatório se algo falhar), commitar só a pasta da frente, `git push`, atualizar `maestri floor status --floor "Viabilidade"`.
