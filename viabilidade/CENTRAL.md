@@ -213,4 +213,5 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - **Terreno T30 entregue:** 306 → **319** aceitos (10 de texto e 3 de córrego), conferidos no Anexo 02. Aceitos antigos e pilotos iguais. 41 recusados trocaram só o texto do motivo. conferir 8/8.
 - **Revisor T14 entregue:** sem achados (zona errada, branco/campus/Represa, mensagens, 5 aceitos iguais). conferir 8/8. `cor-quadro` pronto: PR #128 empilhado em #127.
 - **Usuário (16/11) sobre o #128:** manter #125 → #126 → #127 → #128, sem merge automático. Alerta: o texto ignorado não pode esconder um limite real de zona. CI: o `viabilidade.yml` só roda em PR para a main; o #128 (base `sem-frente`) não tem checagem até ser rebaseado na main.
-- **Terreno T31:** prova contra a divisa escondida debaixo do texto (caso adversário, medição em 3.000 lotes; se preciso, a divisa passa a medir a partir do lote mais a mancha ignorada).
+- **Terreno T31 entregue:** o alerta procedia. O caso adversário aceitava com a T30 (lote 3–4 px além do limite escondido). Conserto: a divisa de 10 m também mede da mancha ignorada. Sorteio de 500: 319 → 318. Em 3.000: 105 lotes da P1, 8 viram "só divisa" (2 reais, 6 por sombra de letra, conservador). conferir 8/8.
+- **Revisor T15:** revisão da T31 com variações próprias do caso adversário.
