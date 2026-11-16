@@ -201,4 +201,5 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 
 ## Galho `viabilidade/sem-frente` (16/11, sai do `duas-zonas`)
 
-- **Terreno T26 (só medir):** classificar os 118 recusados "sem frente" do sorteio. Categorias: fundo/interno, rua ausente, regra do OSM barrou, condomínio, gleba e geometria ruim. Conferir pelo menos 30 na imagem e trazer uma proposta com ganho e risco de cada solução. O usuário pediu: "sim, manda o Terreno classificar os 118 sem frente".
+- **Terreno T26 entregue:** dos 118, 43 são campus/gleba (a zona recusa), 29 estreitos (3,7–7,5 m), 14 de frente quebrada, 10 particulares, 8 barrados pela distância do eixo, 7 de fundo, 4 encostam no vizinho e 3 têm geometria ruim. Nenhuma rua faltando no OSM. Ângulo de 25° não ganha nada.
+- **Terreno T27:** A (frente mínima de 5 m, Lei 6.766, com trava de meia largura), B (juntar pedaços da mesma via) e C (11 m do eixo só em `primary`/`secondary`). A estimativa é de +30 aceitos (278 → ~308). Ficam de fora campus, fundo, particular, encosta e geometria.
