@@ -130,6 +130,12 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - **Retomadas 15/11 (3) a (5) e 16/11 (1) a (8):** iguais (a (5) não rodou: checagem do modo automático falhou) à (2): amostra ok, conferir 8/8, sem entrega nova.
   - **Retomada 15/11 (2):** amostra ok (5 provedores); conferir 8/8; sem entrega nova. PR #125 esperando o usuário; próximos passos propostos (estudo com as duas zonas na divisa; Visual confere os avisos novos) aguardando OK.
   - PR para a main só no fim, e merge só com nova autorização do usuário.
+
+## Galho `viabilidade/duas-zonas` (16/11, sai do `viabilidade/pos-124`; PR #125 segue separado)
+
+- Usuário: "ok, segue com o desenvolvimento" → estudo com as duas zonas na divisa + Visual confere os avisos novos.
+- **Terreno T23:** `so_divisa` + `candidatas` na `ZonaIncerta`; lote com `zona_origem: "candidata_na_divisa"`. Depois → **Motor T29:** `estudar.py` gera um estudo por candidata, lado a lado, com "confirmar a zona na Prefeitura".
+- **Visual T21:** avisos de art. 80, relevo e rua do OSM no `relatorio.html` (computador e celular); conserto só no `relatorio/`.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
   - P12: nenhuma alteração de índice desde 2016. A Lei 19.166/2019 acrescenta as AEI 44/45 ao Anexo 6, e a 18.927/2018 cria a Z6E; os dois casos foram passados ao Auditor.
