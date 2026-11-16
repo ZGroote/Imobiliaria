@@ -127,22 +127,23 @@ def testar():
     assert [f["arestas"] for f in cadastro.gerar([75931], "SC-Z1")["qualidade"]["frentes"]] == [[9, 0], [3, 4]]
     assert [f["arestas"] for f in cadastro.gerar([77356], "SC-Z1")["qualidade"]["frentes"]] == [[1, 2]]  # vizinho 77317 inválido
     recusa(lambda: cadastro.gerar([76495], "SC-Z1"), "nem pela borda da quadra")  # lote solto no miolo vazio da quadra
-    recusa(lambda: cadastro.gerar([76495], "SC-Z1"), "e paralela); o asfalto mais próximo da malha está a 26.6 m")
+    recusa(lambda: cadastro.gerar([76495], "SC-Z1"), "somando 8 m); o asfalto mais próximo da malha está a 26.6 m")
 
-    def rua_osm(classe="residential", giro=0, solta=False):  # regra 4 sintética: 1 fileira 12x30, via do OSM a 5 m da frente
-        x0, y0 = 202000, 7564000  # São Carlos, para a ida e volta lon/lat do arquivo
-        geos = gl.np.array([caixa(x0 + 12 * k, y0, x0 + 12 * k + 12, y0 + 30) for k in range(10)])
-        def eixo(x):  # reta pelo meio da frente (x0 + 54, y0 - 5), girada `giro` graus
-            return (x0 + x, y0 - 5 + (x - 54) * math.tan(math.radians(giro)))
-        fim = eixo(140)  # o asfalto fica na ponta da via, longe do lote
+    def com_osm(geos, alvo, vias, fim):  # vias = [(id, nome, classe, [pontos UTM])]; o asfalto fica só em `fim`, longe do lote
         malha = gl.np.array([gl.Polygon([(fim[0] - 5, fim[1]), (fim[0] + 5, fim[1]), (fim[0], fim[1] - 10)])])
-        via = [eixo(-10), eixo(110 if solta else 140)]
         with TemporaryDirectory() as pasta:
             arq = Path(pasta) / "osm.json.gz"
             arq.write_bytes(gzip.compress(json.dumps({"data_osm": "2026-08-28T20:20:46Z", "vias": [
-                {"id": 7, "nome": "Rua Teste", "highway": classe, "coords": [gl.GEO.transform(*p) for p in via]}]}).encode()))
+                {"id": k, "nome": nome, "highway": classe, "coords": [gl.GEO.transform(*p) for p in pts]} for k, nome, classe, pts in vias]}).encode()))
             osm = gl.vias_osm(arq, gl.sh.STRtree(malha))
-        return gl.avaliar(geos[4], 4, geos, gl.sh.STRtree(geos), malha, gl.sh.STRtree(malha), ampliar=True, osm=osm)
+        return gl.avaliar(geos[alvo], alvo, geos, gl.sh.STRtree(geos), malha, gl.sh.STRtree(malha), ampliar=True, osm=osm)
+    x0, y0 = 202000, 7564000  # São Carlos, para a ida e volta lon/lat do arquivo
+
+    def rua_osm(classe="residential", giro=0, solta=False, dist=5, largura=12):  # regra 4 sintética: 1 fileira largura x 30, via a `dist` m da frente
+        geos = gl.np.array([caixa(x0 + largura * k, y0, x0 + largura * k + largura, y0 + 30) for k in range(10)])
+        def eixo(x):  # reta pelo meio da frente do lote 4, girada `giro` graus
+            return (x0 + x, y0 - dist + (x - 4.5 * largura) * math.tan(math.radians(giro)))
+        return com_osm(geos, 4, [(7, "Rua Teste", classe, [eixo(-10), eixo(110 if solta else 140)])], eixo(140))
     f = rua_osm()["frentes"]
     assert [(x["regra"], x["pontos"], x["via_osm"]["id"], x["via_osm"]["classe"]) for x in f] == [
         ("rua_osm", [[202048.0, 7564000.0], [202060.0, 7564000.0]], 7, "residential")], f  # o lado sul, voltado para a via
@@ -152,6 +153,40 @@ def testar():
     assert rua_osm(giro=30) is None  # perto e torta: não é a rua do lado
     assert rua_osm(solta=True) is None  # trecho que não chega à malha nem a outra via aceita
     print("OK: regra 4 (rua do OSM): via residencial a 5 m aceita; service/track/unclassified, 30° e trecho solto recusados.", flush=True)
+    # T27 (C): avenida (primary/secondary) aceita o eixo a até 11 m; rua local continua em 8 m
+    assert rua_osm("primary", dist=10.5)["frentes"][0]["regra"] == "rua_osm" and rua_osm("secondary", dist=10.5)
+    assert rua_osm(dist=10.5) is None and rua_osm("primary", dist=11.5) is None
+    # T27 (A): lote estreito de 5,5 m com rua do OSM na frente passa; largura média 5,5 (área / profundidade)
+    f = rua_osm(largura=5.5)["frentes"][0]
+    assert (f["frente_curta"], f["comprimento_m"], f["largura_media_m"]) == ("estreita", 5.5, 5.5), f
+    assert rua_osm(largura=4.5) is None  # abaixo dos 5 m da Lei 6.766
+    def bandeira(c):  # lote de fundo: corpo 20x20 atrás, corredor de `c` m até a rua, vizinho na frente e dos dois lados
+        lote = gl.Polygon([(x0, y0), (x0 + c, y0), (x0 + c, y0 + 20), (x0 + 20, y0 + 20), (x0 + 20, y0 + 40), (x0, y0 + 40)])
+        vizinhos = [caixa(x0 + c, y0, x0 + 20, y0 + 20), caixa(x0 - 12, y0, x0, y0 + 40), caixa(x0 + 20, y0, x0 + 32, y0 + 40)]
+        via = [(7, "Rua Teste", "residential", [(x0 - 60, y0 - 5), (x0 + 140, y0 - 5)])]
+        q = com_osm(gl.np.array([lote] + vizinhos), 0, via, (x0 + 140, y0 - 5))
+        return q and q["frentes"][0]["comprimento_m"]
+    # largura média = área / profundidade na perpendicular à frente: 6 m dá 520/40 = 13, metade 6,5 > 6; 5 m dá 12,5, metade 6,25
+    assert bandeira(5) is None and bandeira(6) is None  # limite da trava: corredor de 7 m (metade de 13,5 = 6,75) já passaria
+    gl.LARGURA_FRACAO = 0  # sem a trava o corredor de 6 m passaria: é ela que recusa. O de 5 m continua fora pelo "encostar"
+    try:                   # (a margem de 10% do lado dá 0,5 m e o vizinho da quina fica a 0,5 m)
+        assert bandeira(6) == 6 and bandeira(5) is None
+    finally:
+        gl.LARGURA_FRACAO = 0.5
+    # T27 (B): esquina 5,5x5,5 com uma rua em cada lado: cada lado vale 5,5 m sozinho, os dois não somam 11
+    esquina = [caixa(x0, y0, x0 + 5.5, y0 + 5.5), caixa(x0 + 5.5, y0, x0 + 17, y0 + 30), caixa(x0, y0 + 5.5, x0 + 5.5, y0 + 30)]
+    vias = [(7, "Rua A", "residential", [(x0 - 5, y0 - 5), (x0 + 140, y0 - 5)]),
+            (8, "Rua B", "residential", [(x0 - 5, y0 - 5), (x0 - 5, y0 + 140)])]
+    f = com_osm(gl.np.array(esquina), 0, vias, (x0 + 140, y0 - 5))["frentes"]
+    assert [(x["comprimento_m"], x["frente_curta"], x["pedacos_m"]) for x in f] == [(5.5, "estreita", [5.5])] * 2, f
+    # reais (T26): 2986 junta 2,97 + 6,81 na mesma frente; 22356 passante fica com 7,5 m por rua, sem somar as duas
+    f = cadastro.gerar([2986], "SC-Z2")["qualidade"]["frentes"][0]
+    assert f["frente_curta"] == "juntada" and len(f["pedacos_m"]) == 2 and f["comprimento_m"] >= 8, f
+    lote = cadastro.gerar([22356], "SC-Z2")
+    assert [(x["frente_curta"], round(x["comprimento_m"], 1)) for x in lote["qualidade"]["frentes"]] == [("estreita", 7.5)] * 2
+    assert "AVISO: frente estreita de 7.504 m" in lote["observacoes"]
+    print("OK: T27: avenida a 10,5 m aceita e rua local recusada; lote de 5,5 m aceito e de 4,5 recusado; bandeiras de 5 e 6 m "
+          "recusadas (a de 6 m pela trava); esquina 5,5+5,5 não soma; 2986 juntado; 22356 7,5 m por rua.", flush=True)
     # desnível lote - rua (T22): raster sintético = plano subindo 0,1 m por metro para o norte, rua 2 a 10 m ao sul da frente
     x0, y0, topo = 202000, 7564000, 7564300
     plano = gl.np.array([[500 + 0.1 * (topo - 30 * (j + 0.5) - y0)] * 20 for j in range(20)])
