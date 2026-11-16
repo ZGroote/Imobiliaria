@@ -142,6 +142,8 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
 - **Em curso:**
   - ~~Motor T29~~ **entregue `bb6bd246`:** `zona-SC-Zx/` por candidata, `resumo.txt` comparativo e alerta por opção; `varrer` com `status divisa`. Dos 6 lotes, só o 63335 muda de resultado (Z2: CA 1,82 contra Z3: 1,40). Exemplo em `motor/exemplos/divisa-85446/`.
   - ~~Revisor T11~~ **feita:** 0 ALTA e 0 MÉDIA. 1 BAIXA: o `visual/varredura.html` não conhece o status `divisa`, foi para a **Visual T22**.
+  - **Visual T22 entregue:** varredura com "Na divisa" (filtro, contagem e link para o `resumo.txt`).
+  - **Revisor T12:** revisão de T24, T25, T30 e T22. Depois, PR do `duas-zonas`.
   - **Terreno T25 + Motor T30 commitadas juntas (conferir 8/8):** aceitos 238 → 278, os 40 novos conferidos no Anexo 02 e 23 alternativas falsas removidas. O piloto 75352–75354 passou a ser aceito em Z2 pelo `auto`, e isso quebra o `test_estudar`. O Motor troca o lote do teste pelo 68491 na **Motor T30**; depois commitar T25 e T30 juntas com conferir 8/8.
   - ~~Terreno T24~~ **entregue `f87a5280`:** aceitos 214 → 238 no sorteio de 500; os 24 novos conferidos no Anexo 02, todos de zona única. Foram 24 e não 65 porque a cor não zonal (parque) seguiu sem filtro.
   - **Terreno T25:** parque e campus com mancha 3×3 (branco e Represa seguem sempre) e `alternativas` filtradas. O Terreno mediu 40 dos 42 que sobraram passando. Decidido pelo maestro: borda de rua não é parque, e o relatório mostrava "Alternativas: SC-Z5B" falsa.
