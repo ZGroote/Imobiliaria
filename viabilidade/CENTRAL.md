@@ -215,3 +215,8 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - **Usuário (16/11) sobre o #128:** manter #125 → #126 → #127 → #128, sem merge automático. Alerta: o texto ignorado não pode esconder um limite real de zona. CI: o `viabilidade.yml` só roda em PR para a main; o #128 (base `sem-frente`) não tem checagem até ser rebaseado na main.
 - **Terreno T31 entregue:** o alerta procedia. O caso adversário aceitava com a T30 (lote 3–4 px além do limite escondido). Conserto: a divisa de 10 m também mede da mancha ignorada. Sorteio de 500: 319 → 318. Em 3.000: 105 lotes da P1, 8 viram "só divisa" (2 reais, 6 por sombra de letra, conservador). conferir 8/8.
 - **Revisor T15:** revisão da T31 com variações próprias do caso adversário.
+
+## Projetista arquitetônico (PA-G0)
+
+- **16/11:** o usuário aprovou **só o PA-G0** (descoberta e contratos, só documento) do PRD `PRD-PROJETISTA-0.1.md`. Worktree separada `Desktop/imobiliaria-projetista`, galho `viabilidade/projetista-g0` (da main `633ddaeb`), para não misturar com a pilha #125–#128.
+- **Produto PA-G0:** casos de uso, inventário (motor + peças de planta do repositório), definições de área, esquema canônico, onde guardar, ordem dos portões (editor primeiro × gerador de pavimento primeiro), domínio, riscos e perguntas. Entrega em `viabilidade/projetista/PA-G0.md`.
