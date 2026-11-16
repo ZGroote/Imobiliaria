@@ -51,6 +51,9 @@ def testar_cores(mapa):
                 rgb[:, 4500-x0:4502-x0] = mapa.paleta[7]
             elif self.modo == "divisa_parque":  # T25: parque de verdade é mancha grande e continua divisa
                 rgb[:, :max(0, 4500-x0)] = mapa.paleta[7]
+            elif self.modo == "divisa_texto":  # T31: limite Z1|Z2 em x=4500 escondido debaixo de nome de rua de 16 px
+                rgb[:, 4500-x0:] = mapa.paleta[1]
+                rgb[:, 4485-x0:4501-x0] = (0, 0, 0)
             elif self.modo == "texto_fino":
                 rgb[:, 4530-x0:4532-x0] = (0, 0, 0)
             elif self.modo.startswith("z2_"):  # T30: lote de Z2 com algo por cima, dentro do lote (4520-4540 x 6000-6030)
@@ -124,6 +127,14 @@ def testar_cores(mapa):
                              ("z2_campus_solto", "Cor sem correspondência")):
             raster.modo = modo
             recusar(lote(4520, 4540), motivo)
+        # T31: lote no meio do texto que esconde o limite recusa (menos da metade com cor). O que entra 3-4 px além do
+        # limite e passava pela P1 (a T30 aceitava como Z2, divisa 10,6-12,0 m) recusa: a divisa mede também da mancha
+        # sem cor que sai do lote, e o Z1 aparece colado ao outro lado do texto.
+        raster.modo = "divisa_texto"
+        recusar(lote(4491, 4495), "Cor sem correspondência")
+        for x0 in (4496, 4497):
+            s = recusar(lote(x0, 4520), "Divisa/cor não zonal a menos de 10 m")
+            assert s["divisa_mancha_ignorada_m"] < 10 and "SC-Z1" in s["candidatas"], s
         raster.modo = "eixo"  # AUDITORIA-6 achado 1: Eixo a <=60 m recusa, com fundo + Eixo nas alternativas
         s = recusar(lote(4520, 4540), "Traço de Eixo a até 60 m")
         assert s["alternativas"] == ["SC-Z1", "SC-EIXO"], s["alternativas"]
@@ -150,7 +161,7 @@ def testar_cores(mapa):
             assert "Ibaté" not in recusar(gl.Polygon(mapa.utm(pixels)), "Fora do mapa do Anexo 02")["motivo_duvida"]
     finally:
         mapa.imagem = original
-    print("OK: cores desconhecidas/campus, texto/parque solto no lote passam e branco/campus/parque 4x4/lote quase sem cor recusam (T30), Ibaté só a oeste, traços, lote multizona, divisa de 10 m e Eixo a 60 m recusa, linha fina de Z5B/parque não é divisa nem alternativa, parque grande e branco recusam, borda fina não é Eixo, Represa e cor ambígua recusam, lote grande demais.", flush=True)
+    print("OK: cores desconhecidas/campus, texto/parque solto no lote passam e branco/campus/parque 4x4/lote quase sem cor recusam (T30), Ibaté só a oeste, limite escondido debaixo do texto recusa (T31), traços, lote multizona, divisa de 10 m e Eixo a 60 m recusa, linha fina de Z5B/parque não é divisa nem alternativa, parque grande e branco recusam, borda fina não é Eixo, Represa e cor ambígua recusam, lote grande demais.", flush=True)
 
 
 # Tarefa 17: 8 cruzamentos de rua fora do ajuste (UTM 31983 do cadastro/malha; pixel = centro do cruzamento

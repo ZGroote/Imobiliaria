@@ -16,6 +16,8 @@ ZONAS = ["SC-Z1", "SC-Z2", "SC-Z3", "SC-Z4", "SC-Z5A", "SC-Z5B"]
 DIVISA_M = 10.0
 EIXO_M = 60.0
 BUSCA_M = 250.0
+# T31: texto de nome de rua tem até ~16 px; a mancha ignorada cresce até isso a partir do lote.
+TEXTO_PX = 16
 TOLERANCIA_COR = 18
 # Cor a menos de 3 unidades RGB de empatar entre duas da paleta não decide (AUDITORIA-6: Represa x Z3 a 9,1;
 # Z5B x Parque a 22,2): vira 0, como traço, e só herda classe de vizinho a até 3 px.
@@ -61,6 +63,11 @@ def mancha(mascara, lado):
 def erodir(mascara, lado):
     m = Image.fromarray(mascara.astype(gl.np.uint8) * 255)
     return gl.np.asarray(m.filter(ImageFilter.MinFilter(lado))) > 0
+
+
+def dilatar(mascara, lado):
+    m = Image.fromarray(mascara.astype(gl.np.uint8) * 255)
+    return gl.np.asarray(m.filter(ImageFilter.MaxFilter(lado))) > 0
 
 
 class ZonaIncerta(ValueError):
@@ -231,6 +238,25 @@ class MapaZonas(MapaGeorreferenciado):
                 d = gl.sh.distance(pol, gl.sh.points(self.utm(xy[outros])))
                 # Desconta o preenchimento de traços e meia diagonal do pixel: limite inferior, não divisa legal.
                 d = max(0.0, float(d.min()) - 4/self.escala_min)
+                # T31: com a P1, um limite de zona pode estar escondido debaixo do texto que o lote pegou; a outra zona só
+                # aparece do outro lado do texto. A divisa mede também da mancha ignorada (sem cor ou parque solto) que
+                # sai dos pixels que só passaram pela P1, crescida por até TEXTO_PX dentro dela. Sem P1 nada muda.
+                solto = (classes == 8) & ~mancha(classes == 8, 3)
+                semente = interior.reshape(classes.shape) & ((leitura == 0) | solto)
+                if semente.any():
+                    ignorado, borrao = (classes == 0) | solto, semente
+                    for _ in range(TEXTO_PX):
+                        borrao = dilatar(borrao, 3) & ignorado | semente
+                    raio = int(gl.np.ceil((DIVISA_M + 4/self.escala_min) * self.escala_max)) + 1
+                    perto = (outros.reshape(classes.shape) & dilatar(borrao, 2*raio + 1)).ravel()
+                    if perto.any():
+                        dm = gl.sh.distance(gl.sh.multipoints(self.utm(xy[borrao.ravel()])), gl.sh.points(self.utm(xy[perto])))
+                        dm = gl.np.maximum(0.0, dm - 4/self.escala_min)
+                        info["divisa_mancha_ignorada_m"] = round(float(dm.min()), 2)
+                        d = min(d, float(dm.min()))
+                        for c in gl.np.unique(classes.ravel()[perto][(dm <= DIVISA_M) & zonal.ravel()[perto]]):
+                            if 1 <= c <= 6 and ZONAS[c-1] not in info["alternativas"]:
+                                info["alternativas"].append(ZONAS[c-1])
                 if d <= BUSCA_M:
                     info["distancia_divisa_m"] = round(float(d), 2)
                 if d < DIVISA_M:
