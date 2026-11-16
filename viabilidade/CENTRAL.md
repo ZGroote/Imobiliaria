@@ -9,7 +9,7 @@ Atualizado: 15/11/2026, ~02h (janela livre de 6 h dada pelo usuário: seguir sem
 | Lei | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 (retoma por `lei/TAREFA.md` + arquivos) |
 | Terreno | Codex **Astra high** / trabalho (sessão) | **Faz o MOTOR**. Livre (0.8.3 no 1B) |
 | Motor | Claude **Sonnet** high / jaogroote | **Parado** (fase 0 fechada). TAREFA-7 commitada. Limitações conhecidas: recuo assimétrico + permeabilidade apertada; garagem_computavel=True |
-| Visual | Codex **Astra high** (sessão) / trabalho | Livre. T13–T14 (segurança do relatório) no 1B |
+| Visual | Codex **Astra high**, conta **Padrão** (trocado de Claude em 16/11, a pedido; `--add-dir` da worktree do projetista) | Fez a MATRIZ-REUSO do PA-G0. Livre |
 | Produto | Antigravity (Claude Sonnet 5.5, médio) | Livre. Trocada do Claude em 14/11 |
 | Conferencia | Antigravity **Gemini 4 Hydrogen, alto** | Livre. PACOTE-ARQUITETO entregue (1c5e0e6e, links refeitos após correção) |
 | Relatorio | Antigravity (Claude Sonnet 5.5, médio), **cópia isolada** `Desktop/imobiliaria-viabilidade-gemini`, galho `exp/viabilidade-gemini` | Livre. Relatório HTML entregue, revisado (print) e trazido pro principal em `viabilidade/relatorio/`. Próximas tarefas experimentais vão pra lá |
@@ -220,3 +220,5 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 
 - **16/11:** o usuário aprovou **só o PA-G0** (descoberta e contratos, só documento) do PRD `PRD-PROJETISTA-0.1.md`. Worktree separada `Desktop/imobiliaria-projetista`, galho `viabilidade/projetista-g0` (da main `633ddaeb`), para não misturar com a pilha #125–#128.
 - **Produto PA-G0:** casos de uso, inventário (motor + peças de planta do repositório), definições de área, esquema canônico, onde guardar, ordem dos portões (editor primeiro × gerador de pavimento primeiro), domínio, riscos e perguntas. Entrega em `viabilidade/projetista/PA-G0.md`.
+- **Decisões do usuário (16/11):** não duplicar o motor 3D; geometria separada de legislação; gerador sem IA generativa. Fluxo-alvo: terreno → viabilidade → 6 aptos/pavimento → distribuições → torres → 3D → modificar. Adendo em `projetista/TAREFA-1-ADENDO.md`.
+- **Codex (Visual) entregou `projetista/MATRIZ-REUSO.md`** (`e535508c`, 10 referências conferidas pela central): sem motor 3D novo; faltam (G) distribuição de unidades, compositor de torres e edição em hierarquia; lei misturada à geometria no `motor.py`; `plantaDaUnidade` centraliza cada planta. Produto (PA-G0.md) parado em pedido de permissão do Antigravity: aprovação é do usuário.
