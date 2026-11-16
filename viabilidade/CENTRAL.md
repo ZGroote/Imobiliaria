@@ -202,4 +202,5 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 ## Galho `viabilidade/sem-frente` (16/11, sai do `duas-zonas`)
 
 - **Terreno T26 entregue:** dos 118, 43 são campus/gleba (a zona recusa), 29 estreitos (3,7–7,5 m), 14 de frente quebrada, 10 particulares, 8 barrados pela distância do eixo, 7 de fundo, 4 encostam no vizinho e 3 têm geometria ruim. Nenhuma rua faltando no OSM. Ângulo de 25° não ganha nada.
-- **Terreno T27:** A (frente mínima de 5 m, Lei 6.766, com trava de meia largura), B (juntar pedaços da mesma via) e C (11 m do eixo só em `primary`/`secondary`). A estimativa é de +30 aceitos (278 → ~308). Ficam de fora campus, fundo, particular, encosta e geometria.
+- **Terreno T27 entregue:** 278 → **307** aceitos (A +23, B +4, C +3, juntas +29). Os 29 foram conferidos na foto, nenhum falso. Nenhum aceito antigo mudou e os pilotos ficaram iguais. Limites: corredor de bandeira de 7 m passa pela trava; no 4851 a frente reta (9,8 m) é maior que a soma (5,2 m). O motor dá **0 opções** em lote estreito pequeno (32097, 6073, 8230), com os alertas de testada e área abaixo do mínimo da zona.
+- **Revisor T13:** revisão da T27.
