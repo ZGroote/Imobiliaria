@@ -77,10 +77,12 @@ def testar_cores(mapa):
         s = recusar(lote(4506, 4520), "menos de 10 m")
         assert s["distancia_divisa_m"] < 10
         assert s["so_divisa"] and s["candidatas"] == ["SC-Z2", "SC-Z1"], s["candidatas"]  # T23: a do polígono primeiro
-        for modo in ("divisa_branco", "linha_z5b"):  # T23: sobra uma candidata só, não há o que comparar
-            raster.modo = modo
-            s = recusar(lote(4506, 4520), "menos de 10 m")
-            assert not s["so_divisa"] and s["candidatas"] == [], (modo, s["candidatas"])
+        raster.modo = "divisa_branco"  # T23: cor não zonal continua divisa; sobra uma candidata só
+        s = recusar(lote(4506, 4520), "menos de 10 m")
+        assert not s["so_divisa"] and s["candidatas"] == [], s["candidatas"]
+        raster.modo = "linha_z5b"  # T24: borda de 2 px na cor do Z5B colada ao lote não é divisa
+        z, s = mapa.sugerir(lote(4503, 4520))
+        assert z == "SC-Z1" and s["distancia_divisa_m"] is None, s["distancia_divisa_m"]
         raster.modo = "divisa"
         z, s = mapa.sugerir(lote(4520, 4540))
         assert z == "SC-Z2" and s["distancia_divisa_m"] >= 10
@@ -107,7 +109,7 @@ def testar_cores(mapa):
         recusar(gl.Polygon(mapa.utm([(500, 10300), (550, 10300), (550, 10350), (500, 10350)])), "Fora do quadro")
     finally:
         mapa.imagem = original
-    print("OK: cores desconhecidas/campus, traços, lote multizona, divisa de 10 m e Eixo a 60 m recusa, borda fina não é Eixo, Represa e cor ambígua recusam, lote grande demais.", flush=True)
+    print("OK: cores desconhecidas/campus, traços, lote multizona, divisa de 10 m e Eixo a 60 m recusa, linha fina de Z5B não é divisa, borda fina não é Eixo, Represa e cor ambígua recusam, lote grande demais.", flush=True)
 
 
 # Tarefa 17: 8 cruzamentos de rua fora do ajuste (UTM 31983 do cadastro/malha; pixel = centro do cruzamento

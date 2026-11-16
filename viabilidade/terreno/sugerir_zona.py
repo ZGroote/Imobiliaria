@@ -204,7 +204,13 @@ class MapaZonas(MapaGeorreferenciado):
             motivos.append("Cores de mais de uma zona no polígono amostrado")
         if len(zonas) == 1:
             codigo = ZONAS.index(zonas[0]) + 1
-            outros = (classes.ravel() != 0) & (classes.ravel() != codigo)
+            # T24: pixel de outra zona só é divisa em mancha de 3x3 px ou mais, o mesmo filtro da candidata (T23):
+            # a borda da linha de rua e a sombra de texto caíam no Z5B/Z1 e recusavam lote de zona única.
+            # Cor não zonal (branco, campus, parque, Represa) conta como antes, sem filtro.
+            zonal = gl.np.zeros(classes.shape, bool)
+            for c in range(1, 7):
+                zonal |= mancha(classes == c, 3)
+            outros = ((classes > 6) | (zonal & (classes != codigo))).ravel()
             if outros.any():
                 d = gl.sh.distance(pol, gl.sh.points(self.utm(xy[outros])))
                 # Desconta o preenchimento de traços e meia diagonal do pixel: limite inferior, não divisa legal.
@@ -222,7 +228,7 @@ class MapaZonas(MapaGeorreferenciado):
                 # 5x5 apagava o Z3 real do outro lado da rua (faixa estreita entre traço e texto: 90050, 85446).
                 perto = proximos.reshape(classes.shape)
                 candidatas = [z for z in info["alternativas"] if z == zonas[0] or
-                              (z in ZONAS and (mancha(classes == ZONAS.index(z) + 1, 3) & perto).any())]
+                              (z in ZONAS and (zonal & (classes == ZONAS.index(z) + 1) & perto).any())]
         if motivos:
             info["motivo_duvida"] = "; ".join(motivos)
             # Só a divisa: o polígono é de uma zona só, segura e sem Eixo. Candidatas = essa zona e as da legenda a até
