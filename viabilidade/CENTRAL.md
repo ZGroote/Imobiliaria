@@ -214,7 +214,7 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - **Revisor T14 entregue:** sem achados (zona errada, branco/campus/Represa, mensagens, 5 aceitos iguais). conferir 8/8. `cor-quadro` pronto: PR #128 empilhado em #127.
 - **Usuário (16/11) sobre o #128:** manter #125 → #126 → #127 → #128, sem merge automático. Alerta: o texto ignorado não pode esconder um limite real de zona. CI: o `viabilidade.yml` só roda em PR para a main; o #128 (base `sem-frente`) não tem checagem até ser rebaseado na main.
 - **Terreno T31 entregue:** o alerta procedia. O caso adversário aceitava com a T30 (lote 3–4 px além do limite escondido). Conserto: a divisa de 10 m também mede da mancha ignorada. Sorteio de 500: 319 → 318. Em 3.000: 105 lotes da P1, 8 viram "só divisa" (2 reais, 6 por sombra de letra, conservador). conferir 8/8.
-- **Revisor T15:** revisão da T31 com variações próprias do caso adversário.
+- **Revisor T15 entregue:** sem achados. 4 variações adversárias próprias (texto inclinado, limite em diagonal, córrego, ponta da faixa) recusam; 5 aceitos iguais; conferir 8/8. `cor-quadro` (#128) fechado à espera do merge em ordem.
 
 ## Projetista arquitetônico (PA-G0)
 
