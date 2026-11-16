@@ -168,7 +168,9 @@ class MapaZonas(MapaGeorreferenciado):
             raise ZonaIncerta(info)
         if (x0 < 250 or y0 < 70 or x1 > 8770 or y1 > 10450
                 or pixel_pol.intersects(gl.sh.box(250, 10150, 2500, 12746))):
-            info["motivo_duvida"] = "Fora do quadro georreferenciado do Anexo 02 (borda, legenda ou encarte)"
+            info["motivo_duvida"] = "Fora do mapa do Anexo 02 (borda, legenda ou encarte)"
+            if x1 < 250:  # T29: os lotes a oeste do quadro (6,3% do cadastro) são o centro de Ibaté, a 3-6 km da borda
+                info["motivo_duvida"] += " (a oeste fica Ibaté: lote provavelmente fora do município de São Carlos)"
             raise ZonaIncerta(info)
         rgb = gl.np.asarray(self.imagem.crop(caixa))
         classes = self.classificar(rgb)
@@ -198,7 +200,21 @@ class MapaZonas(MapaGeorreferenciado):
                 info["alternativas"].append("SC-EIXO")
                 motivos.append("Traço de Eixo a até 60 m: art. 11 vale para lote com testada na via; "
                                "conferir via, trecho e alinhamento cadastral (zona de fundo listada nas alternativas)")
-        if len(amostras) < 3 or any(c < 1 or c > 6 for c in amostras):
+        # T30: texto preto, linha de córrego e pixel solto de parque (sem 3x3) não recusam mais: basta a zona cobrir
+        # metade dos pixels (T29: 13 em 500, todos com a zona vista a olho). Branco, campus e Represa recusam sempre, pela
+        # cor do próprio pixel: o sem cor que herdou o campus do vizinho é traço (60197, córrego) e conta só na metade.
+        crua = classes.ravel()[interior]
+        # O motivo claro só com mancha de 3x3 px: 1-3 px de campus na borda de traço (55251, 86694) também recusam, mas
+        # com o motivo genérico, sem dizer "campus" onde não há.
+        branco, campus = (mancha(classes == c, 3).ravel()[interior].any() for c in (9, 7))
+        if branco:
+            motivos.append("Fora do perímetro urbano do Anexo 02")
+        if campus:
+            motivos.append("Campus universitário: não é zona do art. 25")
+        solto = ((crua == 9).any() and not branco) or ((crua == 7).any() and not campus)
+        parque = mancha(classes == 8, 3).ravel()[interior].any()
+        if solto or not (branco or campus) and (len(amostras) < 3 or (crua == 10).any() or parque
+                                                or gl.np.mean((amostras >= 1) & (amostras <= 6)) < .5):
             motivos.append("Cor sem correspondência segura com zona da legenda ou lote sem resolução suficiente")
         if len(zonas) > 1:
             motivos.append("Cores de mais de uma zona no polígono amostrado")
