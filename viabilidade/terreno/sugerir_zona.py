@@ -204,13 +204,13 @@ class MapaZonas(MapaGeorreferenciado):
             motivos.append("Cores de mais de uma zona no polígono amostrado")
         if len(zonas) == 1:
             codigo = ZONAS.index(zonas[0]) + 1
-            # T24: pixel de outra zona só é divisa em mancha de 3x3 px ou mais, o mesmo filtro da candidata (T23):
-            # a borda da linha de rua e a sombra de texto caíam no Z5B/Z1 e recusavam lote de zona única.
-            # Cor não zonal (branco, campus, parque, Represa) conta como antes, sem filtro.
+            # T24/T25: pixel de outra zona, de campus ou de parque só conta em mancha de 3x3 px ou mais, o mesmo filtro
+            # da candidata (T23): a borda da linha de rua e a sombra de texto caíam no Z5B/Z1/Pq. Ecológico e recusavam
+            # lote de zona única. Branco e Represa contam sempre (a Represa já vem filtrada em 5x5 no classificar).
             zonal = gl.np.zeros(classes.shape, bool)
-            for c in range(1, 7):
+            for c in range(1, 9):
                 zonal |= mancha(classes == c, 3)
-            outros = ((classes > 6) | (zonal & (classes != codigo))).ravel()
+            outros = ((classes > 8) | (zonal & (classes != codigo))).ravel()
             if outros.any():
                 d = gl.sh.distance(pol, gl.sh.points(self.utm(xy[outros])))
                 # Desconta o preenchimento de traços e meia diagonal do pixel: limite inferior, não divisa legal.
@@ -220,15 +220,14 @@ class MapaZonas(MapaGeorreferenciado):
                 if d < DIVISA_M:
                     motivos.append("Divisa/cor não zonal a menos de 10 m (distância conservadora)")
                 proximos = gl.sh.distance(pol, gl.sh.points(self.utm(xy))) <= DIVISA_M + 4/self.escala_min
-                for c in gl.np.unique(classes.ravel()[proximos]):
+                # T25: alternativa também só em mancha de 3x3 (concorda com a candidata).
+                for c in gl.np.unique(classes.ravel()[proximos & zonal.ravel()]):
                     if 1 <= c <= 6 and ZONAS[c-1] not in info["alternativas"]:
                         info["alternativas"].append(ZONAS[c-1])
                 # T23: candidata só em mancha de 3x3 px ou mais. Borda anti-aliased de traço cinza sobre Z5A/Z2/Z4 cai na
                 # cor do Z5B, e sombra de texto ou faixa laranja sobre Z2 cai no Z1 (sorteio 500: 33 de 38 eram assim).
                 # 5x5 apagava o Z3 real do outro lado da rua (faixa estreita entre traço e texto: 90050, 85446).
-                perto = proximos.reshape(classes.shape)
-                candidatas = [z for z in info["alternativas"] if z == zonas[0] or
-                              (z in ZONAS and (zonal & (classes == ZONAS.index(z) + 1) & perto).any())]
+                candidatas = [z for z in info["alternativas"] if z in ZONAS]
         if motivos:
             info["motivo_duvida"] = "; ".join(motivos)
             # Só a divisa: o polígono é de uma zona só, segura e sem Eixo. Candidatas = essa zona e as da legenda a até

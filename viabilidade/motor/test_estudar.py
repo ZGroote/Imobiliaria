@@ -325,11 +325,11 @@ def main():
                 assert bool(est["opcoes"]) == tem_opcao, (i, z)
                 for o in est["opcoes"]:
                     assert sum(a.startswith("Lote na divisa entre zonas (SC-Z4 | SC-Z3, a ~") and f"supõe {z};" in a for a in o["alertas"]) == 1, o["alertas"]
-        # só divisa, mas uma candidata só (75352-75354): recusa de hoje, sem pasta
+        # só divisa, mas uma candidata só (68491, Z1 colado ao campus): recusa de hoje, sem pasta
         try:
-            estudar.estudar("completo", [75352, 75353, 75354], "auto", tmp / "div1", cadastro=cad)
+            estudar.estudar("completo", [68491], "auto", tmp / "div1", cadastro=cad)
         except ValueError as e:
-            assert "Zona automática recusada" in str(e) and "Rode de novo com --zona SC-XX, uma destas: SC-Z2." in str(e), e
+            assert "Zona automática recusada" in str(e) and "Rode de novo com --zona SC-XX, uma destas: SC-Z1." in str(e), e
         else:
             raise AssertionError("divisa com uma candidata só devia recusar")
         assert not (tmp / "div1").exists()
