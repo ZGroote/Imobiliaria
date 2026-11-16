@@ -205,4 +205,4 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - **Terreno T27 entregue:** 278 → **307** aceitos (A +23, B +4, C +3, juntas +29). Os 29 foram conferidos na foto, nenhum falso. Nenhum aceito antigo mudou e os pilotos ficaram iguais. Limites: corredor de bandeira de 7 m passa pela trava; no 4851 a frente reta (9,8 m) é maior que a soma (5,2 m). O motor dá **0 opções** em lote estreito pequeno (32097, 6073, 8230), com os alertas de testada e área abaixo do mínimo da zona.
 - **Revisor T13:** 0 ALTA, 0 MÉDIA, 1 BAIXA: a frente juntada usa a reta e pode inflar a testada que o motor lê.
 - **Terreno T28 entregue:** a junção só vale quando a reta passa a soma em até 1 m. Aceitos: 307 → **306** (o 4851 sai; o 51814 fica como estreita). conferir 8/8.
-- **PR do `sem-frente`** aberto, empilhado no #126. Merge só com o usuário.
+- **PR #127** (`sem-frente` → `duas-zonas`) aberto, empilhado no #126. Merge só com o usuário.
