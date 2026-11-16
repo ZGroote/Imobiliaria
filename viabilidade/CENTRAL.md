@@ -198,3 +198,7 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - Texto cinza na caixa do Claude é sugestão automática, não pedido.
 
 - **Commitar tudo que ficar pronto** (pedido do usuário): ao chegar entrega, testar, commitar e dar push na hora.
+
+## Galho `viabilidade/sem-frente` (16/11, sai do `duas-zonas`)
+
+- **Terreno T26 (só medir):** classificar os 118 recusados "sem frente" do sorteio. Categorias: fundo/interno, rua ausente, regra do OSM barrou, condomínio, gleba e geometria ruim. Conferir pelo menos 30 na imagem e trazer uma proposta com ganho e risco de cada solução. O usuário pediu: "sim, manda o Terreno classificar os 118 sem frente".
