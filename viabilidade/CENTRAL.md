@@ -210,4 +210,5 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 ## Galho `viabilidade/cor-quadro` (16/11, sai do `sem-frente`)
 
 - **Terreno T29 entregue:** "cor insegura" (25) = 10 texto, 3 córrego, 2 sombra de rótulo, 6 branco (fora do perímetro), 3 campus, 1 borda. "Fora do quadro" (22) = todos em Ibaté (6,3% do cadastro fica a oeste do mapa). Recusas certas: Ibaté, branco, campus e borda.
-- **Terreno T30:** P1 (texto e córrego finos não recusam; estimativa 306 → 319) + mensagens claras (Ibaté, perímetro, campus).
+- **Terreno T30 entregue:** 306 → **319** aceitos (10 de texto e 3 de córrego), conferidos no Anexo 02. Aceitos antigos e pilotos iguais. 41 recusados trocaram só o texto do motivo. conferir 8/8.
+- **Revisor T14:** revisão da T30. Depois, PR do `cor-quadro`.
