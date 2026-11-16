@@ -1,0 +1,9 @@
+Lote: SC-completo-85446 (base completo, feições [85446])
+Área: 315.462 m²
+Lote na divisa entre zonas (SC-Z4 | SC-Z3, divisa a 1.82 m): um estudo por zona candidata.
+Lote na divisa entre zonas: confirmar a zona na Prefeitura antes de usar qualquer um dos estudos.
+
+Zona    | Opções | Melhor CA | Unidades | Área vendável (m²) | Revisão      | Pasta
+SC-Z4   |      1 |     1.340 |        6 |              362.7 | 326d3aab128f | zona-SC-Z4/
+SC-Z3   |      1 |     1.340 |        6 |              362.7 | 496751cebd3a | zona-SC-Z3/
+Melhor = maior valor entre as opções de cada zona (CA usado, unidades, área privativa).

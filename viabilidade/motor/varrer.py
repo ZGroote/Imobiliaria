@@ -28,7 +28,7 @@ AVISO = ("Varredura automática: zona e áreas especiais sugeridas pela leitura 
          "Não é lista de lotes à venda nem garantia de aprovação.")
 COLUNAS = ["indice", "area_m2", "zona", "status", "motivo", "n_opcoes", "maior_area_computavel_m2", "maior_unidades",
            "areas_especiais_encontradas", "areas_especiais_nao_verificadas", "frente_presumida", "revisao", "estudo_json"]
-ORIGEM = {"sugerida_pelo_mapa": "sugerida pelo mapa", "informada_pelo_usuario": "informada pelo usuário"}
+ORIGEM = {"sugerida_pelo_mapa": "sugerida pelo mapa", "informada_pelo_usuario": "informada pelo usuário", "candidata_na_divisa": "candidata na divisa"}
 
 
 def lotes_do_raio(cadastro, ponto, raio, min_m2=None):
@@ -44,11 +44,16 @@ def _linha(cadastro, i, pasta, premissas, fn):
     linha.update(indice=i, area_m2=round(cadastro.geos[i].area, 1))
     destino = pasta / "lotes" / str(i)
     try:
-        revisao = fn(cadastro.base, [i], "auto", destino, premissas, cadastro)["revisao"]
+        r = fn(cadastro.base, [i], "auto", destino, premissas, cadastro)
     except ValueError as erro:
         return {**linha, "status": "recusa", "motivo": " ".join(str(erro).split())}
     except Exception as erro:  # noqa: BLE001  (um lote ruim não pode matar as outras centenas)
         return {**linha, "status": "erro", "motivo": f"{type(erro).__name__}: {' '.join(str(erro).split())}"}
+    if r.get("divisa"):  # uma linha só, sem números: cada candidata tem estudo próprio (ver resumo.txt da pasta)
+        return {**linha, "status": "divisa", "zona": "divisa: " + " | ".join(r["divisa"]),
+                "motivo": "lote na divisa entre zonas: confirmar a zona na Prefeitura; um estudo por candidata em " + f"lotes/{i}/zona-SC-Zx/",
+                "estudo_json": f"lotes/{i}/resumo.txt"}
+    revisao = r["revisao"]
     lote = json.loads((destino / "lote.json").read_text(encoding="utf-8"))
     estudo = json.loads((destino / "estudo.json").read_text(encoding="utf-8"))
     opcoes = estudo["opcoes"]

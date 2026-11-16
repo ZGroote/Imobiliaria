@@ -306,6 +306,50 @@ def main():
         ef = estudo_("jf", 74451)  # fora da subárea: nada novo na saída
         assert "acrescimo_topo_m" not in ef["premissas"] and not any(a.startswith("Altura: sobram") for o in ef["opcoes"] for a in o["alertas"])
         assert not any(i.startswith("Frente presumida") for i in novo["incertezas"]), novo["incertezas"]  # 30516: frente normal, sem aviso
+
+        # (i) T29: lote na divisa (terreno T23) = um estudo por candidata; 90050 (Z4|Z3, sem opção que caiba) e 85446 (Z4|Z3, com opção)
+        for i, tem_opcao in ((90050, False), (85446, True)):
+            pasta = tmp / f"div{i}"
+            r = estudar.estudar("completo", [i], "auto", pasta, cadastro=cad)
+            assert r["divisa"] == ["SC-Z4", "SC-Z3"] and lista(pasta) == {"zona-SC-Z4", "zona-SC-Z3", "resumo.txt"}, (r["divisa"], lista(pasta))
+            raiz = (pasta / "resumo.txt").read_text(encoding="utf-8")
+            assert "confirmar a zona na Prefeitura antes de usar qualquer um dos estudos." in raiz and raiz == r["resumo"], raiz
+            for z in ("SC-Z4", "SC-Z3"):
+                assert lista(pasta / f"zona-{z}") == ARQUIVOS
+                lote = json.loads((pasta / f"zona-{z}" / "lote.json").read_text(encoding="utf-8"))
+                est = json.loads((pasta / f"zona-{z}" / "estudo.json").read_text(encoding="utf-8"))
+                assert lote["zona_id"] == z and lote["zona_origem"] == "candidata_na_divisa" and lote["zona_conferida"] is False
+                assert f"zona-{z}/" in raiz and est["incertezas"][0].startswith(f"Terreno na zona {z}: NÃO conferido (uma das zonas candidatas na divisa (SC-Z4, SC-Z3)"), est["incertezas"][0]
+                assert "candidatas na divisa" in (pasta / f"zona-{z}" / "resumo.txt").read_text(encoding="utf-8")
+                assert "sem origem" not in (pasta / f"zona-{z}" / "relatorio.html").read_text(encoding="utf-8")
+                assert bool(est["opcoes"]) == tem_opcao, (i, z)
+                for o in est["opcoes"]:
+                    assert sum(a.startswith("Lote na divisa entre zonas (SC-Z4 | SC-Z3, a ~") and f"supõe {z};" in a for a in o["alertas"]) == 1, o["alertas"]
+        # só divisa, mas uma candidata só (75352-75354): recusa de hoje, sem pasta
+        try:
+            estudar.estudar("completo", [75352, 75353, 75354], "auto", tmp / "div1", cadastro=cad)
+        except ValueError as e:
+            assert "Zona automática recusada" in str(e) and "Rode de novo com --zona SC-XX, uma destas: SC-Z2." in str(e), e
+        else:
+            raise AssertionError("divisa com uma candidata só devia recusar")
+        assert not (tmp / "div1").exists()
+        # falha na gravação do segundo estudo apaga tudo, inclusive as subpastas
+        orig, n = Path.write_bytes, [0]
+        def morre(self, dados):
+            n[0] += 1
+            if n[0] == 6:
+                raise OSError("disco cheio")
+            return orig(self, dados)
+        Path.write_bytes = morre
+        try:
+            estudar.estudar("completo", [90050], "auto", tmp / "divruim", cadastro=cad)
+        except OSError:
+            pass
+        else:
+            raise AssertionError("devia propagar a falha")
+        finally:
+            Path.write_bytes = orig
+        assert not (tmp / "divruim").exists()
     print("ok")
 
 

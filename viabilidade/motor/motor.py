@@ -777,6 +777,8 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
     texto_origem = {"oficial": "pelo mapa digital oficial", "anotada_a_mao": "lida à mão no anexo em PDF",
                     "teste": "escolhida só pra testar",
                     "informada_pelo_usuario": "informada pelo usuário",
+                    "candidata_na_divisa": f"uma das zonas candidatas na divisa ({', '.join((lote.get('zona_sugestao') or {}).get('candidatas') or [])}), "
+                                           "escolhida para este estudo; a outra tem estudo próprio",
                     "sugerida_pelo_mapa": "sugerida pelo mapa do Plano Diretor; outras zonas por perto: "
                     + (", ".join((lote.get("zona_sugestao") or {}).get("alternativas") or []) or "nenhuma")
                     }.get(origem_zona, "sem origem informada (falta zona_origem no lote)")
@@ -785,6 +787,12 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
     else:
         incertezas.append(f"Terreno na zona {zona['id']}: conferido ({texto_origem}).")
     alerta_frente = []
+    alerta_divisa = []
+    if origem_zona == "candidata_na_divisa":  # entra em todas as opções
+        sg = lote.get("zona_sugestao") or {}
+        dist = sg.get("distancia_divisa_m")
+        alerta_divisa.append(f"Lote na divisa entre zonas ({' | '.join(sg.get('candidatas') or [zona['id']])}"
+                             + (f", a ~{dist:g} m" if dist is not None else "") + f"): este estudo supõe {zona['id']}; confirmar a zona na Prefeitura.")
     frente0 = ((lote.get("qualidade") or {}).get("frentes") or [{}])[0]  # frente presumida pelo terreno (novo_lote.py): a regra vem marcada
     if frente0.get("regra") == "arestas_colineares":
         incertezas.append(f"Frente presumida (juntou {len(frente0.get('arestas') or [])} arestas colineares, asfalto a até 6 m): confirmar testada e alinhamento na matrícula.")
@@ -906,7 +914,7 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
                      f"{ACRESCIMO_TOPO_PADRAO:g} m." if gabarito - altura < ACRESCIMO_TOPO_PADRAO - 1e-6 else "")] if gabarito else [])
         opcoes.append({"id": id_, "nome": nome,
                        "volumes": [{k: x for k, x in v.items() if not k.startswith("_")} for v in vols] + sub,
-                       "metricas": m, "alertas": av + alertas_esp + folga + alerta_relevo + alerta_frente + _alertas(m, altura + acr, A, zp, altura_max)})
+                       "metricas": m, "alertas": av + alertas_esp + folga + alerta_relevo + alerta_divisa + alerta_frente + _alertas(m, altura + acr, A, zp, altura_max)})
 
     def topo(n):  # recuos e caixa local de um prédio de n pavimentos a partir do chão
         r = _recuos_topo(ctx, n, _altura(pr, n, True))
