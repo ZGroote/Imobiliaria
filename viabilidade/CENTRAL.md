@@ -206,3 +206,7 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - **Revisor T13:** 0 ALTA, 0 MÉDIA, 1 BAIXA: a frente juntada usa a reta e pode inflar a testada que o motor lê.
 - **Terreno T28 entregue:** a junção só vale quando a reta passa a soma em até 1 m. Aceitos: 307 → **306** (o 4851 sai; o 51814 fica como estreita). conferir 8/8.
 - **PR #127** (`sem-frente` → `duas-zonas`) aberto, empilhado no #126. Merge só com o usuário.
+
+## Galho `viabilidade/cor-quadro` (16/11, sai do `sem-frente`)
+
+- **Terreno T29 (só medir):** classificar os recusados por "cor insegura" (~24) e "fora do quadro" (~22). Trazer a zona certa a olho, o erro de encaixe do mapa e uma proposta com ganho e risco de cada solução. O usuário pediu: "manda medir cor insegura e fora do quadro".
