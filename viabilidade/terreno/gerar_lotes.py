@@ -292,6 +292,7 @@ LARGURA_FRACAO = 0.5  # trava da frente estreita: o lado na rua tem >= metade da
 PECA_MIN_M = 2  # pedaço de lado que entra na soma da frente quebrada
 JUNTAR_ANG = 30  # graus entre os pedaços e o primeiro do grupo: esquina (~90) e lote passante (~180) não somam
 JUNTAR_VAO_M = 5  # buraco entre um pedaço e o seguinte (recorte, quina) acima disso: não é a mesma frente
+JUNTAR_FOLGA_M = 1  # T28: a reta do 1º ao último pedaço (o que o motor lê como testada) passa a soma em até isso
 
 
 def largura_media(g, pontos):
@@ -325,13 +326,16 @@ def frentes_curtas(g, indice, geos, tree, rua, osm):
             "via_osm" not in f or f["via_osm"]["id"] == h["via_osm"]["id"] or (f["via_osm"]["nome"] and f["via_osm"]["nome"] == h["via_osm"]["nome"]))
         giro = abs(math.degrees((rumo(h) - rumo(primeira) + math.pi) % (2 * math.pi) - math.pi))
         return mesma and giro <= JUNTAR_ANG and math.dist(f["pontos"][1], h["pontos"][0]) <= JUNTAR_VAO_M
+
+    def cabe(gr):  # a reta não pode inflar a testada: vão grande ou serrilhado fazem a reta passar muito a soma
+        return math.dist(gr[0]["pontos"][0], gr[-1]["pontos"][1]) <= sum(f["comprimento_m"] for f in gr) + JUNTAR_FOLGA_M
     grupos = []
     for f in pecas:
-        if grupos and junta(grupos[-1][-1], f, grupos[-1][0]):
+        if grupos and junta(grupos[-1][-1], f, grupos[-1][0]) and cabe(grupos[-1] + [f]):
             grupos[-1].append(f)
         else:
             grupos.append([f])
-    if len(grupos) > 1 and junta(grupos[-1][-1], grupos[0][0], grupos[-1][0]):  # a frente pode cruzar a quina do começo
+    if len(grupos) > 1 and junta(grupos[-1][-1], grupos[0][0], grupos[-1][0]) and cabe(grupos[-1] + grupos[0]):  # a frente pode cruzar a quina do começo
         grupos[0] = grupos.pop() + grupos[0]
     frentes = []
     for gr in grupos:

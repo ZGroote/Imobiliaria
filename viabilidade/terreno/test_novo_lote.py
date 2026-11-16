@@ -179,6 +179,18 @@ def testar():
             (8, "Rua B", "residential", [(x0 - 5, y0 - 5), (x0 - 5, y0 + 140)])]
     f = com_osm(gl.np.array(esquina), 0, vias, (x0 + 140, y0 - 5))["frentes"]
     assert [(x["comprimento_m"], x["frente_curta"], x["pedacos_m"]) for x in f] == [(5.5, "estreita", [5.5])] * 2, f
+    # T28: 3,5 + 3,5 m com recorte de 4,5 m no meio (fundo do recorte a 9 m do eixo, fora da regra): a reta daria 11,5 m
+    # de testada para 7 m de lado na rua. Não junta, e cada pedaço sozinho fica abaixo dos 5 m
+    recorte = gl.Polygon([(x0, y0), (x0 + 3.5, y0), (x0 + 3.5, y0 + 4), (x0 + 8, y0 + 4), (x0 + 8, y0), (x0 + 11.5, y0),
+                          (x0 + 11.5, y0 + 30), (x0, y0 + 30)])
+    via = [(7, "Rua Teste", "residential", [(x0 - 60, y0 - 5), (x0 + 140, y0 - 5)])]
+    assert com_osm(gl.np.array([recorte]), 0, via, (x0 + 140, y0 - 5)) is None
+    gl.JUNTAR_FOLGA_M = 99  # sem a trava da T28 juntaria numa estreita de 7 m com reta de 11,5 m: é ela que recusa
+    try:
+        f = com_osm(gl.np.array([recorte]), 0, via, (x0 + 140, y0 - 5))["frentes"][0]
+        assert (f["frente_curta"], f["pedacos_m"], math.dist(*f["pontos"])) == ("estreita", [3.5, 3.5], 11.5), f
+    finally:
+        gl.JUNTAR_FOLGA_M = 1
     # reais (T26): 2986 junta 2,97 + 6,81 na mesma frente; 22356 passante fica com 7,5 m por rua, sem somar as duas
     f = cadastro.gerar([2986], "SC-Z2")["qualidade"]["frentes"][0]
     assert f["frente_curta"] == "juntada" and len(f["pedacos_m"]) == 2 and f["comprimento_m"] >= 8, f
@@ -186,7 +198,7 @@ def testar():
     assert [(x["frente_curta"], round(x["comprimento_m"], 1)) for x in lote["qualidade"]["frentes"]] == [("estreita", 7.5)] * 2
     assert "AVISO: frente estreita de 7.504 m" in lote["observacoes"]
     print("OK: T27: avenida a 10,5 m aceita e rua local recusada; lote de 5,5 m aceito e de 4,5 recusado; bandeiras de 5 e 6 m "
-          "recusadas (a de 6 m pela trava); esquina 5,5+5,5 não soma; 2986 juntado; 22356 7,5 m por rua.", flush=True)
+          "recusadas (a de 6 m pela trava); esquina 5,5+5,5 não soma; T28: 3,5+3,5 com vão de 4,5 não junta; 2986 juntado; 22356 7,5 m por rua.", flush=True)
     # desnível lote - rua (T22): raster sintético = plano subindo 0,1 m por metro para o norte, rua 2 a 10 m ao sul da frente
     x0, y0, topo = 202000, 7564000, 7564300
     plano = gl.np.array([[500 + 0.1 * (topo - 30 * (j + 0.5) - y0)] * 20 for j in range(20)])
