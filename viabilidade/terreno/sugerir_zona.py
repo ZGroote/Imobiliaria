@@ -66,9 +66,14 @@ def erodir(mascara, lado):
 class ZonaIncerta(ValueError):
     def __init__(self, sugestao):
         self.sugestao = sugestao
+        # T23: só a divisa em dúvida, com 2+ zonas da legenda a até 10 m, vira estudo por candidata (auto:SC-XX).
+        sugestao.setdefault("so_divisa", False)
+        sugestao.setdefault("candidatas", [])
+        candidatas = (f" Ou escolha uma candidata na divisa: {', '.join('auto:' + z for z in sugestao['candidatas'])}."
+                      if sugestao["so_divisa"] else "")
         super().__init__(f"Zona automática recusada: {sugestao['motivo_duvida']}. "
                          f"Alternativas: {', '.join(sugestao['alternativas']) or 'nenhuma identificada'}. "
-                         "Confira o mapa e informe --zona SC-XX explicitamente.")
+                         "Confira o mapa e informe --zona SC-XX explicitamente." + candidatas)
 
 
 def mapa_local(anexo="02"):
@@ -212,8 +217,18 @@ class MapaZonas(MapaGeorreferenciado):
                 for c in gl.np.unique(classes.ravel()[proximos]):
                     if 1 <= c <= 6 and ZONAS[c-1] not in info["alternativas"]:
                         info["alternativas"].append(ZONAS[c-1])
+                # T23: candidata só em mancha de 3x3 px ou mais. Borda anti-aliased de traço cinza sobre Z5A/Z2/Z4 cai na
+                # cor do Z5B, e sombra de texto ou faixa laranja sobre Z2 cai no Z1 (sorteio 500: 33 de 38 eram assim).
+                # 5x5 apagava o Z3 real do outro lado da rua (faixa estreita entre traço e texto: 90050, 85446).
+                perto = proximos.reshape(classes.shape)
+                candidatas = [z for z in info["alternativas"] if z == zonas[0] or
+                              (z in ZONAS and (mancha(classes == ZONAS.index(z) + 1, 3) & perto).any())]
         if motivos:
             info["motivo_duvida"] = "; ".join(motivos)
+            # Só a divisa: o polígono é de uma zona só, segura e sem Eixo. Candidatas = essa zona e as da legenda a até
+            # 10 m (branco/campus/parque/represa não entram); com uma só não há o que comparar.
+            if len(motivos) == 1 and motivos[0].startswith("Divisa/") and len(candidatas) > 1:
+                info["so_divisa"], info["candidatas"] = True, candidatas
             raise ZonaIncerta(info)
         info["alternativas"].remove(zonas[0])
         return zonas[0], info

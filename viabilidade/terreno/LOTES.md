@@ -54,6 +54,8 @@ As demais candidatas estão em `qualidade.frentes`. **O Motor atual usa uma úni
 
 **Rua do OSM (T21), só para lote novo e só quando a malha não deu frente:** `dados/osm-vias-sao-carlos.json.gz` traz as vias de carro do OpenStreetMap (© OpenStreetMap contributors, licença ODbL 1.0), recortadas por `osm_vias.py` do extrato `sudeste-latest.osm.pbf` da Geofabrik (dados de 28/08/2026). O pbf fica fora do git. Um lado livre de pelo menos 8 m vira frente `rua_osm` se ficar a até 8 m do eixo de uma via `residential`, `primary`, `secondary`, `tertiary` ou `living_street`, a até 20° dela, e se essa via se ligar à malha de asfalto. O OSM indica uma frente provável, mas não prova testada legal nem acesso público.
 
+**Zona candidata na divisa (T23):** quando a única dúvida do `--zona auto` é a divisa a menos de 10 m e há outra zona da legenda (em mancha, não traço) a até 10 m, a recusa traz `so_divisa: true` e `candidatas` (a zona do polígono primeiro); `--zona auto:SC-Z3` gera o lote com uma delas, `zona_origem: "candidata_na_divisa"` e a `zona_sugestao` inteira, e qualquer zona fora da lista dá erro.
+
 ## Verificação e reprodução
 
 ```powershell
