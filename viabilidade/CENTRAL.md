@@ -142,7 +142,8 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
 - **Em curso:**
   - ~~Motor T29~~ **entregue `bb6bd246`:** `zona-SC-Zx/` por candidata, `resumo.txt` comparativo e alerta por opção; `varrer` com `status divisa`. Dos 6 lotes, só o 63335 muda de resultado (Z2: CA 1,82 contra Z3: 1,40). Exemplo em `motor/exemplos/divisa-85446/`.
   - **Revisor T11:** revisão de T23, T21 e T29 (`revisao/TAREFA-11.md`).
-  - **Terreno T24:** o mesmo filtro na `distancia_divisa_m`. Achado da T23: 65 dos 66 recusados "só divisa" com uma candidata são falsos, cerca de 13% do sorteio. Para se houver um único lote numa divisa real no Anexo 02.
+  - ~~Terreno T24~~ **entregue `f87a5280`:** aceitos 214 → 238 no sorteio de 500; os 24 novos conferidos no Anexo 02, todos de zona única. Foram 24 e não 65 porque a cor não zonal (parque) seguiu sem filtro.
+  - **Terreno T25:** parque e campus com mancha 3×3 (branco e Represa seguem sempre) e `alternativas` filtradas. O Terreno mediu 40 dos 42 que sobraram passando. Decidido pelo maestro: borda de rua não é parque, e o relatório mostrava "Alternativas: SC-Z5B" falsa.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
   - P12: nenhuma alteração de índice desde 2016. A Lei 19.166/2019 acrescenta as AEI 44/45 ao Anexo 6, e a 18.927/2018 cria a Z6E; os dois casos foram passados ao Auditor.
