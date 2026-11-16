@@ -140,7 +140,8 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - **T23:** mancha mínima de 3×3 px tira candidata falsa da borda da linha de rua. No sorteio de 500, 6 lotes ficam `so_divisa` (Z4|Z3 e Z2|Z3), conferidos no Anexo 02; aceitos e pilotos iguais byte a byte.
   - **T21:** alerta comum a todas as opções sai uma vez acima da tabela; "DEPENDE DE CONFIRMAÇÃO" em destaque; no celular, 794 → 390 px. O Visual disse "pronta" sem o relato, que veio depois de cobrado.
 - **Em curso:**
-  - **Motor T29:** um estudo por candidata, mais a origem nova em `motor.py`, `_linha_zona` e `varrer.ORIGEM` (o `varrer` quebraria).
+  - ~~Motor T29~~ **entregue `bb6bd246`:** `zona-SC-Zx/` por candidata, `resumo.txt` comparativo e alerta por opção; `varrer` com `status divisa`. Dos 6 lotes, só o 63335 muda de resultado (Z2: CA 1,82 contra Z3: 1,40). Exemplo em `motor/exemplos/divisa-85446/`.
+  - **Revisor T11:** revisão de T23, T21 e T29 (`revisao/TAREFA-11.md`).
   - **Terreno T24:** o mesmo filtro na `distancia_divisa_m`. Achado da T23: 65 dos 66 recusados "só divisa" com uma candidata são falsos, cerca de 13% do sorteio. Para se houver um único lote numa divisa real no Anexo 02.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
