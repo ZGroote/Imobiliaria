@@ -31,6 +31,7 @@
     a{color:var(--accent);display:inline-flex;align-items:center;min-height:44px;white-space:nowrap}
     .status-recusa{color:#ffd6c8}
     .status-erro{color:#ffb4a3;font-weight:600}
+    .status-divisa{color:var(--gold)}
     [hidden]{display:none!important}
   </style>
 </head>
@@ -42,7 +43,7 @@
     <p id="erro" hidden></p>
     <div id="resultado" hidden>
       <div class="filtros">
-        <label>Status <select id="filtro-status"><option value="">Todos</option><option value="estudo">Estudado</option><option value="recusa">Recusado</option><option value="erro">Erro</option></select></label>
+        <label>Status <select id="filtro-status"><option value="">Todos</option><option value="estudo">Estudado</option><option value="recusa">Recusado</option><option value="erro">Erro</option><option value="divisa">Na divisa</option></select></label>
         <label>Zona <select id="filtro-zona"><option value="">Todas</option></select></label>
       </div>
       <p class="muted" id="mostrando" aria-live="polite"></p>
@@ -58,7 +59,7 @@
       ['areas_especiais_encontradas', 'Áreas especiais encontradas', true], ['areas_especiais_nao_verificadas', 'Áreas especiais não verificadas', true],
       ['frente_presumida', 'Frente presumida', false], ['motivo', 'Motivo', false],
     ];
-    const ROTULO = { estudo: 'Estudado', recusa: 'Recusado', erro: 'Erro' };
+    const ROTULO = { estudo: 'Estudado', recusa: 'Recusado', erro: 'Erro', divisa: 'Na divisa' };
     const numero = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
     let pasta = '', lotes = [], ordem = null;
 
@@ -138,6 +139,13 @@
           a.textContent = 'abrir maquete';
           a.setAttribute('aria-label', `abrir maquete do lote ${lote.indice}`);
           td.append(a);
+        } else if (lote.status === 'divisa' && /^lotes\/\d+\/resumo\.txt$/.test(lote.estudo_json)) {
+          // T29: um estudo por zona candidata; o resumo.txt traz a comparação
+          const a = document.createElement('a');
+          a.href = encodeURIComponent(pasta + '/' + lote.estudo_json).replaceAll('%2F', '/');
+          a.textContent = 'ver comparação';
+          a.setAttribute('aria-label', `ver comparação das zonas do lote ${lote.indice}`);
+          td.append(a);
         }
         tr.children[0].after(td);
         corpo.append(tr);
@@ -165,7 +173,7 @@
         return;
       }
       const conta = s => lotes.filter(l => l.status === s).length;
-      $('#contagem').textContent = `${conta('estudo')} estudados · ${conta('recusa')} recusados · ${conta('erro')} erros`;
+      $('#contagem').textContent = `${conta('estudo')} estudados · ${conta('recusa')} recusados · ${conta('erro')} erros` + (conta('divisa') ? ` · ${conta('divisa')} na divisa` : '');
       $('#status').textContent = `Pasta: ${pasta} · ${lotes.length} lotes, na ordem do CSV. Clique no título da coluna para ordenar.`;
       const zonas = [...new Set(lotes.map(l => l.zona))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
       for (const z of zonas) $('#filtro-zona').append(new Option(z || '(sem zona)', z || '\u0000'));
