@@ -136,6 +136,12 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
 - Usuário: "ok, segue com o desenvolvimento" → estudo com as duas zonas na divisa + Visual confere os avisos novos.
 - **Terreno T23:** `so_divisa` + `candidatas` na `ZonaIncerta`; lote com `zona_origem: "candidata_na_divisa"`. Depois → **Motor T29:** `estudar.py` gera um estudo por candidata, lado a lado, com "confirmar a zona na Prefeitura".
 - **Visual T21:** avisos de art. 80, relevo e rua do OSM no `relatorio.html` (computador e celular); conserto só no `relatorio/`.
+- **Entregue (16/11, `bdc5e3e4` e `d667bd9b`, conferir 8/8):**
+  - **T23:** mancha mínima de 3×3 px tira candidata falsa da borda da linha de rua. No sorteio de 500, 6 lotes ficam `so_divisa` (Z4|Z3 e Z2|Z3), conferidos no Anexo 02; aceitos e pilotos iguais byte a byte.
+  - **T21:** alerta comum a todas as opções sai uma vez acima da tabela; "DEPENDE DE CONFIRMAÇÃO" em destaque; no celular, 794 → 390 px. O Visual disse "pronta" sem o relato, que veio depois de cobrado.
+- **Em curso:**
+  - **Motor T29:** um estudo por candidata, mais a origem nova em `motor.py`, `_linha_zona` e `varrer.ORIGEM` (o `varrer` quebraria).
+  - **Terreno T24:** o mesmo filtro na `distancia_divisa_m`. Achado da T23: 65 dos 66 recusados "só divisa" com uma candidata são falsos, cerca de 13% do sorteio. Para se houver um único lote numa divisa real no Anexo 02.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
   - P12: nenhuma alteração de índice desde 2016. A Lei 19.166/2019 acrescenta as AEI 44/45 ao Anexo 6, e a 18.927/2018 cria a Z6E; os dois casos foram passados ao Auditor.
