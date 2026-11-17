@@ -1,0 +1,6 @@
+# T30: teste da divisa com uma candidata só (16/11)
+1. **Troca do lote:** em `test_estudar.py` o caso "divisa com uma candidata só, recusa sem pasta" agora usa o **68491** (Z1 colado ao campus). Conferi à mão: `estudar.estudar("completo", [68491], "auto", ...)` recusa com "Zona automática recusada … Rode de novo com --zona SC-XX, uma destas: SC-Z1." e não cria pasta. A mensagem esperada no teste mudou de SC-Z2 para SC-Z1.
+2. **Outros usos do 75352–75354 em `motor/`:** só o `test_motor.py` (linha ~876) e o piloto `SC-completo-remembramento-75352-75354.json`, os dois com zona informada, então não dependem do `auto`. `test_8b` passou (dentro do `test_motor.py`), pilotos com o mesmo SHA da linha de base.
+3. **Testes:** `test_estudar.py`, `test_motor.py` e `test_varrer.py` ok.
+4. **`conferir.py`: 7/8, não 8/8.** Reprovou só o `visual` (`visual.log`): `testar.cjs:241`, `getByLabel('Zona')` achou 2 elementos, o filtro Zona e o filtro Status. Causa: o `viabilidade/visual/varredura.html` solto na worktree (T22 do Visual, em curso) ganhou a opção "Na divisa (2 zonas)" no Status, e o texto "zonas" casa com o rótulo "Zona". Não é do motor nem da T25; está fora de `motor/` e eu não mexi. O Visual resolve trocando o rótulo (ex.: "Na divisa") ou o teste para `getByLabel('Zona', { exact: true })`.
+5. Não commitei.

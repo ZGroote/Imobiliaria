@@ -69,6 +69,14 @@ def main():
         assert any(x["status"] == "estudo" for x in linhas) and linhas[-1]["status"] != "estudo"  # o resto estudou; erro/recusa no fim
         assert next(x for x in le(t / "c") if x["indice"] == "30516")["status"] == "erro"
         assert "1 × erro" in (t / "c" / "RESUMO.md").read_text(encoding="utf-8")
+
+        # (d) T29: lote na divisa (90050) vira uma linha "divisa", sem quebrar a varredura
+        g = cad.geos[90050].centroid
+        lon, lat = novo_lote.gl.GEO.transform(g.x, g.y)
+        linhas = varrer.varrer("completo", f"{lat:.6f}, {lon:.6f}", 15, t / "d", cadastro=cad)
+        l = next(x for x in linhas if x["indice"] == 90050)
+        assert l["status"] == "divisa" and l["zona"] == "divisa: SC-Z4 | SC-Z3" and l["estudo_json"] == "lotes/90050/resumo.txt", l
+        assert (t / "d" / l["estudo_json"]).exists() and "2 × divisa" in (t / "d" / "RESUMO.md").read_text(encoding="utf-8")
     print("ok")
 
 

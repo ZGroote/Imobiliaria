@@ -127,9 +127,26 @@ Regra de modelos (aprovada 14/11): pesquisa e conferência no Antigravity (cota 
   - **T22 entregue:** lote novo grava `relevo.desnivel_lote_rua_m` (DSM no centroide − mediana do asfalto a ≤25 m da frente). 26/214 aceitos (12%) com |desnível| ≥2 m ganham o aviso da T27; 53 sem asfalto perto ficam sem o campo. 77015 −5,0, 77022 +5,2. `lotes-piloto.json` NÃO ganhou o campo (30516 e 22421 dariam −2,4 → aviso): pilotos ficam como referência fixa. conferir 8/8.
   - **Retomada 15/11:** amostra ok (5 provedores); conferir 8/8; sem entrega nova (soltos = evidências do visual regeradas pelo conferir + fim de linha dos exemplos do motor). Revisor na T10.
   - **REVISAO-10:** T21, T22, T27, T28 aprovadas, sem achados (5 rua_osm inéditos certos na foto; `.gz` reproduz byte a byte). → **PR #125** aberto (`viabilidade/pos-124` → main, 27 commits, só `viabilidade/`). Merge espera o usuário.
-  - **Retomadas 15/11 (3) a (5) e 16/11 (1) a (8):** iguais (a (5) não rodou: checagem do modo automático falhou) à (2): amostra ok, conferir 8/8, sem entrega nova.
+  - **Retomadas 15/11 (3) a (5) e 16/11 (1) a (10):** iguais (a (5) não rodou: checagem do modo automático falhou) à (2): amostra ok, conferir 8/8, sem entrega nova.
   - **Retomada 15/11 (2):** amostra ok (5 provedores); conferir 8/8; sem entrega nova. PR #125 esperando o usuário; próximos passos propostos (estudo com as duas zonas na divisa; Visual confere os avisos novos) aguardando OK.
   - PR para a main só no fim, e merge só com nova autorização do usuário.
+
+## Galho `viabilidade/duas-zonas` (16/11, sai do `viabilidade/pos-124`; PR #125 segue separado)
+
+- Usuário: "ok, segue com o desenvolvimento" → estudo com as duas zonas na divisa + Visual confere os avisos novos.
+- **Terreno T23:** `so_divisa` + `candidatas` na `ZonaIncerta`; lote com `zona_origem: "candidata_na_divisa"`. Depois → **Motor T29:** `estudar.py` gera um estudo por candidata, lado a lado, com "confirmar a zona na Prefeitura".
+- **Visual T21:** avisos de art. 80, relevo e rua do OSM no `relatorio.html` (computador e celular); conserto só no `relatorio/`.
+- **Entregue (16/11, `bdc5e3e4` e `d667bd9b`, conferir 8/8):**
+  - **T23:** mancha mínima de 3×3 px tira candidata falsa da borda da linha de rua. No sorteio de 500, 6 lotes ficam `so_divisa` (Z4|Z3 e Z2|Z3), conferidos no Anexo 02; aceitos e pilotos iguais byte a byte.
+  - **T21:** alerta comum a todas as opções sai uma vez acima da tabela; "DEPENDE DE CONFIRMAÇÃO" em destaque; no celular, 794 → 390 px. O Visual disse "pronta" sem o relato, que veio depois de cobrado.
+- **Em curso:**
+  - ~~Motor T29~~ **entregue `bb6bd246`:** `zona-SC-Zx/` por candidata, `resumo.txt` comparativo e alerta por opção; `varrer` com `status divisa`. Dos 6 lotes, só o 63335 muda de resultado (Z2: CA 1,82 contra Z3: 1,40). Exemplo em `motor/exemplos/divisa-85446/`.
+  - ~~Revisor T11~~ **feita:** 0 ALTA e 0 MÉDIA. 1 BAIXA: o `visual/varredura.html` não conhece o status `divisa`, foi para a **Visual T22**.
+  - **Visual T22 entregue:** varredura com "Na divisa" (filtro, contagem e link para o `resumo.txt`).
+  - **Revisor T12:** sem achados. **PR #126** (`duas-zonas` → `viabilidade/pos-124`, empilhado no #125) aberto. Merge só com o usuário; depois do #125, trocar a base para `main`.
+  - **Terreno T25 + Motor T30 commitadas juntas (conferir 8/8):** aceitos 238 → 278, os 40 novos conferidos no Anexo 02 e 23 alternativas falsas removidas. O piloto 75352–75354 passou a ser aceito em Z2 pelo `auto`, e isso quebra o `test_estudar`. O Motor troca o lote do teste pelo 68491 na **Motor T30**; depois commitar T25 e T30 juntas com conferir 8/8.
+  - ~~Terreno T24~~ **entregue `f87a5280`:** aceitos 214 → 238 no sorteio de 500; os 24 novos conferidos no Anexo 02, todos de zona única. Foram 24 e não 65 porque a cor não zonal (parque) seguiu sem filtro.
+  - **Terreno T25:** parque e campus com mancha 3×3 (branco e Represa seguem sempre) e `alternativas` filtradas. O Terreno mediu 40 dos 42 que sobraram passando. Decidido pelo maestro: borda de rua não é parque, e o relatório mostrava "Alternativas: SC-Z5B" falsa.
 - **Lei:**
   - P23: os 6 decretos não mudam índice.
   - P12: nenhuma alteração de índice desde 2016. A Lei 19.166/2019 acrescenta as AEI 44/45 ao Anexo 6, e a 18.927/2018 cria a Z6E; os dois casos foram passados ao Auditor.

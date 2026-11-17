@@ -2,6 +2,7 @@
 
 python -I -X utf8 viabilidade/terreno/novo_lote.py --base completo --indices 30516 --zona SC-Z4 --saida lote.json
 python -I -X utf8 viabilidade/terreno/novo_lote.py --base completo --indices 19 --zona auto --saida lote.json
+python -I -X utf8 viabilidade/terreno/novo_lote.py --base completo --indices 90050 --zona auto:SC-Z3 --saida lote.json
 python -I -X utf8 viabilidade/terreno/novo_lote.py --base completo --ponto "-22.0123, -47.8901" --listar-vizinhos
 python -I -X utf8 viabilidade/terreno/novo_lote.py --testar
 
@@ -56,6 +57,8 @@ def ler_ponto(texto):
 def validar_zona(zona, *, permitir_auto=False):
     if zona == "auto" and permitir_auto:
         return
+    if permitir_auto and zona.startswith("auto:"):  # candidata na divisa (T23); gerar() confere a lista
+        zona = zona[5:]
     validas = sorted(z["id"] for z in gl.ler("viabilidade/lei/zonas.json"))
     if zona not in validas:
         raise ValueError(f"Zona inexistente: {zona!r}. Zonas válidas: {', '.join(validas)}")
@@ -300,13 +303,29 @@ class Cadastro:
                 "zona_conferida": False, "conferido": False, "relevo": resumo,
                 "fonte": {"base": self.base, "arquivo": BASES[self.base], "indices_feicoes_zero_based": indices},
                 "qualidade": qualidade, "observacoes": obs + relevo.AVISO}
-        if zona == "auto":
-            from sugerir_zona import MapaZonas
+        if zona.startswith("auto"):
+            from sugerir_zona import MapaZonas, ZonaIncerta
             if not hasattr(self, "mapa_zonas"):
                 self.mapa_zonas = MapaZonas()
+        if zona == "auto":
             lote["zona_id"], lote["zona_sugestao"] = self.mapa_zonas.sugerir(pol)
             lote["zona_origem"] = "sugerida_pelo_mapa"
             lote["observacoes"] = lote["observacoes"].replace("Zona informada pelo usuário", "Zona sugerida pelo mapa")
+        elif zona.startswith("auto:"):
+            try:
+                self.mapa_zonas.sugerir(pol)
+            except ZonaIncerta as erro:
+                s = erro.sugestao
+            else:
+                raise ValueError("O mapa não tem dúvida de zona neste lote: use --zona auto")
+            if zona[5:] not in s["candidatas"]:
+                raise ValueError(f"Zona {zona[5:]} fora das candidatas na divisa "
+                                 f"({', '.join(s['candidatas']) or 'nenhuma: ' + s['motivo_duvida']})")
+            lote["zona_id"], lote["zona_sugestao"], lote["zona_origem"] = zona[5:], s, "candidata_na_divisa"
+            lote["observacoes"] = lote["observacoes"].replace(
+                "Zona informada pelo usuário, não conferida.",
+                f"Zona {zona[5:]} é uma das candidatas na divisa ({', '.join(s['candidatas'])}; divisa a "
+                f"{s['distancia_divisa_m']:g} m, distância conservadora): confirmar a zona na Prefeitura.")
         from areas_especiais import AreasEspeciais
         if not hasattr(self, "areas_especiais"):
             self.areas_especiais = AreasEspeciais()

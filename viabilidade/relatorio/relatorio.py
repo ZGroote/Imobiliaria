@@ -80,6 +80,12 @@ def esc(texto: Any) -> str:
     return html.escape(str(texto), quote=True)
 
 
+def _li_alerta(texto: str) -> str:
+    """<li> de um alerta do motor; o que pede confirmação na Prefeitura sai destacado, com o texto intacto."""
+    cls = ' class="alerta-confirmar"' if "DEPENDE DE CONFIRMAÇÃO" in texto else ""
+    return f"<li{cls}>{esc(texto)}</li>"
+
+
 def formatar_numero_ptbr(valor: Any, casas_min: int = 0) -> str:
     """
     Formata um número (int ou float) no padrão brasileiro (ponto para milhar,
@@ -981,11 +987,16 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
             f'<td>{span_num(f"opcoes.{oid}.altura_topo_m", alt_max_op, "m")}</td>'
         )
 
-    # Alertas resumidos por opção na capa
+    # Alertas resumidos por opção na capa; o que se repete em todas as opções sai uma vez, acima da tabela
+    comuns = [a for a in (opcoes[0].get("alertas") or []) if all(a in (op.get("alertas") or []) for op in opcoes)] if len(opcoes) > 1 else []
+    bloco_alertas_comuns = (
+        f'<div class="caixa-alerta caixa-aviso"><div class="caixa-alerta-titulo">Alertas que valem para todas as opções ({len(comuns)})</div>'
+        f'<ul class="lista-alertas">{"".join(_li_alerta(a) for a in comuns)}</ul></div>'
+    ) if comuns else ""
     celulas_alertas = []
     for op in opcoes:
-        als = op.get("alertas") or []
-        itens = "".join(f"<li>{esc(a)}</li>" for a in als)
+        als = [a for a in (op.get("alertas") or []) if a not in comuns]
+        itens = "".join(_li_alerta(a) for a in als) or ("<li>Só os alertas comuns, acima da tabela.</li>" if comuns else "")
         celulas_alertas.append(f'<td class="cel-alertas"><ul class="lista-compacta">{itens}</ul></td>')
 
     # Áreas especiais em destaque
@@ -1072,6 +1083,7 @@ def _gerar_capa_comparacao(estudo: Dict[str, Any]) -> str:
 
       <h2 class="secao-titulo">Comparação Lado a Lado das Opções</h2>
       {('<p class="caixa-alerta">Nenhuma opção coube neste lote.</p>' if not opcoes else '')}
+      {bloco_alertas_comuns}
       <table class="tabela-comparacao">
         <thead>
           <tr>
@@ -1311,7 +1323,7 @@ def _gerar_pagina_opcao(estudo: Dict[str, Any], opcao: Dict[str, Any]) -> str:
         )
 
     # 7. Alertas da opção + incertezas
-    html_alertas_op = "".join(f"<li>{esc(a)}</li>" for a in alertas_op) or "<li>Nenhum alerta específico na opção.</li>"
+    html_alertas_op = "".join(_li_alerta(a) for a in alertas_op) or "<li>Nenhum alerta específico na opção.</li>"
     html_incertezas_op = "".join(f"<li>{esc(inc)}</li>" for inc in incertezas)
 
     return f"""
@@ -1553,6 +1565,14 @@ body {
 .pagina:last-child {
   page-break-after: auto;
   break-after: auto;
+}
+/* celular: a folha A4 (794 px) estourava a tela; o texto quebra na largura e só as tabelas rolam para o lado */
+@media screen and (max-width: 820px) {
+  body { padding: 0; }
+  .pagina { width: 100%; padding: 12px; }
+  .tabela-comparacao, .tabela-compacta { display: block; overflow-x: auto; }
+  [class^="grade-"], [class*=" grade-"] { grid-template-columns: 1fr !important; }
+  [class^="grade-"] > *, [class*=" grade-"] > * { min-width: 0; }
 }
 @media print {
   body {
@@ -1952,6 +1972,13 @@ body {
 }
 .lista-alertas li, .lista-compacta li {
   margin-bottom: 1.5px;
+}
+li.alerta-confirmar {
+  font-weight: 700;
+  color: #991b1b;
+  background: #fef2f2;
+  border-left: 3px solid #dc2626;
+  padding: 1px 3px;
 }
 .observacoes-rodape {
   font-size: 6.9pt;
