@@ -24,9 +24,10 @@ from viabilidade.projetista.editor import EdicaoRecusada
 from viabilidade.projetista.gerador import gerar_pavimento
 from viabilidade.projetista.para_vista import revisao_para_estudo, serializar as serializar_estudo
 from viabilidade.projetista.torre import compor
+from viabilidade.projetista.validador import validar
 
 PILOTOS = RAIZ / "viabilidade" / "motor" / "exemplos" / "pilotos"
-PROGRAMAS = (6, 5, 4, 3, 2)  # unidades por andar, da mais cheia para a mais enxuta
+PROGRAMAS = (10, 8, 6, 5, 4, 3, 2)  # unidades por andar; vale o que dá mais unidades no prédio inteiro (empate: o maior)
 # UTM 23S, SIRGAS 2000 (EPSG:31983): GRS80, meridiano central -45°, k0 0,9996, FE 500000, FN 10000000.
 # Série de Krüger (6ª ordem, erro de nanômetros). Sem pyproj: o `python -I` não enxerga pacotes do usuário.
 _A, _F, _K0, _FE, _FN, _L0 = 6378137.0, 1 / 298.257222101, 0.9996, 500000.0, 10000000.0, math.radians(-45)
@@ -120,18 +121,20 @@ def _por_que_parou(parou):
     return parou
 
 
-def _por_que_unidades(por_andar, n):
+def _por_que_unidades(por_andar, n, maiores):
     """Unidades por andar: o que o gerador faz (um núcleo, até n unidades) e o que a torre perde nos andares de cima."""
     tipo = [u for k, u in por_andar.items() if k != "terreo"]
     texto = f"O gerador desenha um núcleo só (escada, elevador e shaft), com até {n} unidades por andar."
-    if n < PROGRAMAS[0]:
-        texto += f" Com {PROGRAMAS[0]} unidades por andar não coube neste terreno."
+    if maiores:
+        texto += (f" Foi o programa que deu mais unidades no prédio inteiro: com {', '.join(map(str, maiores))} por andar "
+                  "não coube ou o prédio ficou com menos unidades.")
     if tipo and min(tipo) < max(tipo):
         texto += f" Nos andares de cima o recuo tira unidades: de {max(tipo)} caem para {min(tipo)}."
     return texto
 
 
-def _numeros(T, area_lote, n, terreo):
+def _numeros(T, area_lote, n, terreo, maiores, ca):
+    """`ca` = (texto do CA, cortou?) vindo de `_compor`: o CA máximo não é lei esquecida, é o que parou o prédio."""
     def med(valor, unidade):
         return {"valor": valor, "unidade": unidade}
 
@@ -139,10 +142,12 @@ def _numeros(T, area_lote, n, terreo):
         return T[chave]["valor"] or 0
 
     vagas = med(v("vagas"), "vagas") if terreo else {**med(None, "vagas"), "nota": "estudo sem térreo: sem garagem"}
+    texto, cortou = ca
+    andares = texto if cortou else _por_que_parou(T["parou"]) + (" " + texto if texto else "")
     return {"andares": med(v("pavimentos"), "pav"), "unidades": med(v("unidades"), "un"),
             "vagas": vagas, "area_privativa": med(v("privativa_total"), "m²"),
             "area_computavel": med(v("computavel_total"), "m²"), "area_lote": med(area_lote, "m²"),
-            "limitante": {"andares": _por_que_parou(T["parou"]), "unidades": _por_que_unidades(T["unidades_por_andar"], n)}}
+            "limitante": {"andares": andares, "unidades": _por_que_unidades(T["unidades_por_andar"], n, maiores)}}
 
 
 def _volumes_wgs84(estudo):
@@ -175,15 +180,56 @@ def _motivo(erro):
     return f"Não foi possível montar este terreno: {texto}"
 
 
-def _gerar(caminho):
-    """Revisão de um pavimento, com o menor recuo de programa que couber. Devolve (revisão, unidades por andar)."""
+def _compor(rev, terreo):
+    """Torre composta que não passa do `ca_maximo` (a regra `torre.ca` do validador só acusa, não recusa).
+    Devolve (torre, (texto do CA, cortou?)): se cortou, o texto diz que o CA máximo foi o que parou o prédio; se não, só
+    avisa quando o CA fica acima do básico (outorga onerosa, como o validador diz)."""
+    t = compor(rev, terreo=terreo)
+    motor, lote = rev["rules_ref"]["params"]["motor"], rev["site"]["area_m2"]
+    basico, maximo, eps = motor.get("ca_basico"), motor.get("ca_maximo"), rev["tolerances"]["tol_area_m2"] / lote
+    por_placa = {a["element_ids"][0]: a["measured"] for a in validar(t, t["site"], t["rules_ref"]) if a["rule_id"] == "areas.computavel"}
+    acumulado, soma = [], 0.0
+    for pl in t["floor_plates"]:
+        soma += por_placa[pl["id"]]
+        acumulado.append(soma / lote)
+    ca, cortou = acumulado[-1], False
+    if maximo is not None and ca > maximo + eps:
+        k = sum(1 for pl, c in zip(t["floor_plates"], acumulado) if c <= maximo + eps and pl["id"] != "terreo")
+        antes = max(c for c in acumulado if c <= maximo + eps)
+        proximo = next(c for c in acumulado if c > maximo + eps)
+        t, cortou, ca = compor(rev, terreo=terreo, pavimentos=k), True, antes
+        texto = (f"Parou no CA máximo do terreno ({_br(maximo)}): com mais um andar o CA iria de {_br(round(antes, 2))} "
+                 f"para {_br(round(proximo, 2))}.")
+    else:
+        texto = None
+    if basico is not None and ca > basico + eps:
+        aviso = f"CA {_br(round(ca, 2))}, acima do básico ({_br(basico)}): depende de outorga onerosa."
+        texto = f"{texto} {aviso}" if texto else aviso
+    return t, (texto, cortou)
+
+
+def _escolher(caminho):
+    """O programa (unidades por andar) que dá mais unidades no prédio inteiro, sem térreo; empate: o de mais unidades por andar.
+    Devolve (revisão, n, (sem, com), programas maiores que não ganharam), cada versão = (torre composta, aviso de CA)."""
     estudo, site, regras = estudo_para_site(caminho)
-    ultimo = None
+    ultimo, erro, vistos = None, None, []
     for n in PROGRAMAS:
         r = gerar_pavimento(site, regras, {"unidades": n}, None, estudo)
-        if r["outcome"] == "gerado":
-            return r["revisoes"][0], n
-        ultimo = r
+        if r["outcome"] != "gerado":
+            ultimo = r
+            continue
+        try:
+            rev = r["revisoes"][0]
+            sem, com = _compor(rev, False), _compor(rev, True)
+        except EdicaoRecusada as e:  # este programa não vira torre nas duas versões: vale o próximo
+            erro = e
+            continue
+        vistos.append((sem[0]["metrics_summary"]["torre"]["unidades"]["valor"], n, rev, sem, com))
+    if vistos:
+        unidades, n, rev, sem, com = max(vistos, key=lambda x: (x[0], x[1]))
+        return rev, n, (sem, com), [m for m in PROGRAMAS if m > n]
+    if erro:
+        raise erro
     area = f"{site['area_m2']:.0f} m²"
     if ultimo["outcome"] == "inviavel":
         raise SemPavimento(f"O terreno ({area}) é pequeno demais para o pavimento mínimo do gerador.")
@@ -194,16 +240,15 @@ def _gerar(caminho):
 def _terreno(caminho, numero, pasta):
     """Gera os arquivos do terreno e devolve o item do índice. Levanta exceção se algo falhar."""
     id_ = f"terreno-{numero}"
-    rev, n = _gerar(caminho)
+    rev, n, escolhidas, maiores = _escolher(caminho)
     versoes = {}
-    for chave, terreo in (("sem", False), ("com", True)):
-        t = compor(rev, terreo=terreo)
-        versoes[chave] = (t["metrics_summary"]["torre"], revisao_para_estudo(t, caminho))
+    for chave, (t, ca) in zip(("sem", "com"), escolhidas):
+        versoes[chave] = (t["metrics_summary"]["torre"], revisao_para_estudo(t, caminho), ca)
     area = rev["site"]["area_m2"]
     contorno, centro = _lote(rev["site"]["polygon_utm"])
     resumo = {"id": id_, "nome": f"Terreno {numero}", "estudo": "estudo-previa.json", "estudo_terreo": "estudo-previa-terreo.json",
-              "numeros": _numeros(versoes["sem"][0], area, n, False),
-              "numeros_terreo": _numeros(versoes["com"][0], area, n, True)}
+              "numeros": _numeros(versoes["sem"][0], area, n, False, maiores, versoes["sem"][2]),
+              "numeros_terreo": _numeros(versoes["com"][0], area, n, True, maiores, versoes["com"][2])}
     # tudo calculado: só agora grava, para um terreno que falha não deixar pasta pela metade
     _gravar(pasta / id_ / "estudo-previa.json", serializar_estudo(versoes["sem"][1]))
     _gravar(pasta / id_ / "estudo-previa-terreo.json", serializar_estudo(versoes["com"][1]))

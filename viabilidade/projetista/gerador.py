@@ -197,19 +197,35 @@ def _tipo(wn, dn, kinds, esp, n):
             "edge_kinds": list(kinds), "balcony_m2": 0, "metrics": {}}
 
 
-def _posicao(cobre, caixa, L, D, passo):
-    """Primeira posição (v crescente, depois u) em que a laje L×D cabe. Devolve (posição|None, nós gastos)."""
+def _posicao(cobre, caixa, L, D, passo, borda, salto=8):
+    """Posição da laje L×D com a maior folga até a borda do envelope (`borda`, o contorno dele), entre as da grade em
+    que ela cabe. Empate (folga igual até 1 µm): menor v, depois menor u, para os bytes não mudarem entre rodadas.
+    Para não varrer a grade inteira (97 s num lote de 2.685 m²): olha de `salto` em `salto` casas, refina em volta da
+    melhor e, se de salto em salto nada cabe (encaixe justo), varre tudo. Devolve (posição|None, nós gastos).
+    ponytail: o refino acha o máximo local da melhor célula grossa; em envelope muito recortado pode perder um melhor."""
     minx, miny, maxx, maxy = caixa
     if L > maxx - minx + EPS or D > maxy - miny + EPS:
         return None, 1
-    nos = 0
-    for j in range(int((maxy - miny - D) / passo + EPS) + 1):
-        for i in range(int((maxx - minx - L) / passo + EPS) + 1):
-            nos += 1
+    ni, nj = int((maxx - minx - L) / passo + EPS) + 1, int((maxy - miny - D) / passo + EPS) + 1
+
+    def melhor(indices):
+        achada = None
+        for j, i in indices:
             u, v = round(minx + i * passo, 4), round(miny + j * passo, 4)
-            if cobre.covers(box(u, v, u + L, v + D)):
-                return (u, v), nos
-    return None, nos
+            r = box(u, v, u + L, v + D)
+            if cobre.covers(r):
+                chave = (-round(r.distance(borda), 6), v, u, j, i)
+                if achada is None or chave < achada:
+                    achada = chave
+        return achada
+
+    a = melhor((j, i) for j in range(0, nj, salto) for i in range(0, ni, salto))
+    if a is None:
+        a = melhor((j, i) for j in range(nj) for i in range(ni))
+    else:
+        a = melhor((j, i) for j in range(max(0, a[3] - salto + 1), min(nj, a[3] + salto))
+                   for i in range(max(0, a[4] - salto + 1), min(ni, a[4] + salto)))
+    return (None if a is None else (a[2], a[1])), 1
 
 
 def _montar(ctx, folha, c, pos):
@@ -327,7 +343,7 @@ def gerar_pavimento(site, regras, programa=None, limites=None, estudo_ref=None):
     amin, amax = P["area_privativa_m2"]
     tol, tg = TOLERANCIAS["tol_area_m2"], TOLERANCIAS["tol_geom_m"]
     recusas, aceitas, sem_lugar, nos, esgotada = Counter(), [], [], 0, True
-    chaves = []
+    chaves, lugares = [], {}
     for ub, idx, folha in _folhas(P, caixa):
         if len(aceitas) >= lim["max_revisoes"] and ub < sorted(chaves)[lim["max_revisoes"] - 1][0] * -1 - tol:
             break  # poda: nada daqui para frente bate a K-ésima melhor
@@ -343,8 +359,10 @@ def gerar_pavimento(site, regras, programa=None, limites=None, estudo_ref=None):
         if any(L <= c["L"] + EPS and D <= c["D"] + EPS for L, D in sem_lugar):
             recusas["laje não cabe no envelope"] += 1
             continue
-        pos, usados = _posicao(cobre, caixa, c["L"], c["D"], P["passo_posicao_m"])
-        nos += usados
+        if (c["L"], c["D"]) not in lugares:  # a mesma laje L×D reaparece em muitos layouts: acha o lugar uma vez só
+            lugares[c["L"], c["D"]] = _posicao(cobre, caixa, c["L"], c["D"], P["passo_posicao_m"], ei.boundary)
+            nos += lugares[c["L"], c["D"]][1]
+        pos = lugares[c["L"], c["D"]][0]
         if pos is None:
             sem_lugar.append((c["L"], c["D"]))
             recusas["laje não cabe no envelope"] += 1

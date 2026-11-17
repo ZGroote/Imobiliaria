@@ -41,7 +41,7 @@ def test_indice_e_pastas():
     a = por_lote["SC-completo-22421"]
     assert a["status"] == "ok" and a["resumo"] == "terreno-1/resumo.json"
     r = ler(pasta / a["resumo"])
-    assert r["numeros"]["unidades"]["valor"] == 12 and r["numeros_terreo"]["unidades"]["valor"] == 6
+    assert r["numeros"]["unidades"]["valor"] == 16 and r["numeros_terreo"]["unidades"]["valor"] == 12
     for nome in (r["estudo"], r["estudo_terreo"]):  # caminhos relativos ao resumo
         assert (pasta / "terreno-1" / nome).is_file()
     assert a["volumes_wgs84"] and a["volumes_terreo_wgs84"]
@@ -100,13 +100,13 @@ def test_resumo_com_unidade_e_igual_a_torre():
             assert n["area_privativa"]["valor"] == m["area_privativa_m2"] and n["vagas"]["valor"] == ((m["vagas"] or 0) if chave == "numeros_terreo" else None)
         assert r["numeros"]["area_computavel"]["valor"] > r["numeros"]["area_privativa"]["valor"]
     r = ler(pasta / "terreno-1" / "resumo.json")
-    assert r["numeros"]["area_computavel"] == {"valor": 772.2862, "unidade": "m²"}
-    assert r["numeros_terreo"]["area_computavel"] == {"valor": 461.226, "unidade": "m²"}
+    assert r["numeros"]["area_computavel"] == {"valor": 1399.4215, "unidade": "m²"}
+    assert r["numeros_terreo"]["area_computavel"] == {"valor": 1118.2742, "unidade": "m²"}
 
 
-# números de hoje (17/11), antes do `limitante`: nada pode mexer neles. (andares, unidades) sem térreo | com térreo + vagas
-HOJE = {"terreno-1": ((2, 12), (2, 6, 12)), "terreno-4": ((5, 12), (5, 9, 9)), "terreno-5": ((2, 12), (2, 6, 15)),
-        "terreno-6": ((21, 93), (21, 87, 16)), "terreno-7": ((6, 30), (6, 24, 15))}
+# números da tarefa 15 (17/11): (andares, unidades) sem térreo | (andares, unidades, vagas) com térreo. Antes: ver RELATORIO-15.md
+HOJE = {"terreno-1": ((4, 16), (4, 12, 11)), "terreno-4": ((4, 24), (5, 24, 17)), "terreno-5": ((7, 42), (8, 42, 15)),
+        "terreno-6": ((9, 72), (10, 72, 22)), "terreno-7": ((11, 66), (11, 60, 15))}
 
 
 def test_limitante_vagas_e_numeros_de_hoje():
@@ -125,10 +125,30 @@ def test_limitante_vagas_e_numeros_de_hoje():
         n, nt = r["numeros"], r["numeros_terreo"]
         assert (n["andares"]["valor"], n["unidades"]["valor"]) == (a, u), t["id"]
         assert (nt["andares"]["valor"], nt["unidades"]["valor"], nt["vagas"]["valor"]) == (at, ut, v), t["id"]
-    # o motivo vem do que a torre já sabia, e o 3 por andar do terreno 4 aparece
-    r4 = ler(pasta / "terreno-4" / "resumo.json")["numeros"]["limitante"]
-    assert "15 e 18 m" in r4["andares"] and "até 3 unidades" in r4["unidades"]
-    assert "altura máxima" in ler(pasta / "terreno-6" / "resumo.json")["numeros"]["limitante"]["andares"]
+    assert set(HOJE) == {t["id"] for t in itens if t["status"] == "ok"}
+    # o motivo vem do que a torre e o validador já sabiam
+    assert "altura máxima" in ler(pasta / "terreno-1" / "resumo.json")["numeros"]["limitante"]["andares"]
+    assert "até 8 unidades" in ler(pasta / "terreno-6" / "resumo.json")["numeros"]["limitante"]["unidades"]
+
+
+def test_terreno_5_usa_o_lote_e_ninguem_passa_do_ca_maximo():
+    """A laje deixou de ficar no canto (terreno 5: 2 andares antes) e a torre para no `ca_maximo`, dizendo isso."""
+    pasta, por_lote, itens = rodada()
+    assert ler(pasta / "terreno-5" / "resumo.json")["numeros"]["andares"]["valor"] > 2
+    for t in itens:
+        if t["status"] != "ok":
+            continue
+        motor = vitrine.estudo_para_site(vitrine.PILOTOS / f"{t['lote_ref']}.json")[2]["params"]["motor"]
+        r = ler(pasta / t["resumo"])
+        for chave in ("numeros", "numeros_terreo"):
+            n = r[chave]
+            ca = n["area_computavel"]["valor"] / n["area_lote"]["valor"]
+            assert ca <= motor["ca_maximo"] + 1e-6, (t["id"], chave, ca, motor["ca_maximo"])
+            texto = n["limitante"]["andares"]
+            if ca > motor["ca_basico"] + 1e-6:  # entre o básico e o máximo: o validador chama de outorga onerosa; a tela também
+                assert "outorga onerosa" in texto, (t["id"], chave)
+        # onde o CA máximo foi o que parou o prédio, o limitante diz "CA máximo"
+        assert ("CA máximo" in r["numeros"]["limitante"]["andares"]) == (t["id"] in ("terreno-4", "terreno-5", "terreno-6", "terreno-7"))
 
 
 def test_piloto_quebrado_nao_derruba_os_outros():

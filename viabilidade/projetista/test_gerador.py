@@ -77,6 +77,20 @@ def test_determinismo():
     assert a["busca"] == b["busca"]
 
 
+def test_laje_longe_da_borda_em_lote_folgado():
+    """A laje não fica no canto: num lote bem maior que ela, sobra folga dos dois lados; e as rodadas dão os mesmos bytes."""
+    a, b = gerar(estudo(w=60, h=40)), gerar(estudo(w=60, h=40))
+    conferir_gerado(a)
+    rev = a["revisoes"][0]
+    envelope = Polygon(rev["site"]["envelope_by_height"][0]["polygon_m"])
+    laje = Polygon(rev["floor_plates"][0]["outline_m"])
+    assert envelope.contains(laje) and laje.distance(envelope.exterior) > 2.0, laje.distance(envelope.exterior)
+    assert [x["content_sha256"] for x in a["revisoes"]] == [x["content_sha256"] for x in b["revisoes"]]
+    assert a["busca"] == b["busca"]
+    # o 22421 (laje de 91% do envelope) continua achando lugar: sem folga a dar, vale a que cabe
+    assert gerar(PILOTOS / "SC-completo-22421.json")["outcome"] == "gerado"
+
+
 def test_piloto_q1382():
     r = gerar(PILOTOS / "SC-completo-q1382-11984-11988.json")
     conferir_gerado(r)
