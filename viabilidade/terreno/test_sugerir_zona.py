@@ -43,8 +43,30 @@ def testar_cores(mapa):
                 rgb[:] = mapa.paleta[9]
             elif self.modo == "ambigua":  # meio do caminho entre Z3 e Represa
                 rgb[:] = (mapa.paleta[2] + mapa.paleta[9]) / 2
+            elif self.modo == "divisa_branco":  # T23: cor não zonal do lado não vira candidata
+                rgb[:, :max(0, 4500-x0)] = (255, 255, 255)
+            elif self.modo == "linha_z5b":  # T23: borda anti-aliased de traço cinza cai no Z5B; fina demais para candidata
+                rgb[:, 4500-x0:4502-x0] = mapa.paleta[5]
+            elif self.modo == "linha_parque":  # T25: borda da linha de rua sobre Z2 cai na cor do Pq. Ecológico
+                rgb[:, 4500-x0:4502-x0] = mapa.paleta[7]
+            elif self.modo == "divisa_parque":  # T25: parque de verdade é mancha grande e continua divisa
+                rgb[:, :max(0, 4500-x0)] = mapa.paleta[7]
+            elif self.modo == "divisa_texto":  # T31: limite Z1|Z2 em x=4500 escondido debaixo de nome de rua de 16 px
+                rgb[:, 4500-x0:] = mapa.paleta[1]
+                rgb[:, 4485-x0:4501-x0] = (0, 0, 0)
             elif self.modo == "texto_fino":
                 rgb[:, 4530-x0:4532-x0] = (0, 0, 0)
+            elif self.modo.startswith("z2_"):  # T30: lote de Z2 com algo por cima, dentro do lote (4520-4540 x 6000-6030)
+                rgb[:] = mapa.paleta[1]
+                cor, (a, b, c, d) = {"z2_texto": ((0, 0, 0), (4527, 4535, 6005, 6025)),  # 8 px: 2 px longe de cor
+                                     "z2_texto_grosso": ((0, 0, 0), (4500, 4560, 6000, 6030)),
+                                     "z2_branco": ((255, 255, 255), (4530, 4534, 6010, 6014)),
+                                     "z2_branco_solto": ((255, 255, 255), (4530, 4532, 6010, 6012)),
+                                     "z2_parque_solto": (mapa.paleta[7], (4530, 4532, 6010, 6012)),
+                                     "z2_parque_4x4": (mapa.paleta[7], (4530, 4534, 6010, 6014)),
+                                     "z2_campus": (mapa.paleta[6], (4530, 4534, 6010, 6014)),
+                                     "z2_campus_solto": (mapa.paleta[6], (4530, 4532, 6010, 6012))}[self.modo]
+                rgb[c-y0:d-y0, a-x0:b-x0] = cor
             return Image.fromarray(rgb)
 
     raster = Raster()
@@ -69,14 +91,50 @@ def testar_cores(mapa):
         raster.modo = "divisa"
         # O centro está em Z2, mas uma faixa da ponta está em Z1.
         s = recusar(lote(4498, 4530), "mais de uma zona")
-        assert {"SC-Z1", "SC-Z2"} <= set(s["alternativas"])
+        assert {"SC-Z1", "SC-Z2"} <= set(s["alternativas"]) and not s["so_divisa"]
         s = recusar(lote(4506, 4520), "menos de 10 m")
         assert s["distancia_divisa_m"] < 10
+        assert s["so_divisa"] and s["candidatas"] == ["SC-Z2", "SC-Z1"], s["candidatas"]  # T23: a do polígono primeiro
+        raster.modo = "divisa_branco"  # T23: cor não zonal continua divisa; sobra uma candidata só
+        s = recusar(lote(4506, 4520), "menos de 10 m")
+        assert not s["so_divisa"] and s["candidatas"] == [], s["candidatas"]
+        raster.modo = "linha_z5b"  # T24: borda de 2 px na cor do Z5B colada ao lote não é divisa
+        z, s = mapa.sugerir(lote(4503, 4520))
+        assert z == "SC-Z1" and s["distancia_divisa_m"] is None, s["distancia_divisa_m"]
+        assert s["alternativas"] == [], s["alternativas"]  # T25: pixel solto de Z5B também sai das alternativas
+        raster.modo = "linha_parque"  # T25: borda de 2 px na cor do parque colada ao lote não é divisa
+        z, s = mapa.sugerir(lote(4503, 4520))
+        assert z == "SC-Z1" and s["distancia_divisa_m"] is None, s["distancia_divisa_m"]
+        raster.modo = "divisa_parque"
+        s = recusar(lote(4506, 4520), "menos de 10 m")
+        assert not s["so_divisa"] and s["candidatas"] == [], s["candidatas"]
+        raster.modo = "divisa"
         z, s = mapa.sugerir(lote(4520, 4540))
         assert z == "SC-Z2" and s["distancia_divisa_m"] >= 10
-        for modo in ("desconhecida", "campus"):
+        raster.modo = "desconhecida"
+        recusar(lote(4520, 4540), "Cor sem correspondência")
+        raster.modo = "campus"  # T30: motivo próprio, sem repetir o genérico
+        assert "Cor sem" not in recusar(lote(4520, 4540), "Campus universitário: não é zona do art. 25")["motivo_duvida"]
+        # T30: texto que sobra sem cor (2 px no meio da faixa de 8) e parque solto não recusam; branco, campus,
+        # parque em mancha 4x4 e lote quase todo sem cor continuam recusando; branco/campus de 2x2 recusam com o genérico.
+        for modo in ("z2_texto", "z2_parque_solto"):
             raster.modo = modo
-            recusar(lote(4520, 4540), "Cor sem correspondência")
+            z, s = mapa.sugerir(lote(4520, 4540))
+            assert z == "SC-Z2" and s["proporcao_por_zona"].get("nao_classificada", 0) > 0, (modo, s["proporcao_por_zona"])
+        for modo, motivo in (("z2_branco", "Fora do perímetro urbano do Anexo 02"),
+                             ("z2_campus", "Campus universitário"), ("z2_parque_4x4", "Cor sem correspondência"),
+                             ("z2_texto_grosso", "Cor sem correspondência"), ("z2_branco_solto", "Cor sem correspondência"),
+                             ("z2_campus_solto", "Cor sem correspondência")):
+            raster.modo = modo
+            recusar(lote(4520, 4540), motivo)
+        # T31: lote no meio do texto que esconde o limite recusa (menos da metade com cor). O que entra 3-4 px além do
+        # limite e passava pela P1 (a T30 aceitava como Z2, divisa 10,6-12,0 m) recusa: a divisa mede também da mancha
+        # sem cor que sai do lote, e o Z1 aparece colado ao outro lado do texto.
+        raster.modo = "divisa_texto"
+        recusar(lote(4491, 4495), "Cor sem correspondência")
+        for x0 in (4496, 4497):
+            s = recusar(lote(x0, 4520), "Divisa/cor não zonal a menos de 10 m")
+            assert s["divisa_mancha_ignorada_m"] < 10 and "SC-Z1" in s["candidatas"], s
         raster.modo = "eixo"  # AUDITORIA-6 achado 1: Eixo a <=60 m recusa, com fundo + Eixo nas alternativas
         s = recusar(lote(4520, 4540), "Traço de Eixo a até 60 m")
         assert s["alternativas"] == ["SC-Z1", "SC-EIXO"], s["alternativas"]
@@ -87,17 +145,23 @@ def testar_cores(mapa):
         assert z == "SC-Z1" and "SC-EIXO" not in s["alternativas"]
         for modo in ("represa", "ambigua"):  # achados 5/6: Represa não vira Z3; cor ambígua não decide
             raster.modo = modo
-            recusar(lote(4520, 4540), "Cor sem correspondência")
+            assert not recusar(lote(4520, 4540), "Cor sem correspondência")["so_divisa"]
         raster.modo = "uniforme"
         recusar(gl.Polygon(mapa.utm([(4000, 6000), (4800, 6000), (4800, 6800), (4000, 6800)])), "Lote grande demais")
         raster.modo = "texto_fino"
         z, s = mapa.sugerir(lote(4520, 4540))
         assert z == "SC-Z1" and any(p["cor_recuperada"] for p in s["pontos"])
-        recusar(lote(100, 120), "Fora do quadro")
-        recusar(gl.Polygon(mapa.utm([(500, 10300), (550, 10300), (550, 10350), (500, 10350)])), "Fora do quadro")
+        # T30: a oeste do quadro fica Ibaté (T29); no encarte, não.
+        recusar(gl.Polygon(mapa.utm([(-3000, 6000), (-2980, 6000), (-2980, 6030), (-3000, 6030)])),
+                "Fora do mapa do Anexo 02 (borda, legenda ou encarte) (a oeste fica Ibaté: lote provavelmente fora do "
+                "município de São Carlos)")
+        for pixels in ([(100, 6000), (300, 6000), (300, 6030), (100, 6030)],  # cruza a borda: não é Ibaté com certeza
+                       [(500, 10300), (550, 10300), (550, 10350), (500, 10350)],
+                       [(8800, 6000), (8820, 6000), (8820, 6030), (8800, 6030)]):  # a leste
+            assert "Ibaté" not in recusar(gl.Polygon(mapa.utm(pixels)), "Fora do mapa do Anexo 02")["motivo_duvida"]
     finally:
         mapa.imagem = original
-    print("OK: cores desconhecidas/campus, traços, lote multizona, divisa de 10 m e Eixo a 60 m recusa, borda fina não é Eixo, Represa e cor ambígua recusam, lote grande demais.", flush=True)
+    print("OK: cores desconhecidas/campus, texto/parque solto no lote passam e branco/campus/parque 4x4/lote quase sem cor recusam (T30), Ibaté só a oeste, limite escondido debaixo do texto recusa (T31), traços, lote multizona, divisa de 10 m e Eixo a 60 m recusa, linha fina de Z5B/parque não é divisa nem alternativa, parque grande e branco recusam, borda fina não é Eixo, Represa e cor ambígua recusam, lote grande demais.", flush=True)
 
 
 # Tarefa 17: 8 cruzamentos de rua fora do ajuste (UTM 31983 do cadastro/malha; pixel = centro do cruzamento
@@ -134,13 +198,51 @@ def testar_verificacao(mapas):
           + ", ".join(f"{a} {e:.1f} m" for a, e in pior.items()) + ").", flush=True)
 
 
+def testar_candidatas(cadastro):
+    """T23: só a divisa em dúvida vira candidatas; gerar(..., "auto:SC-XX") aceita só uma delas."""
+    from test_novo_lote import recusa
+    # 90050 (sorteio da T21): Z4, com o Z3 do outro lado da Rua Irineu Rios, a 1,38 m (distância conservadora)
+    try:
+        cadastro.mapa_zonas.sugerir(cadastro.geos[90050])
+        raise AssertionError("90050 deveria ficar na divisa")
+    except ZonaIncerta as erro:
+        s = erro.sugestao
+        assert s["so_divisa"] and s["candidatas"] == ["SC-Z4", "SC-Z3"] and s["distancia_divisa_m"] < 10, s["candidatas"]
+        assert "auto:SC-Z3" in str(erro)
+    lote = cadastro.gerar([90050], "auto:SC-Z3")
+    assert lote["zona_id"] == "SC-Z3" and lote["zona_origem"] == "candidata_na_divisa" and not lote["zona_conferida"]
+    assert lote["zona_sugestao"]["candidatas"] == ["SC-Z4", "SC-Z3"] and lote["zona_sugestao"]["distancia_divisa_m"] < 10
+    assert "confirmar a zona na Prefeitura" in lote["observacoes"] and "informada pelo usuário" not in lote["observacoes"]
+    recusa(lambda: cadastro.gerar([90050], "auto:SC-Z1"), "Zona SC-Z1 fora das candidatas na divisa (SC-Z4, SC-Z3)")
+    recusa(lambda: cadastro.gerar([90050], "auto:SC-Z9"), "Zona inexistente: 'SC-Z9'")
+    # T25: 75352-75354 era "só a divisa" por pixel solto de parque na borda da rua; agora o mapa aceita Z2.
+    recusa(lambda: cadastro.gerar([75352, 75353, 75354], "auto:SC-Z2"), "não tem dúvida de zona")
+    # Só a divisa, mas o outro lado é campus (68491, vizinho do 68495), não zona: uma candidata só, continua recusa
+    recusa(lambda: cadastro.gerar([68491], "auto:SC-Z1"), "fora das candidatas na divisa (nenhuma:")  # 68495 não tem frente
+    recusa(lambda: cadastro.gerar([19], "auto:SC-Z3"), "não tem dúvida de zona")  # aceito pelo mapa
+    # T25: parque/campus de verdade é mancha grande e continua divisa. 68495: Z1 colado ao campus;
+    # 40015: Z3 colado a um parque (Anexo 02, conferidos no recorte).
+    for i, zona in ((68495, "SC-Z1"), (40015, "SC-Z3")):
+        try:
+            cadastro.mapa_zonas.sugerir(cadastro.geos[i])
+            raise AssertionError(f"{i} deveria recusar pela divisa")
+        except ZonaIncerta as erro:
+            s = erro.sugestao
+            assert s["motivo_duvida"].startswith("Divisa/") and s["distancia_divisa_m"] == 0, s["motivo_duvida"]
+            assert s["alternativas"] == [zona] and not s["so_divisa"], (i, s["alternativas"])
+    from novo_lote import validar_zona
+    recusa(lambda: validar_zona("auto:SC-Z2"), "Zona inexistente")  # sem permitir_auto, como antes
+    print("OK: candidatas na divisa (90050 Z4/Z3), auto:SC-XX grava candidata_na_divisa, fora da lista dá erro; parque (40015) e campus (68495) grandes continuam divisa.", flush=True)
+
+
 def testar(cadastro, pilotos, pasta):
     from test_novo_lote import executar
     inicio = time.perf_counter()
     testar_tracos()
     cadastro.mapa_zonas = MapaZonas()
     testar_cores(cadastro.mapa_zonas)
-    esperadas = {"30516": "SC-Z4", "37607": "SC-Z4", "25297": "SC-Z1"}
+    # T25: 75352-75354 recusava por pixel solto de parque na borda da Av. Carlos Botelho (9,23 m); agora concorda com Z2.
+    esperadas = {"30516": "SC-Z4", "37607": "SC-Z4", "25297": "SC-Z1", "75352-75354": "SC-Z2"}
     from test_novo_lote import recusa
     for original in pilotos.values():
         fonte = original["fonte"]
@@ -154,27 +256,26 @@ def testar(cadastro, pilotos, pasta):
             assert s["pontos"] and abs(sum(s["proporcao_por_zona"].values())-1) < 1e-10
             comparacao = "concorda" if zona == original["zona_id"] else "sugere outra"
             resultado = f"{comparacao}: {zona}"
+            if ids == [75352, 75353, 75354]:  # T21: o vizinho inválido 75351 é consertado com make_valid (área igual)
+                assert [v["indice"] for v in lote["qualidade"]["vizinhos_consertados"]] == [75351], lote["qualidade"]
+                resultado += " (vizinho inválido 75351 consertado na conferência)"
         except ZonaIncerta as erro:
             s = erro.sugestao
             resultado = f"recusa por dúvida: {s['motivo_duvida']}; alternativas={s['alternativas']}"
-            if ids == [75352, 75353, 75354]:
-                # Tarefa 17: na posição corrigida o rótulo da Av. Carlos Botelho fica a ~9 m; a única alternativa é a zona manual.
-                assert s["alternativas"] == ["SC-Z2"] and s["distancia_divisa_m"] < 10, s
-                recusa(lambda: cadastro.gerar(ids, "auto"), "vizinhos com geometria inválida [75351]")
-                resultado += " (montagem recusada antes: vizinho inválido 75351)"
-            else:
-                assert any(original["id"].endswith(fim) for fim in ("22426", "22421", "11984-11988")), str(erro)
-                assert "SC-EIXO" in s["alternativas"]
-                if original["id"].endswith("22421"):  # tarefa 17: o lote fica na quadra, a ~13 m da divisa; Z2 era a posição antiga
-                    assert s["alternativas"] == ["SC-Z1", "SC-EIXO"] and s["distancia_divisa_m"] >= 10, s
-                recusa(lambda: cadastro.gerar(ids, "auto"), "Zona automática recusada")
+            assert any(original["id"].endswith(fim) for fim in ("22426", "22421", "11984-11988")), str(erro)
+            assert "SC-EIXO" in s["alternativas"]
+            if original["id"].endswith("22421"):  # tarefa 17: o lote fica na quadra, a ~13 m da divisa; Z2 era a posição antiga
+                assert s["alternativas"] == ["SC-Z1", "SC-EIXO"] and s["distancia_divisa_m"] >= 10, s
+            recusa(lambda: cadastro.gerar(ids, "auto"), "Zona automática recusada")
         print(f"AUTO {original['id']}: manual={original['zona_id']}; {resultado}", flush=True)
     for i, zona in ((19, "SC-Z3"), (25298, "SC-Z1"), (75355, "SC-Z2")):
         lote = cadastro.gerar([i], "auto")
         assert lote["zona_id"] == zona and lote["id"] not in pilotos
-        assert lote["zona_sugestao"]["distancia_divisa_m"] >= 10
+        d = lote["zona_sugestao"]["distancia_divisa_m"]
+        assert d is None or d >= 10, d  # T25: 75355 ficou sem limite reconhecido a 250 m (null), como o 75352-75354
         assert all(gl.Polygon(lote["poligono_utm"]).buffer(.001).covers(gl.Point(p["utm"])) for p in lote["zona_sugestao"]["pontos"])
         print(f"AUTO extra completo/{i}: {zona}; conferência visual em dados/zona-auto/completo-{i}.png", flush=True)
+    testar_candidatas(cadastro)
     testar_verificacao({"02": cadastro.mapa_zonas, **cadastro.areas_especiais.mapas})
     print(f"Tempo dos ensaios auto (mapa, sintéticos, sete pilotos e três extras): {time.perf_counter()-inicio:.3f} s", flush=True)
     saida = pasta / "auto.json"

@@ -16,6 +16,9 @@
   "viabilidade/terreno/dados/z2-anexo06.jpg": "ad3474cd1f2993a74dc8fa592fe0fe365c9f56e46c6ff5f535d9687b04f90f89",
   "viabilidade/terreno/dados/z2-anexo07.jpg": "4589ed7faf2a271bfbba7be027d6a7e1e22829a2089e2fcbf8439ad599c9d18b",
   "viabilidade/terreno/dados/z2-componentes.png": "0119f0fd87dd386669061a2327b62b0b492e02832289fffda50bf7dc838c2de7",
+  "viabilidade/terreno/dados/zona-auto/completo-19.png": "99bb9b4560c1c2a53abcabb489184fd425434cfbb5af907284a9e01c86bbbdb6",
+  "viabilidade/terreno/dados/zona-auto/completo-25298.png": "4931c17db1d3bfca5327ce502c48e7c1126df111bf947bdba660bbe301914cc1",
+  "viabilidade/terreno/dados/zona-auto/completo-75355.png": "2390539409838a7117929eee6a5e31eb7379de683b44ef49df147a7ffd22ad6f",
   "viabilidade/terreno/dados/zonas-mapas/22421-divisa-sem-marca.jpg": "edb5f91735785af9dc1354a43650c279dbcd048ffe2e908e9f2148f6b747e106",
   "viabilidade/terreno/dados/zonas-mapas/22421-divisa.jpg": "5fa0156843bcb15b92728e0c71f5efaff109990d0e0274b08558f82284543a46",
   "viabilidade/terreno/dados/zonas-mapas/SC-completo-22421-anexo02.jpg": "52c53f38fb1639e3cd77aca4b09f155a1d7d88ac52c61ae44798c0a8b28c41ce",
@@ -61,6 +64,17 @@
   "viabilidade/terreno/dados/zonas-mapas/legend.jpg": "ceefa3be2ae93fad4d13b3c3439c87a6fbbf785f831fd292a64c31bd9c5f4ed6",
   "viabilidade/terreno/dados/zonas-mapas/sul.jpg": "2ac14c40e2b43e6211d59b4e34393be90d6f2117e7f84abb087ef1a19ad0dec5",
   "viabilidade/terreno/dados/zonas-mapas/top.jpg": "47ffbe3e8f333a7d4e4396073fa26ebbf242877e4135040674257b07f351a309",
+  "viabilidade/terreno/evidencias/t24/70807-z1-do-outro-lado.png": "49606e8a59d177ef40b34cd9d8a48b8cc42272eed4c6a555a651b70e0b65549d",
+  "viabilidade/terreno/evidencias/t24/aceitos-24.png": "5ac2abfbc9b70034e69f3bbc2dc092b043fff489cf3289a3736027920c66420f",
+  "viabilidade/terreno/evidencias/t24/parque-na-borda-da-rua.png": "7704be0fb838ff97e9522a3e73e84f37eba077c7f013b076611e0878f3b454c5",
+  "viabilidade/terreno/evidencias/t25/aceitos-40.png": "401f1a690ff85119a18467a02a147900cfd9294ccb395623248f41f525223065",
+  "viabilidade/terreno/evidencias/t25/campus-68495-e-parque-40015.png": "1181cc8f48a9446977e2065c3b687e661d5b41258b340b57c8846809fc61173f",
+  "viabilidade/terreno/evidencias/t25/piloto-75352.png": "6bba04df37e9b13f2edc0a5e685eff4afbf7a0a1d6e4fcbc7f31b4aa65167576",
+  "viabilidade/terreno/evidencias/t26/sem-frente-36.jpg": "5e9b5e96e5c05b173c439e708b93fe0b8210c7f3dcd07eba44bee8670dbef17a",
+  "viabilidade/terreno/evidencias/t27/novos-29.jpg": "ef7f8ca3f6c3eb00db6f04d2c50dbf83a289c07d7bb77b56c0b03d9fae823f07",
+  "viabilidade/terreno/evidencias/t29/folha-29.jpg": "041f8b34e477045b1cdc1838743277e465bc9d203c3580462fb776d82114a66a",
+  "viabilidade/terreno/evidencias/t30/folha-30.jpg": "bf512fd9bcb4c9f2bbc2c9c897d1ebfa990d447e25fb13604473becab7843516",
+  "viabilidade/terreno/evidencias/t31/folha-31.jpg": "8f67a28226c0347df4e2bf012cd0f804a29d9176e8be413c2068a8bf7dfa0f7d",
   "viabilidade/visual/evidencias/celular-A.png": "134314415d43f129912608a8550e900070e948091d8ae5b153b7aa00f8a3c16b",
   "viabilidade/visual/evidencias/celular-B.png": "905c5055385424627d0d99c06289d7926f1efe00f6a57031adb44540f3e98384",
   "viabilidade/visual/evidencias/celular-C.png": "f3a6b4c63b9b99a9ff2ad87fa5c785d01fabd70ab0f77b26ee9cdd8c259e2ef8",
@@ -93,9 +107,17 @@
   "viabilidade/visual/evidencias/desktop-piloto-SC-completo-q1382-11984-11988.png": "21bf6b22873a6a07bba48b6e52140f698983a6c3ab690429f6363a57f817b9b6",
   "viabilidade/visual/evidencias/desktop-piloto-SC-completo-remembramento-75352-75354.png": "d8b1cd394c4324ccc2bcc13050b67f1ca573d12422ca915dc6250e42cf36b6b9",
   "viabilidade/visual/evidencias/desktop-v2.png": "14d1708f4682d7b8101548c9120fbf9096a07842dd0700683cc45ba59f09dfcf",
-  "viabilidade/terreno/dados/zona-auto/completo-19.png": "99bb9b4560c1c2a53abcabb489184fd425434cfbb5af907284a9e01c86bbbdb6",
-  "viabilidade/terreno/dados/zona-auto/completo-25298.png": "4931c17db1d3bfca5327ce502c48e7c1126df111bf947bdba660bbe301914cc1",
-  "viabilidade/terreno/dados/zona-auto/completo-75355.png": "2390539409838a7117929eee6a5e31eb7379de683b44ef49df147a7ffd22ad6f"
+  "viabilidade/visual/evidencias/t21/antes-celular-37607-topo.png": "2de7d961df66c50f178e834b3d3c3e97213078a1e4566482049cf898ae3cd35c",
+  "viabilidade/visual/evidencias/t21/antes-celular-77015-depende-7a.png": "17b4e2836da3e73bd92d0db71306bfcfd9481ac0b3d2d5202cca0c726a6ac1c4",
+  "viabilidade/visual/evidencias/t21/antes-desktop-37607-tabela.png": "f8f55311156f2d3bab88d53ce69781a7e5c1dbbd565316b27e6b6891a9ea8473",
+  "viabilidade/visual/evidencias/t21/antes-desktop-77015-depende-7a.png": "8f95795a05598223a7207f778e21da8408478bbe2955bc2e4ae18a96ef1c25d2",
+  "viabilidade/visual/evidencias/t21/depois-celular-37607-comuns.png": "985b403ed12fe69b347867a36b321e67d2b4d1b99285c9860b1f3ee1518a5daf",
+  "viabilidade/visual/evidencias/t21/depois-celular-37607-topo.png": "fc90b8a8e3a7e1df6430c281a0763a8af6b41387d3b6e5c9ea3f4779622fab54",
+  "viabilidade/visual/evidencias/t21/depois-celular-77015-depende-7a.png": "1c1261d076c00f996558ae6453dc6aa7210b7dfd8b7cbf48884917bb456c6101",
+  "viabilidade/visual/evidencias/t21/depois-desktop-37607-tabela.png": "bef3743ed032478ed5754495926b242432af52509d038f5b1c388374b145226e",
+  "viabilidade/visual/evidencias/t21/depois-desktop-77015-depende-7a.png": "97f763d06468a89e03a858b9cf2ef45a14af38ea14b0a4dc5904504fe616ded9",
+  "viabilidade/visual/evidencias/t22/celular-varredura-divisa.png": "c1836fbab324769a99273512d49661af6b830f00f17c956d2ecb9c4df6db6787",
+  "viabilidade/visual/evidencias/t22/desktop-varredura-divisa.png": "d60f2ff125cdb84bc5b92e910ce28ae673fb07b81d1f72ebface8ce7cd50761f"
  },
  "acrescimos": [
   {
@@ -103,6 +125,12 @@
    "quem": "central (Claude Code)",
    "arquivos": "terreno/dados/zona-auto/completo-{19,25298,75355}.png",
    "o_que_e": "recortes do Anexo 02 (Plano Diretor) com o lote marcado, conferência visual da zona sugerida (Terreno tarefa 5); vistos um a um, sem dado pessoal"
+  },
+  {
+   "data": "2026-11-17",
+   "quem": "central (Claude Code)",
+   "arquivos": "terreno/evidencias/t24..t31 (11) e visual/evidencias/t21..t22 (11)",
+   "o_que_e": "recortes do Anexo 02 e de satélite com o contorno do lote (conferência da varredura do Terreno) e prints do estudo e da varredura (código do lote, leis, premissas, sem preço); vistos um a um, sem dado pessoal nem de cliente"
   }
  ]
 }

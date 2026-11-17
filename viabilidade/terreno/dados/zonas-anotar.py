@@ -97,5 +97,28 @@ for lote in todos_lotes:
     assert anotacao["zona_origem"] == "anotada_a_mao" and anotacao["zona_conferida"] is False
     resultado.append(anotacao)
 assert len(resultado) == len(todos_lotes) and len({r["id"] for r in resultado}) == len(resultado)
+# Reconferência de 15/11 (T18): o `metodo` acima é o registro de 14/11 e não muda. Distâncias = divisa conservadora
+# do sugerir_zona (busca 250 m), medida com o ajuste antigo e com a afim nova; None = nenhuma divisa a 250 m.
+nova = pos["02"]["afim_31983"]
+metodo_novo = ("Polígono redesenhado sobre os Anexos 02, 05, 06 e 07 com a afim direta EPSG:31983→pixel ajustada em "
+               f"{len(nova['residuos_controles_m'])} cruzamentos de rua (dados/zonas-controles.json): no Anexo 02, "
+               f"RMSE {nova['rmse_controles_m']:.1f} m e máximo {max(nova['residuos_controles_m']):.1f} m. O ajuste "
+               "antigo de 5 vértices errava 40–100 m na cidade (terreno/RELATORIO-16.md).")
+medidas = {  # id: (zona confirmada, divisa antes, divisa depois, observação)
+    "SC-completo-30516": ("SC-Z4", None, None, "AIA do Anexo 05 continua, agora só na borda do lote."),
+    "SC-completo-37607": ("SC-Z4", None, None, "Continua dentro da AEI industrial 42 do Anexo 06."),
+    "SC-completo-22426": ("SC-Z1", 29.7, 3.7, "A divisa mais perto é cor não zonal; o traço do Eixo da Av. Alfredo Maffei fica a ~2 m."),
+    "SC-completo-22421": ("SC-Z1", 0.0, 12.9, "A mancha Z2 passou de ~1 m para ~45 m: a dúvida Z1/Z2 quase sumiu; o traço do Eixo fica a ~3 m."),
+    "SC-completo-25297": ("SC-Z1", 50.8, 71.4, "A divisa é com a Z3."),
+    "SC-completo-q1382-11984-11988": ("SC-EIXO", None, None, "Eixo por testada; o traço do Eixo toca o lote nos dois ajustes, com fundo Z2."),
+    "SC-completo-remembramento-75352-75354": ("SC-Z2", 24.4, 9.2, "O que fica a 9,2 m é o texto \"BOTELHO\"; não há outra zona a 250 m."),
+}
+assert set(medidas) == {r["id"] for r in resultado}
+for r in resultado:
+    zona, antes, depois, observacao = medidas[r["id"]]
+    assert zona == r["zona_id"], r["id"]
+    r["reconferencia"] = {"data": "2026-11-15", "metodo": metodo_novo, "zona_confirmada": zona,
+                          "distancia_divisa_m": {"ajuste_antigo": antes, "afim_nova": depois},
+                          "observacao": observacao, "fonte": "terreno/RELATORIO-18.md"}
 (BASE / "anotacoes-zonas.json").write_text(json.dumps(resultado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 print(f"{len(resultado)} anotações manuais gravadas, com incidências especiais e hashes dos polígonos.")

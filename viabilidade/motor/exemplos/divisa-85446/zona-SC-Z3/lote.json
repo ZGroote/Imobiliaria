@@ -1,0 +1,1434 @@
+{
+  "id": "SC-completo-85446",
+  "poligono_utm": [
+    [
+      199102.797496,
+      7560859.44949
+    ],
+    [
+      199101.663178,
+      7560860.180923
+    ],
+    [
+      199101.660582,
+      7560860.176897
+    ],
+    [
+      199095.416895,
+      7560864.171667
+    ],
+    [
+      199109.51651,
+      7560886.287905
+    ],
+    [
+      199114.955874,
+      7560882.820183
+    ],
+    [
+      199119.654662,
+      7560879.824597
+    ],
+    [
+      199105.544553,
+      7560857.691897
+    ],
+    [
+      199102.797496,
+      7560859.44949
+    ]
+  ],
+  "frente": [
+    [
+      199109.51651,
+      7560886.287905
+    ],
+    [
+      199119.654662,
+      7560879.824597
+    ]
+  ],
+  "area_m2": 315.462,
+  "crs": "EPSG:31983",
+  "zona_id": "SC-Z3",
+  "zona_origem": "candidata_na_divisa",
+  "zona_conferida": false,
+  "conferido": false,
+  "relevo": {
+    "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+    "resolucao_m": 30,
+    "cota_min_m": 812.2,
+    "cota_max_m": 814.4,
+    "declividade_pct": 6.4,
+    "desnivel_lote_rua_m": 1.0,
+    "metodo_desnivel": "Copernicus GLO-30 (DSM de ~30 m: mede topo de prédio e árvore): cota no centroide do lote menos a mediana das cotas do asfalto da malha a até 25 m da frente principal (grade de 3 m mais um ponto por pedaço). Só triagem: entre fontes a diferença lote-rua variou mediana 0,6 m e p90 1,5 m (T26); não substitui levantamento planialtimétrico."
+  },
+  "fonte": {
+    "base": "completo",
+    "arquivo": "sao-carlos/dados/lotes_saocarlos_completo.geojson",
+    "indices_feicoes_zero_based": [
+      85446
+    ]
+  },
+  "qualidade": {
+    "frentes": [
+      {
+        "aresta": 4,
+        "arestas": [
+          4,
+          5
+        ],
+        "pontos": [
+          [
+            199109.51650954847,
+            7560886.287904639
+          ],
+          [
+            199119.6546623768,
+            7560879.824596809
+          ]
+        ],
+        "comprimento_m": 12.023,
+        "distancia_max_asfalto_m": 6.486,
+        "regra": "tolerancia_asfalto_12m"
+      }
+    ],
+    "esquina_indicada_pela_malha": false,
+    "sobreposicao_asfalto_m2": 0.0,
+    "maior_sobreposicao_vizinho_m2": 0.0
+  },
+  "observacoes": "Geometria de ensaio derivada do cadastro/maquete, sem vistoria. Zona SC-Z3 é uma das candidatas na divisa (SC-Z4, SC-Z3; divisa a 1.82 m, distância conservadora): confirmar a zona na Prefeitura. Frente inferida da malha de asfalto, por comprimento decrescente e índice da aresta. Áreas especiais: triagem raster dos Anexos 05/06/07, confirmar incidências e pendências em areas_especiais. Restrições do loteamento não verificadas. AVISO: frente presumida, asfalto da malha a até 6.486 m (acima dos 6 m da regra; sem lote entre o lado e o asfalto). A malha de ruas tem buracos: conferir no local. Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade.",
+  "zona_sugestao": {
+    "metodo": "Anexo 02 verificado por SHA256; afim direta EPSG:31983→pixel por 21 cruzamentos de rua; centros de todos os pixels interiores (~1,4 m), RGB da legenda (tolerância 18); cor ambígua (empate a menos de 3) não decide; traços recuperados até 3 pixels; divisa conservadora >=10 m; busca 250 m; Eixo (traço de 3x3 px ou mais) a <=60 m recusa. RMSE 2,9 m (máx. 6,2) nos cruzamentos não é acurácia cadastral.",
+    "pontos": [
+      {
+        "utm": [
+          199109.528,
+          7560885.414
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.141,
+          7560883.981
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.555,
+          7560884.008
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199110.969,
+          7560884.035
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199112.383,
+          7560884.061
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.168,
+          7560882.576
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.582,
+          7560882.602
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199110.996,
+          7560882.629
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199112.41,
+          7560882.655
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199113.825,
+          7560882.682
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199106.781,
+          7560881.143
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.195,
+          7560881.17
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.609,
+          7560881.196
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199111.023,
+          7560881.223
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199112.438,
+          7560881.25
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199113.852,
+          7560881.276
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199115.266,
+          7560881.303
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199116.68,
+          7560881.33
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.394,
+          7560879.711
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199106.808,
+          7560879.738
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.222,
+          7560879.764
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.637,
+          7560879.791
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199111.051,
+          7560879.817
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199112.465,
+          7560879.844
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199113.879,
+          7560879.871
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199115.293,
+          7560879.897
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199116.707,
+          7560879.924
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199118.122,
+          7560879.95
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.421,
+          7560878.305
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199106.835,
+          7560878.332
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.25,
+          7560878.358
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.664,
+          7560878.385
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199111.078,
+          7560878.412
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199112.492,
+          7560878.438
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199113.906,
+          7560878.465
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199115.32,
+          7560878.491
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199116.735,
+          7560878.518
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199118.149,
+          7560878.545
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.034,
+          7560876.873
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.448,
+          7560876.899
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199106.863,
+          7560876.926
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.277,
+          7560876.953
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.691,
+          7560876.979
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199111.105,
+          7560877.006
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199112.519,
+          7560877.032
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199113.933,
+          7560877.059
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199115.348,
+          7560877.086
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199116.762,
+          7560877.112
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.647,
+          7560875.44
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.061,
+          7560875.467
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.476,
+          7560875.494
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199106.89,
+          7560875.52
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.304,
+          7560875.547
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.718,
+          7560875.573
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199111.132,
+          7560875.6
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199112.547,
+          7560875.627
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199113.961,
+          7560875.653
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199115.375,
+          7560875.68
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199116.789,
+          7560875.706
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.674,
+          7560874.035
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.089,
+          7560874.061
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.503,
+          7560874.088
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199106.917,
+          7560874.114
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.331,
+          7560874.141
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.745,
+          7560874.168
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199111.16,
+          7560874.194
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199112.574,
+          7560874.221
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199113.988,
+          7560874.247
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199115.402,
+          7560874.274
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199101.288,
+          7560872.602
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.702,
+          7560872.629
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.116,
+          7560872.655
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.53,
+          7560872.682
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199106.944,
+          7560872.709
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.358,
+          7560872.735
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.773,
+          7560872.762
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199111.187,
+          7560872.789
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199112.601,
+          7560872.815
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199114.015,
+          7560872.842
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199099.901,
+          7560871.17
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199101.315,
+          7560871.197
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.729,
+          7560871.223
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.143,
+          7560871.25
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.557,
+          7560871.276
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199106.971,
+          7560871.303
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.386,
+          7560871.33
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.8,
+          7560871.356
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199111.214,
+          7560871.383
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199112.628,
+          7560871.409
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199114.042,
+          7560871.436
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199099.928,
+          7560869.764
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199101.342,
+          7560869.791
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.756,
+          7560869.817
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.17,
+          7560869.844
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.584,
+          7560869.871
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199106.999,
+          7560869.897
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.413,
+          7560869.924
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.827,
+          7560869.95
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199111.241,
+          7560869.977
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199112.655,
+          7560870.004
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199098.541,
+          7560868.332
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199099.955,
+          7560868.358
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199101.369,
+          7560868.385
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.783,
+          7560868.412
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.198,
+          7560868.438
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.612,
+          7560868.465
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199107.026,
+          7560868.491
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.44,
+          7560868.518
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.854,
+          7560868.545
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199111.268,
+          7560868.571
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199098.568,
+          7560866.926
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199099.982,
+          7560866.953
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199101.396,
+          7560866.979
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.811,
+          7560867.006
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.225,
+          7560867.032
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.639,
+          7560867.059
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199107.053,
+          7560867.086
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.467,
+          7560867.112
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.881,
+          7560867.139
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199111.296,
+          7560867.165
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199097.181,
+          7560865.494
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199098.595,
+          7560865.52
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199100.009,
+          7560865.547
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199101.424,
+          7560865.573
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.838,
+          7560865.6
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.252,
+          7560865.627
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.666,
+          7560865.653
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199107.08,
+          7560865.68
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.495,
+          7560865.707
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199109.909,
+          7560865.733
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199095.794,
+          7560864.061
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199097.208,
+          7560864.088
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199098.622,
+          7560864.115
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199100.037,
+          7560864.141
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199101.451,
+          7560864.168
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.865,
+          7560864.194
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.279,
+          7560864.221
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.693,
+          7560864.248
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199107.108,
+          7560864.274
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.522,
+          7560864.301
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199098.65,
+          7560862.709
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199100.064,
+          7560862.735
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199101.478,
+          7560862.762
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.892,
+          7560862.789
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.306,
+          7560862.815
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.721,
+          7560862.842
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199107.135,
+          7560862.868
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199108.549,
+          7560862.895
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199100.091,
+          7560861.33
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199101.505,
+          7560861.356
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.919,
+          7560861.383
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.334,
+          7560861.409
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.748,
+          7560861.436
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199107.162,
+          7560861.463
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199102.947,
+          7560859.977
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.361,
+          7560860.004
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.775,
+          7560860.03
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199104.388,
+          7560858.598
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          199105.802,
+          7560858.624
+        ],
+        "zona_id": "SC-Z4",
+        "cor_recuperada": false
+      }
+    ],
+    "proporcao_por_zona": {
+      "SC-Z4": 1.0
+    },
+    "distancia_divisa_m": 1.82,
+    "alternativas": [
+      "SC-Z4",
+      "SC-Z3"
+    ],
+    "motivo_duvida": "Divisa/cor não zonal a menos de 10 m (distância conservadora)",
+    "so_divisa": true,
+    "candidatas": [
+      "SC-Z4",
+      "SC-Z3"
+    ]
+  },
+  "areas_especiais": [
+    {
+      "tipo": "nao_verificada",
+      "nome": "Leitura automática do Anexo 05: nenhuma área especial encontrada — não conferida",
+      "incidencia": "nao_verificada",
+      "conferido": false,
+      "fonte": "Lei 18.053/2016, Anexo 05, p. 1; raster conferido por SHA256 quando disponível",
+      "observacoes": "Leitura automática sem cor da legenda nem cone no lote e na margem de ~10 m; confirmar no cadastro e no órgão competente; sem altura numérica aplicada.",
+      "evidencia": "dados/zonas-mapas/anexo05.jpg; centros dos pixels do lote e margem de 10 m + 4 pixels",
+      "anexo": "05"
+    },
+    {
+      "tipo": "nao_verificada",
+      "nome": "Leitura automática do Anexo 06: nenhuma área especial encontrada — não conferida",
+      "incidencia": "nao_verificada",
+      "conferido": false,
+      "fonte": "Lei 18.053/2016, Anexo 06, p. 1; raster conferido por SHA256 quando disponível",
+      "observacoes": "Leitura automática sem cor da legenda nem cone no lote e na margem de ~10 m; confirmar no cadastro e no órgão competente; sem altura numérica aplicada.",
+      "evidencia": "dados/zonas-mapas/anexo06.jpg; centros dos pixels do lote e margem de 10 m + 4 pixels",
+      "anexo": "06"
+    },
+    {
+      "tipo": "nao_verificada",
+      "nome": "Leitura automática do Anexo 07: nenhuma área especial encontrada — não conferida",
+      "incidencia": "nao_verificada",
+      "conferido": false,
+      "fonte": "Lei 18.053/2016, Anexo 07, p. 1; raster conferido por SHA256 quando disponível",
+      "observacoes": "Leitura automática sem cor da legenda nem cone no lote e na margem de ~10 m; confirmar no cadastro e no órgão competente; sem altura numérica aplicada.",
+      "evidencia": "dados/zonas-mapas/anexo07.jpg; centros dos pixels do lote e margem de 10 m + 4 pixels",
+      "anexo": "07"
+    },
+    {
+      "tipo": "nao_verificada",
+      "nome": "Leis posteriores aos mapas de dez/2016 (19.166/2019 e 18.927/2018): não desenhadas",
+      "incidencia": "nao_verificada",
+      "conferido": false,
+      "fonte": "Lei 19.166/2019 (https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_339); Lei 18.927/2018 (https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_754; PDF https://www.saocarlos.sp.gov.br/images/stories/pdf/conselhos/lei18927-digital.pdf)",
+      "observacoes": "Os mapas lidos (Anexos 05, 06 e 07 da Lei 18.053/2016) são de dez/2016 e não trazem estas alterações, que não estão desenhadas aqui: Lei 19.166/2019, AEI de Interesse Industrial e de Serviços 44 e 45 (Anexo 6), áreas N e O do Anexo 9-A e ZUPI-II, na SP-318 km 236, com perímetro só em texto (rumos e distâncias, sem coordenadas); Lei 18.927/2018, Zona 6E (Santa Eudóxia), sem mapa. O Anexo 9-A (áreas compatíveis com usos incômodos) não é lido por nenhum módulo: não verificado. Confirmar na Prefeitura, sobretudo perto da SP-318 km 236; sem altura numérica aplicada.",
+      "evidencia": "AUDITORIA-6b: a legenda do anexo06.jpg lista AEI só até o item 43; o Anexo 9-A de 2016 vai de A a M; os textos das leis não trazem coordenadas",
+      "anexo": "06/09-A"
+    }
+  ]
+}

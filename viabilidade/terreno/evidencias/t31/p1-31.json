@@ -1,0 +1,745 @@
+{
+ "69973": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 11.32,
+  "divisa_lote_mais_mancha_m": 0.0,
+  "t31": "Divisa/cor não zonal a menos de 10 m (distância conservadora)",
+  "a_olho_T31": "divisa real: último lote da quadra, Z1 do outro lado da rua a ~13 m"
+ },
+ "6793": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z5A",
+  "divisa_lote_m": 18.39,
+  "divisa_lote_mais_mancha_m": 0.0,
+  "t31": "Divisa/cor não zonal a menos de 10 m (distância conservadora)",
+  "a_olho_T31": "falso: sombra do nome 'Residencial Astolpho' cai no Z5B"
+ },
+ "2153": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 10.34,
+  "divisa_lote_mais_mancha_m": 0.0,
+  "t31": "Divisa/cor não zonal a menos de 10 m (distância conservadora)",
+  "a_olho_T31": "divisa real: colado à linha do perímetro (branco) e à rodovia"
+ },
+ "53253": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z1",
+  "divisa_lote_m": 13.42,
+  "divisa_lote_mais_mancha_m": 0.0,
+  "t31": "Divisa/cor não zonal a menos de 10 m (distância conservadora)",
+  "a_olho_T31": "falso: brilho do nome 'Terra Nova' cai no Z2"
+ },
+ "16267": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 19.75,
+  "divisa_lote_mais_mancha_m": 0.0,
+  "t31": "Divisa/cor não zonal a menos de 10 m (distância conservadora)",
+  "a_olho_T31": "falso: sombra do nome 'Parque Sisi' cai no Z1"
+ },
+ "68151": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z1",
+  "divisa_lote_m": 16.35,
+  "divisa_lote_mais_mancha_m": 1.41,
+  "t31": "Divisa/cor não zonal a menos de 10 m (distância conservadora)",
+  "a_olho_T31": "falso: a mancha corre pela linha cinza da rua até o Z2 do outro lado (divisa a ~20 m)"
+ },
+ "51631": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z1",
+  "divisa_lote_m": 23.37,
+  "divisa_lote_mais_mancha_m": 2.78,
+  "t31": "Divisa/cor não zonal a menos de 10 m (distância conservadora)",
+  "a_olho_T31": "falso: brilho do nome 'Moradas São Carlos' cai no Z2"
+ },
+ "51538": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z1",
+  "divisa_lote_m": 23.7,
+  "divisa_lote_mais_mancha_m": 2.78,
+  "t31": "Divisa/cor não zonal a menos de 10 m (distância conservadora)",
+  "a_olho_T31": "falso: brilho do nome 'Residencial Eldorado' cai no Z2"
+ },
+ "66727": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z1",
+  "divisa_lote_m": 28.2,
+  "divisa_lote_mais_mancha_m": 19.65,
+  "t31": "SC-Z1"
+ },
+ "10249": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 35.21,
+  "divisa_lote_mais_mancha_m": 22.86,
+  "t31": "SC-Z2"
+ },
+ "20972": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 22.39,
+  "divisa_lote_mais_mancha_m": 33.88,
+  "t31": "SC-Z2"
+ },
+ "77527": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": 48.26,
+  "divisa_lote_mais_mancha_m": 38.52,
+  "t31": "SC-Z3"
+ },
+ "67402": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": 33.46,
+  "divisa_lote_mais_mancha_m": 39.6,
+  "t31": "SC-Z3"
+ },
+ "86137": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z4",
+  "divisa_lote_m": 29.09,
+  "divisa_lote_mais_mancha_m": 39.8,
+  "t31": "SC-Z4"
+ },
+ "64201": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": 39.98,
+  "divisa_lote_mais_mancha_m": 48.95,
+  "t31": "SC-Z3"
+ },
+ "64548": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 41.17,
+  "divisa_lote_mais_mancha_m": 49.47,
+  "t31": "SC-Z2"
+ },
+ "67404": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": 34.75,
+  "divisa_lote_mais_mancha_m": 50.99,
+  "t31": "SC-Z3"
+ },
+ "14742": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 32.42,
+  "divisa_lote_mais_mancha_m": 52.0,
+  "t31": "SC-Z2"
+ },
+ "62964": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 68.68,
+  "divisa_lote_mais_mancha_m": 53.79,
+  "t31": "SC-Z2"
+ },
+ "22356": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 68.33,
+  "divisa_lote_mais_mancha_m": 66.97,
+  "t31": "SC-Z2"
+ },
+ "25740": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 89.79,
+  "divisa_lote_mais_mancha_m": 71.18,
+  "t31": "SC-Z2"
+ },
+ "77155": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 86.47,
+  "divisa_lote_mais_mancha_m": 73.38,
+  "t31": "SC-Z2"
+ },
+ "55310": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 94.03,
+  "divisa_lote_mais_mancha_m": 73.66,
+  "t31": "SC-Z2"
+ },
+ "55157": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 83.56,
+  "divisa_lote_mais_mancha_m": 73.92,
+  "t31": "SC-Z2"
+ },
+ "73185": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z1",
+  "divisa_lote_m": 102.87,
+  "divisa_lote_mais_mancha_m": 79.16,
+  "t31": "SC-Z1"
+ },
+ "85586": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": 96.59,
+  "divisa_lote_mais_mancha_m": 80.9,
+  "t31": "SC-Z3"
+ },
+ "84870": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 101.3,
+  "divisa_lote_mais_mancha_m": 90.91,
+  "t31": "SC-Z2"
+ },
+ "53702": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 99.14,
+  "divisa_lote_mais_mancha_m": 93.81,
+  "t31": "SC-Z2"
+ },
+ "75478": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 109.41,
+  "divisa_lote_mais_mancha_m": 97.6,
+  "t31": "SC-Z2"
+ },
+ "53521": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": 128.47,
+  "divisa_lote_mais_mancha_m": 103.35,
+  "t31": "SC-Z3"
+ },
+ "55625": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 111.5,
+  "divisa_lote_mais_mancha_m": 103.64,
+  "t31": "SC-Z2"
+ },
+ "10191": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 111.41,
+  "divisa_lote_mais_mancha_m": 104.05,
+  "t31": "SC-Z2"
+ },
+ "77141": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 129.31,
+  "divisa_lote_mais_mancha_m": 110.37,
+  "t31": "SC-Z2"
+ },
+ "85200": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 142.52,
+  "divisa_lote_mais_mancha_m": 115.76,
+  "t31": "SC-Z2"
+ },
+ "90309": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": 150.41,
+  "divisa_lote_mais_mancha_m": 121.37,
+  "t31": "SC-Z3"
+ },
+ "63658": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 136.7,
+  "divisa_lote_mais_mancha_m": 130.92,
+  "t31": "SC-Z2"
+ },
+ "86434": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 158.46,
+  "divisa_lote_mais_mancha_m": 138.92,
+  "t31": "SC-Z2"
+ },
+ "43778": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": 159.41,
+  "divisa_lote_mais_mancha_m": 157.39,
+  "t31": "SC-Z3"
+ },
+ "72288": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z1",
+  "divisa_lote_m": 182.74,
+  "divisa_lote_mais_mancha_m": 161.9,
+  "t31": "SC-Z1"
+ },
+ "23091": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 172.72,
+  "divisa_lote_mais_mancha_m": 162.99,
+  "t31": "SC-Z2"
+ },
+ "19850": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 183.76,
+  "divisa_lote_mais_mancha_m": 166.9,
+  "t31": "SC-Z2"
+ },
+ "13818": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 189.99,
+  "divisa_lote_mais_mancha_m": 172.34,
+  "t31": "SC-Z2"
+ },
+ "55059": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 178.01,
+  "divisa_lote_mais_mancha_m": 173.66,
+  "t31": "SC-Z2"
+ },
+ "18971": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 188.14,
+  "divisa_lote_mais_mancha_m": 175.62,
+  "t31": "SC-Z2"
+ },
+ "73464": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z1",
+  "divisa_lote_m": 150.03,
+  "divisa_lote_mais_mancha_m": 177.06,
+  "t31": "SC-Z1"
+ },
+ "81483": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 188.25,
+  "divisa_lote_mais_mancha_m": 180.15,
+  "t31": "SC-Z2"
+ },
+ "51670": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 196.85,
+  "divisa_lote_mais_mancha_m": 186.06,
+  "t31": "SC-Z2"
+ },
+ "8895": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 178.76,
+  "divisa_lote_mais_mancha_m": 189.79,
+  "t31": "SC-Z2"
+ },
+ "10329": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 207.37,
+  "divisa_lote_mais_mancha_m": 189.91,
+  "t31": "SC-Z2"
+ },
+ "58238": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 188.84,
+  "divisa_lote_mais_mancha_m": 190.53,
+  "t31": "SC-Z2"
+ },
+ "90275": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": 218.39,
+  "divisa_lote_mais_mancha_m": 191.5,
+  "t31": "SC-Z3"
+ },
+ "25455": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 205.0,
+  "divisa_lote_mais_mancha_m": 192.0,
+  "t31": "SC-Z2"
+ },
+ "12447": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 215.59,
+  "divisa_lote_mais_mancha_m": 203.21,
+  "t31": "SC-Z2"
+ },
+ "91101": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z4",
+  "divisa_lote_m": 227.9,
+  "divisa_lote_mais_mancha_m": 206.56,
+  "t31": "SC-Z4"
+ },
+ "21558": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 207.58,
+  "divisa_lote_mais_mancha_m": 213.83,
+  "t31": "SC-Z2"
+ },
+ "62586": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 215.99,
+  "divisa_lote_mais_mancha_m": 213.84,
+  "t31": "SC-Z2"
+ },
+ "10304": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 244.4,
+  "divisa_lote_mais_mancha_m": 221.57,
+  "t31": "SC-Z2"
+ },
+ "58497": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 241.99,
+  "divisa_lote_mais_mancha_m": 221.68,
+  "t31": "SC-Z2"
+ },
+ "19835": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 240.3,
+  "divisa_lote_mais_mancha_m": 225.21,
+  "t31": "SC-Z2"
+ },
+ "23086": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 224.8,
+  "divisa_lote_mais_mancha_m": 227.4,
+  "t31": "SC-Z2"
+ },
+ "9106": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 229.92,
+  "t31": "SC-Z2"
+ },
+ "51662": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 243.13,
+  "divisa_lote_mais_mancha_m": 230.39,
+  "t31": "SC-Z2"
+ },
+ "1011": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": 242.67,
+  "divisa_lote_mais_mancha_m": 230.77,
+  "t31": "SC-Z3"
+ },
+ "10938": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 232.37,
+  "t31": "SC-Z2"
+ },
+ "5892": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 236.54,
+  "divisa_lote_mais_mancha_m": 232.39,
+  "t31": "SC-Z2"
+ },
+ "21498": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 230.61,
+  "divisa_lote_mais_mancha_m": 232.42,
+  "t31": "SC-Z2"
+ },
+ "76370": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 240.68,
+  "t31": "SC-Z2"
+ },
+ "23933": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 242.58,
+  "divisa_lote_mais_mancha_m": 245.37,
+  "t31": "SC-Z2"
+ },
+ "19844": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 249.16,
+  "t31": "SC-Z2"
+ },
+ "1062": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 257.95,
+  "t31": "SC-Z3"
+ },
+ "17466": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 267.92,
+  "t31": "SC-Z2"
+ },
+ "24755": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 243.8,
+  "divisa_lote_mais_mancha_m": 275.56,
+  "t31": "SC-Z2"
+ },
+ "5010": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 280.67,
+  "t31": "SC-Z2"
+ },
+ "22408": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 281.2,
+  "t31": "SC-Z2"
+ },
+ "11654": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 285.23,
+  "t31": "SC-Z2"
+ },
+ "19185": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 286.52,
+  "t31": "SC-Z2"
+ },
+ "1195": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 287.06,
+  "t31": "SC-Z3"
+ },
+ "51562": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": 331.57,
+  "t31": "SC-Z2"
+ },
+ "60197": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "81626": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z3"
+ },
+ "57190": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "12545": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 103.15,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "12890": {
+  "amostra": "sorteio 500 (20261120)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "60196": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "81630": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z3"
+ },
+ "82497": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "82216": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "53053": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "53168": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 236.87,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "81619": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z3"
+ },
+ "57182": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "10232": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "71593": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 73.25,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "81582": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z3"
+ },
+ "30885": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z4",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z4"
+ },
+ "19342": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "21979": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "37613": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z4",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z4"
+ },
+ "5930": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 216.45,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "35903": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z4",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z4"
+ },
+ "19774": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "101275": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z4",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z4"
+ },
+ "108282": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": 21.18,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ },
+ "84555": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z3",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z3"
+ },
+ "50534": {
+  "amostra": "sorteio 3000 (20261121)",
+  "zona_t30": "SC-Z2",
+  "divisa_lote_m": null,
+  "divisa_lote_mais_mancha_m": null,
+  "t31": "SC-Z2"
+ }
+}

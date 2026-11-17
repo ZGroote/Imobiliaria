@@ -75,6 +75,8 @@ INCIDENCIA = {"sobreposicao_visual": "sobreposição visual", "possivel_incidenc
 def _linha_zona(lote):
     if lote["zona_origem"] == "informada_pelo_usuario":
         return f"Zona: {lote['zona_id']} (informada pelo usuário, não conferida)"
+    if lote["zona_origem"] == "candidata_na_divisa":
+        return f"Zona: {lote['zona_id']} (uma das candidatas na divisa: {', '.join(lote['zona_sugestao']['candidatas'])}; não conferida, confirmar na Prefeitura)"
     outras = ", ".join(lote["zona_sugestao"]["alternativas"]) or "nenhuma"
     return f"Zona: {lote['zona_id']} (sugerida pelo mapa do Plano Diretor, não conferida; outras zonas por perto: {outras})"
 
@@ -106,29 +108,38 @@ def _resumo(lote, estudo, rev, premissas=None):
     return "\n".join(linhas) + "\n"
 
 
-def _gerar_lote(base, indices, ponto, zona, cadastro):
-    """Lote do terreno. Recusa do terreno sai inteira; zona automática duvidosa ganha o jeito de continuar."""
+class _Divisa(ValueError):
+    """A única dúvida de zona é a divisa (terreno T23): leva as candidatas para estudar uma a uma."""
+    def __init__(self, erro, sugestao):
+        super().__init__(str(erro))
+        self.sugestao = sugestao
+
+
+def _resolver(base, indices, ponto, zona, cadastro):
     if (indices is None) == (ponto is None):
         raise ValueError("Informe o lote por --indices ou por --ponto (um dos dois, não os dois)")
     novo_lote.validar_zona(zona, permitir_auto=True)
     xy = novo_lote.ler_ponto(ponto) if ponto is not None else None
     cadastro = cadastro or novo_lote.Cadastro(base)
+    return cadastro, ([cadastro.localizar(xy)] if xy is not None else indices)
+
+
+def _gerar_lote(cadastro, indices, zona):
+    """Lote do terreno. Recusa do terreno sai inteira; zona automática duvidosa ganha o jeito de continuar."""
     try:
-        return cadastro.gerar([cadastro.localizar(xy)] if xy is not None else indices, zona)
+        return cadastro.gerar(indices, zona)
     except ValueError as erro:
         sugestao = getattr(erro, "sugestao", None)  # ZonaIncerta, do terreno/sugerir_zona.py
         if sugestao is None:
             raise
+        if sugestao.get("so_divisa") and zona == "auto":
+            raise _Divisa(erro, sugestao) from None
         opcoes = ", ".join(sugestao["alternativas"]) or "nenhuma identificada pelo mapa; veja as zonas válidas em viabilidade/lei/zonas.json"
         raise ValueError(f"{erro} Rode de novo com --zona SC-XX, uma destas: {opcoes}.") from None
 
 
-def estudar(base, indices, zona, pasta, premissas=None, cadastro=None, ponto=None):
-    """Roda a cadeia inteira e devolve o resumo. `cadastro` evita reler a base (uso em testes).
-    O lote vem de `indices` ou de `ponto` ("lat, lon"); `zona` pode ser "auto"."""
-    pasta = Path(pasta)
-    _conferir_pasta(pasta)
-    lote = _gerar_lote(base, indices, ponto, zona, cadastro)
+def _calcular(lote, premissas):
+    """Estudo de um lote, tudo em memória: ({arquivo: bytes}, resumo, revisão, estudo)."""
     zonas = {z["id"]: z for z in novo_lote.gl.ler("viabilidade/lei/zonas.json")}
     estudo = gerar_estudo(lote, zonas[lote["zona_id"]], premissas)
     # mesmo formato do gerar.py; o hash é o dos bytes que vão para o disco, como no relatório
@@ -142,23 +153,92 @@ def estudar(base, indices, zona, pasta, premissas=None, cadastro=None, ponto=Non
         "relatorio.html": html.encode("utf-8"),
         "resumo.txt": resumo.encode("utf-8"),
     }
+    return textos, resumo, sha[:12], estudo
+
+
+def _gravar(pasta, arquivos):
+    """Grava {caminho relativo: bytes}; se falhar, apaga o que criou (arquivos e pastas)."""
     criou_pasta = not pasta.exists()
-    criados = []
+    criados, subpastas = [], []
     try:
         pasta.mkdir(parents=True, exist_ok=True)
-        for nome, conteudo in textos.items():
-            criados.append(pasta / nome)
-            (pasta / nome).write_bytes(conteudo)
+        for nome, conteudo in arquivos.items():
+            alvo = pasta / nome
+            if not alvo.parent.exists():
+                alvo.parent.mkdir()
+                subpastas.append(alvo.parent)
+            criados.append(alvo)
+            alvo.write_bytes(conteudo)
     except BaseException:
         for arq in criados:
             arq.unlink(missing_ok=True)
-        if criou_pasta:
+        for sub in subpastas + ([pasta] if criou_pasta else []):
             try:
-                pasta.rmdir()
+                sub.rmdir()
             except OSError:
                 pass
         raise
-    return {"pasta": pasta, "revisao": sha[:12], "resumo": resumo}
+
+
+def _melhor(estudo, campo):
+    return max((o["metricas"][campo] for o in estudo["opcoes"]), default=None)
+
+
+def _resumo_divisa(lote_ref, candidatas, feitos, falhas):
+    """resumo.txt da raiz: as candidatas lado a lado. feitos: {zona: (estudo, revisão)}; falhas: {zona: motivo}."""
+    dist = lote_ref["zona_sugestao"].get("distancia_divisa_m")
+    fmt = lambda v, f: "-" if v is None else format(v, f)
+    linhas = [f"Lote: {lote_ref['id']} (base {lote_ref['fonte']['base']}, feições {lote_ref['fonte']['indices_feicoes_zero_based']})",
+              f"Área: {lote_ref['area_m2']:.3f} m²",
+              f"Lote na divisa entre zonas ({' | '.join(candidatas)}" + (f", divisa a {dist:g} m" if dist is not None else "") + "): um estudo por zona candidata.",
+              "Lote na divisa entre zonas: confirmar a zona na Prefeitura antes de usar qualquer um dos estudos.", "",
+              "Zona    | Opções | Melhor CA | Unidades | Área vendável (m²) | Revisão      | Pasta"]
+    for z in candidatas:
+        if z in feitos:
+            e, rev = feitos[z]
+            linhas.append(f"{z:7} | {len(e['opcoes']):6} | {fmt(_melhor(e, 'ca_usado'), '9.3f'):>9} | {fmt(_melhor(e, 'unidades_estimadas'), 'd'):>8} "
+                          f"| {fmt(_melhor(e, 'area_privativa_m2'), '.1f'):>18} | {rev} | zona-{z}/" + ("  (nenhuma opção cabe)" if not e["opcoes"] else ""))
+        else:
+            linhas.append(f"{z:7} | sem estudo: {falhas[z]}")
+    linhas.append("Melhor = maior valor entre as opções de cada zona (CA usado, unidades, área privativa).")
+    return "\n".join(linhas) + "\n"
+
+
+def _estudar_divisa(cadastro, indices, divisa, pasta, premissas):
+    candidatas = divisa.sugestao["candidatas"]
+    arquivos, feitos, falhas, lote_ref = {}, {}, {}, None
+    for z in candidatas:
+        try:
+            lote = cadastro.gerar(indices, "auto:" + z)
+            textos, _, rev, estudo = _calcular(lote, premissas)
+        except ValueError as erro:  # uma candidata que não gera estudo não derruba a outra
+            falhas[z] = " ".join(str(erro).split())
+            continue
+        lote_ref = lote_ref or lote
+        feitos[z] = (estudo, rev)
+        arquivos.update({f"zona-{z}/{nome}": b for nome, b in textos.items()})
+    if not feitos:
+        raise ValueError(f"{divisa} Nenhuma das zonas candidatas gerou estudo: " + "; ".join(f"{z}: {m}" for z, m in falhas.items()))
+    resumo = _resumo_divisa(lote_ref, candidatas, feitos, falhas)
+    arquivos["resumo.txt"] = resumo.encode("utf-8")
+    _gravar(pasta, arquivos)
+    return {"pasta": pasta, "revisao": ", ".join(f"{z}:{r}" for z, (_, r) in feitos.items()), "resumo": resumo, "divisa": candidatas}
+
+
+def estudar(base, indices, zona, pasta, premissas=None, cadastro=None, ponto=None):
+    """Roda a cadeia inteira e devolve o resumo. `cadastro` evita reler a base (uso em testes).
+    O lote vem de `indices` ou de `ponto` ("lat, lon"); `zona` pode ser "auto".
+    Com "auto" e a divisa como única dúvida (terreno T23), grava um estudo por candidata em pasta/zona-SC-Zx/ e devolve "divisa"."""
+    pasta = Path(pasta)
+    _conferir_pasta(pasta)
+    cadastro, indices = _resolver(base, indices, ponto, zona, cadastro)
+    try:
+        lote = _gerar_lote(cadastro, indices, zona)
+    except _Divisa as divisa:
+        return _estudar_divisa(cadastro, indices, divisa, pasta, premissas)
+    textos, resumo, rev, _ = _calcular(lote, premissas)
+    _gravar(pasta, textos)
+    return {"pasta": pasta, "revisao": rev, "resumo": resumo}
 
 
 def main(argv=None):

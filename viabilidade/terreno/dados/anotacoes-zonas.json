@@ -75,7 +75,18 @@
     "controles": "dados/zonas-controles.json",
     "posicionamento": "dados/zonas-posicionamento.json",
     "rmse_controles_anexo02_m": 3.526,
-    "incerteza_posicional_total_m": null
+    "incerteza_posicional_total_m": null,
+    "reconferencia": {
+      "data": "2026-11-15",
+      "metodo": "Polígono redesenhado sobre os Anexos 02, 05, 06 e 07 com a afim direta EPSG:31983→pixel ajustada em 21 cruzamentos de rua (dados/zonas-controles.json): no Anexo 02, RMSE 2.9 m e máximo 6.2 m. O ajuste antigo de 5 vértices errava 40–100 m na cidade (terreno/RELATORIO-16.md).",
+      "zona_confirmada": "SC-Z4",
+      "distancia_divisa_m": {
+        "ajuste_antigo": null,
+        "afim_nova": null
+      },
+      "observacao": "AIA do Anexo 05 continua, agora só na borda do lote.",
+      "fonte": "terreno/RELATORIO-18.md"
+    }
   },
   {
     "zona_id": "SC-Z4",
@@ -153,7 +164,18 @@
     "controles": "dados/zonas-controles.json",
     "posicionamento": "dados/zonas-posicionamento.json",
     "rmse_controles_anexo02_m": 3.526,
-    "incerteza_posicional_total_m": null
+    "incerteza_posicional_total_m": null,
+    "reconferencia": {
+      "data": "2026-11-15",
+      "metodo": "Polígono redesenhado sobre os Anexos 02, 05, 06 e 07 com a afim direta EPSG:31983→pixel ajustada em 21 cruzamentos de rua (dados/zonas-controles.json): no Anexo 02, RMSE 2.9 m e máximo 6.2 m. O ajuste antigo de 5 vértices errava 40–100 m na cidade (terreno/RELATORIO-16.md).",
+      "zona_confirmada": "SC-Z4",
+      "distancia_divisa_m": {
+        "ajuste_antigo": null,
+        "afim_nova": null
+      },
+      "observacao": "Continua dentro da AEI industrial 42 do Anexo 06.",
+      "fonte": "terreno/RELATORIO-18.md"
+    }
   },
   {
     "zona_id": "SC-Z1",
@@ -236,7 +258,18 @@
     "controles": "dados/zonas-controles.json",
     "posicionamento": "dados/zonas-posicionamento.json",
     "rmse_controles_anexo02_m": 3.526,
-    "incerteza_posicional_total_m": null
+    "incerteza_posicional_total_m": null,
+    "reconferencia": {
+      "data": "2026-11-15",
+      "metodo": "Polígono redesenhado sobre os Anexos 02, 05, 06 e 07 com a afim direta EPSG:31983→pixel ajustada em 21 cruzamentos de rua (dados/zonas-controles.json): no Anexo 02, RMSE 2.9 m e máximo 6.2 m. O ajuste antigo de 5 vértices errava 40–100 m na cidade (terreno/RELATORIO-16.md).",
+      "zona_confirmada": "SC-Z1",
+      "distancia_divisa_m": {
+        "ajuste_antigo": 29.7,
+        "afim_nova": 3.7
+      },
+      "observacao": "A divisa mais perto é cor não zonal; o traço do Eixo da Av. Alfredo Maffei fica a ~2 m.",
+      "fonte": "terreno/RELATORIO-18.md"
+    }
   },
   {
     "zona_id": "SC-Z1",
@@ -320,7 +353,18 @@
     "controles": "dados/zonas-controles.json",
     "posicionamento": "dados/zonas-posicionamento.json",
     "rmse_controles_anexo02_m": 3.526,
-    "incerteza_posicional_total_m": null
+    "incerteza_posicional_total_m": null,
+    "reconferencia": {
+      "data": "2026-11-15",
+      "metodo": "Polígono redesenhado sobre os Anexos 02, 05, 06 e 07 com a afim direta EPSG:31983→pixel ajustada em 21 cruzamentos de rua (dados/zonas-controles.json): no Anexo 02, RMSE 2.9 m e máximo 6.2 m. O ajuste antigo de 5 vértices errava 40–100 m na cidade (terreno/RELATORIO-16.md).",
+      "zona_confirmada": "SC-Z1",
+      "distancia_divisa_m": {
+        "ajuste_antigo": 0.0,
+        "afim_nova": 12.9
+      },
+      "observacao": "A mancha Z2 passou de ~1 m para ~45 m: a dúvida Z1/Z2 quase sumiu; o traço do Eixo fica a ~3 m.",
+      "fonte": "terreno/RELATORIO-18.md"
+    }
   },
   {
     "zona_id": "SC-Z1",
@@ -387,7 +431,18 @@
     "controles": "dados/zonas-controles.json",
     "posicionamento": "dados/zonas-posicionamento.json",
     "rmse_controles_anexo02_m": 3.526,
-    "incerteza_posicional_total_m": null
+    "incerteza_posicional_total_m": null,
+    "reconferencia": {
+      "data": "2026-11-15",
+      "metodo": "Polígono redesenhado sobre os Anexos 02, 05, 06 e 07 com a afim direta EPSG:31983→pixel ajustada em 21 cruzamentos de rua (dados/zonas-controles.json): no Anexo 02, RMSE 2.9 m e máximo 6.2 m. O ajuste antigo de 5 vértices errava 40–100 m na cidade (terreno/RELATORIO-16.md).",
+      "zona_confirmada": "SC-Z1",
+      "distancia_divisa_m": {
+        "ajuste_antigo": 50.8,
+        "afim_nova": 71.4
+      },
+      "observacao": "A divisa é com a Z3.",
+      "fonte": "terreno/RELATORIO-18.md"
+    }
   },
   {
     "id": "SC-completo-q1382-11984-11988",
@@ -474,7 +529,18 @@
       "A frente representa o maior segmento reto elegível da borda norte; não soma toda a testada fragmentada. O Motor usa esta única frente.",
       "Sem sobreposição visual com AIA ou área industrial nos Anexos 05/06. Lista não certifica ausência de APP, patrimônio individual, servidão, inundação ou contaminação.",
       "Incidência aeronáutica visual no Anexo 07; altura depende de consulta DECEA. Resíduo do ajuste não mede erro posicional total; conferir divisas em cadastro oficial."
-    ]
+    ],
+    "reconferencia": {
+      "data": "2026-11-15",
+      "metodo": "Polígono redesenhado sobre os Anexos 02, 05, 06 e 07 com a afim direta EPSG:31983→pixel ajustada em 21 cruzamentos de rua (dados/zonas-controles.json): no Anexo 02, RMSE 2.9 m e máximo 6.2 m. O ajuste antigo de 5 vértices errava 40–100 m na cidade (terreno/RELATORIO-16.md).",
+      "zona_confirmada": "SC-EIXO",
+      "distancia_divisa_m": {
+        "ajuste_antigo": null,
+        "afim_nova": null
+      },
+      "observacao": "Eixo por testada; o traço do Eixo toca o lote nos dois ajustes, com fundo Z2.",
+      "fonte": "terreno/RELATORIO-18.md"
+    }
   },
   {
     "id": "SC-completo-remembramento-75352-75354",
@@ -568,6 +634,17 @@
       "Frente registrada é somente o segmento de 8,391 m que passou o teste de três pontos junto ao asfalto; a malha tem lacunas. Não tratar esse segmento como testada cadastral total nem usar para certificar lote mínimo. A testada e os recuos exigem cadastro.",
       "Ausência visual de incidência nos anexos não afasta APP, inundação, servidão, patrimônio individual, contaminação ou restrições do loteamento. Consulta específica ao DECEA continua necessária para altura.",
       "Anotação manual para simulação. Resíduos do ajuste não representam acurácia cadastral nem erro total; não há certidão municipal."
-    ]
+    ],
+    "reconferencia": {
+      "data": "2026-11-15",
+      "metodo": "Polígono redesenhado sobre os Anexos 02, 05, 06 e 07 com a afim direta EPSG:31983→pixel ajustada em 21 cruzamentos de rua (dados/zonas-controles.json): no Anexo 02, RMSE 2.9 m e máximo 6.2 m. O ajuste antigo de 5 vértices errava 40–100 m na cidade (terreno/RELATORIO-16.md).",
+      "zona_confirmada": "SC-Z2",
+      "distancia_divisa_m": {
+        "ajuste_antigo": 24.4,
+        "afim_nova": 9.2
+      },
+      "observacao": "O que fica a 9,2 m é o texto \"BOTELHO\"; não há outra zona a 250 m.",
+      "fonte": "terreno/RELATORIO-18.md"
+    }
   }
 ]

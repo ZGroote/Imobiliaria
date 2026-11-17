@@ -16,6 +16,8 @@ ZONAS = ["SC-Z1", "SC-Z2", "SC-Z3", "SC-Z4", "SC-Z5A", "SC-Z5B"]
 DIVISA_M = 10.0
 EIXO_M = 60.0
 BUSCA_M = 250.0
+# T31: texto de nome de rua tem até ~16 px; a mancha ignorada cresce até isso a partir do lote.
+TEXTO_PX = 16
 TOLERANCIA_COR = 18
 # Cor a menos de 3 unidades RGB de empatar entre duas da paleta não decide (AUDITORIA-6: Represa x Z3 a 9,1;
 # Z5B x Parque a 22,2): vira 0, como traço, e só herda classe de vizinho a até 3 px.
@@ -63,12 +65,22 @@ def erodir(mascara, lado):
     return gl.np.asarray(m.filter(ImageFilter.MinFilter(lado))) > 0
 
 
+def dilatar(mascara, lado):
+    m = Image.fromarray(mascara.astype(gl.np.uint8) * 255)
+    return gl.np.asarray(m.filter(ImageFilter.MaxFilter(lado))) > 0
+
+
 class ZonaIncerta(ValueError):
     def __init__(self, sugestao):
         self.sugestao = sugestao
+        # T23: só a divisa em dúvida, com 2+ zonas da legenda a até 10 m, vira estudo por candidata (auto:SC-XX).
+        sugestao.setdefault("so_divisa", False)
+        sugestao.setdefault("candidatas", [])
+        candidatas = (f" Ou escolha uma candidata na divisa: {', '.join('auto:' + z for z in sugestao['candidatas'])}."
+                      if sugestao["so_divisa"] else "")
         super().__init__(f"Zona automática recusada: {sugestao['motivo_duvida']}. "
                          f"Alternativas: {', '.join(sugestao['alternativas']) or 'nenhuma identificada'}. "
-                         "Confira o mapa e informe --zona SC-XX explicitamente.")
+                         "Confira o mapa e informe --zona SC-XX explicitamente." + candidatas)
 
 
 def mapa_local(anexo="02"):
@@ -163,7 +175,9 @@ class MapaZonas(MapaGeorreferenciado):
             raise ZonaIncerta(info)
         if (x0 < 250 or y0 < 70 or x1 > 8770 or y1 > 10450
                 or pixel_pol.intersects(gl.sh.box(250, 10150, 2500, 12746))):
-            info["motivo_duvida"] = "Fora do quadro georreferenciado do Anexo 02 (borda, legenda ou encarte)"
+            info["motivo_duvida"] = "Fora do mapa do Anexo 02 (borda, legenda ou encarte)"
+            if x1 < 250:  # T29: os lotes a oeste do quadro (6,3% do cadastro) são o centro de Ibaté, a 3-6 km da borda
+                info["motivo_duvida"] += " (a oeste fica Ibaté: lote provavelmente fora do município de São Carlos)"
             raise ZonaIncerta(info)
         rgb = gl.np.asarray(self.imagem.crop(caixa))
         classes = self.classificar(rgb)
@@ -193,27 +207,75 @@ class MapaZonas(MapaGeorreferenciado):
                 info["alternativas"].append("SC-EIXO")
                 motivos.append("Traço de Eixo a até 60 m: art. 11 vale para lote com testada na via; "
                                "conferir via, trecho e alinhamento cadastral (zona de fundo listada nas alternativas)")
-        if len(amostras) < 3 or any(c < 1 or c > 6 for c in amostras):
+        # T30: texto preto, linha de córrego e pixel solto de parque (sem 3x3) não recusam mais: basta a zona cobrir
+        # metade dos pixels (T29: 13 em 500, todos com a zona vista a olho). Branco, campus e Represa recusam sempre, pela
+        # cor do próprio pixel: o sem cor que herdou o campus do vizinho é traço (60197, córrego) e conta só na metade.
+        crua = classes.ravel()[interior]
+        # O motivo claro só com mancha de 3x3 px: 1-3 px de campus na borda de traço (55251, 86694) também recusam, mas
+        # com o motivo genérico, sem dizer "campus" onde não há.
+        branco, campus = (mancha(classes == c, 3).ravel()[interior].any() for c in (9, 7))
+        if branco:
+            motivos.append("Fora do perímetro urbano do Anexo 02")
+        if campus:
+            motivos.append("Campus universitário: não é zona do art. 25")
+        solto = ((crua == 9).any() and not branco) or ((crua == 7).any() and not campus)
+        parque = mancha(classes == 8, 3).ravel()[interior].any()
+        if solto or not (branco or campus) and (len(amostras) < 3 or (crua == 10).any() or parque
+                                                or gl.np.mean((amostras >= 1) & (amostras <= 6)) < .5):
             motivos.append("Cor sem correspondência segura com zona da legenda ou lote sem resolução suficiente")
         if len(zonas) > 1:
             motivos.append("Cores de mais de uma zona no polígono amostrado")
         if len(zonas) == 1:
             codigo = ZONAS.index(zonas[0]) + 1
-            outros = (classes.ravel() != 0) & (classes.ravel() != codigo)
+            # T24/T25: pixel de outra zona, de campus ou de parque só conta em mancha de 3x3 px ou mais, o mesmo filtro
+            # da candidata (T23): a borda da linha de rua e a sombra de texto caíam no Z5B/Z1/Pq. Ecológico e recusavam
+            # lote de zona única. Branco e Represa contam sempre (a Represa já vem filtrada em 5x5 no classificar).
+            zonal = gl.np.zeros(classes.shape, bool)
+            for c in range(1, 9):
+                zonal |= mancha(classes == c, 3)
+            outros = ((classes > 8) | (zonal & (classes != codigo))).ravel()
             if outros.any():
                 d = gl.sh.distance(pol, gl.sh.points(self.utm(xy[outros])))
                 # Desconta o preenchimento de traços e meia diagonal do pixel: limite inferior, não divisa legal.
                 d = max(0.0, float(d.min()) - 4/self.escala_min)
+                # T31: com a P1, um limite de zona pode estar escondido debaixo do texto que o lote pegou; a outra zona só
+                # aparece do outro lado do texto. A divisa mede também da mancha ignorada (sem cor ou parque solto) que
+                # sai dos pixels que só passaram pela P1, crescida por até TEXTO_PX dentro dela. Sem P1 nada muda.
+                solto = (classes == 8) & ~mancha(classes == 8, 3)
+                semente = interior.reshape(classes.shape) & ((leitura == 0) | solto)
+                if semente.any():
+                    ignorado, borrao = (classes == 0) | solto, semente
+                    for _ in range(TEXTO_PX):
+                        borrao = dilatar(borrao, 3) & ignorado | semente
+                    raio = int(gl.np.ceil((DIVISA_M + 4/self.escala_min) * self.escala_max)) + 1
+                    perto = (outros.reshape(classes.shape) & dilatar(borrao, 2*raio + 1)).ravel()
+                    if perto.any():
+                        dm = gl.sh.distance(gl.sh.multipoints(self.utm(xy[borrao.ravel()])), gl.sh.points(self.utm(xy[perto])))
+                        dm = gl.np.maximum(0.0, dm - 4/self.escala_min)
+                        info["divisa_mancha_ignorada_m"] = round(float(dm.min()), 2)
+                        d = min(d, float(dm.min()))
+                        for c in gl.np.unique(classes.ravel()[perto][(dm <= DIVISA_M) & zonal.ravel()[perto]]):
+                            if 1 <= c <= 6 and ZONAS[c-1] not in info["alternativas"]:
+                                info["alternativas"].append(ZONAS[c-1])
                 if d <= BUSCA_M:
                     info["distancia_divisa_m"] = round(float(d), 2)
                 if d < DIVISA_M:
                     motivos.append("Divisa/cor não zonal a menos de 10 m (distância conservadora)")
                 proximos = gl.sh.distance(pol, gl.sh.points(self.utm(xy))) <= DIVISA_M + 4/self.escala_min
-                for c in gl.np.unique(classes.ravel()[proximos]):
+                # T25: alternativa também só em mancha de 3x3 (concorda com a candidata).
+                for c in gl.np.unique(classes.ravel()[proximos & zonal.ravel()]):
                     if 1 <= c <= 6 and ZONAS[c-1] not in info["alternativas"]:
                         info["alternativas"].append(ZONAS[c-1])
+                # T23: candidata só em mancha de 3x3 px ou mais. Borda anti-aliased de traço cinza sobre Z5A/Z2/Z4 cai na
+                # cor do Z5B, e sombra de texto ou faixa laranja sobre Z2 cai no Z1 (sorteio 500: 33 de 38 eram assim).
+                # 5x5 apagava o Z3 real do outro lado da rua (faixa estreita entre traço e texto: 90050, 85446).
+                candidatas = [z for z in info["alternativas"] if z in ZONAS]
         if motivos:
             info["motivo_duvida"] = "; ".join(motivos)
+            # Só a divisa: o polígono é de uma zona só, segura e sem Eixo. Candidatas = essa zona e as da legenda a até
+            # 10 m (branco/campus/parque/represa não entram); com uma só não há o que comparar.
+            if len(motivos) == 1 and motivos[0].startswith("Divisa/") and len(candidatas) > 1:
+                info["so_divisa"], info["candidatas"] = True, candidatas
             raise ZonaIncerta(info)
         info["alternativas"].remove(zonas[0])
         return zonas[0], info

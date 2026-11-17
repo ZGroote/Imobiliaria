@@ -713,6 +713,7 @@
    "alertas": [
     "Recuo lateral/fundos: residencial 6.94/6.94 m (recuo do topo no prédio todo).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.",
+    "Terreno com ~14% de declive (Copernicus GLO-30, 30 m, mede topo de prédio e árvore): o térreo, o subsolo e a altura medida a partir da via podem mudar; conferir com levantamento planialtimétrico.",
     "No limite: CA 1.40 (máximo 1.40)."
    ]
   },
@@ -815,6 +816,7 @@
    "alertas": [
     "Recuo lateral/fundos: residencial 3.56/3.56 m, residencial 3.56/3.56 m (recuo do topo no prédio todo).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.",
+    "Terreno com ~14% de declive (Copernicus GLO-30, 30 m, mede topo de prédio e árvore): o térreo, o subsolo e a altura medida a partir da via podem mudar; conferir com levantamento planialtimétrico.",
     "No limite: CA 1.40 (máximo 1.40)."
    ]
   },
@@ -891,6 +893,7 @@
    "alertas": [
     "Recuo lateral/fundos: residencial 1.50/1.50 m (recuo do topo no prédio todo).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.",
+    "Terreno com ~14% de declive (Copernicus GLO-30, 30 m, mede topo de prédio e árvore): o térreo, o subsolo e a altura medida a partir da via podem mudar; conferir com levantamento planialtimétrico.",
     "No limite: CA 1.40 (máximo 1.40).",
     "No limite: taxa de ocupação 70% (máximo 70%).",
     "0 m² acima do CA básico: exige outorga onerosa (conferir se a zona permite)."
@@ -995,6 +998,7 @@
    "alertas": [
     "Recuo lateral/fundos: embasamento 1.50/1.50 m, residencial 6.94/6.94 m (escalonado).",
     "ÁREA ESPECIAL sem altura numérica, NÃO aplicada: interesse_industrial_servicos (AEI Industrial e de Serviços nº 42 - CEAT / Parque Novo Mundo). O resultado pode passar do que o terreno permite; conferir antes de usar.",
+    "Terreno com ~14% de declive (Copernicus GLO-30, 30 m, mede topo de prédio e árvore): o térreo, o subsolo e a altura medida a partir da via podem mudar; conferir com levantamento planialtimétrico.",
     "No limite: CA 1.40 (máximo 1.40)."
    ]
   }

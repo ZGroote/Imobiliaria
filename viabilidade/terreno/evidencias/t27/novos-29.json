@@ -1,0 +1,468 @@
+[
+ {
+  "id": 71700,
+  "proposta": "C",
+  "antes": "frente",
+  "tipo": "avenida",
+  "regra": "rua_osm",
+  "frente_m": 12.04,
+  "pedacos_m": null,
+  "largura_media_m": null,
+  "via": "primary",
+  "eixo_m": 10.08,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 8230,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "rua_osm",
+  "frente_m": 5.85,
+  "pedacos_m": [
+   5.847
+  ],
+  "largura_media_m": 5.845,
+  "via": "residential",
+  "eixo_m": 5.823,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 6073,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "rua_osm",
+  "frente_m": 5.91,
+  "pedacos_m": [
+   5.908
+  ],
+  "largura_media_m": 5.867,
+  "via": "residential",
+  "eixo_m": 5.788,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 33895,
+  "proposta": "C",
+  "antes": "frente",
+  "tipo": "avenida",
+  "regra": "rua_osm",
+  "frente_m": 22.68,
+  "pedacos_m": null,
+  "largura_media_m": null,
+  "via": "secondary",
+  "eixo_m": 8.712,
+  "zona": "SC-Z4",
+  "lonlat": null
+ },
+ {
+  "id": 31677,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "rua_osm",
+  "frente_m": 7.5,
+  "pedacos_m": [
+   7.501
+  ],
+  "largura_media_m": 7.5,
+  "via": "residential",
+  "eixo_m": 5.741,
+  "zona": "SC-Z4",
+  "lonlat": null
+ },
+ {
+  "id": 6959,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "rua_osm",
+  "frente_m": 5.92,
+  "pedacos_m": [
+   5.923
+  ],
+  "largura_media_m": 5.909,
+  "via": "residential",
+  "eixo_m": 5.903,
+  "zona": "SC-Z5A",
+  "lonlat": null
+ },
+ {
+  "id": 31811,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "rua_osm",
+  "frente_m": 7.53,
+  "pedacos_m": [
+   7.527
+  ],
+  "largura_media_m": 7.521,
+  "via": "residential",
+  "eixo_m": 5.835,
+  "zona": "SC-Z4",
+  "lonlat": null
+ },
+ {
+  "id": 7352,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "arestas_colineares",
+  "frente_m": 5.92,
+  "pedacos_m": [
+   5.922
+  ],
+  "largura_media_m": 5.968,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z5A",
+  "lonlat": null
+ },
+ {
+  "id": 81108,
+  "proposta": "A+B",
+  "antes": "frente",
+  "tipo": "juntada",
+  "regra": "arestas_colineares",
+  "frente_m": 10.46,
+  "pedacos_m": [
+   2.404,
+   7.718
+  ],
+  "largura_media_m": null,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 7165,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "arestas_colineares",
+  "frente_m": 6.01,
+  "pedacos_m": [
+   6.005
+  ],
+  "largura_media_m": 5.963,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z5A",
+  "lonlat": null
+ },
+ {
+  "id": 83647,
+  "proposta": "A+B",
+  "antes": "frente",
+  "tipo": "juntada",
+  "regra": "arestas_colineares",
+  "frente_m": 10.96,
+  "pedacos_m": [
+   3.921,
+   6.746
+  ],
+  "largura_media_m": null,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 32156,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "rua_osm",
+  "frente_m": 7.49,
+  "pedacos_m": [
+   7.494
+  ],
+  "largura_media_m": 7.494,
+  "via": "residential",
+  "eixo_m": 5.832,
+  "zona": "SC-Z4",
+  "lonlat": null
+ },
+ {
+  "id": 35691,
+  "proposta": "A+B juntas",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "arestas_colineares",
+  "frente_m": 7.43,
+  "pedacos_m": [
+   3.745,
+   3.739
+  ],
+  "largura_media_m": 8.855,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z4",
+  "lonlat": null
+ },
+ {
+  "id": 10984,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "tolerancia_asfalto_12m",
+  "frente_m": 5.89,
+  "pedacos_m": [
+   5.892
+  ],
+  "largura_media_m": 5.307,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z5A",
+  "lonlat": null
+ },
+ {
+  "id": 22608,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "tolerancia_asfalto_12m",
+  "frente_m": 5.85,
+  "pedacos_m": [
+   5.845
+  ],
+  "largura_media_m": 6.187,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z5A",
+  "lonlat": null
+ },
+ {
+  "id": 51814,
+  "proposta": "A+B",
+  "antes": "frente",
+  "tipo": "juntada",
+  "regra": "arestas_colineares",
+  "frente_m": 11.53,
+  "pedacos_m": [
+   5.821,
+   3.148
+  ],
+  "largura_media_m": null,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 30708,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "tolerancia_asfalto_12m",
+  "frente_m": 7.49,
+  "pedacos_m": [
+   7.49
+  ],
+  "largura_media_m": 7.49,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z4",
+  "lonlat": null
+ },
+ {
+  "id": 2986,
+  "proposta": "A+B",
+  "antes": "frente",
+  "tipo": "juntada",
+  "regra": "arestas_colineares",
+  "frente_m": 9.7,
+  "pedacos_m": [
+   2.966,
+   6.806
+  ],
+  "largura_media_m": null,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 20808,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "rua_osm",
+  "frente_m": 6.0,
+  "pedacos_m": [
+   6.003
+  ],
+  "largura_media_m": 5.62,
+  "via": "residential",
+  "eixo_m": 5.849,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 86651,
+  "proposta": "C",
+  "antes": "frente",
+  "tipo": "avenida",
+  "regra": "rua_osm",
+  "frente_m": 11.98,
+  "pedacos_m": null,
+  "largura_media_m": null,
+  "via": "primary",
+  "eixo_m": 10.084,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 4851,
+  "proposta": "A+B juntas",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "tolerancia_asfalto_12m",
+  "frente_m": 9.81,
+  "pedacos_m": [
+   2.965,
+   2.275
+  ],
+  "largura_media_m": 9.546,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 31157,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "rua_osm",
+  "frente_m": 7.51,
+  "pedacos_m": [
+   7.514
+  ],
+  "largura_media_m": 7.514,
+  "via": "residential",
+  "eixo_m": 5.799,
+  "zona": "SC-Z4",
+  "lonlat": null
+ },
+ {
+  "id": 83777,
+  "proposta": "A+B juntas",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "arestas_colineares",
+  "frente_m": 7.68,
+  "pedacos_m": [
+   4.891,
+   2.917
+  ],
+  "largura_media_m": 10.232,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z3",
+  "lonlat": null
+ },
+ {
+  "id": 32097,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "tolerancia_asfalto_12m",
+  "frente_m": 5.01,
+  "pedacos_m": [
+   5.005
+  ],
+  "largura_media_m": 4.653,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z4",
+  "lonlat": null
+ },
+ {
+  "id": 5421,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "arestas_colineares",
+  "frente_m": 8.32,
+  "pedacos_m": [
+   2.126,
+   5.506
+  ],
+  "largura_media_m": 9.904,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 32708,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "tolerancia_asfalto_12m",
+  "frente_m": 5.65,
+  "pedacos_m": [
+   5.653
+  ],
+  "largura_media_m": 5.691,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z4",
+  "lonlat": null
+ },
+ {
+  "id": 18795,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "arestas_colineares",
+  "frente_m": 5.98,
+  "pedacos_m": [
+   5.984
+  ],
+  "largura_media_m": 5.984,
+  "via": null,
+  "eixo_m": null,
+  "zona": "SC-Z5A",
+  "lonlat": null
+ },
+ {
+  "id": 75654,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "rua_osm",
+  "frente_m": 7.5,
+  "pedacos_m": [
+   7.496
+  ],
+  "largura_media_m": 11.024,
+  "via": "residential",
+  "eixo_m": 5.831,
+  "zona": "SC-Z2",
+  "lonlat": null
+ },
+ {
+  "id": 31434,
+  "proposta": "A",
+  "antes": "frente",
+  "tipo": "estreita",
+  "regra": "rua_osm",
+  "frente_m": 7.52,
+  "pedacos_m": [
+   7.524
+  ],
+  "largura_media_m": 7.524,
+  "via": "residential",
+  "eixo_m": 5.886,
+  "zona": "SC-Z4",
+  "lonlat": null
+ }
+]

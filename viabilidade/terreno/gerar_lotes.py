@@ -109,12 +109,12 @@ def cadeias(coords):
     return [(ks, [coords[k] for k in ks] + [coords[ks[-1] + 1]]) for ks in grupos]
 
 
-def frentes_ampliadas(g, indice, geos, tree, rua):
+def frentes_ampliadas(g, indice, geos, tree, rua, minimo=8):
     """Só quando nenhuma aresta passa: junta arestas colineares e aceita asfalto até TOLERANCIA_M sem lote no meio."""
     frentes = []
     for ks, pts in cadeias(list(g.exterior.coords)):
         corda = math.dist(pts[0], pts[-1])
-        if corda < 8:
+        if corda < minimo:
             continue
         linha = LineString(pts)
         amostras = [linha.interpolate(t, normalized=True) for t in (0.15, 0.5, 0.85)]
@@ -212,7 +212,157 @@ def frentes_borda(g, indice, geos, tree, tree_ruas):
     return frentes
 
 
-def avaliar(g, indice, geos, tree, malha, tree_ruas, ampliar=False):
+OSM_FRENTE = {"residential", "primary", "secondary", "tertiary", "living_street"}  # track/unclassified/service: fora
+OSM_EIXO_M = 8  # o lado (3 pontos) a até isso do eixo da via: meia pista + calçada de rua local
+OSM_EIXO_LARGA_M = 11  # avenida (primary/secondary) é mais larga: o eixo fica mais longe da calçada (T26: 8,7 a 10,5 m)
+OSM_LARGAS = {"primary", "secondary"}
+OSM_ANGULO = 20  # graus entre o lado e o trecho da via: 2x o GIRO_MAX que já junta o lado picotado; a lateral de esquina dá ~90
+
+
+def vias_osm(caminho, tree_ruas):
+    """Vias de carro do OSM (dados/osm-vias-sao-carlos.json.gz) em UTM; `ligada` = o grupo de vias que se tocam chega
+    a 6 m da malha de asfalto (trecho solto na mata não conta)."""
+    import gzip
+    dado = json.loads(gzip.decompress(Path(caminho).read_bytes()))
+    vias = dado["vias"]
+    linhas = np.array([LineString([UTM.transform(*c) for c in v["coords"]]) for v in vias], dtype=object)
+    tree = sh.STRtree(linhas)
+    pai = list(range(len(vias)))
+
+    def raiz(k):
+        while pai[k] != k:
+            pai[k] = pai[pai[k]]
+            k = pai[k]
+        return k
+    for a, b in zip(*tree.query(linhas, predicate="intersects")):
+        pai[raiz(a)] = raiz(b)
+    perto = {raiz(k) for k in np.flatnonzero([len(tree_ruas.query(l, predicate="dwithin", distance=6)) > 0 for l in linhas])}
+    ligada = np.array([raiz(k) in perto for k in range(len(vias))])
+    return {"vias": vias, "linhas": linhas, "tree": tree, "ligada": ligada, "data_osm": dado["data_osm"]}
+
+
+def frentes_osm(g, indice, geos, tree, osm, minimo=8):
+    """Regra 4, só quando a malha não deu frente: lado livre de lote (>= 8 m) a até OSM_EIXO_M do eixo de uma via de carro
+    do OSM ligada à rede (OSM_EIXO_LARGA_M em avenida), quase paralelo a ela e sem lote no caminho. Frente provável, não
+    testada legal nem acesso público."""
+    def lote(j):
+        return geos[j] if geos[j].is_valid else sh.make_valid(geos[j])
+    frentes = []
+    for ks, pts in cadeias(list(g.exterior.coords)):
+        corda = math.dist(pts[0], pts[-1])
+        if corda < minimo:
+            continue
+        linha = LineString(pts)
+        miolo = substring(linha, 0.1, 0.9, normalized=True)
+        if any(j != indice and lote(j).distance(miolo) <= 0.5 for j in tree.query(miolo, predicate="dwithin", distance=0.5)):
+            continue  # lado encostado em lote: divisa, não frente
+        amostras = [linha.interpolate(t, normalized=True) for t in (0.15, 0.5, 0.85)]
+        rumo = math.atan2(pts[-1][1] - pts[0][1], pts[-1][0] - pts[0][0])
+        melhor = None
+        for k in osm["tree"].query(linha, predicate="dwithin", distance=max(OSM_EIXO_M, OSM_EIXO_LARGA_M)):
+            via, eixo = osm["vias"][k], osm["linhas"][k]
+            if via["highway"] not in OSM_FRENTE or not osm["ligada"][k]:
+                continue
+            d = max(p.distance(eixo) for p in amostras)
+            if d > (OSM_EIXO_LARGA_M if via["highway"] in OSM_LARGAS else OSM_EIXO_M):
+                continue
+            s = eixo.project(amostras[1])  # rumo do trecho da via em frente ao meio do lado
+            q0, q1 = eixo.interpolate(max(0, s - 5)), eixo.interpolate(min(eixo.length, s + 5))
+            ang = abs(math.degrees((math.atan2(q1.y - q0.y, q1.x - q0.x) - rumo + math.pi / 2) % math.pi - math.pi / 2))
+            if ang > OSM_ANGULO:
+                continue
+            caminho = sh.shortest_line(amostras[1], eixo)  # do meio do lado até o eixo, sem cortar lote (nem o próprio)
+            if g.intersection(caminho).length > 0.5 or any(j != indice and lote(j).intersection(caminho).length > 0.5
+                                                           for j in tree.query(caminho, predicate="intersects")):
+                continue
+            if melhor is None or d < melhor[0]:
+                melhor = (d, ang, via)
+        if melhor:
+            d, ang, via = melhor
+            frentes.append({"aresta": ks[0], "arestas": ks, "pontos": [list(pts[0]), list(pts[-1])],
+                            "comprimento_m": round(corda, 3), "regra": "rua_osm",
+                            "via_osm": {"id": via["id"], "nome": via["nome"], "classe": via["highway"], "data_osm": osm["data_osm"]},
+                            "distancia_eixo_osm_m": round(d, 3), "angulo_via_graus": round(ang, 1)})
+    frentes.sort(key=lambda f: (f["distancia_eixo_osm_m"], -f["comprimento_m"], f["aresta"]))  # principal: a mais perto
+    return frentes
+
+
+FRENTE_ESTREITA_M = 5  # testada mínima da Lei 6.766/79, art. 4º, II (T27); abaixo disso nem lote estreito
+LARGURA_FRACAO = 0.5  # trava da frente estreita: o lado na rua tem >= metade da largura média do lote (corredor de fundo não passa)
+PECA_MIN_M = 2  # pedaço de lado que entra na soma da frente quebrada
+JUNTAR_ANG = 30  # graus entre os pedaços e o primeiro do grupo: esquina (~90) e lote passante (~180) não somam
+JUNTAR_VAO_M = 5  # buraco entre um pedaço e o seguinte (recorte, quina) acima disso: não é a mesma frente
+JUNTAR_FOLGA_M = 1  # T28: a reta do 1º ao último pedaço (o que o motor lê como testada) passa a soma em até isso
+
+
+def largura_media(g, pontos):
+    """Área do lote dividida pela profundidade medida na perpendicular à frente (extensão do polígono nessa direção)."""
+    a, b = np.array(pontos[0]), np.array(pontos[1])
+    u = (b - a) / np.linalg.norm(b - a)
+    proj = (np.array(g.exterior.coords) - a) @ np.array([-u[1], u[0]])
+    return g.area / (proj.max() - proj.min())
+
+
+def frentes_curtas(g, indice, geos, tree, rua, osm):
+    """T27, só quando nenhum lado de 8 m passou: pedaços de lado (>= PECA_MIN_M) que passam na regra do asfalto (6 m, ou
+    12 m sem lote no caminho) ou na do OSM. (B) Pedaços seguidos da mesma via, no mesmo rumo e sem buraco grande entre eles
+    somam numa frente só se chegam a 8 m. (A) Sobrando de FRENTE_ESTREITA_M a 8 m, vale como frente estreita se tiver pelo
+    menos LARGURA_FRACAO da largura média do lote."""
+    coords = list(g.exterior.coords)
+    n, grupos_lado = len(coords) - 1, cadeias(coords)
+    if not grupos_lado:
+        return []
+    pecas = frentes_ampliadas(g, indice, geos, tree, rua, minimo=PECA_MIN_M) if not rua.is_empty else []
+    usadas = {f["aresta"] for f in pecas}
+    pecas += [f for f in frentes_osm(g, indice, geos, tree, osm, minimo=PECA_MIN_M) if f["aresta"] not in usadas] if osm else []
+    inicio = grupos_lado[0][0][0]
+    pecas.sort(key=lambda f: (f["aresta"] - inicio) % n)  # na ordem do contorno
+
+    def rumo(f):
+        return math.atan2(f["pontos"][1][1] - f["pontos"][0][1], f["pontos"][1][0] - f["pontos"][0][0])
+
+    def junta(f, h, primeira):  # h vem logo depois de f no contorno
+        mesma = ("via_osm" in f) == ("via_osm" in h) and (
+            "via_osm" not in f or f["via_osm"]["id"] == h["via_osm"]["id"] or (f["via_osm"]["nome"] and f["via_osm"]["nome"] == h["via_osm"]["nome"]))
+        giro = abs(math.degrees((rumo(h) - rumo(primeira) + math.pi) % (2 * math.pi) - math.pi))
+        return mesma and giro <= JUNTAR_ANG and math.dist(f["pontos"][1], h["pontos"][0]) <= JUNTAR_VAO_M
+
+    def cabe(gr):  # a reta não pode inflar a testada: vão grande ou serrilhado fazem a reta passar muito a soma
+        return math.dist(gr[0]["pontos"][0], gr[-1]["pontos"][1]) <= sum(f["comprimento_m"] for f in gr) + JUNTAR_FOLGA_M
+    grupos = []
+    for f in pecas:
+        if grupos and junta(grupos[-1][-1], f, grupos[-1][0]) and cabe(grupos[-1] + [f]):
+            grupos[-1].append(f)
+        else:
+            grupos.append([f])
+    if len(grupos) > 1 and junta(grupos[-1][-1], grupos[0][0], grupos[-1][0]) and cabe(grupos[-1] + grupos[0]):  # a frente pode cruzar a quina do começo
+        grupos[0] = grupos.pop() + grupos[0]
+    frentes = []
+    for gr in grupos:
+        soma = sum(f["comprimento_m"] for f in gr)
+        f = dict(gr[0], pontos=[gr[0]["pontos"][0], gr[-1]["pontos"][1]], comprimento_m=round(soma, 3))
+        if len(gr) > 1:  # do começo do primeiro pedaço ao fim do último, com o recorte no meio
+            ini, fim = gr[0]["arestas"][0], gr[-1]["arestas"][-1]
+            f["arestas"] = [(ini + k) % n for k in range((fim - ini) % n + 1)]
+        for chave in ("distancia_max_asfalto_m", "distancia_eixo_osm_m", "angulo_via_graus"):
+            if chave in f:
+                f[chave] = max(h[chave] for h in gr)
+        f["pedacos_m"] = [h["comprimento_m"] for h in gr]
+        if len(gr) > 1 and soma >= 8:
+            f["frente_curta"] = "juntada"
+        elif soma >= FRENTE_ESTREITA_M:
+            f["largura_media_m"] = round(largura_media(g, f["pontos"]), 3)
+            if soma < LARGURA_FRACAO * f["largura_media_m"]:
+                continue
+            f["frente_curta"] = "estreita"
+        else:
+            continue
+        frentes.append(f)
+    frentes.sort(key=lambda f: (-f["comprimento_m"], f["aresta"]))
+    return frentes
+
+
+def avaliar(g, indice, geos, tree, malha, tree_ruas, ampliar=False, osm=None):
     vizinhos = tree.query(g, predicate="intersects")
     vizinhos = vizinhos[vizinhos != indice]
     inter = sh.area(sh.intersection(g, geos[vizinhos]))
@@ -237,9 +387,16 @@ def avaliar(g, indice, geos, tree, malha, tree_ruas, ampliar=False):
         frentes = frentes_ampliadas(g, indice, geos, tree, rua)
     if not frentes and ampliar:
         frentes = frentes_borda(g, indice, geos, tree, tree_ruas)
+        if not frentes and osm is not None:
+            osm = osm() if callable(osm) else osm  # carrega o OSM só se precisar
+            frentes = frentes_osm(g, indice, geos, tree, osm)
         asfalto = round(float(tree_ruas.query_nearest(g, return_distance=True)[1][0]), 3)
         for f in frentes:  # o motor lê este campo em toda frente com `regra`
             f["distancia_max_asfalto_m"] = asfalto
+        if not frentes:  # pedaço do asfalto guarda a distância dele; o do OSM leva a do asfalto mais perto
+            frentes = frentes_curtas(g, indice, geos, tree, rua, osm)
+            for f in frentes:
+                f.setdefault("distancia_max_asfalto_m", asfalto)
     if not frentes:
         return None
     esquina = False

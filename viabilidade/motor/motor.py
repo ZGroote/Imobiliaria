@@ -17,6 +17,7 @@ AVISO_GARAGEM = "Garagem conta no CA: nesse regime o resultado NÃO é monotôni
 
 # Premissas de projeto (não são lei). Quem chamar pode trocar qualquer uma; as que ficarem
 # no valor daqui saem listadas em premissas.padrao (aparecem como "padrão" no relatório).
+ACRESCIMO_TOPO_PADRAO = 1.5  # m acima da última laje (platibanda, caixa d'água); premissa técnica, não é lei
 PREMISSAS_PADRAO = {
     "pe_direito_m": 3.0,
     "pe_direito_terreo_m": 4.5,
@@ -721,13 +722,33 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
     alturas_lim = [zp.get("altura_max_m")] + [e.get("altura_max_m") for e in especiais]
     alturas_lim = [x for x in alturas_lim if x]
     altura_max = min(alturas_lim) if alturas_lim else None
+    # Altura máxima é comparada com a do motor (do térreo, até o forro; sem platibanda, telhado, caixa d'água). Altura da zona: o COE
+    # art. 3º-IV mede assim mesmo, nada a somar. Altura de área especial (gabarito, PD art. 80, "acima do nível da via"): sem definição
+    # na lei, então a premissa acrescimo_topo_m (padrão 1,5 m, técnica, ninguém validou) soma o que fica acima da última laje, e
+    # cada opção ganha o alerta de folga. A chave só entra em premissas (e em premissas.padrao) quando o gabarito de área especial manda.
+    alt_esp = [e["altura_max_m"] for e in especiais if e.get("altura_max_m")]
+    gabarito = min(alt_esp) if alt_esp and (not zp.get("altura_max_m") or min(alt_esp) <= zp["altura_max_m"]) else None
+    if gabarito and "acrescimo_topo_m" not in pr:
+        pr["acrescimo_topo_m"] = ACRESCIMO_TOPO_PADRAO
+        pr["padrao"] = sorted(pr["padrao"] + ["acrescimo_topo_m"])
+        incertezas.append(f"Altura máxima de {gabarito:g} m: o motor mede do térreo até o forro e reserva {ACRESCIMO_TOPO_PADRAO:g} m para platibanda/caixa d'água "
+                          "(premissa acrescimo_topo_m, técnica, ninguém validou; não é regra da lei). A lei não diz de onde o gabarito é medido: confirmar na Prefeitura.")
+    declive, desnivel = _relevo(lote)
+    alerta_relevo = _alerta_relevo(declive, desnivel)
+    acr = pr.get("acrescimo_topo_m", 0)  # validado sempre que vier, com ou sem gabarito; só entra na conta com gabarito
+    if isinstance(acr, bool) or not isinstance(acr, (int, float)) or not 0 <= acr < 50:
+        raise ValueError(f"acrescimo_topo_m deve ser um número de 0 a 50 m, veio {acr!r}")
+    acr = acr if gabarito else 0
+    altura_cmp = max(altura_max - acr, 0.001) if altura_max else None  # o que os volumes podem medir
+    esp_altura = next((e for e in especiais if e.get("altura_max_m") == gabarito), None) if gabarito else None
+    origem_altura = "art. 80 do Plano Diretor" if esp_altura and esp_altura.get("tipo") == "restricao_gabarito_historico" else f"área especial {esp_altura.get('tipo', '?')}" if esp_altura else ""
 
     to_max = zp.get("taxa_ocupacao") or 1.0
     # sem CA máximo na lei (null, ex.: SC-Z6E): o teto de computável some; sobram TO, recuos, altura e pavimentos
     comp_max = zp["ca_maximo"] * A if zp.get("ca_maximo") is not None else None
     pav_cap = min(pr["pavimentos_max_projeto"], zp.get("pavimentos_max") or math.inf)  # lei ou projeto, o menor, vale pra toda opção
     ctx = {"pr": pr, "zp": zp, "A": A, "subsolo": subsolo, "u": u, "origem": origem,
-           "rl": rl, "rb": rb, "altura_max": altura_max, "pav_cap": pav_cap,
+           "rl": rl, "rb": rb, "altura_max": altura_cmp, "pav_cap": pav_cap,
            "cap": comp_max if comp_max is not None else math.inf, "perm_min": perm * A}
 
     def ocup(k):  # projeção bruta de k volumes no chão: a TO desconta o núcleo de cada um (_avaliar), a permeabilidade não
@@ -756,6 +777,8 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
     texto_origem = {"oficial": "pelo mapa digital oficial", "anotada_a_mao": "lida à mão no anexo em PDF",
                     "teste": "escolhida só pra testar",
                     "informada_pelo_usuario": "informada pelo usuário",
+                    "candidata_na_divisa": f"uma das zonas candidatas na divisa ({', '.join((lote.get('zona_sugestao') or {}).get('candidatas') or [])}), "
+                                           "escolhida para este estudo; a outra tem estudo próprio",
                     "sugerida_pelo_mapa": "sugerida pelo mapa do Plano Diretor; outras zonas por perto: "
                     + (", ".join((lote.get("zona_sugestao") or {}).get("alternativas") or []) or "nenhuma")
                     }.get(origem_zona, "sem origem informada (falta zona_origem no lote)")
@@ -763,11 +786,23 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
         incertezas.append(f"Terreno na zona {zona['id']}: NÃO conferido ({texto_origem}). Confirmar a zona do lote antes de usar o estudo.")
     else:
         incertezas.append(f"Terreno na zona {zona['id']}: conferido ({texto_origem}).")
+    alerta_frente = []
+    alerta_divisa = []
+    if origem_zona == "candidata_na_divisa":  # entra em todas as opções
+        sg = lote.get("zona_sugestao") or {}
+        dist = sg.get("distancia_divisa_m")
+        alerta_divisa.append(f"Lote na divisa entre zonas ({' | '.join(sg.get('candidatas') or [zona['id']])}"
+                             + (f", a ~{dist:g} m" if dist is not None else "") + f"): este estudo supõe {zona['id']}; confirmar a zona na Prefeitura.")
     frente0 = ((lote.get("qualidade") or {}).get("frentes") or [{}])[0]  # frente presumida pelo terreno (novo_lote.py): a regra vem marcada
     if frente0.get("regra") == "arestas_colineares":
         incertezas.append(f"Frente presumida (juntou {len(frente0.get('arestas') or [])} arestas colineares, asfalto a até 6 m): confirmar testada e alinhamento na matrícula.")
     elif frente0.get("regra") == "borda_de_quadra":
         incertezas.append(f"Frente presumida pela borda da quadra (sem asfalto no mapa; vão de {frente0.get('largura_vao_m', 0):g} m entre quadras): conferir no local.")
+    elif frente0.get("regra") == "rua_osm":  # só a primeira frente (a principal); o aviso de várias frentes já sai do Terreno
+        via = frente0.get("via_osm") or {}
+        alerta_frente = [f"Frente presumida pela rua do OpenStreetMap ({via.get('nome') or 'via sem nome'}, {via.get('classe', '?')}): indica frente provável, "
+                         "não prova testada legal nem acesso público; pode ser estrada de terra. Conferir na matrícula e no local."]
+        incertezas.append(alerta_frente[0])
     elif frente0.get("regra"):
         incertezas.append(f"Frente presumida (asfalto a {frente0.get('distancia_max_asfalto_m', 0):g} m, acima dos 6 m da regra): confirmar testada e alinhamento na matrícula.")
     if lote.get("zona_id") and lote["zona_id"] != zona["id"]:
@@ -841,8 +876,8 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
         if teto_laje < pr["laje_minima_m2"]:
             falhas[id_] = ("impossivel", f"Área disponível de no máximo {teto_laje:.2f} m² por laje, abaixo da laje mínima de {pr['laje_minima_m2']:.2f} m²")
             return None
-        if pavimentos < 1 or (altura_max and altura_min > altura_max):
-            altura_texto = f"{altura_max:.2f} m" if altura_max is not None else "sem limite"
+        if pavimentos < 1 or (altura_cmp and altura_min > altura_cmp):
+            altura_texto = (f"{altura_max:.2f} m" + (f", menos {acr:g} m de acréscimo no topo" if acr else "")) if altura_max is not None else "sem limite"
             falhas[id_] = ("impossivel", f"A opção exige pelo menos {altura_min:.2f} m de altura e 1 pavimento residencial; limites: altura {altura_texto}, {pavimentos} pavimento(s) residencial(is)")
             return None
         try:
@@ -872,9 +907,14 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
                 f"{v['uso']} {v['recuo_lateral_m']:.2f}/{v['recuo_fundos_m']:.2f} m"
                 + (" (parede cega; recuo medido)" if v.get("parede_cega") else "") for v in vols)
                 + (" (escalonado)." if len({v['recuo_lateral_m'] for v in vols}) > 1 else " (recuo do topo no prédio todo).")]
+        folga = ([f"Altura: sobram {gabarito - altura:.1f} m até os {gabarito:g} m de {origem_altura} para platibanda/caixa d'água"
+                  f" (premissa acrescimo_topo_m: {acr:g} m, não validada); medido do térreo, não da via; confirmar na Prefeitura."
+                  + (f" A lei mede acima do nível da via e o {_texto_desnivel(desnivel)} ({FONTE_RELEVO}): a folga pode ser outra." if desnivel is not None else "")
+                  + (" DEPENDE DE CONFIRMAÇÃO NA PREFEITURA: a folga é menor que o acréscimo técnico de "
+                     f"{ACRESCIMO_TOPO_PADRAO:g} m." if gabarito - altura < ACRESCIMO_TOPO_PADRAO - 1e-6 else "")] if gabarito else [])
         opcoes.append({"id": id_, "nome": nome,
                        "volumes": [{k: x for k, x in v.items() if not k.startswith("_")} for v in vols] + sub,
-                       "metricas": m, "alertas": av + alertas_esp + _alertas(m, altura, A, zp, altura_max)})
+                       "metricas": m, "alertas": av + alertas_esp + folga + alerta_relevo + alerta_divisa + alerta_frente + _alertas(m, altura + acr, A, zp, altura_max)})
 
     def topo(n):  # recuos e caixa local de um prédio de n pavimentos a partir do chão
         r = _recuos_topo(ctx, n, _altura(pr, n, True))
@@ -1025,6 +1065,37 @@ def _gerar_estudo(lote, zona, premissas, envelope, opcoes_extra=()):
                              "texto": "Mais unidades; empate: maior área privativa. Comparação entre candidatos da heurística, sem prova de ótimo global."},
         "incertezas": incertezas,
     }, tem_envelope
+
+
+RELEVO_DECLIVE_PCT = 10  # a partir daqui o aviso de relevo aparece
+RELEVO_DESNIVEL_M = 2  # idem para o desnível lote-rua (campo opcional relevo.desnivel_lote_rua_m)
+FONTE_RELEVO = "Copernicus GLO-30, 30 m, mede topo de prédio e árvore"
+
+
+def _num(x):
+    return float(x) if isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x) else None
+
+
+def _relevo(lote):
+    """(declive %, desnível lote-rua m) do lote; None quando o campo não existe ou não é número. Só avisa, a conta não usa."""
+    r = lote.get("relevo") if isinstance(lote.get("relevo"), dict) else {}
+    return _num(r.get("declividade_pct")), _num(r.get("desnivel_lote_rua_m"))
+
+
+def _texto_desnivel(d):
+    return f"lote ~{abs(round(d, 1)):g} m {'acima' if d > 0 else 'abaixo'} da rua"
+
+
+def _alerta_relevo(declive, desnivel):
+    partes = []
+    if declive is not None and declive >= RELEVO_DECLIVE_PCT:
+        partes.append(f"Terreno com ~{declive:.0f}% de declive ({FONTE_RELEVO})")
+    if desnivel is not None and abs(desnivel) >= RELEVO_DESNIVEL_M:
+        t = _texto_desnivel(desnivel)
+        partes.append(t if partes else f"{t.capitalize()} ({FONTE_RELEVO})")
+    if not partes:
+        return []
+    return ["; ".join(partes) + ": o térreo, o subsolo e a altura medida a partir da via podem mudar; conferir com levantamento planialtimétrico."]
 
 
 def _alertas(m, altura, A, zp, altura_max):

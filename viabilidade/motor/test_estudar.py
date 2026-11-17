@@ -67,8 +67,10 @@ def main():
             velhos = {_chave_alerta(a) for a in op["alertas"]}
             extras += [(on["id"], a) for a in on["alertas"] if _chave_alerta(a) not in velhos]
         for id_, a in extras:
-            assert a.startswith("ÁREA ESPECIAL") and ("nao_verificada" in a or "possível incidência" in a), f"opção {id_}: alerta extra fora do combinado: {a}"
-        print(f"alertas extras no lote novo (todos de área especial não verificada): {len(extras)}")
+            area = a.startswith("ÁREA ESPECIAL") and ("nao_verificada" in a or "possível incidência" in a)
+            relevo = a.startswith(("Terreno com ~", "Lote ~")) and a.endswith("podem mudar; conferir com levantamento planialtimétrico.")  # T27, só com declive/desnível altos
+            assert area or relevo, f"opção {id_}: alerta extra fora do combinado: {a}"
+        print(f"alertas extras no lote novo (área especial não verificada ou relevo): {len(extras)}")
         for opcoes in (novo["opcoes"], piloto["opcoes"]):
             for o in opcoes:
                 o["alertas"] = []
@@ -271,7 +273,83 @@ def main():
         inc = json.loads((tmp / "i" / "estudo.json").read_text(encoding="utf-8"))["incertezas"]
         assert sum(i.startswith("Frente presumida") for i in inc) == 1 and trecho in inc and not any("acima dos 6 m" in i for i in inc), inc
         assert trecho in (tmp / "i" / "relatorio.html").read_text(encoding="utf-8").replace("&#x27;", "'")
+        # (j) tarefa 24: altura do art. 80 é medida do térreo; acrescimo_topo_m (padrão 1,5 m, não validado) soma platibanda/caixa d'água
+        def estudo_(nome, indice, premissas=None):
+            estudar.estudar("completo", [indice], "SC-Z1", tmp / nome, premissas=premissas, cadastro=cad)
+            return json.loads((tmp / nome / "estudo.json").read_text(encoding="utf-8"))
+
+        topo = lambda o: max(v["z0_m"] + v["altura_m"] for v in o["volumes"])
+        folga = lambda o: [a for a in o["alertas"] if a.startswith("Altura: sobram")]
+        e0 = estudo_("j0", 77015)  # dentro da subárea de 9 m, premissa no padrão
+        assert "acrescimo_topo_m" in e0["premissas"]["padrao"] and e0["premissas"]["acrescimo_topo_m"] == 1.5, e0["premissas"]
+        assert any("ninguém validou" in i for i in e0["incertezas"]), e0["incertezas"]
+        assert any(abs(topo(o) - 7.5) < 1e-6 for o in e0["opcoes"]), [topo(o) for o in e0["opcoes"]]  # 2 pavimentos, 7,5 m: cabe com 1,5 m de folga
+        for o in e0["opcoes"]:
+            assert topo(o) + 1.5 <= 9 + 1e-6 and len(folga(o)) == 1, (o["id"], topo(o), folga(o))
+            assert f"sobram {9 - topo(o):.1f} m até os 9 m de art. 80 do Plano Diretor" in folga(o)[0] and "medido do térreo, não da via" in folga(o)[0]
+            assert "DEPENDE DE CONFIRMAÇÃO" not in folga(o)[0]  # folga >= 1,5 m
+        z = estudo_("jz", 77015, {"acrescimo_topo_m": 0})  # sem acréscimo: cabe tudo que o motor mede até 9 m
+        assert "acrescimo_topo_m" not in z["premissas"]["padrao"] and z["premissas"]["acrescimo_topo_m"] == 0
+        assert all(topo(o) <= 9 + 1e-6 for o in z["opcoes"]) and len(z["opcoes"]) >= len(e0["opcoes"])
+        for o in z["opcoes"]:
+            assert ("DEPENDE DE CONFIRMAÇÃO" in folga(o)[0]) == (9 - topo(o) < 1.5 - 1e-6), (o["id"], topo(o), folga(o))
+        e2 = estudo_("j2", 77015, {"acrescimo_topo_m": 2})
+        assert e2["premissas"]["acrescimo_topo_m"] == 2
+        assert all(topo(o) + 2 <= 9 + 1e-6 for o in e2["opcoes"]) and not any(abs(topo(o) - 7.5) < 1e-6 for o in e2["opcoes"]), [topo(o) for o in e2["opcoes"]]  # a de 7,5 m saiu ou mudou
+        for ruim in (-1, 80, "2"):
+            try:
+                estudo_("jruim", 77015, {"acrescimo_topo_m": ruim})
+            except ValueError as erro:
+                assert "acrescimo_topo_m" in str(erro), erro
+            else:
+                raise AssertionError(f"acrescimo_topo_m={ruim!r} devia recusar")
+        ef = estudo_("jf", 74451)  # fora da subárea: nada novo na saída
+        assert "acrescimo_topo_m" not in ef["premissas"] and not any(a.startswith("Altura: sobram") for o in ef["opcoes"] for a in o["alertas"])
         assert not any(i.startswith("Frente presumida") for i in novo["incertezas"]), novo["incertezas"]  # 30516: frente normal, sem aviso
+
+        # (i) T29: lote na divisa (terreno T23) = um estudo por candidata; 90050 (Z4|Z3, sem opção que caiba) e 85446 (Z4|Z3, com opção)
+        for i, tem_opcao in ((90050, False), (85446, True)):
+            pasta = tmp / f"div{i}"
+            r = estudar.estudar("completo", [i], "auto", pasta, cadastro=cad)
+            assert r["divisa"] == ["SC-Z4", "SC-Z3"] and lista(pasta) == {"zona-SC-Z4", "zona-SC-Z3", "resumo.txt"}, (r["divisa"], lista(pasta))
+            raiz = (pasta / "resumo.txt").read_text(encoding="utf-8")
+            assert "confirmar a zona na Prefeitura antes de usar qualquer um dos estudos." in raiz and raiz == r["resumo"], raiz
+            for z in ("SC-Z4", "SC-Z3"):
+                assert lista(pasta / f"zona-{z}") == ARQUIVOS
+                lote = json.loads((pasta / f"zona-{z}" / "lote.json").read_text(encoding="utf-8"))
+                est = json.loads((pasta / f"zona-{z}" / "estudo.json").read_text(encoding="utf-8"))
+                assert lote["zona_id"] == z and lote["zona_origem"] == "candidata_na_divisa" and lote["zona_conferida"] is False
+                assert f"zona-{z}/" in raiz and est["incertezas"][0].startswith(f"Terreno na zona {z}: NÃO conferido (uma das zonas candidatas na divisa (SC-Z4, SC-Z3)"), est["incertezas"][0]
+                assert "candidatas na divisa" in (pasta / f"zona-{z}" / "resumo.txt").read_text(encoding="utf-8")
+                assert "sem origem" not in (pasta / f"zona-{z}" / "relatorio.html").read_text(encoding="utf-8")
+                assert bool(est["opcoes"]) == tem_opcao, (i, z)
+                for o in est["opcoes"]:
+                    assert sum(a.startswith("Lote na divisa entre zonas (SC-Z4 | SC-Z3, a ~") and f"supõe {z};" in a for a in o["alertas"]) == 1, o["alertas"]
+        # só divisa, mas uma candidata só (68491, Z1 colado ao campus): recusa de hoje, sem pasta
+        try:
+            estudar.estudar("completo", [68491], "auto", tmp / "div1", cadastro=cad)
+        except ValueError as e:
+            assert "Zona automática recusada" in str(e) and "Rode de novo com --zona SC-XX, uma destas: SC-Z1." in str(e), e
+        else:
+            raise AssertionError("divisa com uma candidata só devia recusar")
+        assert not (tmp / "div1").exists()
+        # falha na gravação do segundo estudo apaga tudo, inclusive as subpastas
+        orig, n = Path.write_bytes, [0]
+        def morre(self, dados):
+            n[0] += 1
+            if n[0] == 6:
+                raise OSError("disco cheio")
+            return orig(self, dados)
+        Path.write_bytes = morre
+        try:
+            estudar.estudar("completo", [90050], "auto", tmp / "divruim", cadastro=cad)
+        except OSError:
+            pass
+        else:
+            raise AssertionError("devia propagar a falha")
+        finally:
+            Path.write_bytes = orig
+        assert not (tmp / "divruim").exists()
     print("ok")
 
 

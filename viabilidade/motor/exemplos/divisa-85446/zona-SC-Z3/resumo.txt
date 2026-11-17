@@ -1,0 +1,12 @@
+Lote: SC-completo-85446 (base completo, feições [85446])
+Área: 315.462 m²
+Zona: SC-Z3 (uma das candidatas na divisa: SC-Z4, SC-Z3; não conferida, confirmar na Prefeitura)
+Áreas especiais encontradas: nenhuma
+Áreas especiais não verificadas: Anexo 05, Anexo 06, Anexo 07, Anexo 06/09-A (o resultado pode passar do que o terreno permite; conferir)
+Domínio do motor: fora: zona: SC-Z3 não consta no conjunto testado
+Opções calculadas: 1 (C)
+Opções ausentes: 3
+  A Torre única: busca_inconclusiva (Melhor pavimento tentado: 1 pavimento(s), 0 unidade(s), computável 61.41 m², permeável 234.05 m² (mínimo 47.32 m²), TO 0.20; nenhum ajuste viável encontrado; busca de 1 a 6 pavimento(s) residencial(is), CA disponível 441.65 m², laje mínima 80.00 m²)
+  B Duas torres: busca_inconclusiva (Par de torres com afastamento 6.00 m: laje encontrada de 54.22 m² por torre no pavimento 1; busca de 1 a 6 pavimento(s) residencial(is), CA disponível 441.65 m², laje mínima 80.00 m²)
+  D Embasamento + torre: busca_inconclusiva (Torre de 1 pavimento(s) sobre embasamento de 2 pavimento(s): laje de 64.36 m², abaixo da laje mínima; busca de 1 a 6 pavimento(s) residencial(is), CA disponível 441.65 m², laje mínima 80.00 m²)
+Revisão do estudo: 496751cebd3a (motor 0.8.3)

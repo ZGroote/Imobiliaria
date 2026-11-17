@@ -36,7 +36,7 @@ def preparar(lotes, anotacoes, zonas):
         for campo in ("zona_id", "zona_origem", "zona_conferida", "areas_especiais"):
             lote[campo] = a[campo]
         lote["anotacao_zoneamento"] = {k: v for k, v in a.items()
-                                       if k not in ("id", "zona_id", "zona_origem", "zona_conferida", "areas_especiais")}
+                                       if k not in ("id", "zona_id", "zona_origem", "zona_conferida", "areas_especiais", "reconferencia")}
         lote["conferido"] = False
         lote["observacoes"] = lote["observacoes"].replace("Relevo e zona pendentes. ", "")
         aviso = "Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md."

@@ -431,6 +431,70 @@ def test_alerta_unico_nao_verificada():
     assert not any(a.startswith("ÁREA ESPECIAL") for o in zero["opcoes"] for a in o["alertas"])
 
 
+def test_relevo():
+    """Tarefa 27: declive >= 10% ou |desnível lote-rua| >= 2 m vira UM alerta em cada opção; a conta não muda."""
+    lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
+    pilotos, zonas = _pilotos_e_zonas()
+    tem = lambda e: [sum("levantamento planialtimétrico" in a for a in o["alertas"]) for o in e["opcoes"]]
+    # piloto com 14,2% (37607): cada opção tem o alerta, com o número e a fonte; piloto plano (6,5%): nenhum
+    p = pilotos["SC-completo-37607"]
+    e = _ge(p, zonas[p["zona_id"]])
+    assert e["opcoes"] and set(tem(e)) == {1}, tem(e)
+    (a,) = [a for a in e["opcoes"][0]["alertas"] if "levantamento planialtimétrico" in a]
+    assert a.startswith("Terreno com ~14% de declive (Copernicus GLO-30, 30 m, mede topo de prédio e árvore)") and " podem mudar" in a and " é " not in a, a
+    p = pilotos["SC-completo-25297"]
+    assert set(tem(_ge(p, zonas[p["zona_id"]]))) <= {0}
+    # sem relevo, ou campo inválido: como hoje (nenhum alerta, mesma conta)
+    base = _ge(lote, zona)
+    assert set(tem(base)) <= {0} and any("Relevo ignorado" in i for i in base["incertezas"])
+    for lixo in ({}, {"declividade_pct": None}, {"declividade_pct": "14"}, {"declividade_pct": True}, {"declividade_pct": float("nan")}):
+        assert set(tem(_ge(dict(lote, relevo=lixo), zona))) <= {0}, lixo
+    # desnível lote-rua sintético: +3 (acima) e -1 (abaixo, abaixo do limiar); -2 conta (|valor| >= 2)
+    for d, texto in ((3, "Lote ~3 m acima da rua"), (-2, "Lote ~2 m abaixo da rua")):
+        e = _ge(dict(lote, relevo={"declividade_pct": 3, "desnivel_lote_rua_m": d}), zona)
+        assert set(tem(e)) == {1}, d
+        assert all(texto in a for o in e["opcoes"] for a in o["alertas"] if "levantamento planialtimétrico" in a), d
+        assert e["opcoes"][0]["metricas"] == base["opcoes"][0]["metricas"], "o alerta não pode mexer na conta"
+    assert set(tem(_ge(dict(lote, relevo={"declividade_pct": 3, "desnivel_lote_rua_m": -1}), zona))) <= {0}
+    # os dois juntos: um alerta só, com os dois números
+    e = _ge(dict(lote, relevo={"declividade_pct": 12, "desnivel_lote_rua_m": 3}), zona)
+    (a,) = [a for a in e["opcoes"][0]["alertas"] if "levantamento planialtimétrico" in a]
+    assert "~12% de declive" in a and "lote ~3 m acima da rua" in a, a
+    # gabarito do art. 80: a folga cita o desnível (qualquer valor) quando ele existe; sem ele, fica como antes
+    z3 = copy.deepcopy(zona)
+    for k in ("recuo_lateral_por_altura", "recuo_fundos_por_altura"):
+        z3["parametros"].pop(k, None)
+    esp = [{"tipo": "gabarito", "altura_max_m": 9, "fonte": "teste"}]
+    sem = _ge(dict(lote, areas_especiais=esp), z3)
+    com = _ge(dict(lote, areas_especiais=esp, relevo={"declividade_pct": 3, "desnivel_lote_rua_m": -1}), z3)
+    folga = lambda e: [a for o in e["opcoes"] for a in o["alertas"] if a.startswith("Altura: sobram")]
+    assert folga(sem) and len(folga(sem)) == len(folga(com))
+    assert not any("nível da via" in a for a in folga(sem))
+    assert all("A lei mede acima do nível da via e o lote ~1 m abaixo da rua" in a for a in folga(com)), folga(com)[0]
+
+
+def test_frente_osm_e_acrescimo_invalido():
+    """Tarefa 28: frente pela rua do OSM tem aviso próprio (nome ou "via sem nome"); acrescimo_topo_m inválido dá erro mesmo sem gabarito."""
+    lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
+    frente = lambda via: {"qualidade": {"frentes": [{"regra": "rua_osm", "via_osm": via, "distancia_eixo_osm_m": 5, "angulo_via_graus": 2}]}}
+    for via, nome in (({"id": 7, "nome": "Rua das Flores", "classe": "residential"}, "Rua das Flores"), ({"id": 8, "nome": None, "classe": "tertiary"}, "via sem nome")):
+        e = _ge(dict(lote, **frente(via)), zona)
+        esperado = (f"Frente presumida pela rua do OpenStreetMap ({nome}, {via['classe']}): indica frente provável, não prova testada legal nem acesso público; "
+                    "pode ser estrada de terra. Conferir na matrícula e no local.")
+        assert e["opcoes"] and all(o["alertas"].count(esperado) == 1 for o in e["opcoes"]), nome
+        assert e["incertezas"].count(esperado) == 1 and not any("asfalto a" in i for i in e["incertezas"])
+    base = _ge(lote, zona)
+    assert not any("OpenStreetMap" in a for o in base["opcoes"] for a in o["alertas"])
+    for ruim in (-5, "abc", True, None, 50):
+        try:
+            _ge(lote, zona, {"acrescimo_topo_m": ruim})
+        except ValueError as erro:
+            assert "acrescimo_topo_m" in str(erro), erro
+        else:
+            raise AssertionError(f"acrescimo_topo_m={ruim!r} sem gabarito devia dar ValueError")
+    assert _ge(lote, zona, {"acrescimo_topo_m": 3.0})["opcoes"] == base["opcoes"]  # válido sem gabarito: ignorado na conta
+
+
 def test_d3_rotulo_parede_cega():
     lote, zona = _carrega("lote-exemplo.json"), _carrega("zona-exemplo.json")
     # MÉDIA 4: parede cega só com o recuo que a base de fato tem. Encostada: 0,0. Solta (0,19 m da divisa): 0,19, não "0,0"
@@ -822,6 +886,8 @@ def main():
         test_d2_metricas_subsolo_final,
         test_d3_rotulo_parede_cega,
         test_alerta_unico_nao_verificada,
+        test_relevo,
+        test_frente_osm_e_acrescimo_invalido,
         test_d4_caixa_sem_altura,
         test_d5_subsolo_dimensionado_pelas_vagas,
         test_d7_criterio_reflete_chave,
