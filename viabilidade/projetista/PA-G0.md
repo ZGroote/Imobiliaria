@@ -3,7 +3,14 @@
 **Data:** 16/11/2026  
 **Galho:** `viabilidade/projetista-g0`  
 **Status:** documento de descoberta (PA-G0). Sem código de produto, sem alteração no `motor/`, painel, Firestore ou produção.  
-**Base lida:** `viabilidade/PRD-PROJETISTA-0.1.md`, `viabilidade/PRD-VIABILIDADE-1.0.md`, `viabilidade/PRD-V1-COMERCIAL.md`, `viabilidade/lei/FONTES.md`, `viabilidade/motor/motor.py` e módulos do repositório principal.
+**Base lida:** `viabilidade/PRD-PROJETISTA-0.1.md`, `viabilidade/PRD-VIABILIDADE-1.0.md`, `viabilidade/PRD-V1-COMERCIAL.md`, `viabilidade/lei/FONTES.md`, `viabilidade/motor/motor.py`, `viabilidade/projetista-copia/MATRIZ-REUSO.md`, `viabilidade/projetista-copia/DECISOES-PA-G0.md` e módulos do repositório principal.
+
+### Fluxo-alvo e decisões-base do Adendo
+
+- **Fluxo-alvo (7 passos):** selecionar terreno → calcular viabilidade → pedir 6 apartamentos por pavimento → gerar distribuições → organizar torres → ver o empreendimento inteiro em 3D → modificar o projeto.
+- **Não duplicar o motor 3D:** o Projetista gera um modelo arquitetônico canônico e o traduz para os renderizadores existentes (detalhe na `MATRIZ-REUSO.md`, seção 6).
+- **Geometria separada de legislação:** o usuário pode explorar configurações mesmo com regra não verificada; o sistema distingue **geometria válida** de **proposta legalmente conforme**.
+- **Gerador automático sem IA generativa e reproduzível:** algoritmo geométrico/otimização determinístico, sem `random` nem relógio no resultado, com ordenação e desempates fixos.
 
 ---
 
@@ -33,36 +40,39 @@ Todos os números abaixo vêm de lotes reais da base `completo` de São Carlos p
 | Saída contratual (`estudo.json`) | `viabilidade/motor/motor.py:_gerar_estudo`, `gerar_estudo` | Entrega `lote`, `zona`, `premissas`, `caixa_maxima` (`projecao_utm`, `altura_m`, `degraus`, `projecao_parede_cega_utm`), `opcoes` (A–D com `volumes[]`, `metricas`, `alertas`), `opcoes_ausentes` e `incertezas`. |
 
 **Como o motor chega ao número de unidades hoje:**  
-Em `viabilidade/motor/motor.py:_avaliar` (linhas 433–437), o cálculo é puramente aritmético por pavimento, sem geometria de unidades ou corredores:
+Em `viabilidade/motor/motor.py:_avaliar` (linhas 434–438), o cálculo é puramente aritmético por pavimento, sem geometria de unidades ou corredores:
 1. `por_andar = max(0.0, min(laje * pr["eficiencia"], laje - pr["area_comum_por_pavimento_m2"]))` (com padrões `eficiencia = 0.8` e `area_comum_por_pavimento_m2 = 40`).
 2. `unid += v["pavimentos"] * math.floor((por_andar + 1e-9) / pr["area_privativa_por_unidade_m2"])` (padrão `60 m²`).
 
 Ou seja: hoje **não existe** planta, corredor, hall, núcleo posicionado nem verificação de fachada/ventilação; apenas divisão inteira da área líquida estimada por `60 m²`.
 
-### 2.2 Peças de planta e 3D no repositório principal
+### 2.2 Peças de planta e 3D no repositório principal (resumo)
 
-| Peça | Onde está (`arquivo:função`) | O que faz e formato de dado | Aproveitamento no Projetista |
-|---|---|---|---|
-| **Extrator de planta (CV + calibração)** | `pipeline/extrair_planta.py:achar_linhas`, `calibrar` | Detecta linhas de parede em imagem PNG/JPG por morfologia e calibra px/m pelas áreas rotuladas; gera rascunho para `leitura.json`. | **Não serve para o núcleo** (entrada é imagem raster). Útil apenas se no futuro alguém importar planta existente. |
-| **Editor/Construtor de planta 2D (painel)** | `painel/src/components/construtor-planta/modelo.ts:iniciar`, `aplicar`, `problemas`, `documento`, `exportar`, `carregar` | Modela cômodos ortogonais em **milímetros inteiros** (`xMm`, `yMm`, `widthMm`, `depthMm`), `mergedGroups`, aberturas (`door`/`window` por `wallId` + `offsetMm`) e móveis. Exporta `leitura` (`schemas/leitura/1.1.0.schema.json`). | **Adaptar (referência de UX e validação):** já tem undo/redo, detecção de sobreposição, cômodo desconectado e aberturas. Precisa de adaptador para o esquema canônico (múltiplas unidades, parede explícita, pavimento). |
-| **Gerador de planta de teste** | `tools/gerar_planta_aleatoria.mjs:gerarPlantaAleatoria` | Usa `iniciar`/`aplicar`/`exportar` de `modelo.ts` para montar uma casa fixa de 8 cômodos com portas/janelas e validar via `pipeline.validar_leitura`. | **Reaproveitar como fixture/teste:** bom modelo de teste determinístico para gerar unidades válidas em CI, não é gerador paramétrico de apartamentos. |
-| **Planta derivada (centro de parede)** | `schemas/planta-derivada/1.1.0.schema.json` | Contrato em **metros** (`unit: "m"`), com `measurementBasis: "wall-centerlines"` e `construction: "not-applied"`. | **Reaproveitar conceito:** separa leitura em mm de geometria derivada em metros pelo eixo das paredes. |
-| **Montagem do interior 3D (mapa 3D)** | `v1.5/renderizador-v16-moveis/interior/floor-plan.js:paredesDaGrade`, `house-mesh.js:geoDaCasa`, `entry.js:enterInterior` | `paredesDaGrade` discretiza polígonos de cômodos em **grade de 5 cm** (`G = 0.05`) para achar paredes e encaixar vãos; `geoDaCasa` extruda paredes (`ESP = 0.13 m`), pisos e forros em Three.js. | **Adaptar para visualização 3D:** `geoDaCasa` pode renderizar interiores rapidamente, mas `paredesDaGrade` (grade de 5 cm) **não serve** como motor de cálculo/área (arredonda medidas). O Projetista deve gerar paredes vetoriais exatas. |
-| **Runtime do LIV** | `experimentos/liv-ipanema-webgpu-2026-10-09/interiores/shared/runtime.js:paredesDaGrade` | Cópia evoluída do mesmo pipeline `floor-plan.js` + `house-mesh.js` + móveis para maquete isolada de empreendimento. | **Mesmo parecer do mapa 3D:** útil só como referência de renderização 3D leve; não usar a grade de 5 cm para métricas. |
-| **Mobiliar pela planta** | `pipeline/mobiliar.py:paredes`, `painel/src/components/construtor-planta/modelo.ts:exportarMoveis` | Lê polígonos de cômodos, acha normal interna, usa `MEIA_PAREDE = 0.065 m` (`ESP = 0.13 m`) e folgas mínimas (`NBR 15575-1` / `NKBA`) para posicionar móveis em `moveis.auto.json`. | **Adaptar (futuro / pós-MVP):** as regras de folga mínima (`MIN = {"sala": 2.40, "cozinha": 1.50, "banho": 1.10}`) ajudam a validar dimensões mínimas de cômodos, mas mobiliar automático fica fora do PA-G1..G3. |
-| **Unidade em lote de lançamento** | `v1.5/renderizador-v16-moveis/listings/identity.js:unidadeDoPredio`, `predioDaUnidade`, `loteDaUnidade`; `world/building-placement.js:urbanSplit` | Liga anúncios/unidades a prédios ou a um lote vazio (`lote.lat/lon`, `lote.predio`, `recsDoLancamento`) no mapa 3D sem quebrar o catálogo existente. | **Reaproveitar padrão de vínculo:** mostra como ligar um empreendimento/torre ao lote sem alterar registros da cidade base. |
+O inventário exato de arquivos, funções, contratos e cobertura (`P`/`M`/`G`) está na **`MATRIZ-REUSO.md`**; abaixo ficam apenas as peças que o PA-G0 usa diretamente:
+
+| Peça | Onde está (`arquivo:função`) | Papel e reuso no Projetista (detalhe na `MATRIZ-REUSO.md`) |
+|---|---|---|
+| **Editor 2D (painel)** | `painel/src/components/construtor-planta/modelo.ts:iniciar`, `aplicar`, `problemas`, `documento`, `exportar`, `carregar` | Modela cômodos ortogonais em `mm` inteiros e aberturas; `documento()` exporta leitura `1.1.0` quando há cômodos mesclados (`hasMerged`) e `1.0.0` caso contrário (`schemas/leitura/1.1.0.schema.json`). **Adaptar** UX/validações para múltiplas unidades e pavimento (ver `MATRIZ-REUSO.md` §3). |
+| **Planta derivada (centro de parede)** | `schemas/planta-derivada/1.1.0.schema.json`, `pipeline/normalizar_planta.py:normalizar` | Contrato em **metros** (`unit: "m"`), com `measurementBasis: "wall-centerlines"` e `construction: "not-applied"`. **Reaproveitar** conceito e ponte determinística de normalização. |
+| **Prévia 3D de conjunto (primeiro adaptador)** | `viabilidade/visual/index.html:validar`, `carregar`, `criarVista` | **Usar como primeiro adaptador 3D** para volumes do empreendimento. Limites conferidos no código: até 12 opções, 200 volumes/opção, 10.000 vértices/polígono, sem buracos em `base_utm`, e exige `altura_m` finita (`motor.py:660` pode retornar `null`, exigindo tratamento antes da prévia). |
+| **Interior 3D (unidade)** | `v1.5/renderizador-v16-moveis/interior/floor-plan.js:paredesDaGrade`, `house-mesh.js:geoDaCasa`, `entry.js:enterInterior`, `app.js:2208` (`ESP = 0.13`) | `geoDaCasa` recebe `ESP` injetado de `app.js:2208` (`0.13 m`) e renderiza interiores; `paredesDaGrade` (também em `experimentos/liv-ipanema-webgpu-2026-10-09/interiores/shared/runtime.js:paredesDaGrade`) usa grade de 5 cm (`G = 0.05`) e **não serve** para medir áreas. `plantaDaUnidade` centraliza a planta no prédio e exige adaptação para 6 unidades no mesmo pavimento. |
+| **Mobiliar / dimensões mínimas** | `pipeline/mobiliar.py:paredes`, `MIN`, `MIN_LARG`; `modelo.ts:exportarMoveis` | `MEIA_PAREDE = 0.065 m` (`ESP = 0.13 m`); `MIN` traz folgas mínimas de circulação e **`MIN_LARG`** (`{"sala": 2.40, "cozinha": 1.50, "banho": 1.10}`) traz larguras mínimas por ambiente. Útil como referência futura de validação; mobiliar automático fica fora dos primeiros portões. |
+| **Vínculo de lançamento ao lote** | `v1.5/renderizador-v16-moveis/app.js:recsDoLancamento`, `listings/identity.js:unidadeDoPredio`, `predioDaUnidade`, `loteDaUnidade` | Liga empreendimentos/blocos a lotes vazios sem quebrar o catálogo base (não confundir com `urban-models.js:select` / `world/building-placement.js:urbanSplit`, que tratam modelos urbanos de contexto e excluem lançamentos). |
+| **Script de planta fixa (não usar como gerador)** | `tools/gerar_planta_aleatoria.mjs:gerarPlantaAleatoria` | **Não serve** como gerador nem como teste determinístico sem ID explícito (usa `Math.random()` por padrão e medidas fixas; `validarNormativo` faz apenas validação geométrica). |
+
+**Tamanho relativo do que falta (resumo da `MATRIZ-REUSO.md` §5):** **M** para seleção de terreno, abertura do estudo e entrada/modelo das 6 unidades; **G** para geração determinística de distribuições, compositor de torres/pavimentos e edição em hierarquia; **P/M** para adaptador 3D esquemático de volumes (`criarVista`) e **G** se exigida cena detalhada.
 
 ---
 
-## 3. Definições operacionais a fechar
+## 3. Definições operacionais (fechadas em 16/11)
 
-| Conceito | Fonte encontrada no repositório | Situação atual e o que precisa fechar |
+| Conceito | Fonte encontrada no repositório | Decisão fechada (`DECISOES-PA-G0.md`) |
 |---|---|---|
-| **Área computável** | **Lei de São Carlos:** COE (Lei 19.950/2020, art. 51, com redação da Lei 20.072/2021), documentado em `viabilidade/lei/FONTES.md` e `viabilidade/lei/zonas.json`. Lista isenções (garagem, escada, antecâmara, fosso de elevador/shaft no pav. superior, reservatório, casa de máquinas, lixo, área técnica de AC). | **Parcialmente fechada.** Falta confirmar leitura jurídica sobre **varanda** (não consta da lista de isenções do art. 51 em `FONTES.md`) e térreo comercial em fachada ativa. |
-| **Área privativa** | Não há norma técnica (ex.: ABNT NBR 12721) cadastrada em `viabilidade/lei/`. O motor usa apenas a premissa numérica `area_privativa_por_unidade_m2 = 60` (`motor.py:PREMISSAS_PADRAO`). | **A decidir:** adotar definição da NBR 12721 (área da unidade incluindo paredes internas e metade das divisórias entre unidades/áreas comuns, ou definição simplificada no MVP) e registrar se varanda entra separada. |
-| **Área útil (de piso)** | Não há definição formal em `viabilidade/lei/`. Em `modelo.ts` e `mobiliar.py`, os cômodos são medidos pelo polígono interno líquido. | **A decidir:** definir se `área útil` no Projetista será a soma exata das áreas internas líquidas dos cômodos (`Room`), descontando todas as paredes. |
-| **Cota interna ou externa** | Sem definição legal em `viabilidade/lei/`. No repositório, `schemas/planta-derivada/1.1.0.schema.json` usa `wall-centerlines` (eixo da parede); `modelo.ts` usa retângulos contíguos sem espessura explícita. | **A decidir:** adotar **eixo de parede** como representação geométrica canônica (evita folgas entre cômodos vizinhos) e exibir cota interna líquida (eixo menos `ESP/2` de cada lado) e externa total na UI. |
-| **Espessura de parede padrão** | Sem definição em `viabilidade/lei/`. O renderizador e `pipeline/mobiliar.py` usam `ESP = 0,13 m` (`MEIA_PAREDE = 0.065`). | **A decidir:** confirmar `0,15 m` (padrão alvenaria acabada/estrutural usual) ou `0,13 m` (já usado no renderizador 3D) como padrão para parede interna e definir se parede externa/divisa entre unidades usa `0,15 m` ou `0,20 m`. |
+| **Área computável** | **Lei de São Carlos:** COE (Lei 19.950/2020, art. 51, com redação da Lei 20.072/2021), documentado em `viabilidade/lei/FONTES.md` e `viabilidade/lei/zonas.json`. Lista isenções (garagem, escada, antecâmara, fosso de elevador/shaft no pav. superior, reservatório, casa de máquinas, lixo, área técnica de AC). | **Decidido:** seguir o COE art. 51 e tratar **varanda como computável por padrão** até confirmação jurídica, com estado **`nao_verificado`** (nunca `conforme`). Térreo comercial em fachada ativa segue pendente de confirmação onde não houver regra verificada. |
+| **Área privativa** | Não há norma técnica (ex.: ABNT NBR 12721) cadastrada em `viabilidade/lei/`. O motor usa apenas `area_privativa_por_unidade_m2 = 60` (`motor.py:PREMISSAS_PADRAO`). | **Decidido:** adotar o critério da **ABNT NBR 12721**. **Privativa, útil e computável são três métricas separadas**, nunca derivadas uma da outra sem regra explícita. |
+| **Área útil (de piso)** | Não há definição formal em `viabilidade/lei/`. Em `modelo.ts` e `mobiliar.py`, os cômodos são medidos pelo polígono interno líquido. | **Decidido:** soma exata das áreas internas líquidas dos cômodos (`Room`), medida pelas faces reais descontando as paredes (métrica separada da privativa e da computável). |
+| **Cota interna ou externa** | `schemas/planta-derivada/1.1.0.schema.json` usa `wall-centerlines` (eixo da parede); `modelo.ts` usa retângulos contíguos sem espessura explícita. | **Decidido:** adotar **eixo da parede** no modelo canônico; as **faces reais** saem do eixo e da espessura para medir área (atenção a parede compartilhada e cantos), exibindo cotas internas líquidas na tela. |
+| **Espessura de parede padrão** | Sem definição legal em `viabilidade/lei/`. O renderizador (`app.js:2208`) e `pipeline/mobiliar.py` usam `ESP = 0,13 m` (`MEIA_PAREDE = 0.065`). | **Decidido:** **0,15 m** para paredes internas e **0,20 m** para paredes entre unidades e com área comum (no modelo canônico; `0,13 m` permanece apenas no renderizador legado quando aplicável). |
 
 ---
 
@@ -94,9 +104,9 @@ Ou seja: hoje **não existe** planta, corredor, hall, núcleo posicionado nem ve
 | `FloorInstance` | `id`, `tower_id`, `level_index`, `z0_m`, `height_m`, `floor_plate_id`, `kind` (`terreo`/`tipo`/`embasamento`/`subsolo`) | Instância empilhada; permite pavimentos excepcionais. |
 | `Tower` | `id`, `name`, `transform_local` (`x`, `y`, `rot_deg`), `floors[]` (`FloorInstance`) | Torre posicionada no terreno com suas instâncias de pavimento. |
 | `SiteLayout` | `id`, `towers[]`, `parking_levels[]`, `permeable_area_m2` | Implantação completa no lote. |
-| `DesignRevision` | `schema_version`, `revision_id`, `parent_revision_id`, `content_sha256`, `study_ref`, `rules_ref`, `status` (`RASCUNHO`/`REQUER_REVALIDACAO`), `metrics_summary` | Snapshot imutável para salvar, comparar e exportar (`PA-010`). |
+| `DesignRevision` | `schema_version`, `revision_id`, `parent_revision_id`, `content_sha256`, `study_ref`, `rules_ref`, `geometry_status` (`valida`/`invalida`), `legal_status` (`conforme`/`violacao`/`nao_verificado`), `status` (`RASCUNHO`/`REQUER_REVALIDACAO`), `metrics_summary` | Snapshot imutável para salvar, comparar e exportar (`PA-010`), separando explicitamente validade geométrica de conformidade legal. |
 | `ValidationFinding` | `rule_id`, `status` (`conforme`/`violacao`/`nao_verificado`/`erro_tecnico`), `severity`, `measured`, `limit`, `unit`, `diff`, `element_ids[]`, `source`, `suggestion` | Diagnóstico explicativo ligado aos IDs estáveis (`PA-006`). |
-| `GenerationRun` | `run_id`, `mode` (`manual`/`auto`), `objective`, `seed`, `budget_ms`, `elapsed_ms`, `outcome` (`sucesso`/`impossivel`/`busca_inconclusiva`/`dados_insuficientes`/`erro`), `locked_ids[]` | Registro auditável do gerador (`PA-007`, `PA-008`). |
+| `GenerationRun` | `run_id`, `mode` (`manual`/`auto`), `objective`, `seed` (não usado — busca determinística), `budget_ms`, `elapsed_ms`, `outcome` (`gerado`/`inviavel`/`nao_encontrado`/`dados_insuficientes`/`erro`), `locked_ids[]` | Registro auditável do gerador determinístico sem IA generativa (`PA-007`, `PA-008`): sem `random` nem relógio no resultado, com ordenação e desempates fixos. `gerado` = geometria válida (arquitetura ainda não verificada); `inviavel` = restrição conhecida impede (equiv. `impossivel` do motor); `nao_encontrado` = busca não achou sem provar impossibilidade (equiv. `busca_inconclusiva`). |
 
 ### 4.3 Ligação ao `estudo.json` atual (adaptador sem quebrar contrato)
 Um adaptador puro `estudo_para_contexto_projetista(estudo_json)` lê o `estudo.json` **sem alterar** `motor.py`:
@@ -115,7 +125,7 @@ Um adaptador puro `estudo_para_contexto_projetista(estudo_json)` lê o `estudo.j
 | **2. Emulador local do Firestore (Firebase Emulator)** | Rodar coleção `projetista_revisions` apenas no emulador local durante desenvolvimento. | Testa regras de segurança e serialização Firestore desde cedo. | Exige Java/emulador rodando para abrir projetos; acopla cedo demais ao banco antes do esquema estabilizar. |
 | **3. Projeto Firebase isolado (staging)** | Banco separado só para piloto interno. | Permite acesso web de operadores no piloto (PA-G5). | Custo de infra e risco de confusão de `.env` se usado antes do PA-G5. |
 
-**Recomendação:** usar **Opção 1 (arquivos JSON locais com esquema versionado e SHA-256)** do PA-G1 ao PA-G4, e só introduzir persistência em nuvem isolada (coleção/projeto separado, nunca o Firestore de produção atual) no **PA-G5 (piloto isolado)**.
+**Decisão fechada (`DECISOES-PA-G0.md`):** usar **Opção 1 (arquivos JSON locais com `schema_version`, IDs estáveis, SHA-256 e gravação atômica)** do PA-G1 ao PA-G4 (até o PA-G5), sem tocar no Firestore de produção. Persistência em nuvem isolada entra apenas no **PA-G5 (piloto isolado)**.
 
 ---
 
@@ -130,10 +140,10 @@ O `PRD-PROJETISTA-0.1.md` coloca o **editor manual de uma planta (PA-G1)** antes
 | **Risco principal** | Demorar para entregar valor ao estudo de viabilidade e descobrir tarde que o modelo de `UnitType` não encaixa bem em corredores/núcleos reais. | Gerar retângulos bonitos sem editor para corrigir exceções; risco de o usuário achar que o esquema já é planta aprovada se não houver rótulo claro. |
 | **Integração com o existente** | Reaproveita ideias do `construtor-planta`, mas exige UI nova para múltiplas unidades. | Conecta direto no `estudo.json` e no visualizador `viabilidade/visual/` já existentes. |
 
-**Recomendação:** **adotar uma Ordem B enxuta e controlada (Núcleo Canônico + Gerador Esquemático de Pavimento primeiro)**, com uma trava obrigatória:
-1. Fechar o **núcleo geométrico canônico + validador** (contrato da seção 4) como base única.
-2. Entregar **PA-G2 + início do PA-G4 em modo esquemático** (posicionar unidades retangulares + corredor + núcleo dentro do envelope do `estudo.json`, substituindo a divisão cega `por_andar // 60` por encaixe geométrico real).
-3. Em seguida construir **PA-G1 (editor manual)** já em cima do mesmo modelo canônico validado, evitando retrabalho de UI sobre um contrato imaturo.
+**Decisão fechada (`DECISOES-PA-G0.md`):** **adotar a Ordem B enxuta e controlada**, alinhada ao fluxo-alvo de 7 passos (*selecionar terreno → calcular viabilidade → pedir 6 apartamentos por pavimento → gerar distribuições → organizar torres → ver o empreendimento inteiro em 3D → modificar o projeto*):
+1. Fechar o **núcleo geométrico canônico** (contrato da seção 4) e o **validador independente antes do gerador** (o editor futuro passará pelo mesmo validador). Cada unidade validada exige **acesso ao corredor, trecho mínimo de fachada e dimensões mínimas** — não basta encaixar retângulos.
+2. Entregar **PA-G2 + início do PA-G4 em modo esquemático** com **gerador determinístico sem IA generativa** (sem `random` nem relógio, ordenação e desempates fixos; algoritmo previsto de faixas paralelas ao eixo dominante + núcleo + busca com poda, a confirmar no portão do gerador), conectando no adaptador 3D `viabilidade/visual/index.html:criarVista`.
+3. Em seguida construir **PA-G1 (editor manual)** já em cima do mesmo modelo canônico e do mesmo validador independente, evitando retrabalho de UI sobre um contrato imaturo.
 
 ---
 
@@ -164,17 +174,16 @@ O `PRD-PROJETISTA-0.1.md` coloca o **editor manual de uma planta (PA-G1)** antes
 | 5 | **Novo:** Higiene do `estudo.json` herdada (`zona_origem` e `areas_especiais` vazias sem alerta, achados de `REVISAO-6.md`) | Código (`motor.py` / `REVISAO-6.md`) | O adaptador do Projetista deve tratar ausência de confirmação na origem como `nao_verificado`, nunca como liberado. |
 | 6 | **Novo:** Escalonamento por `h/8` e parede cega até 12 m mudarem a geometria do pavimento entre andares | Código (`motor.py:recuo_divisa`) | `Site` guarda `envelope_by_height[]` por faixa de pavimento (`degraus`); cada `FloorInstance` valida contra o envelope da sua cota. |
 
-### 8.2 Perguntas em aberto para o usuário (máximo 6)
+### 8.2 Decidido em 16/11 (`DECISOES-PA-G0.md`)
 
-1. **Definição de área:** Para `area_privativa_m2` das unidades, devemos seguir o critério da **NBR 12721** (inclui paredes internas + 50% das divisórias comuns) ou usar **área interna líquida (útil) + espessura fixa** nesta fase preliminar?
-2. **Espessura de parede padrão e cotas:** Podemos adotar **eixo de parede** no modelo canônico com espessura padrão de **0,15 m** (ou **0,13 m**, já usada no renderizador 3D) e exibir cotas internas líquidas na tela?
-3. **Ordem dos portões:** Você autoriza seguir a **Ordem B** (fazer primeiro o núcleo canônico + gerador esquemático de pavimento sobre o envelope do `motor.py`, para melhorar logo a contagem de unidades da viabilidade) antes de construir a UI do editor manual (PA-G1)?
-4. **Varanda na área computável:** Em `FONTES.md`, o COE art. 51 de São Carlos não isenta varanda expressamente. No Projetista, devemos tratá-la como **computável por padrão** (conservador) até confirmação jurídica?
-5. **Lotes pequenos (88–150 m²):** Confirma deixar **casa térrea e sobrado** fora do primeiro portão (foco em edifícios multifamiliares com pavimento-tipo)?
-6. **Persistência nos primeiros portões:** Confirma salvar projetos como **arquivos JSON locais versionados** até o PA-G5, sem tocar no Firestore?
+1. **Ordem dos portões — Ordem B:** Núcleo canônico + **validador independente** + gerador esquemático de pavimento antes do editor manual. O validador vem antes do gerador e é independente dele (o editor futuro passa pelo mesmo validador); cada unidade exige acesso ao corredor, trecho mínimo de fachada e dimensões mínimas.
+2. **Área privativa — ABNT NBR 12721:** privativa, útil e computável são três métricas separadas, nunca derivadas uma da outra sem regra explícita.
+3. **Eixo da parede e espessuras:** modelo no **eixo da parede**, com **0,15 m** interna e **0,20 m** entre unidades e com área comum; faces reais saem do eixo e da espessura para medir área (atenção a parede compartilhada e cantos).
+4. **Varanda na área computável:** **computável por padrão** até confirmação jurídica (estado `nao_verificado`, nunca `conforme`).
+5. **Lotes pequenos (88–150 m²):** **casa térrea e sobrado fora** da 1ª etapa (domínio separado depois).
+6. **Persistência até o PA-G5:** **JSON local versionado** com `schema_version`, IDs estáveis, SHA-256 e **gravação atômica**. Sem Firestore.
 
-### 8.3 Critério de saída do PA-G0
-O PA-G0 é considerado concluído quando:
-1. Este documento (`viabilidade/projetista/PA-G0.md`) for revisado pelo usuário;
-2. As 6 perguntas da seção 8.2 tiverem resposta registrada;
-3. Ficar formalmente aprovada a ordem dos portões (Ordem A ou Ordem B) antes de abrir qualquer tarefa de implementação.
+**Pendências em aberto para portões seguintes:** confirmação jurídica sobre varanda (art. 51) e térreo comercial; algoritmo detalhado do gerador (faixas paralelas + núcleo + poda determinística, a confirmar no portão do gerador); catálogo inicial de núcleos/dimensões mínimas e benchmark de desempenho.
+
+### 8.3 Próximo portão (saída do PA-G0)
+Com as decisões da seção 8.2 fechadas e este `PA-G0.md` alinhado à `MATRIZ-REUSO.md`, o portão de **Núcleo canônico + validador independente** já foi entregue (fatia 1, `a3eb14cd`: `esquema.py`, `validador.py`, `adaptador.py`, 18 testes). O próximo passo pela **Ordem B** é o **gerador esquemático de pavimento** (PA-G2 + início do PA-G4) com prévia de volumes via `viabilidade/visual/index.html:criarVista`, antes de construir a UI do editor manual (PA-G1).
