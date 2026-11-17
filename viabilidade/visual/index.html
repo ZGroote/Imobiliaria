@@ -163,7 +163,7 @@
       const obj = v => v !== null && typeof v === 'object' && !Array.isArray(v);
       if (!obj(d) || typeof d.id !== 'string' || typeof d.nome !== 'string' || typeof d.estudo !== 'string' || !obj(d.numeros)) throw Error('informe id, nome, estudo e numeros.');
       for (const campo of ['estudo','estudo_terreo']) if (d[campo] !== undefined && (typeof d[campo] !== 'string' || !d[campo].trim() || d[campo].length > 512 || /^([a-z][a-z0-9+.-]*:|[\\/]{2})/i.test(d[campo]))) throw Error(`${campo} precisa ser um caminho relativo.`);
-      for (const numeros of [d.numeros, d.numeros_terreo].filter(Boolean)) for (const [chave] of camposResumo) if (!obj(numeros[chave]) || !finito(numeros[chave].valor) || numeros[chave].valor < 0 || typeof numeros[chave].unidade !== 'string' || !numeros[chave].unidade.trim() || numeros[chave].unidade.length > 20) throw Error(`numeros.${chave} precisa ter valor e unidade válidos.`);
+      for (const numeros of [d.numeros, d.numeros_terreo].filter(Boolean)) for (const [chave] of camposResumo) { const item = numeros[chave], vagaSemGaragem = chave === 'vagas' && item?.valor === null && typeof item.nota === 'string' && item.nota.trim(); if (!obj(item) || (!vagaSemGaragem && (!finito(item.valor) || item.valor < 0)) || typeof item.unidade !== 'string' || !item.unidade.trim() || item.unidade.length > 20) throw Error(`numeros.${chave} precisa ter valor e unidade válidos.`); }
       if (d.numeros_terreo !== undefined && !obj(d.numeros_terreo)) throw Error('numeros_terreo precisa ser um objeto.');
       if (d.estudo_terreo && !d.numeros_terreo) throw Error('numeros_terreo é obrigatório quando estudo_terreo existe.');
       return d;
@@ -173,7 +173,7 @@
       $('titulo-resumo').textContent = ctx.dados.nome;
       const toggle = $('toggle-terreo'); toggle.hidden = !ctx.dados.estudo_terreo;
       toggle.textContent = ctx.terreo ? 'Desligar térreo' : 'Ligar térreo'; toggle.setAttribute('aria-pressed', String(ctx.terreo));
-      $('numeros-resumo').replaceChildren(...camposResumo.map(([k, titulo]) => { const row = el('div'), n = (ctx.terreo ? ctx.dados.numeros_terreo : ctx.dados.numeros)[k]; row.append(el('dt', titulo), el('dd', numero.format(n.valor) + ' ' + n.unidade)); return row; }));
+      $('numeros-resumo').replaceChildren(...camposResumo.map(([k, titulo]) => { const row = el('div'), n = (ctx.terreo ? ctx.dados.numeros_terreo : ctx.dados.numeros)[k]; row.append(el('dt', titulo), el('dd', n.valor === null ? n.nota : numero.format(n.valor) + ' ' + n.unidade)); return row; }));
     }
     async function carregarResumo(caminho, terreo = false, arquivoAvaliacao = null) {
       const atual = ++pedido; $('erro').hidden = true;

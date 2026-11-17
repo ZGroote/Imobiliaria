@@ -20,6 +20,8 @@ const url = process.env.VISUAL_URL || 'http://127.0.0.1:8765/viabilidade/visual/
 const output = path.join(__dirname, 'evidencias');
 const baselineT22 = path.join(__dirname, '.tarefa22-baseline.html');
 const example = JSON.parse(fs.readFileSync(path.join(__dirname, '../motor/exemplos/estudo-exemplo.json'), 'utf8'));
+const vitrine = JSON.parse(fs.readFileSync(path.join(__dirname, '../projetista/vitrine/indice.json'), 'utf8')).terrenos;
+const resumoVitrine = terreno => terreno.resumo ? JSON.parse(fs.readFileSync(path.join(__dirname, '../projetista/vitrine', terreno.resumo), 'utf8')) : null;
 const exampleBytes = fs.readFileSync(path.join(__dirname, '../motor/exemplos/estudo-exemplo.json'));
 const revision = sha => `rev ${sha.slice(0, 12)} · motor ${example.versao_motor || 'não informado'}`;
 
@@ -319,27 +321,54 @@ async function checkPriceSimulation(page) {
 
 async function checkVitrine(page, mobile, errors) {
   await page.goto(new URL('vitrine.html', url).href);
-  await page.locator('.card').nth(6).waitFor();
-  await page.locator('#fiche-title').getByText('Terreno 1').waitFor();
-  await page.locator('#limitantes').waitFor({ state: 'visible' });
-  assert.equal(await page.locator('.card').count(), 7);
-  let ficha = await page.locator('.fiche').innerText();
-  assert.match(ficha, /O recuo cresce com a altura: o andar entre .* não cabe/);
-  assert.match(ficha, /O gerador desenha um núcleo só.*unidades por andar/);
-  assert.match(ficha, /Vagas\s+.*sem garagem/i);
-  assert.doesNotMatch(ficha, /\b(?:null|NaN)\b/i);
-  const vagas = page.locator('.number').filter({ hasText: /^Vagas/ }).locator('strong');
-  if (!mobile) await page.screenshot({ path: path.join(output, 'tarefa24-ficha.png'), fullPage: true });
-  await page.locator('#modo').click();
-  assert.match(await vagas.innerText(), /^\d+(?:[,.]\d+)?\s*vagas?$/i);
-  ficha = await page.locator('.fiche').innerText();
-  assert.doesNotMatch(ficha, /\b(?:null|NaN)\b/i);
-  await page.getByRole('button', { name: /Terreno 6/ }).click();
-  await page.locator('#fiche-title').getByText('Terreno 6').waitFor();
-  assert.match(await page.locator('#limitantes').innerText(), /Chegou na altura máxima do terreno \(.*\): o próximo andar passaria dela\./);
-  await page.getByRole('button', { name: /Terreno 2/ }).click();
-  await page.locator('#fiche-title').getByText('Terreno 2').waitFor();
-  assert.equal(await page.locator('#limitantes').isVisible(), false, 'Sem resumo/limitante, o bloco não aparece.');
+  await page.locator('.card').first().waitFor();
+  assert.equal(await page.locator('.card').count(), vitrine.length);
+  const falhos = vitrine.filter(t => t.status === 'falhou'), aprovados = vitrine.filter(t => t.status === 'ok');
+  assert(aprovados.length && falhos.length, 'O índice deve incluir terrenos com e sem estudo.');
+  for (const t of vitrine) {
+    const card = page.locator(`.card[data-id="${t.id}"]`), texto = await card.innerText();
+    if (t.status === 'falhou') {
+      assert(texto.includes(t.motivo), 'O cartão mostra o motivo do índice.');
+      await card.click();
+      assert.equal(await page.locator('#open-study').isVisible(), false, 'Terreno sem resumo não oferece estudo completo.');
+      assert.equal(await page.locator('#map-title').innerText(), t.nome);
+    }
+  }
+  const ok = aprovados[0], summary = resumoVitrine(ok);
+  await page.locator(`.card[data-id="${ok.id}"]`).click();
+  await page.locator('#fiche-title').getByText(ok.nome).waitFor();
+  const assertFicha = async numeroKey => {
+    const ficha = await page.locator('.fiche').innerText(), dados = summary[numeroKey], limitante = dados.limitante || {};
+    assert.doesNotMatch(ficha, /\b(?:null|NaN)\b/i);
+    const bloc = page.locator('#limitantes');
+    assert.equal(await bloc.isVisible(), Boolean(limitante.andares || limitante.unidades));
+    for (const key of ['andares', 'unidades']) {
+      const el = page.locator(key === 'andares' ? '#limitante-andares' : '#limitante-unidades');
+      assert.equal(await el.textContent(), limitante[key] || '');
+      if (limitante[key]) assert(ficha.includes(limitante[key]), 'A ficha mostra literalmente o limitante do resumo.');
+    }
+    const vagas = dados.vagas, textoVagas = await page.locator('.number').filter({ hasText: /^Vagas/ }).locator('strong').textContent();
+    assert.equal(textoVagas, vagas.valor === null ? vagas.nota : `${new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 }).format(vagas.valor)} ${vagas.unidade}`);
+  };
+  await assertFicha('numeros');
+  if (!mobile) await page.screenshot({ path: path.join(output, 'tarefa25-vitrine.png'), fullPage: true });
+  if (summary.estudo_terreo) {
+    await page.locator('#modo').click();
+    await assertFicha('numeros_terreo');
+  }
+  await page.locator('#modo').click().catch(() => {});
+  await page.locator('#open-study').click();
+  await page.locator('#painel-resumo').waitFor({ state: 'visible' });
+  if (summary.numeros.vagas.valor === null) assert.equal(await page.locator('#numeros-resumo').locator('dd').filter({ hasText: summary.numeros.vagas.nota }).count(), 1);
+  assert.doesNotMatch(await page.locator('#painel-resumo').innerText(), /\b(?:null|NaN)\b/i);
+  if (!mobile) await page.screenshot({ path: path.join(output, 'tarefa25-estudo.png'), fullPage: true });
+  const invalidSummary = structuredClone(summary);
+  invalidSummary.numeros.vagas.valor = null;
+  delete invalidSummary.numeros.vagas.nota;
+  await page.route('**/test-resumo-sem-nota.json', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(invalidSummary) }));
+  await page.goto(new URL('?resumo=test-resumo-sem-nota.json', url).href);
+  await page.locator('#erro').waitFor({ state: 'visible' });
+  assert.match(await page.locator('#erro').innerText(), /numeros\.vagas precisa ter valor e unidade válidos/);
   assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Vitrine sem rolagem lateral.');
   assert.deepEqual(errors, [], 'Vitrine sem erros de console ou JavaScript.');
 }
@@ -376,11 +405,6 @@ async function checkVitrine(page, mobile, errors) {
         }
       });
       await checkVitrine(page, mobile, errors);
-      if (process.env.VISUAL_T24_ONLY === '1') {
-        report.push({ perfil: profile, tarefa24: true, errosConsole: errors });
-        await page.close();
-        continue;
-      }
       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
       const payload = '</title><img src=x onerror=alert(1)><svg>';
@@ -465,17 +489,20 @@ async function checkVitrine(page, mobile, errors) {
         await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
         await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
 
-        const resumo = '../projetista/vitrine/terreno-1/resumo.json';
+        const terrenoComResumo = vitrine.find(t => t.status === 'ok' && t.resumo);
+        const resumo = '../projetista/vitrine/' + terrenoComResumo.resumo;
+        const dadosResumo = resumoVitrine(terrenoComResumo);
         await page.goto(new URL('?resumo=' + encodeURIComponent(resumo) + '&estilo=maquete', url).href);
         await page.getByRole('button', { name: 'Opção projetista', exact: true }).waitFor();
         assert.equal(await page.locator('#acoes-maquete').isVisible(), true);
         assert.equal(await page.locator('#numeros-resumo div').count(), 6);
-        assert.match(await page.locator('#numeros-resumo').innerText(), /Apartamentos\s+12 un/);
+        assert((await page.locator('#numeros-resumo').innerText()).includes(String(dadosResumo.numeros.unidades.valor)));
+        if (dadosResumo.numeros.vagas.valor === null) assert((await page.locator('#numeros-resumo').innerText()).includes(dadosResumo.numeros.vagas.nota));
         assert.match(await page.locator('.aviso-resumo').innerText(), /Estudo preliminar — números não conferidos com a prefeitura/);
         await page.screenshot({ path: path.join(output, 'tarefa22-22421-maquete.png'), fullPage: true });
         await page.getByRole('button', { name: 'Ligar térreo' }).click();
         await page.getByRole('button', { name: 'Desligar térreo' }).waitFor();
-        assert.match(await page.locator('#numeros-resumo').innerText(), /Apartamentos\s+6 un/);
+        assert((await page.locator('#numeros-resumo').innerText()).includes(String(dadosResumo.numeros_terreo.unidades.valor)));
         await page.screenshot({ path: path.join(output, 'tarefa22-22421-terreo.png'), fullPage: true });
         const vistaInicial = await page.locator('canvas').first().screenshot();
         await page.getByRole('button', { name: 'Vista de cima' }).click();
@@ -836,38 +863,32 @@ async function checkVitrine(page, mobile, errors) {
         await page.locator('canvas').first().waitFor();
       }
       await page.goto(new URL('vitrine.html', url).href);
-      await page.waitForTimeout(1000);
-      assert.equal(await page.locator('.card').count(), 7, `Vitrine carregada. Console: ${errors.join(' | ')}`);
+      await page.locator('.card').first().waitFor();
+      assert.equal(await page.locator('.card').count(), vitrine.length, `Vitrine carregada. Console: ${errors.join(' | ')}`);
       assert(await page.evaluate(() => document.querySelector('#map').clientHeight <= innerHeight * .7 + 1), 'Mapa limitado a 70% da janela.');
       assert(await page.evaluate(() => document.querySelector('.preliminar').getBoundingClientRect().top >= document.querySelector('#map').getBoundingClientRect().bottom), 'Aviso não deve cobrir o mapa.');
-      await page.locator('.card').nth(6).waitFor();
-      assert.equal(await page.locator('.card').count(), 7);
-      assert.equal(await page.locator('.card.failed').count(), 2);
-      assert.match(await page.locator('.card.failed').first().innerText(), /não cabe/i);
+      assert.equal(await page.locator('.card.failed').count(), vitrine.filter(t => t.status === 'falhou').length);
+      assert((await page.locator('.card.failed').first().innerText()).includes(vitrine.find(t => t.status === 'falhou').motivo));
       assert.match(await page.locator('.preliminar').innerText(), /Estudo preliminar.*números não conferidos com a prefeitura/);
       assert.match(await page.locator('#attribution').innerText(), /OpenStreetMap/);
       captureTiles = process.env.VISUAL_CAPTURE_MAP === '1' && !mobile;
-      await page.getByRole('button', { name: /Terreno 6/ }).click();
-      await page.locator('#fiche-title').getByText('Terreno 6').waitFor();
+      const terrenoOk = vitrine.find(t => t.status === 'ok'), resumoOk = resumoVitrine(terrenoOk);
+      await page.locator(`.card[data-id="${terrenoOk.id}"]`).click();
+      await page.locator('#fiche-title').getByText(terrenoOk.nome).waitFor();
       assert.equal(await page.locator('#map').getAttribute('data-zoom'), mobile ? '17' : '18');
       assert.equal(await page.locator('#map').getAttribute('data-tiles-requested'), mobile ? '9' : '25');
-      assert.match(await page.locator('#numbers').innerText(), /93 un/);
+      assert((await page.locator('#numbers').innerText()).includes(String(resumoOk.numeros.unidades.valor)));
       await page.locator('#modo').click();
-      assert.match(await page.locator('#numbers').innerText(), /87 un/);
+      assert((await page.locator('#numbers').innerText()).includes(String(resumoOk.numeros_terreo.unidades.valor)));
       if (process.env.VISUAL_CAPTURE_MAP !== '1' || mobile) assert.match(await page.locator('#map-state').innerText(), /mapa indisponível/);
       else await page.waitForFunction(() => Number(document.querySelector('#map').dataset.tilesLoaded) >= 25 || !document.querySelector('#map-state').hidden, { timeout: 30000 });
       if (process.env.VISUAL_CAPTURE_MAP === '1' && !mobile) assert.equal(Number(await page.locator('#map').getAttribute('data-tiles-loaded')), 25, 'O print deve carregar os 25 ladrilhos OSM.');
-      if (mobile) {
-        await page.screenshot({ path: path.join(output, 'tarefa23-celular.png'), fullPage: true });
-        await page.screenshot({ path: path.join(output, 'tarefa23-sem-mapa.png'), fullPage: true });
-      } else if (process.env.VISUAL_CAPTURE_MAP === '1') await page.screenshot({ path: path.join(output, 'tarefa23-terreno-6.png'), fullPage: true });
       if (!mobile) {
-        await page.getByRole('button', { name: /Terreno 1/ }).click();
+        await page.locator(`.card[data-id="${terrenoOk.id}"]`).click();
         if (process.env.VISUAL_CAPTURE_MAP === '1') {
           await page.waitForFunction(() => Number(document.querySelector('#map').dataset.tilesLoaded) >= 25 || !document.querySelector('#map-state').hidden, { timeout: 30000 });
-          assert.equal(Number(await page.locator('#map').getAttribute('data-tiles-loaded')), 25, 'Terreno 1 deve carregar os 25 ladrilhos OSM.');
+          assert.equal(Number(await page.locator('#map').getAttribute('data-tiles-loaded')), 25, 'A seleção deve carregar os ladrilhos da vista.');
         }
-        if (process.env.VISUAL_CAPTURE_MAP === '1') await page.screenshot({ path: path.join(output, 'tarefa23-desktop.png'), fullPage: true });
         await page.setViewportSize({ width: 390, height: 844 });
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Vitrine sem rolagem horizontal a 390 px.');
       }
