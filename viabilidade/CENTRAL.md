@@ -242,3 +242,4 @@ PRD 0.1 recebido em 16/11 (`viabilidade/PRD-PRE-VIABILIDADE-FISICA-0.1.md` no ga
 - Pendente: o estudo completo lista 84 volumes "Não informado" (página longa); lotes pequenos sem estudo (gerador só faz torre). `projetista/exemplo-22421/` solto na W2, de origem desconhecida, não commitado.
 - **Retomada 17/11 noite:** amostra ok (5 provedores); conferir 8/8; sem entrega nova (soltos = evidências do visual e fim de linha dos exemplos do motor, regerados pelo conferir; `projetista/` na W1 é a cópia de trabalho do Motor, já levada à W2).
 - **Retomada 17/11 noite (2):** amostra ok (5 provedores); conferir 8/8; sem entrega nova.
+- **Retomada 17/11 noite (3):** amostra ok (5 provedores); conferir 8/8; sem entrega nova nas duas worktrees.
