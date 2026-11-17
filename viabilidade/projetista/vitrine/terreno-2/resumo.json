@@ -1,0 +1,67 @@
+{
+ "estudo": "estudo-previa.json",
+ "estudo_terreo": "estudo-previa-terreo.json",
+ "id": "terreno-2",
+ "nome": "Terreno 2",
+ "numeros": {
+  "andares": {
+   "unidade": "pav",
+   "valor": 9
+  },
+  "area_computavel": {
+   "unidade": "m²",
+   "valor": 4592.7652
+  },
+  "area_lote": {
+   "unidade": "m²",
+   "valor": 3340.4561
+  },
+  "area_privativa": {
+   "unidade": "m²",
+   "valor": 4028.22
+  },
+  "limitante": {
+   "andares": "Parou no CA máximo do terreno (1,4): com mais um andar o CA iria de 1,37 para 1,53.",
+   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 6 unidades por andar. Foi o programa que deu mais unidades no prédio inteiro: com 10, 8 por andar não coube ou o prédio ficou com menos unidades."
+  },
+  "unidades": {
+   "unidade": "un",
+   "valor": 54
+  },
+  "vagas": {
+   "nota": "estudo sem térreo: sem garagem",
+   "unidade": "vagas",
+   "valor": null
+  }
+ },
+ "numeros_terreo": {
+  "andares": {
+   "unidade": "pav",
+   "valor": 9
+  },
+  "area_computavel": {
+   "unidade": "m²",
+   "valor": 4186.8537
+  },
+  "area_lote": {
+   "unidade": "m²",
+   "valor": 3340.4561
+  },
+  "area_privativa": {
+   "unidade": "m²",
+   "valor": 3580.64
+  },
+  "limitante": {
+   "andares": "Parou no CA máximo do terreno (1,4): com mais um andar o CA iria de 1,25 para 1,41.",
+   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 6 unidades por andar. Foi o programa que deu mais unidades no prédio inteiro: com 10, 8 por andar não coube ou o prédio ficou com menos unidades."
+  },
+  "unidades": {
+   "unidade": "un",
+   "valor": 48
+  },
+  "vagas": {
+   "unidade": "vagas",
+   "valor": 15
+  }
+ }
+}

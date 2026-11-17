@@ -6,27 +6,27 @@
  "numeros": {
   "andares": {
    "unidade": "pav",
-   "valor": 5
+   "valor": 6
   },
   "area_computavel": {
    "unidade": "m²",
-   "valor": 1289.1048
+   "valor": 5005.1412
   },
   "area_lote": {
    "unidade": "m²",
-   "valor": 1604.6575
+   "valor": 1603.4104
   },
   "area_privativa": {
    "unidade": "m²",
-   "valor": 898.38
+   "valor": 4462.92
   },
   "limitante": {
-   "andares": "O recuo cresce com a altura: o andar entre 15 e 18 m não cabe (6,69 m² ficariam fora da área em que se pode construir).",
-   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 3 unidades por andar. Com 6 unidades por andar não coube neste terreno. Nos andares de cima o recuo tira unidades: de 3 caem para 2."
+   "andares": "Parou no CA máximo do terreno (3,5): com mais um andar o CA iria de 3,12 para 3,54. CA 3,12, acima do básico (2): depende de outorga onerosa.",
+   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 10 unidades por andar."
   },
   "unidades": {
    "unidade": "un",
-   "valor": 12
+   "valor": 60
   },
   "vagas": {
    "nota": "estudo sem térreo: sem garagem",
@@ -37,31 +37,31 @@
  "numeros_terreo": {
   "andares": {
    "unidade": "pav",
-   "valor": 5
+   "valor": 7
   },
   "area_computavel": {
    "unidade": "m²",
-   "valor": 1046.8589
+   "valor": 4945.9742
   },
   "area_lote": {
    "unidade": "m²",
-   "valor": 1604.6575
+   "valor": 1603.4104
   },
   "area_privativa": {
    "unidade": "m²",
-   "valor": 673.785
+   "valor": 4313.19
   },
   "limitante": {
-   "andares": "O recuo cresce com a altura: o andar entre 15 e 18 m não cabe (6,69 m² ficariam fora da área em que se pode construir).",
-   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 3 unidades por andar. Com 6 unidades por andar não coube neste terreno. Nos andares de cima o recuo tira unidades: de 3 caem para 2."
+   "andares": "O recuo cresce com a altura: o andar entre 21 e 24 m não cabe (26,06 m² ficariam fora da área em que se pode construir). CA 3,08, acima do básico (2): depende de outorga onerosa.",
+   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 10 unidades por andar. Nos andares de cima o recuo tira unidades: de 10 caem para 8."
   },
   "unidades": {
    "unidade": "un",
-   "valor": 9
+   "valor": 58
   },
   "vagas": {
    "unidade": "vagas",
-   "valor": 9
+   "valor": 28
   }
  }
 }

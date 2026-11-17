@@ -1,189 +1,133 @@
 {
  "versao_motor": "0.8.3",
  "lote": {
-  "id": "SC-completo-22421",
-  "lid": null,
+  "id": "SC-completo-37707",
   "poligono_utm": [
    [
-    200460.699762,
-    7562459.741016
+    202534.963752,
+    7556520.530775
    ],
    [
-    200475.964685,
-    7562458.776279
+    202564.399071,
+    7556522.950214
    ],
    [
-    200477.784673,
-    7562415.852336
+    202572.015428,
+    7556433.396349
    ],
    [
-    200462.509148,
-    7562417.067135
+    202542.326356,
+    7556430.956052
    ],
    [
-    200460.699762,
-    7562459.741016
+    202534.963752,
+    7556520.530775
    ]
   ],
   "frente": [
    [
-    200477.784673,
-    7562415.852336
+    202534.963752,
+    7556520.530775
    ],
    [
-    200462.509148,
-    7562417.067135
+    202564.399071,
+    7556522.950214
    ]
   ],
-  "area_m2": 651.571,
-  "zona_id": "SC-Z1",
+  "area_m2": 2665.916,
+  "crs": "EPSG:31983",
+  "zona_id": "SC-Z4",
+  "zona_origem": "informada_pelo_usuario",
+  "zona_conferida": false,
+  "conferido": false,
   "relevo": {
    "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
    "resolucao_m": 30,
-   "cota_min_m": 793.0,
-   "cota_max_m": 796.9,
-   "declividade_pct": 9.3
+   "cota_min_m": 827.7,
+   "cota_max_m": 830.5,
+   "declividade_pct": 2.3,
+   "desnivel_lote_rua_m": 1.2,
+   "metodo_desnivel": "Copernicus GLO-30 (DSM de ~30 m: mede topo de prédio e árvore): cota no centroide do lote menos a mediana das cotas do asfalto da malha a até 25 m da frente principal (grade de 3 m mais um ponto por pedaço). Só triagem: entre fontes a diferença lote-rua variou mediana 0,6 m e p90 1,5 m (T26); não substitui levantamento planialtimétrico."
   },
-  "crs": "EPSG:31983",
-  "categoria": "medio",
-  "centroide_lonlat": [
-   -47.90129352,
-   -22.01707996
-  ],
-  "distancia_centro_referencia_m": 1084.4,
   "fonte": {
+   "base": "completo",
    "arquivo": "sao-carlos/dados/lotes_saocarlos_completo.geojson",
-   "indice_feicao_zero_based": 22421,
-   "propriedades": {
-    "area_m2": 651.57,
-    "frente_m": 15.47,
-    "fundo_m": 53.37,
-    "quadra": 2757,
-    "loteamento": "Jardim São Carlos",
-    "planta": "000014",
-    "encaixe": 0.972,
-    "cobertura_quadra": 1.063,
-    "fonte": "planta",
-    "padrao_lote": true,
-    "plausivel": true,
-    "frente_padrao_m": 15.5,
-    "fundo_padrao_m": 53.5
-   }
+   "indices_feicoes_zero_based": [
+    37707
+   ]
   },
   "qualidade": {
    "frentes": [
     {
-     "aresta": 2,
+     "aresta": 0,
      "pontos": [
       [
-       200477.78467340674,
-       7562415.852336318
+       202534.9637519602,
+       7556520.53077464
       ],
       [
-       200462.50914817536,
-       7562417.0671352055
+       202564.39907132363,
+       7556522.950213971
       ]
      ],
-     "comprimento_m": 15.324,
-     "distancia_max_asfalto_m": 4.614
+     "comprimento_m": 29.535,
+     "distancia_max_asfalto_m": 4.104
     }
    ],
    "esquina_indicada_pela_malha": false,
    "sobreposicao_asfalto_m2": 0.0,
-   "maior_sobreposicao_vizinho_m2": 0.0,
-   "ocupacao_retangulo_minimo": 0.96106
+   "maior_sobreposicao_vizinho_m2": 0.0
   },
-  "conferido": false,
-  "observacoes": "Geometria de ensaio derivada da maquete; não comprova lote cadastral, disponibilidade ou aptidão legal. Frente e eventual esquina inferidas da malha de asfalto, sem vistoria ou nome de rua confirmado. LID ausente na origem; ID local usa índice da feição.  Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade. Zona anotada à mão nos anexos oficiais; conferir limites e restrições em ZONAS.md. ZONA AMBÍGUA: SC-Z1 é hipótese operacional; SC-Z2 também é possível. Borda oeste a poucos metros do traço divisório, comparável ao resíduo dos controles. Não certificar viabilidade por zona única. O ajuste inicial com três controles concentrados ao sul colocava o lote do outro lado da divisa. Ajuste final usa cinco controles distribuídos; a sensibilidade exige cadastro oficial. Gabarito aeronáutico indicado no Anexo 07, sem altura local definida. Próximo ao Gregório: verificar APP, drenagem e inundação. Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal. Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar. Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura.",
+  "observacoes": "Geometria de ensaio derivada do cadastro/maquete, sem vistoria. Zona informada pelo usuário, não conferida. Frente inferida da malha de asfalto, por comprimento decrescente e índice da aresta. Áreas especiais: triagem raster dos Anexos 05/06/07, confirmar incidências e pendências em areas_especiais. Restrições do loteamento não verificadas. Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade.",
   "areas_especiais": [
    {
-    "tipo": "gabarito_aeronautico",
-    "nome": "Superfície de aproximação e decolagem do Aeroporto Mário Pereira Lopes",
-    "observacoes": "Lote dentro do tracejado roxo identificado na legenda como restrição de gabarito. O mapa não dá altura numérica local. Consultar DECEA; não equivale ao gabarito histórico de 9 m.",
+    "tipo": "nao_verificada",
+    "nome": "Leitura automática do Anexo 05: nenhuma área especial encontrada — não conferida",
+    "incidencia": "nao_verificada",
     "conferido": false,
-    "incidencia": "sobreposicao_visual",
-    "fonte": "Lei 18.053/2016, arts. 105 a 107, Anexo 07, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
-    "evidencia": "dados/zonas-mapas/SC-completo-22421-anexo07.jpg"
-   }
-  ],
-  "anotacao_zoneamento": {
-   "alternativas_zona_id": [
-    "SC-Z1",
-    "SC-Z2"
-   ],
-   "zona_ambigua": true,
-   "evidencia_zoneamento": "Ajuste final coloca o polígono no lado ocre Z1, imediatamente a leste da divisa amarela Z2, junto à Rua Conde do Pinhal. Classificação ambígua na escala do mapa.",
-   "areas_especiais_verificacao": {
-    "05": "Ao sul da AIA linear do Gregório, sem interseção visual.",
-    "06": "Fora da poligonal histórica, subárea de 9 m e Observatório.",
-    "07": "Dentro da superfície de aproximação/decolagem, em tracejado roxo."
+    "fonte": "Lei 18.053/2016, Anexo 05, p. 1; raster conferido por SHA256 quando disponível",
+    "observacoes": "Leitura automática sem cor da legenda nem cone no lote e na margem de ~10 m; confirmar no cadastro e no órgão competente; sem altura numérica aplicada.",
+    "evidencia": "dados/zonas-mapas/anexo05.jpg; centros dos pixels do lote e margem de 10 m + 4 pixels",
+    "anexo": "05"
    },
-   "limitacoes": [
-    "ZONA AMBÍGUA: SC-Z1 é hipótese operacional; SC-Z2 também é possível. Borda oeste a poucos metros do traço divisório, comparável ao resíduo dos controles. Não certificar viabilidade por zona única.",
-    "O ajuste inicial com três controles concentrados ao sul colocava o lote do outro lado da divisa. Ajuste final usa cinco controles distribuídos; a sensibilidade exige cadastro oficial.",
-    "Gabarito aeronáutico indicado no Anexo 07, sem altura local definida. Próximo ao Gregório: verificar APP, drenagem e inundação.",
-    "Anotação manual para simulação, não certidão municipal. A geometria de ensaio da maquete não comprova lote cadastral, disponibilidade ou aptidão legal.",
-    "Mapas raster generalizados: o resíduo dos controles não mede o erro total do mapa ou do lote. Confirmar cadastro, matrícula, loteamento e normas atualizadas antes de projetar.",
-    "Ausência de incidência visual não afasta APP, servidão, patrimônio individual, inundação, contaminação ou outras restrições não desenhadas. Consulta específica ao DECEA continua necessária para validar altura."
-   ],
-   "poligono_sha256": "0093bfe02944418c2b4be3eccc9a5e13db7efd7e4396eb6381971b960a6099d9",
-   "conferido": false,
-   "data_anotacao": "2026-11-14",
-   "fontes": [
-    {
-     "lei": "Lei 18.053/2016",
-     "anexo": "02",
-     "pagina": 1,
-     "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2002%20-%20Zoneamento%20Urbano.pdf",
-     "sha256": "f2dbbf98a0698092a78be5585f479db4164267478a5a83b0dc8104917fdf5ef2",
-     "data": "2026-11-14"
-    },
-    {
-     "lei": "Lei 18.053/2016",
-     "anexo": "05",
-     "pagina": 1,
-     "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2005%20-%20AEIs%20Ambientais.pdf",
-     "sha256": "af2d54f9694ea9055273db821609798f51a0dd8d057bace97e9effee2ebddfa7",
-     "data": "2026-11-14"
-    },
-    {
-     "lei": "Lei 18.053/2016",
-     "anexo": "06",
-     "pagina": 1,
-     "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2006%20-%20AEIs%20Urbanas.pdf",
-     "sha256": "3bfc5f7b8b79c5016a526cd08ac7f5f0f83f0fb51f27a2d1173785ee2bbc0f5d",
-     "data": "2026-11-14"
-    },
-    {
-     "lei": "Lei 18.053/2016",
-     "anexo": "07",
-     "pagina": 1,
-     "url": "https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf",
-     "sha256": "3c290bd44a8e6b5a5effca6715017bff21bdce5357a3d36167af95d3439e8031",
-     "data": "2026-11-14"
-    }
-   ],
-   "metodo": "Vértices EPSG:31983 transformados para EPSG:29183; ajuste afim sobre JPEG original usando cinco vértices do perímetro do Anexo 02.A. Leitura manual da legenda e do polígono completo. Sem fx/fy, KML de proposta ou inferência por bairro.",
-   "evidencias": [
-    "dados/zonas-mapas/SC-completo-22421-anexo02.jpg",
-    "dados/zonas-mapas/SC-completo-22421-anexo05.jpg",
-    "dados/zonas-mapas/SC-completo-22421-anexo06.jpg",
-    "dados/zonas-mapas/SC-completo-22421-anexo07.jpg"
-   ],
-   "controles": "dados/zonas-controles.json",
-   "posicionamento": "dados/zonas-posicionamento.json",
-   "rmse_controles_anexo02_m": 3.526,
-   "incerteza_posicional_total_m": null
-  },
-  "zona_origem": "anotada_a_mao",
-  "zona_conferida": false
+   {
+    "tipo": "nao_verificada",
+    "nome": "Áreas especiais do Anexo 06: não verificada",
+    "incidencia": "nao_verificada",
+    "conferido": false,
+    "fonte": "Lei 18.053/2016, Anexo 06, p. 1; raster conferido por SHA256 quando disponível",
+    "observacoes": "Cor encoberta/sem correspondência segura no lote ou margem de ~10 m, ou resolução insuficiente; confirmar no cadastro e no órgão competente; sem altura numérica aplicada.",
+    "evidencia": "dados/zonas-mapas/anexo06.jpg; centros dos pixels do lote e margem de 10 m + 4 pixels",
+    "anexo": "06"
+   },
+   {
+    "tipo": "nao_verificada",
+    "nome": "Áreas especiais do Anexo 07: não verificada",
+    "incidencia": "nao_verificada",
+    "conferido": false,
+    "fonte": "Lei 18.053/2016, Anexo 07, p. 1; raster conferido por SHA256 quando disponível",
+    "observacoes": "Cor encoberta/sem correspondência segura no lote ou margem de ~10 m, ou resolução insuficiente; confirmar no cadastro e no órgão competente; sem altura numérica aplicada.",
+    "evidencia": "dados/zonas-mapas/anexo07.jpg; centros dos pixels do lote e margem de 10 m + 4 pixels",
+    "anexo": "07"
+   },
+   {
+    "tipo": "nao_verificada",
+    "nome": "Leis posteriores aos mapas de dez/2016 (19.166/2019 e 18.927/2018): não desenhadas",
+    "incidencia": "nao_verificada",
+    "conferido": false,
+    "fonte": "Lei 19.166/2019 (https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_339); Lei 18.927/2018 (https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_754; PDF https://www.saocarlos.sp.gov.br/images/stories/pdf/conselhos/lei18927-digital.pdf)",
+    "observacoes": "Os mapas lidos (Anexos 05, 06 e 07 da Lei 18.053/2016) são de dez/2016 e não trazem estas alterações, que não estão desenhadas aqui: Lei 19.166/2019, AEI de Interesse Industrial e de Serviços 44 e 45 (Anexo 6), áreas N e O do Anexo 9-A e ZUPI-II, na SP-318 km 236, com perímetro só em texto (rumos e distâncias, sem coordenadas); Lei 18.927/2018, Zona 6E (Santa Eudóxia), sem mapa. O Anexo 9-A (áreas compatíveis com usos incômodos) não é lido por nenhum módulo: não verificado. Confirmar na Prefeitura, sobretudo perto da SP-318 km 236; sem altura numérica aplicada.",
+    "evidencia": "AUDITORIA-6b: a legenda do anexo06.jpg lista AEI só até o item 43; o Anexo 9-A de 2016 vai de A a M; os textos das leis não trazem coordenadas",
+    "anexo": "06/09-A"
+   }
+  ]
  },
  "zona": {
-  "id": "SC-Z1",
-  "nome": "Zona 1 – Ocupação Consolidada",
+  "id": "SC-Z4",
+  "nome": "Zona 4 – Qualificação e Ocupação Controlada",
   "parametros": {
-   "ca_basico": 2.0,
-   "ca_maximo": 3.0,
+   "ca_basico": 1.4,
+   "ca_maximo": 1.4,
    "taxa_ocupacao": 0.7,
    "taxa_permeabilidade": 0.15,
    "recuo_frontal_m": null,
@@ -228,15 +172,14 @@
    "vaga_largura_m": 2.4,
    "vaga_comprimento_m": 5.0,
    "faixa_manobra_90graus_m": 5.0,
-   "ca_unifamiliar": 1.4,
    "lote_min_m2": 200,
    "testada_min_m": 10,
-   "outorga_onerosa": true
+   "outorga_onerosa": false
   },
   "fontes": [
    {
     "lei": "Lei nº 18.053/2016 (Plano Diretor)",
-    "artigo": "art. 17; art. 152-II; art. 176",
+    "artigo": "art. 29; art. 152-V",
     "url": "https://servico.saocarlos.sp.gov.br/consultaleis/index.php?acao=14&lei=1_2257",
     "data": "2016-12-19"
    },
@@ -272,7 +215,7 @@
    }
   ],
   "conferido": true,
-  "observacoes": "CAM 3,0 só para empreendimento com pelo menos 50% da área computável residencial multifamiliar (art. 152-II-b); se mais de 50% for comércio/serviço, vale só o CAB 2,0 (art. 17, parágrafo único). Acima do CAB paga outorga (art. 177 §1º, 5%). HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
+  "observacoes": "CA único 1,4, repetido em ca_basico e ca_maximo. HIS: lote 160 m², testada 8 m. Recuo frontal: nem o Plano Diretor nem o Código de Obras definem um recuo frontal geral; vale o que estiver registrado no loteamento (COE art. 74). Altura: o Plano Diretor não limita altura por zona; só há limite na Subárea de Restrição de Gabarito (9 m, art. 80) e na área do Observatório da USP (art. 82), ver FONTES.md. recuo_lateral_m/recuo_fundos_m = 1,50 é o mínimo com janela no térreo e no 1º pavimento (pavimentos 1 e 2, contando o térreo como 1); acima disso vale a regra h/8. Faixas não edificáveis do lote (COE, redação da Lei 22.285/2024): rodovia 15 m a partir da faixa de domínio, 21 m onde o Anexo 8 do Plano Diretor prevê marginal (art. 72); ferrovia: faixa do art. 4º, III-A, da Lei federal 6.766/1979 (15 m de cada lado pela Lei 13.913/2019, número não conferido no texto federal) (art. 72-A); linha de transmissão: lote a 35 m ou menos do eixo segue a faixa da concessionária (art. 73). São restrição do lote, não da zona."
  },
  "premissas": {
   "pe_direito_m": 3.0,
@@ -322,27 +265,27 @@
  "caixa_maxima": {
   "projecao_utm": [
    [
-    200462.269,
-    7562458.1388
+    202543.6984,
+    7556432.5739
    ],
    [
-    200474.5232,
-    7562457.3644
+    202536.7864,
+    7556516.6671
    ],
    [
-    200476.1075,
-    7562419.9983
+    202563.2431,
+    7556518.8417
    ],
    [
-    200463.8449,
-    7562420.9735
+    202570.3934,
+    7556434.7681
    ]
   ],
-  "altura_m": 13.5,
-  "area_projecao_m2": 455.44,
-  "area_lote_m2": 651.57,
-  "area_computavel_max_m2": 1954.71,
-  "ocupacao_max_m2": 456.1,
+  "altura_m": 55.5,
+  "area_projecao_m2": 2249.94,
+  "area_lote_m2": 2665.92,
+  "area_computavel_max_m2": 3732.28,
+  "ocupacao_max_m2": 1866.14,
   "recuo_frontal_m": 4.0,
   "degraus": [
    {
@@ -351,20 +294,20 @@
     "recuo_fundos_m": 1.5,
     "projecao_utm": [
      [
-      200462.269,
-      7562458.1388
+      202543.6984,
+      7556432.5739
      ],
      [
-      200474.5232,
-      7562457.3644
+      202536.7864,
+      7556516.6671
      ],
      [
-      200476.1075,
-      7562419.9983
+      202563.2431,
+      7556518.8417
      ],
      [
-      200463.8449,
-      7562420.9735
+      202570.3934,
+      7556434.7681
      ]
     ]
    },
@@ -374,20 +317,250 @@
     "recuo_fundos_m": 2.0,
     "projecao_utm": [
      [
-      200462.7921,
-      7562457.6048
+      202544.1558,
+      7556433.1132
      ],
      [
-      200474.0427,
-      7562456.8938
+      202537.2847,
+      7556516.7081
      ],
      [
-      200475.6054,
-      7562420.0383
+      202562.7448,
+      7556518.8007
      ],
      [
-      200464.347,
-      7562420.9336
+      202569.8527,
+      7556435.2253
+     ]
+    ]
+   },
+   {
+    "z0_m": 16.5,
+    "recuo_lateral_m": 2.44,
+    "recuo_fundos_m": 2.44,
+    "projecao_utm": [
+     [
+      202544.5583,
+      7556433.5877
+     ],
+     [
+      202537.7232,
+      7556516.7441
+     ],
+     [
+      202562.3062,
+      7556518.7647
+     ],
+     [
+      202569.3768,
+      7556435.6277
+     ]
+    ]
+   },
+   {
+    "z0_m": 19.5,
+    "recuo_lateral_m": 2.81,
+    "recuo_fundos_m": 2.81,
+    "projecao_utm": [
+     [
+      202544.8967,
+      7556433.9868
+     ],
+     [
+      202538.092,
+      7556516.7744
+     ],
+     [
+      202561.9375,
+      7556518.7344
+     ],
+     [
+      202568.9767,
+      7556435.9661
+     ]
+    ]
+   },
+   {
+    "z0_m": 22.5,
+    "recuo_lateral_m": 3.19,
+    "recuo_fundos_m": 3.19,
+    "projecao_utm": [
+     [
+      202545.2443,
+      7556434.3967
+     ],
+     [
+      202538.4707,
+      7556516.8055
+     ],
+     [
+      202561.5587,
+      7556518.7033
+     ],
+     [
+      202568.5658,
+      7556436.3136
+     ]
+    ]
+   },
+   {
+    "z0_m": 28.5,
+    "recuo_lateral_m": 3.94,
+    "recuo_fundos_m": 3.94,
+    "projecao_utm": [
+     [
+      202545.9304,
+      7556435.2056
+     ],
+     [
+      202539.2182,
+      7556516.867
+     ],
+     [
+      202560.8113,
+      7556518.6418
+     ],
+     [
+      202567.7548,
+      7556436.9994
+     ]
+    ]
+   },
+   {
+    "z0_m": 31.5,
+    "recuo_lateral_m": 4.31,
+    "recuo_fundos_m": 4.31,
+    "projecao_utm": [
+     [
+      202546.2688,
+      7556435.6046
+     ],
+     [
+      202539.5869,
+      7556516.8973
+     ],
+     [
+      202560.4425,
+      7556518.6115
+     ],
+     [
+      202567.3547,
+      7556437.3378
+     ]
+    ]
+   },
+   {
+    "z0_m": 37.5,
+    "recuo_lateral_m": 5.06,
+    "recuo_fundos_m": 5.06,
+    "projecao_utm": [
+     [
+      202546.9548,
+      7556436.4136
+     ],
+     [
+      202540.3344,
+      7556516.9587
+     ],
+     [
+      202559.695,
+      7556518.5501
+     ],
+     [
+      202566.5436,
+      7556438.0237
+     ]
+    ]
+   },
+   {
+    "z0_m": 40.5,
+    "recuo_lateral_m": 5.44,
+    "recuo_fundos_m": 5.44,
+    "projecao_utm": [
+     [
+      202547.3024,
+      7556436.8234
+     ],
+     [
+      202540.7131,
+      7556516.9899
+     ],
+     [
+      202559.3163,
+      7556518.5189
+     ],
+     [
+      202566.1327,
+      7556438.3712
+     ]
+    ]
+   },
+   {
+    "z0_m": 43.5,
+    "recuo_lateral_m": 5.81,
+    "recuo_fundos_m": 5.81,
+    "projecao_utm": [
+     [
+      202547.6409,
+      7556437.2225
+     ],
+     [
+      202541.0819,
+      7556517.0202
+     ],
+     [
+      202558.9475,
+      7556518.4886
+     ],
+     [
+      202565.7326,
+      7556438.7095
+     ]
+    ]
+   },
+   {
+    "z0_m": 49.5,
+    "recuo_lateral_m": 6.56,
+    "recuo_fundos_m": 6.56,
+    "projecao_utm": [
+     [
+      202548.3269,
+      7556438.0314
+     ],
+     [
+      202541.8294,
+      7556517.0816
+     ],
+     [
+      202558.2001,
+      7556518.4272
+     ],
+     [
+      202564.9215,
+      7556439.3954
+     ]
+    ]
+   },
+   {
+    "z0_m": 52.5,
+    "recuo_lateral_m": 6.94,
+    "recuo_fundos_m": 6.94,
+    "projecao_utm": [
+     [
+      202548.6745,
+      7556438.4412
+     ],
+     [
+      202542.2081,
+      7556517.1127
+     ],
+     [
+      202557.8213,
+      7556518.3961
+     ],
+     [
+      202564.5106,
+      7556439.7429
      ]
     ]
    }
@@ -395,24 +568,24 @@
   "parede_cega_ate_m": 12,
   "projecao_parede_cega_utm": [
    [
-    200475.9647,
-    7562458.7763
+    202572.0154,
+    7556433.3963
    ],
    [
-    200477.614,
-    7562419.8785
+    202542.3264,
+    7556430.9561
    ],
    [
-    200462.8263,
-    7562421.0545
+    202535.2914,
+    7556516.5442
    ],
    [
-    200462.5091,
-    7562417.0671
+    202564.7267,
+    7556518.9637
    ],
    [
-    200460.6998,
-    7562459.741
+    202564.3991,
+    7556522.9502
    ]
   ]
  },
@@ -425,20 +598,20 @@
      "id": "apto_01_andar_01",
      "base_utm": [
       [
-       200464.4402,
-       7562421.1183
+       202562.9598,
+       7556469.0483
       ],
       [
-       200464.2095,
-       7562426.5632
+       202563.7133,
+       7556459.8789
       ],
       [
-       200474.1501,
-       7562426.9844
+       202555.7897,
+       7556459.2277
       ],
       [
-       200474.3808,
-       7562421.5396
+       202555.0362,
+       7556468.3972
       ]
      ],
      "z0_m": 0,
@@ -450,20 +623,20 @@
      "id": "apto_02_andar_01",
      "base_utm": [
       [
-       200464.1036,
-       7562429.0615
+       202563.9182,
+       7556457.3866
       ],
       [
-       200463.8728,
-       7562434.5063
+       202564.6717,
+       7556448.2171
       ],
       [
-       200473.8134,
-       7562434.9276
+       202556.7481,
+       7556447.566
       ],
       [
-       200474.0442,
-       7562429.4827
+       202555.9945,
+       7556456.7354
       ]
      ],
      "z0_m": 0,
@@ -475,20 +648,20 @@
      "id": "apto_03_andar_01",
      "base_utm": [
       [
-       200463.8729,
-       7562434.5068
+       202564.6717,
+       7556448.2165
       ],
       [
-       200463.6421,
-       7562439.9517
+       202565.4253,
+       7556439.0471
       ],
       [
-       200473.5827,
-       7562440.3729
+       202557.5017,
+       7556438.3959
       ],
       [
-       200473.8135,
-       7562434.9281
+       202556.7481,
+       7556447.5654
       ]
      ],
      "z0_m": 0,
@@ -500,20 +673,20 @@
      "id": "apto_04_andar_01",
      "base_utm": [
       [
-       200463.6421,
-       7562439.9523
+       202553.5406,
+       7556468.2743
       ],
       [
-       200463.4114,
-       7562445.3972
+       202554.2941,
+       7556459.1048
       ],
       [
-       200473.3519,
-       7562445.8184
+       202546.3705,
+       7556458.4536
       ],
       [
-       200473.5827,
-       7562440.3736
+       202545.617,
+       7556467.6231
       ]
      ],
      "z0_m": 0,
@@ -525,20 +698,20 @@
      "id": "apto_05_andar_01",
      "base_utm": [
       [
-       200463.4113,
-       7562445.3978
+       202554.4989,
+       7556456.6125
       ],
       [
-       200463.1806,
-       7562450.8426
+       202555.2525,
+       7556447.443
       ],
       [
-       200473.1212,
-       7562451.2639
+       202547.3289,
+       7556446.7919
       ],
       [
-       200473.3519,
-       7562445.8191
+       202546.5753,
+       7556455.9613
       ]
      ],
      "z0_m": 0,
@@ -550,20 +723,20 @@
      "id": "apto_06_andar_01",
      "base_utm": [
       [
-       200463.1805,
-       7562450.8432
+       202555.2525,
+       7556447.4424
       ],
       [
-       200462.9498,
-       7562456.288
+       202556.0061,
+       7556438.273
       ],
       [
-       200472.8904,
-       7562456.7093
+       202548.0824,
+       7556437.6218
       ],
       [
-       200473.1211,
-       7562451.2644
+       202547.3289,
+       7556446.7913
       ]
      ],
      "z0_m": 0,
@@ -575,20 +748,20 @@
      "id": "corredor_01_andar_01",
      "base_utm": [
       [
-       200474.3815,
-       7562421.5396
+       202555.0356,
+       7556468.3971
       ],
       [
-       200474.1507,
-       7562426.9845
+       202555.7891,
+       7556459.2277
       ],
       [
-       200475.6487,
-       7562427.048
+       202554.2947,
+       7556459.1049
       ],
       [
-       200475.8794,
-       7562421.6031
+       202553.5412,
+       7556468.2743
       ]
      ],
      "z0_m": 0,
@@ -600,20 +773,20 @@
      "id": "corredor_02_andar_01",
      "base_utm": [
       [
-       200474.0448,
-       7562429.4827
+       202555.9939,
+       7556456.7354
       ],
       [
-       200472.891,
-       7562456.7093
+       202557.5011,
+       7556438.3958
       ],
       [
-       200474.389,
-       7562456.7728
+       202556.0067,
+       7556438.273
       ],
       [
-       200475.5428,
-       7562429.5461
+       202554.4995,
+       7556456.6126
       ]
      ],
      "z0_m": 0,
@@ -625,20 +798,20 @@
      "id": "hall_nucleo_andar_01",
      "base_utm": [
       [
-       200473.1011,
-       7562426.9406
+       202558.73,
+       7556459.4687
       ],
       [
-       200472.9952,
-       7562429.4376
+       202558.9347,
+       7556456.9776
       ],
       [
-       200475.5428,
-       7562429.5456
+       202550.4623,
+       7556456.2814
       ],
       [
-       200475.6486,
-       7562427.0485
+       202550.2576,
+       7556458.7725
       ]
      ],
      "z0_m": 0,
@@ -650,20 +823,20 @@
      "id": "escada_andar_01",
      "base_utm": [
       [
-       200464.2094,
-       7562426.5638
+       202563.7134,
+       7556459.8783
       ],
       [
-       200464.1036,
-       7562429.0609
+       202563.9181,
+       7556457.3872
       ],
       [
-       200469.0983,
-       7562429.2724
+       202558.9353,
+       7556456.9777
       ],
       [
-       200469.2041,
-       7562426.7754
+       202558.7306,
+       7556459.4688
       ]
      ],
      "z0_m": 0,
@@ -675,20 +848,20 @@
      "id": "elevador_andar_01",
      "base_utm": [
       [
-       200469.2047,
-       7562426.7755
+       202550.257,
+       7556458.7724
       ],
       [
-       200469.0989,
-       7562429.2725
+       202550.4617,
+       7556456.2813
       ],
       [
-       200471.4961,
-       7562429.3741
+       202548.0703,
+       7556456.0848
       ],
       [
-       200471.6019,
-       7562426.8771
+       202547.8656,
+       7556458.5759
       ]
      ],
      "z0_m": 0,
@@ -700,20 +873,20 @@
      "id": "shaft_andar_01",
      "base_utm": [
       [
-       200471.6025,
-       7562426.8771
+       202547.865,
+       7556458.5759
       ],
       [
-       200471.4966,
-       7562429.3742
+       202548.0697,
+       7556456.0848
       ],
       [
-       200472.9947,
-       7562429.4376
+       202546.5753,
+       7556455.9619
       ],
       [
-       200473.1005,
-       7562426.9405
+       202546.3706,
+       7556458.453
       ]
      ],
      "z0_m": 0,
@@ -725,20 +898,20 @@
      "id": "apto_01_andar_02",
      "base_utm": [
       [
-       200464.4402,
-       7562421.1183
+       202562.9598,
+       7556469.0483
       ],
       [
-       200464.2095,
-       7562426.5632
+       202563.7133,
+       7556459.8789
       ],
       [
-       200474.1501,
-       7562426.9844
+       202555.7897,
+       7556459.2277
       ],
       [
-       200474.3808,
-       7562421.5396
+       202555.0362,
+       7556468.3972
       ]
      ],
      "z0_m": 3,
@@ -750,20 +923,20 @@
      "id": "apto_02_andar_02",
      "base_utm": [
       [
-       200464.1036,
-       7562429.0615
+       202563.9182,
+       7556457.3866
       ],
       [
-       200463.8728,
-       7562434.5063
+       202564.6717,
+       7556448.2171
       ],
       [
-       200473.8134,
-       7562434.9276
+       202556.7481,
+       7556447.566
       ],
       [
-       200474.0442,
-       7562429.4827
+       202555.9945,
+       7556456.7354
       ]
      ],
      "z0_m": 3,
@@ -775,20 +948,20 @@
      "id": "apto_03_andar_02",
      "base_utm": [
       [
-       200463.8729,
-       7562434.5068
+       202564.6717,
+       7556448.2165
       ],
       [
-       200463.6421,
-       7562439.9517
+       202565.4253,
+       7556439.0471
       ],
       [
-       200473.5827,
-       7562440.3729
+       202557.5017,
+       7556438.3959
       ],
       [
-       200473.8135,
-       7562434.9281
+       202556.7481,
+       7556447.5654
       ]
      ],
      "z0_m": 3,
@@ -800,20 +973,20 @@
      "id": "apto_04_andar_02",
      "base_utm": [
       [
-       200463.6421,
-       7562439.9523
+       202553.5406,
+       7556468.2743
       ],
       [
-       200463.4114,
-       7562445.3972
+       202554.2941,
+       7556459.1048
       ],
       [
-       200473.3519,
-       7562445.8184
+       202546.3705,
+       7556458.4536
       ],
       [
-       200473.5827,
-       7562440.3736
+       202545.617,
+       7556467.6231
       ]
      ],
      "z0_m": 3,
@@ -825,20 +998,20 @@
      "id": "apto_05_andar_02",
      "base_utm": [
       [
-       200463.4113,
-       7562445.3978
+       202554.4989,
+       7556456.6125
       ],
       [
-       200463.1806,
-       7562450.8426
+       202555.2525,
+       7556447.443
       ],
       [
-       200473.1212,
-       7562451.2639
+       202547.3289,
+       7556446.7919
       ],
       [
-       200473.3519,
-       7562445.8191
+       202546.5753,
+       7556455.9613
       ]
      ],
      "z0_m": 3,
@@ -850,20 +1023,20 @@
      "id": "apto_06_andar_02",
      "base_utm": [
       [
-       200463.1805,
-       7562450.8432
+       202555.2525,
+       7556447.4424
       ],
       [
-       200462.9498,
-       7562456.288
+       202556.0061,
+       7556438.273
       ],
       [
-       200472.8904,
-       7562456.7093
+       202548.0824,
+       7556437.6218
       ],
       [
-       200473.1211,
-       7562451.2644
+       202547.3289,
+       7556446.7913
       ]
      ],
      "z0_m": 3,
@@ -875,20 +1048,20 @@
      "id": "corredor_01_andar_02",
      "base_utm": [
       [
-       200474.3815,
-       7562421.5396
+       202555.0356,
+       7556468.3971
       ],
       [
-       200474.1507,
-       7562426.9845
+       202555.7891,
+       7556459.2277
       ],
       [
-       200475.6487,
-       7562427.048
+       202554.2947,
+       7556459.1049
       ],
       [
-       200475.8794,
-       7562421.6031
+       202553.5412,
+       7556468.2743
       ]
      ],
      "z0_m": 3,
@@ -900,20 +1073,20 @@
      "id": "corredor_02_andar_02",
      "base_utm": [
       [
-       200474.0448,
-       7562429.4827
+       202555.9939,
+       7556456.7354
       ],
       [
-       200472.891,
-       7562456.7093
+       202557.5011,
+       7556438.3958
       ],
       [
-       200474.389,
-       7562456.7728
+       202556.0067,
+       7556438.273
       ],
       [
-       200475.5428,
-       7562429.5461
+       202554.4995,
+       7556456.6126
       ]
      ],
      "z0_m": 3,
@@ -925,20 +1098,20 @@
      "id": "hall_nucleo_andar_02",
      "base_utm": [
       [
-       200473.1011,
-       7562426.9406
+       202558.73,
+       7556459.4687
       ],
       [
-       200472.9952,
-       7562429.4376
+       202558.9347,
+       7556456.9776
       ],
       [
-       200475.5428,
-       7562429.5456
+       202550.4623,
+       7556456.2814
       ],
       [
-       200475.6486,
-       7562427.0485
+       202550.2576,
+       7556458.7725
       ]
      ],
      "z0_m": 3,
@@ -950,20 +1123,20 @@
      "id": "escada_andar_02",
      "base_utm": [
       [
-       200464.2094,
-       7562426.5638
+       202563.7134,
+       7556459.8783
       ],
       [
-       200464.1036,
-       7562429.0609
+       202563.9181,
+       7556457.3872
       ],
       [
-       200469.0983,
-       7562429.2724
+       202558.9353,
+       7556456.9777
       ],
       [
-       200469.2041,
-       7562426.7754
+       202558.7306,
+       7556459.4688
       ]
      ],
      "z0_m": 3,
@@ -975,20 +1148,20 @@
      "id": "elevador_andar_02",
      "base_utm": [
       [
-       200469.2047,
-       7562426.7755
+       202550.257,
+       7556458.7724
       ],
       [
-       200469.0989,
-       7562429.2725
+       202550.4617,
+       7556456.2813
       ],
       [
-       200471.4961,
-       7562429.3741
+       202548.0703,
+       7556456.0848
       ],
       [
-       200471.6019,
-       7562426.8771
+       202547.8656,
+       7556458.5759
       ]
      ],
      "z0_m": 3,
@@ -1000,46 +1173,1546 @@
      "id": "shaft_andar_02",
      "base_utm": [
       [
-       200471.6025,
-       7562426.8771
+       202547.865,
+       7556458.5759
       ],
       [
-       200471.4966,
-       7562429.3742
+       202548.0697,
+       7556456.0848
       ],
       [
-       200472.9947,
-       7562429.4376
+       202546.5753,
+       7556455.9619
       ],
       [
-       200473.1005,
-       7562426.9405
+       202546.3706,
+       7556458.453
       ]
      ],
      "z0_m": 3,
      "altura_m": 3,
      "pavimentos": 1,
      "uso": "nucleo"
+    },
+    {
+     "id": "apto_01_andar_03",
+     "base_utm": [
+      [
+       202562.9598,
+       7556469.0483
+      ],
+      [
+       202563.7133,
+       7556459.8789
+      ],
+      [
+       202555.7897,
+       7556459.2277
+      ],
+      [
+       202555.0362,
+       7556468.3972
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_02_andar_03",
+     "base_utm": [
+      [
+       202563.9182,
+       7556457.3866
+      ],
+      [
+       202564.6717,
+       7556448.2171
+      ],
+      [
+       202556.7481,
+       7556447.566
+      ],
+      [
+       202555.9945,
+       7556456.7354
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_03_andar_03",
+     "base_utm": [
+      [
+       202564.6717,
+       7556448.2165
+      ],
+      [
+       202565.4253,
+       7556439.0471
+      ],
+      [
+       202557.5017,
+       7556438.3959
+      ],
+      [
+       202556.7481,
+       7556447.5654
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_04_andar_03",
+     "base_utm": [
+      [
+       202553.5406,
+       7556468.2743
+      ],
+      [
+       202554.2941,
+       7556459.1048
+      ],
+      [
+       202546.3705,
+       7556458.4536
+      ],
+      [
+       202545.617,
+       7556467.6231
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_05_andar_03",
+     "base_utm": [
+      [
+       202554.4989,
+       7556456.6125
+      ],
+      [
+       202555.2525,
+       7556447.443
+      ],
+      [
+       202547.3289,
+       7556446.7919
+      ],
+      [
+       202546.5753,
+       7556455.9613
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_06_andar_03",
+     "base_utm": [
+      [
+       202555.2525,
+       7556447.4424
+      ],
+      [
+       202556.0061,
+       7556438.273
+      ],
+      [
+       202548.0824,
+       7556437.6218
+      ],
+      [
+       202547.3289,
+       7556446.7913
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "corredor_01_andar_03",
+     "base_utm": [
+      [
+       202555.0356,
+       7556468.3971
+      ],
+      [
+       202555.7891,
+       7556459.2277
+      ],
+      [
+       202554.2947,
+       7556459.1049
+      ],
+      [
+       202553.5412,
+       7556468.2743
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "corredor_02_andar_03",
+     "base_utm": [
+      [
+       202555.9939,
+       7556456.7354
+      ],
+      [
+       202557.5011,
+       7556438.3958
+      ],
+      [
+       202556.0067,
+       7556438.273
+      ],
+      [
+       202554.4995,
+       7556456.6126
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "hall_nucleo_andar_03",
+     "base_utm": [
+      [
+       202558.73,
+       7556459.4687
+      ],
+      [
+       202558.9347,
+       7556456.9776
+      ],
+      [
+       202550.4623,
+       7556456.2814
+      ],
+      [
+       202550.2576,
+       7556458.7725
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "escada_andar_03",
+     "base_utm": [
+      [
+       202563.7134,
+       7556459.8783
+      ],
+      [
+       202563.9181,
+       7556457.3872
+      ],
+      [
+       202558.9353,
+       7556456.9777
+      ],
+      [
+       202558.7306,
+       7556459.4688
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "elevador_andar_03",
+     "base_utm": [
+      [
+       202550.257,
+       7556458.7724
+      ],
+      [
+       202550.4617,
+       7556456.2813
+      ],
+      [
+       202548.0703,
+       7556456.0848
+      ],
+      [
+       202547.8656,
+       7556458.5759
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "shaft_andar_03",
+     "base_utm": [
+      [
+       202547.865,
+       7556458.5759
+      ],
+      [
+       202548.0697,
+       7556456.0848
+      ],
+      [
+       202546.5753,
+       7556455.9619
+      ],
+      [
+       202546.3706,
+       7556458.453
+      ]
+     ],
+     "z0_m": 6,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "apto_01_andar_04",
+     "base_utm": [
+      [
+       202562.9598,
+       7556469.0483
+      ],
+      [
+       202563.7133,
+       7556459.8789
+      ],
+      [
+       202555.7897,
+       7556459.2277
+      ],
+      [
+       202555.0362,
+       7556468.3972
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_02_andar_04",
+     "base_utm": [
+      [
+       202563.9182,
+       7556457.3866
+      ],
+      [
+       202564.6717,
+       7556448.2171
+      ],
+      [
+       202556.7481,
+       7556447.566
+      ],
+      [
+       202555.9945,
+       7556456.7354
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_03_andar_04",
+     "base_utm": [
+      [
+       202564.6717,
+       7556448.2165
+      ],
+      [
+       202565.4253,
+       7556439.0471
+      ],
+      [
+       202557.5017,
+       7556438.3959
+      ],
+      [
+       202556.7481,
+       7556447.5654
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_04_andar_04",
+     "base_utm": [
+      [
+       202553.5406,
+       7556468.2743
+      ],
+      [
+       202554.2941,
+       7556459.1048
+      ],
+      [
+       202546.3705,
+       7556458.4536
+      ],
+      [
+       202545.617,
+       7556467.6231
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_05_andar_04",
+     "base_utm": [
+      [
+       202554.4989,
+       7556456.6125
+      ],
+      [
+       202555.2525,
+       7556447.443
+      ],
+      [
+       202547.3289,
+       7556446.7919
+      ],
+      [
+       202546.5753,
+       7556455.9613
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_06_andar_04",
+     "base_utm": [
+      [
+       202555.2525,
+       7556447.4424
+      ],
+      [
+       202556.0061,
+       7556438.273
+      ],
+      [
+       202548.0824,
+       7556437.6218
+      ],
+      [
+       202547.3289,
+       7556446.7913
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "corredor_01_andar_04",
+     "base_utm": [
+      [
+       202555.0356,
+       7556468.3971
+      ],
+      [
+       202555.7891,
+       7556459.2277
+      ],
+      [
+       202554.2947,
+       7556459.1049
+      ],
+      [
+       202553.5412,
+       7556468.2743
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "corredor_02_andar_04",
+     "base_utm": [
+      [
+       202555.9939,
+       7556456.7354
+      ],
+      [
+       202557.5011,
+       7556438.3958
+      ],
+      [
+       202556.0067,
+       7556438.273
+      ],
+      [
+       202554.4995,
+       7556456.6126
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "hall_nucleo_andar_04",
+     "base_utm": [
+      [
+       202558.73,
+       7556459.4687
+      ],
+      [
+       202558.9347,
+       7556456.9776
+      ],
+      [
+       202550.4623,
+       7556456.2814
+      ],
+      [
+       202550.2576,
+       7556458.7725
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "escada_andar_04",
+     "base_utm": [
+      [
+       202563.7134,
+       7556459.8783
+      ],
+      [
+       202563.9181,
+       7556457.3872
+      ],
+      [
+       202558.9353,
+       7556456.9777
+      ],
+      [
+       202558.7306,
+       7556459.4688
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "elevador_andar_04",
+     "base_utm": [
+      [
+       202550.257,
+       7556458.7724
+      ],
+      [
+       202550.4617,
+       7556456.2813
+      ],
+      [
+       202548.0703,
+       7556456.0848
+      ],
+      [
+       202547.8656,
+       7556458.5759
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "shaft_andar_04",
+     "base_utm": [
+      [
+       202547.865,
+       7556458.5759
+      ],
+      [
+       202548.0697,
+       7556456.0848
+      ],
+      [
+       202546.5753,
+       7556455.9619
+      ],
+      [
+       202546.3706,
+       7556458.453
+      ]
+     ],
+     "z0_m": 9,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "apto_01_andar_05",
+     "base_utm": [
+      [
+       202562.9598,
+       7556469.0483
+      ],
+      [
+       202563.7133,
+       7556459.8789
+      ],
+      [
+       202555.7897,
+       7556459.2277
+      ],
+      [
+       202555.0362,
+       7556468.3972
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_02_andar_05",
+     "base_utm": [
+      [
+       202563.9182,
+       7556457.3866
+      ],
+      [
+       202564.6717,
+       7556448.2171
+      ],
+      [
+       202556.7481,
+       7556447.566
+      ],
+      [
+       202555.9945,
+       7556456.7354
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_03_andar_05",
+     "base_utm": [
+      [
+       202564.6717,
+       7556448.2165
+      ],
+      [
+       202565.4253,
+       7556439.0471
+      ],
+      [
+       202557.5017,
+       7556438.3959
+      ],
+      [
+       202556.7481,
+       7556447.5654
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_04_andar_05",
+     "base_utm": [
+      [
+       202553.5406,
+       7556468.2743
+      ],
+      [
+       202554.2941,
+       7556459.1048
+      ],
+      [
+       202546.3705,
+       7556458.4536
+      ],
+      [
+       202545.617,
+       7556467.6231
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_05_andar_05",
+     "base_utm": [
+      [
+       202554.4989,
+       7556456.6125
+      ],
+      [
+       202555.2525,
+       7556447.443
+      ],
+      [
+       202547.3289,
+       7556446.7919
+      ],
+      [
+       202546.5753,
+       7556455.9613
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_06_andar_05",
+     "base_utm": [
+      [
+       202555.2525,
+       7556447.4424
+      ],
+      [
+       202556.0061,
+       7556438.273
+      ],
+      [
+       202548.0824,
+       7556437.6218
+      ],
+      [
+       202547.3289,
+       7556446.7913
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "corredor_01_andar_05",
+     "base_utm": [
+      [
+       202555.0356,
+       7556468.3971
+      ],
+      [
+       202555.7891,
+       7556459.2277
+      ],
+      [
+       202554.2947,
+       7556459.1049
+      ],
+      [
+       202553.5412,
+       7556468.2743
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "corredor_02_andar_05",
+     "base_utm": [
+      [
+       202555.9939,
+       7556456.7354
+      ],
+      [
+       202557.5011,
+       7556438.3958
+      ],
+      [
+       202556.0067,
+       7556438.273
+      ],
+      [
+       202554.4995,
+       7556456.6126
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "hall_nucleo_andar_05",
+     "base_utm": [
+      [
+       202558.73,
+       7556459.4687
+      ],
+      [
+       202558.9347,
+       7556456.9776
+      ],
+      [
+       202550.4623,
+       7556456.2814
+      ],
+      [
+       202550.2576,
+       7556458.7725
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "escada_andar_05",
+     "base_utm": [
+      [
+       202563.7134,
+       7556459.8783
+      ],
+      [
+       202563.9181,
+       7556457.3872
+      ],
+      [
+       202558.9353,
+       7556456.9777
+      ],
+      [
+       202558.7306,
+       7556459.4688
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "elevador_andar_05",
+     "base_utm": [
+      [
+       202550.257,
+       7556458.7724
+      ],
+      [
+       202550.4617,
+       7556456.2813
+      ],
+      [
+       202548.0703,
+       7556456.0848
+      ],
+      [
+       202547.8656,
+       7556458.5759
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "shaft_andar_05",
+     "base_utm": [
+      [
+       202547.865,
+       7556458.5759
+      ],
+      [
+       202548.0697,
+       7556456.0848
+      ],
+      [
+       202546.5753,
+       7556455.9619
+      ],
+      [
+       202546.3706,
+       7556458.453
+      ]
+     ],
+     "z0_m": 12,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "apto_01_andar_06",
+     "base_utm": [
+      [
+       202562.9598,
+       7556469.0483
+      ],
+      [
+       202563.7133,
+       7556459.8789
+      ],
+      [
+       202555.7897,
+       7556459.2277
+      ],
+      [
+       202555.0362,
+       7556468.3972
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_02_andar_06",
+     "base_utm": [
+      [
+       202563.9182,
+       7556457.3866
+      ],
+      [
+       202564.6717,
+       7556448.2171
+      ],
+      [
+       202556.7481,
+       7556447.566
+      ],
+      [
+       202555.9945,
+       7556456.7354
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_03_andar_06",
+     "base_utm": [
+      [
+       202564.6717,
+       7556448.2165
+      ],
+      [
+       202565.4253,
+       7556439.0471
+      ],
+      [
+       202557.5017,
+       7556438.3959
+      ],
+      [
+       202556.7481,
+       7556447.5654
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_04_andar_06",
+     "base_utm": [
+      [
+       202553.5406,
+       7556468.2743
+      ],
+      [
+       202554.2941,
+       7556459.1048
+      ],
+      [
+       202546.3705,
+       7556458.4536
+      ],
+      [
+       202545.617,
+       7556467.6231
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_05_andar_06",
+     "base_utm": [
+      [
+       202554.4989,
+       7556456.6125
+      ],
+      [
+       202555.2525,
+       7556447.443
+      ],
+      [
+       202547.3289,
+       7556446.7919
+      ],
+      [
+       202546.5753,
+       7556455.9613
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_06_andar_06",
+     "base_utm": [
+      [
+       202555.2525,
+       7556447.4424
+      ],
+      [
+       202556.0061,
+       7556438.273
+      ],
+      [
+       202548.0824,
+       7556437.6218
+      ],
+      [
+       202547.3289,
+       7556446.7913
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "corredor_01_andar_06",
+     "base_utm": [
+      [
+       202555.0356,
+       7556468.3971
+      ],
+      [
+       202555.7891,
+       7556459.2277
+      ],
+      [
+       202554.2947,
+       7556459.1049
+      ],
+      [
+       202553.5412,
+       7556468.2743
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "corredor_02_andar_06",
+     "base_utm": [
+      [
+       202555.9939,
+       7556456.7354
+      ],
+      [
+       202557.5011,
+       7556438.3958
+      ],
+      [
+       202556.0067,
+       7556438.273
+      ],
+      [
+       202554.4995,
+       7556456.6126
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "hall_nucleo_andar_06",
+     "base_utm": [
+      [
+       202558.73,
+       7556459.4687
+      ],
+      [
+       202558.9347,
+       7556456.9776
+      ],
+      [
+       202550.4623,
+       7556456.2814
+      ],
+      [
+       202550.2576,
+       7556458.7725
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "escada_andar_06",
+     "base_utm": [
+      [
+       202563.7134,
+       7556459.8783
+      ],
+      [
+       202563.9181,
+       7556457.3872
+      ],
+      [
+       202558.9353,
+       7556456.9777
+      ],
+      [
+       202558.7306,
+       7556459.4688
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "elevador_andar_06",
+     "base_utm": [
+      [
+       202550.257,
+       7556458.7724
+      ],
+      [
+       202550.4617,
+       7556456.2813
+      ],
+      [
+       202548.0703,
+       7556456.0848
+      ],
+      [
+       202547.8656,
+       7556458.5759
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "shaft_andar_06",
+     "base_utm": [
+      [
+       202547.865,
+       7556458.5759
+      ],
+      [
+       202548.0697,
+       7556456.0848
+      ],
+      [
+       202546.5753,
+       7556455.9619
+      ],
+      [
+       202546.3706,
+       7556458.453
+      ]
+     ],
+     "z0_m": 15,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "apto_01_andar_07",
+     "base_utm": [
+      [
+       202562.9598,
+       7556469.0483
+      ],
+      [
+       202563.7133,
+       7556459.8789
+      ],
+      [
+       202555.7897,
+       7556459.2277
+      ],
+      [
+       202555.0362,
+       7556468.3972
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_02_andar_07",
+     "base_utm": [
+      [
+       202563.9182,
+       7556457.3866
+      ],
+      [
+       202564.6717,
+       7556448.2171
+      ],
+      [
+       202556.7481,
+       7556447.566
+      ],
+      [
+       202555.9945,
+       7556456.7354
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_03_andar_07",
+     "base_utm": [
+      [
+       202564.6717,
+       7556448.2165
+      ],
+      [
+       202565.4253,
+       7556439.0471
+      ],
+      [
+       202557.5017,
+       7556438.3959
+      ],
+      [
+       202556.7481,
+       7556447.5654
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_04_andar_07",
+     "base_utm": [
+      [
+       202553.5406,
+       7556468.2743
+      ],
+      [
+       202554.2941,
+       7556459.1048
+      ],
+      [
+       202546.3705,
+       7556458.4536
+      ],
+      [
+       202545.617,
+       7556467.6231
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_05_andar_07",
+     "base_utm": [
+      [
+       202554.4989,
+       7556456.6125
+      ],
+      [
+       202555.2525,
+       7556447.443
+      ],
+      [
+       202547.3289,
+       7556446.7919
+      ],
+      [
+       202546.5753,
+       7556455.9613
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "apto_06_andar_07",
+     "base_utm": [
+      [
+       202555.2525,
+       7556447.4424
+      ],
+      [
+       202556.0061,
+       7556438.273
+      ],
+      [
+       202548.0824,
+       7556437.6218
+      ],
+      [
+       202547.3289,
+       7556446.7913
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "unidade"
+    },
+    {
+     "id": "corredor_01_andar_07",
+     "base_utm": [
+      [
+       202555.0356,
+       7556468.3971
+      ],
+      [
+       202555.7891,
+       7556459.2277
+      ],
+      [
+       202554.2947,
+       7556459.1049
+      ],
+      [
+       202553.5412,
+       7556468.2743
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "corredor_02_andar_07",
+     "base_utm": [
+      [
+       202555.9939,
+       7556456.7354
+      ],
+      [
+       202557.5011,
+       7556438.3958
+      ],
+      [
+       202556.0067,
+       7556438.273
+      ],
+      [
+       202554.4995,
+       7556456.6126
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "hall_nucleo_andar_07",
+     "base_utm": [
+      [
+       202558.73,
+       7556459.4687
+      ],
+      [
+       202558.9347,
+       7556456.9776
+      ],
+      [
+       202550.4623,
+       7556456.2814
+      ],
+      [
+       202550.2576,
+       7556458.7725
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "circulacao"
+    },
+    {
+     "id": "escada_andar_07",
+     "base_utm": [
+      [
+       202563.7134,
+       7556459.8783
+      ],
+      [
+       202563.9181,
+       7556457.3872
+      ],
+      [
+       202558.9353,
+       7556456.9777
+      ],
+      [
+       202558.7306,
+       7556459.4688
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "elevador_andar_07",
+     "base_utm": [
+      [
+       202550.257,
+       7556458.7724
+      ],
+      [
+       202550.4617,
+       7556456.2813
+      ],
+      [
+       202548.0703,
+       7556456.0848
+      ],
+      [
+       202547.8656,
+       7556458.5759
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
+    },
+    {
+     "id": "shaft_andar_07",
+     "base_utm": [
+      [
+       202547.865,
+       7556458.5759
+      ],
+      [
+       202548.0697,
+       7556456.0848
+      ],
+      [
+       202546.5753,
+       7556455.9619
+      ],
+      [
+       202546.3706,
+       7556458.453
+      ]
+     ],
+     "z0_m": 18,
+     "altura_m": 3,
+     "pavimentos": 1,
+     "uso": "nucleo"
     }
    ],
    "metricas": {
-    "unidades_estimadas": 12,
-    "area_privativa_m2": 661.29,
-    "pavimentos": 2,
+    "unidades_estimadas": 42,
+    "area_privativa_m2": 3133.06,
+    "pavimentos": 7,
     "vagas": null,
     "area_nao_computavel_m2": null,
     "vgv_estimado": null
    },
    "alertas": [
-    "Prévia esquemática do projetista (revisão rev_b72d3651c73f): preliminar, não é projeto aprovado nem estudo do motor.",
-    "6 unidades por andar, empilhadas em 2 pavimento(s) de 3 m; parou em 2 porque o andar (z 6 a 9 m) sai do envelope dessa altura: 15.55 m² para fora.",
+    "Prévia esquemática do projetista (revisão rev_84050a3fa2ef): preliminar, não é projeto aprovado nem estudo do motor.",
+    "6 unidades por andar, empilhadas em 7 pavimento(s) de 3 m; pedido: 7 pavimento(s).",
     "Zona do terreno não conferida: a prévia herda o envelope do estudo e não vale como verificação da lei.",
     "Regras com fonte não verificada na revisão: areas.computavel, areas.privativa, areas.util, dimensao, norma.envelope, torre.altura, torre.ca, torre.permeabilidade, torre.to.",
     "Sem vagas, garagem, recuos por volume nem relevo: a prévia só mostra o pavimento tipo repetido."
    ],
    "fonte": {
-    "revision_id": "rev_b72d3651c73f",
-    "content_sha256": "2063d026030493ca43a6bcbfecbab3fc67946106ab17282c2699709d37e4deaf"
+    "revision_id": "rev_84050a3fa2ef",
+    "content_sha256": "6f8307d7da5fc5ad88493623666a4c17ff40a51968f257d3c40b22e556769064"
    }
   }
  ],
@@ -1051,10 +2724,13 @@
  },
  "incertezas": [
   "As opções do Motor foram trocadas por UMA prévia esquemática do Projetista; as incertezas abaixo são do estudo original.",
-  "Terreno na zona SC-Z1: NÃO conferido (lida à mão no anexo em PDF). Confirmar a zona do lote antes de usar o estudo.",
+  "Terreno na zona SC-Z4: NÃO conferido (informada pelo usuário). Confirmar a zona do lote antes de usar o estudo.",
   "A lei não define recuo frontal: usado 4.0 m (premissa). Vale a restrição do loteamento; conferir na matrícula.",
   "Nem a zona nem o lote limitam altura ou pavimentos: a altura saiu do CA. Conferir gabarito (aeroporto, cone visual etc.).",
-  "Área especial gabarito_aeronautico sem número de altura: não aplicada (Lei 18.053/2016, arts. 105 a 107, Anexo 07, p. 1; https://www.saocarlos.sp.gov.br/images/stories/pdf/2017/pde/ANEXO%2007%20-%20AEIs%20Rurais.pdf).",
+  "Área especial nao_verificada sem número de altura: não aplicada (Lei 18.053/2016, Anexo 05, p. 1; raster conferido por SHA256 quando disponível).",
+  "Área especial nao_verificada sem número de altura: não aplicada (Lei 18.053/2016, Anexo 06, p. 1; raster conferido por SHA256 quando disponível).",
+  "Área especial nao_verificada sem número de altura: não aplicada (Lei 18.053/2016, Anexo 07, p. 1; raster conferido por SHA256 quando disponível).",
+  "Área especial nao_verificada sem número de altura: não aplicada (Lei 19.166/2019 (https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_339); Lei 18.927/2018 (https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_754; PDF https://www.saocarlos.sp.gov.br/images/stories/pdf/conselhos/lei18927-digital.pdf)).",
   "Recuo lateral e de fundos por altura: 1.5 m até o 2º pavimento; acima, o maior entre h×0.125 e 2.0 m (h = altura até o teto do último pavimento). Torre, duas torres e lâmina usam o recuo do topo no prédio todo; embasamento + torre escalona.",
   "Parede cega (sem janela) pode encostar na divisa lateral e de fundos até 12 m: usada só no embasamento da opção D. Torre e apartamentos têm janela e mantêm o recuo. Acima de 12 m a lei pede 2,00 m mesmo pra parede cega (COE art. 70).",
   "Escada, elevador e shaft (núcleo, premissa) fora do CA e da TO; o resto acima do chão conta, inclusive varanda.",

@@ -6,27 +6,27 @@
  "numeros": {
   "andares": {
    "unidade": "pav",
-   "valor": 2
+   "valor": 7
   },
   "area_computavel": {
    "unidade": "m²",
-   "valor": 772.2862
+   "valor": 3572.1507
   },
   "area_lote": {
    "unidade": "m²",
-   "valor": 651.5714
+   "valor": 2665.9156
   },
   "area_privativa": {
    "unidade": "m²",
-   "valor": 661.29
+   "valor": 3133.06
   },
   "limitante": {
-   "andares": "O recuo cresce com a altura: o andar entre 6 e 9 m não cabe (15,55 m² ficariam fora da área em que se pode construir).",
-   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 6 unidades por andar."
+   "andares": "Parou no CA máximo do terreno (1,4): com mais um andar o CA iria de 1,34 para 1,53.",
+   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 6 unidades por andar. Foi o programa que deu mais unidades no prédio inteiro: com 10, 8 por andar não coube ou o prédio ficou com menos unidades."
   },
   "unidades": {
    "unidade": "un",
-   "valor": 12
+   "valor": 42
   },
   "vagas": {
    "nota": "estudo sem térreo: sem garagem",
@@ -37,31 +37,31 @@
  "numeros_terreo": {
   "andares": {
    "unidade": "pav",
-   "valor": 2
+   "valor": 8
   },
   "area_computavel": {
    "unidade": "m²",
-   "valor": 461.226
+   "valor": 3676.5465
   },
   "area_lote": {
    "unidade": "m²",
-   "valor": 651.5714
+   "valor": 2665.9156
   },
   "area_privativa": {
    "unidade": "m²",
-   "valor": 330.645
+   "valor": 3133.06
   },
   "limitante": {
-   "andares": "O recuo cresce com a altura: o andar entre 6 e 9 m não cabe (15,55 m² ficariam fora da área em que se pode construir).",
-   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 6 unidades por andar."
+   "andares": "Parou no CA máximo do terreno (1,4): com mais um andar o CA iria de 1,38 para 1,57.",
+   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 6 unidades por andar. Foi o programa que deu mais unidades no prédio inteiro: com 10, 8 por andar não coube ou o prédio ficou com menos unidades."
   },
   "unidades": {
    "unidade": "un",
-   "valor": 6
+   "valor": 42
   },
   "vagas": {
    "unidade": "vagas",
-   "valor": 12
+   "valor": 15
   }
  }
 }
