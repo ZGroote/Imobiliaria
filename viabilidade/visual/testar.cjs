@@ -336,12 +336,15 @@ async function checkPriceSimulation(page) {
       });
       const errors = [];
       const dialogs = [];
+      let captureTiles = false;
       page.on('dialog', async dialog => { dialogs.push(dialog.message()); await dialog.dismiss(); });
       page.on('pageerror', error => errors.push(error.message));
-      page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+      page.on('console', message => { if (message.type() === 'error' && !message.text().includes('net::ERR_FAILED')) errors.push(message.text()); });
+      await page.route('**/fundo.json', route => route.fulfill({ status: 200, contentType: 'application/json', body: '{}' }));
+      await page.route('https://tile.openstreetmap.org/**', route => captureTiles ? route.continue() : route.abort());
       page.on('request', request => {
         const requestUrl = new URL(request.url());
-        if (['http:', 'https:'].includes(requestUrl.protocol) && requestUrl.origin !== new URL(url).origin) {
+        if (['http:', 'https:'].includes(requestUrl.protocol) && requestUrl.origin !== new URL(url).origin && requestUrl.hostname !== 'tile.openstreetmap.org') {
           errors.push('Recurso fora da origem: ' + request.url());
         }
       });
@@ -799,7 +802,41 @@ async function checkPriceSimulation(page) {
         await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
         await page.locator('canvas').first().waitFor();
       }
-      await checkWidth(page);
+      await page.goto(new URL('vitrine.html', url).href);
+      await page.waitForTimeout(1000);
+      assert.equal(await page.locator('.card').count(), 7, `Vitrine carregada. Console: ${errors.join(' | ')}`);
+      assert(await page.evaluate(() => document.querySelector('#map').clientHeight <= innerHeight * .7 + 1), 'Mapa limitado a 70% da janela.');
+      assert(await page.evaluate(() => document.querySelector('.preliminar').getBoundingClientRect().top >= document.querySelector('#map').getBoundingClientRect().bottom), 'Aviso não deve cobrir o mapa.');
+      await page.locator('.card').nth(6).waitFor();
+      assert.equal(await page.locator('.card').count(), 7);
+      assert.equal(await page.locator('.card.failed').count(), 2);
+      assert.match(await page.locator('.card.failed').first().innerText(), /não cabe/i);
+      assert.match(await page.locator('.preliminar').innerText(), /Estudo preliminar.*números não conferidos com a prefeitura/);
+      assert.match(await page.locator('#attribution').innerText(), /OpenStreetMap/);
+      captureTiles = process.env.VISUAL_CAPTURE_MAP === '1' && !mobile;
+      await page.getByRole('button', { name: /Terreno 6/ }).click();
+      await page.locator('#fiche-title').getByText('Terreno 6').waitFor();
+      assert.match(await page.locator('#numbers').innerText(), /93 un/);
+      await page.locator('#modo').click();
+      assert.match(await page.locator('#numbers').innerText(), /87 un/);
+      if (process.env.VISUAL_CAPTURE_MAP !== '1' || mobile) assert.match(await page.locator('#map-state').innerText(), /mapa indisponível/);
+      else await page.waitForFunction(() => Number(document.querySelector('#map').dataset.tilesLoaded) >= 9 || !document.querySelector('#map-state').hidden, { timeout: 20000 });
+      if (process.env.VISUAL_CAPTURE_MAP === '1' && !mobile) assert.equal(Number(await page.locator('#map').getAttribute('data-tiles-loaded')), 9, 'O print deve carregar os nove ladrilhos OSM.');
+      if (mobile) {
+        await page.screenshot({ path: path.join(output, 'tarefa23-celular.png'), fullPage: true });
+        await page.screenshot({ path: path.join(output, 'tarefa23-sem-mapa.png'), fullPage: true });
+      } else if (process.env.VISUAL_CAPTURE_MAP === '1') await page.screenshot({ path: path.join(output, 'tarefa23-terreno-6.png'), fullPage: true });
+      if (!mobile) {
+        await page.getByRole('button', { name: /Terreno 1/ }).click();
+        if (process.env.VISUAL_CAPTURE_MAP === '1') {
+          await page.waitForFunction(() => Number(document.querySelector('#map').dataset.tilesLoaded) >= 9 || !document.querySelector('#map-state').hidden, { timeout: 20000 });
+          assert.equal(Number(await page.locator('#map').getAttribute('data-tiles-loaded')), 9, 'Terreno 1 deve carregar os nove ladrilhos OSM.');
+        }
+        if (process.env.VISUAL_CAPTURE_MAP === '1') await page.screenshot({ path: path.join(output, 'tarefa23-desktop.png'), fullPage: true });
+        await page.setViewportSize({ width: 390, height: 844 });
+        assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Vitrine sem rolagem horizontal a 390 px.');
+      }
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Vitrine sem rolagem lateral.');
       if (mobile) await checkSweep(page, dialogs, true);
       assert.deepEqual(errors, [], 'Nenhum erro JavaScript/console nos fluxos válidos e inválidos.');
       report.push({ perfil: profile, versaoMotor: example.versao_motor, zona: example.zona.id, estudosPiloto: 7, caNuloSemLimite: !mobile, alertasAreaEspecialDestacados: true, opcoes: example.opcoes.length, degraus: example.caixa_maxima.degraus.length, alturasExplicitasEFallback: !mobile, recuos: true, avisoSemSobreposicao: true, vgvSemCorte: true, comparacao: true, upload: true, contratoV2: true, conferenciaLoteIndependente: mobile ? 1 : zoningCases.length, paredeCega: true, faixaParedeCega: true, jsonInvalido: invalid.length, largurasExtras: mobile ? [] : [320, 768, 1024], errosConsole: errors });
