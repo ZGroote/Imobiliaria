@@ -18,6 +18,7 @@ const { PNG } = load('playwright-core/lib/utilsBundle');
 
 const url = process.env.VISUAL_URL || 'http://127.0.0.1:8765/viabilidade/visual/';
 const output = path.join(__dirname, 'evidencias');
+const baselineT22 = path.join(__dirname, '.tarefa22-baseline.html');
 const example = JSON.parse(fs.readFileSync(path.join(__dirname, '../motor/exemplos/estudo-exemplo.json'), 'utf8'));
 const exampleBytes = fs.readFileSync(path.join(__dirname, '../motor/exemplos/estudo-exemplo.json'));
 const revision = sha => `rev ${sha.slice(0, 12)} · motor ${example.versao_motor || 'não informado'}`;
@@ -318,6 +319,7 @@ async function checkPriceSimulation(page) {
 
 (async () => {
   fs.mkdirSync(output, { recursive: true });
+  fs.writeFileSync(baselineT22, execFileSync('git', ['show', 'HEAD:viabilidade/visual/index.html']));
   const winChrome = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
   const executablePath = process.env.CHROME_PATH || (fs.existsSync(winChrome) ? winChrome : undefined);
   const browser = await chromium.launch({
@@ -402,6 +404,8 @@ async function checkPriceSimulation(page) {
         await page.getByText('Selo não conferido aqui; confira com avaliacao_valida').waitFor();
         assert.equal(await page.locator('#sintese-avaliacao').innerText(), 'HIPOTESE_PRELIMINAR');
         assert(await page.locator('#dominios-avaliacao tr').count() > 0);
+        assert.match(await page.locator('#fora-escopo').innerText(), /estrutural: Fora do escopo declarado/);
+        assert.doesNotMatch(await page.locator('#fora-escopo').innerText(), /\{\s*"contagem"/);
         assert.equal(await page.locator('#painel-avaliacao').getByText('Resultado preliminar e automático', { exact: false }).count(), 1);
         assert.equal(await page.locator('#painel-avaliacao').getByText(/viável|aprovado/i).count(), 0);
         await page.screenshot({ path: path.join(output, 'tarefa21-22421-com-avaliacao.png'), fullPage: true });
@@ -411,13 +415,45 @@ async function checkPriceSimulation(page) {
         assert.equal(await page.locator('#painel-avaliacao').isVisible(), false);
         await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
         await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
-        const motorAtual = await page.locator('canvas').first().screenshot();
-        await page.screenshot({ path: path.join(output, 'tarefa21-estudo-motor.png'), fullPage: true });
-        await page.goto(new URL('.tarefa21-baseline.html?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await page.getByRole('button', { name: 'Vista inicial' }).click();
+        const canvasMotor = await page.locator('canvas').first().screenshot({ path: path.join(output, 'tarefa22-estudo-motor.png') });
+        await page.goto(new URL('.tarefa22-baseline.html?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
         await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
         await page.waitForFunction(() => window.__maquetePronta);
-        assert(pixelDifference(motorAtual, await page.locator('canvas').first().screenshot()) < .001,
-          'O canvas do estudo Motor antigo deve manter a imagem do HTML anterior (diferença inferior a 0,1%).');
+        await page.getByRole('button', { name: 'Vista inicial' }).click();
+        const diferencaCanvas = pixelDifference(canvasMotor, await page.locator('canvas').first().screenshot());
+        assert(diferencaCanvas < .001, `O canvas Motor sem estilo=maquete deve manter o HTML anterior (diferença ${diferencaCanvas}; limite 0,1%).`);
+        await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+        await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+        await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+        await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+
+        const resumo = '../projetista/vitrine/terreno-1/resumo.json';
+        await page.goto(new URL('?resumo=' + encodeURIComponent(resumo) + '&estilo=maquete', url).href);
+        await page.getByRole('button', { name: 'Opção projetista', exact: true }).waitFor();
+        assert.equal(await page.locator('#acoes-maquete').isVisible(), true);
+        assert.equal(await page.locator('#numeros-resumo div').count(), 6);
+        assert.match(await page.locator('#numeros-resumo').innerText(), /Apartamentos\s+12 un/);
+        assert.match(await page.locator('.aviso-resumo').innerText(), /Estudo preliminar — números não conferidos com a prefeitura/);
+        await page.screenshot({ path: path.join(output, 'tarefa22-22421-maquete.png'), fullPage: true });
+        await page.getByRole('button', { name: 'Ligar térreo' }).click();
+        await page.getByRole('button', { name: 'Desligar térreo' }).waitFor();
+        assert.match(await page.locator('#numeros-resumo').innerText(), /Apartamentos\s+6 un/);
+        await page.screenshot({ path: path.join(output, 'tarefa22-22421-terreo.png'), fullPage: true });
+        const vistaInicial = await page.locator('canvas').first().screenshot();
+        await page.getByRole('button', { name: 'Vista de cima' }).click();
+        assert(pixelDifference(vistaInicial, await page.locator('canvas').first().screenshot()) > .01, 'A vista de cima deve mudar a câmera.');
+        await page.evaluate(() => window.scrollTo(0, 0));
+        await page.screenshot({ path: path.join(output, 'tarefa22-22421-cima.png'), fullPage: true });
+        const envelope = page.getByRole('button', { name: 'Envelope tracejado: ligado' });
+        await envelope.click();
+        assert.equal(await page.getByRole('button', { name: 'Envelope tracejado: desligado' }).getAttribute('aria-pressed'), 'false');
+        await page.route('**/invalid-summary.json', route => route.fulfill({ status: 200, contentType: 'application/json', body: '{"numeros":{}}' }));
+        await page.goto(new URL('?resumo=invalid-summary.json&estilo=maquete', url).href);
+        await page.waitForFunction(() => document.querySelector('#erro').textContent.startsWith('Resumo inválido:'));
+        assert.match(await page.locator('#erro').innerText(), /id, nome, estudo e numeros/);
+        await page.unroute('**/invalid-summary.json');
         await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
         await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
       }
@@ -773,6 +809,7 @@ async function checkPriceSimulation(page) {
     console.log('PASS', JSON.stringify(report));
   } finally {
     await browser.close();
+    fs.rmSync(baselineT22, { force: true });
     fs.rmSync(tmpEstudo, { recursive: true, force: true });
     fs.rmSync(tmpVarredura, { recursive: true, force: true });
   }
