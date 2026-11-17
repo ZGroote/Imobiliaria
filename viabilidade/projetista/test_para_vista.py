@@ -23,9 +23,10 @@ from viabilidade.projetista.validador import _posicionar
 PILOTOS = RAIZ / "viabilidade" / "motor" / "exemplos" / "pilotos"
 P22421, P22426 = PILOTOS / "SC-completo-22421.json", PILOTOS / "SC-completo-22426.json"
 INDEX = RAIZ / "viabilidade" / "visual" / "index.html"
-# sha256 da saída da tarefa 6 (22421, sem térreo, revisão rev_gerada_01 fdccaf794c32). Se o gerador mudar a revisão,
-# este valor fica velho: confira que só a revisão mudou e atualize.
-SHA_TAREFA_6 = "7afa7c5dde651e1212a70a37856366e83d169102b5616676331824c1ff573129"
+# sha256 da saída da tarefa 6 (22421, sem térreo, revisão rev_gerada_01 fdccaf794c32), com o piloto COMMITADO
+# (sha abaixo). Piloto ou revisão mudou? Rode a para_vista.py do commit 91fa3ad6 na mesma entrada e regrave.
+PILOTO_22421_SHA = "8ad73af0335f5c14d4434eacc870f0fd73cea8361380f72a1d82cbe74be217bc"
+SHA_TAREFA_6 = "f90003d179b6448bc3f90de1261b56cbb7f155f4b3123c64102ce8839847a589"
 _cache = {}
 
 
@@ -202,6 +203,7 @@ def test_sem_terreo_igual_a_tarefa_6():
     rev = revisao()
     base = serializar(revisao_para_estudo(rev, P22421))
     assert base == serializar(revisao_para_estudo(rev, P22421, terreo=False))
+    assert hashlib.sha256(P22421.read_bytes()).hexdigest() == PILOTO_22421_SHA,         "piloto 22421 diferente do commitado (cópia mexida?): SHA_TAREFA_6 não vale para ele"
     assert hashlib.sha256(base).hexdigest() == SHA_TAREFA_6
 
 
