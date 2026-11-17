@@ -299,9 +299,12 @@ def ler(caminho):
         raise ValueError(f"Revisão malformada: {erro}") from erro
 
 
-def gravar(caminho, revisao):
-    """Snapshot local: não substitui conteúdo diferente; temporário no mesmo diretório."""
-    r = selar(revisao)
+def gravar(caminho, revisao, selador=selar):
+    """Snapshot local: não substitui conteúdo diferente; temporário no mesmo diretório.
+
+    `selador` troca o selo (a avaliação da síntese não é revisão e tem selo próprio).
+    """
+    r = selador(revisao)
     path = Path(caminho)
     dados = serializar(r)
     if path.exists():

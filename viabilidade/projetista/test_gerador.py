@@ -1,8 +1,12 @@
 """Testes do gerador (só assert). Rodar: python -I -X utf8 viabilidade/projetista/test_gerador.py"""
 import copy
 import math
+import contextlib
+import io
+import json
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[2]
@@ -11,7 +15,9 @@ from shapely import affinity
 from shapely.geometry import Polygon
 
 from viabilidade.projetista.adaptador import estudo_para_site
-from viabilidade.projetista.gerador import gerar_pavimento
+from viabilidade.projetista.esquema import ler
+from viabilidade.projetista.gerador import gerar_pavimento, main as cli
+from viabilidade.projetista.sintese import avaliacao_valida
 from viabilidade.projetista.validador import validar
 
 PILOTOS = RAIZ / "viabilidade" / "motor" / "exemplos" / "pilotos"
@@ -100,6 +106,36 @@ def test_fatia1_continua_passando():
     p = subprocess.run([sys.executable, "-I", "-X", "utf8", str(Path(__file__).with_name("test_projetista.py"))],
                        capture_output=True, text=True, cwd=RAIZ)
     assert p.returncode == 0, p.stdout[-800:] + p.stderr[-800:]
+
+
+def test_cli_avaliacao():
+    """Cada revisao-NN.json ganha avaliacao-NN.json válida; duas rodadas dão os mesmos bytes."""
+    piloto = str(PILOTOS / "SC-completo-22421.json")
+    with tempfile.TemporaryDirectory() as t:
+        saidas = []
+        for nome, extra in (("a", []), ("b", []), ("c", ["--escopo", "urbanistico, geometrico"])):
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                assert cli([piloto, "--saida", str(Path(t) / nome), *extra]) == 0
+            saidas.append((Path(t) / nome, out.getvalue()))
+        (a, texto), (b, _), (c, _) = saidas
+        nomes = sorted(x.name for x in a.iterdir())
+        assert nomes == sorted(f"{k}-{i:02d}.json" for k in ("avaliacao", "revisao") for i in (1, 2, 3)), nomes
+        assert all((a / n).read_bytes() == (b / n).read_bytes() for n in nomes)
+        assert "regra 2 da precedência" in texto and "HIPOTESE_PRELIMINAR" in texto, texto
+        for i in (1, 2, 3):
+            av = json.loads((a / f"avaliacao-{i:02d}.json").read_bytes())
+            assert avaliacao_valida(av, ler(a / f"revisao-{i:02d}.json")) == (True, "")
+            assert av["escopo"] == ["geometrico", "urbanistico", "arquitetonico"] and av["evidencias"] == {}
+        assert json.loads((c / "avaliacao-01.json").read_bytes())["escopo"] == ["geometrico", "urbanistico"]
+        erro = io.StringIO()
+        with contextlib.redirect_stderr(erro):
+            try:
+                cli([piloto, "--saida", str(Path(t) / "d"), "--escopo", "solo"])
+            except SystemExit as e:
+                assert e.code == 2 and "Escopo inválido" in erro.getvalue()
+            else:
+                raise AssertionError("--escopo solo deveria ser recusado")
 
 
 def main():

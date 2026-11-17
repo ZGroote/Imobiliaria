@@ -1,5 +1,6 @@
 """python -I -B -X utf8 viabilidade/projetista/test_sintese.py"""
 import copy
+import functools
 import json
 from pathlib import Path
 import sys
@@ -8,11 +9,16 @@ sys.dont_write_bytecode = True
 RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ))
 from viabilidade.projetista.adaptador import estudo_para_site
-from viabilidade.projetista.sintese import CONDICIONAL, HIPOTESE, INCONSISTENTE, VERIFICADO, classificar, sintetizar
+from viabilidade.projetista.esquema import selar, serializar
+from viabilidade.projetista.gerador import gerar_pavimento
+from viabilidade.projetista.sintese import (CONDICIONAL, ENGINE_VERSION, HIPOTESE, INCONSISTENTE, VERIFICADO, avaliacao_valida,
+                                            avaliar, classificar, selar_avaliacao, sintetizar)
 from viabilidade.projetista.test_projetista import bom, ret
 from viabilidade.projetista.validador import validar
 
 PILOTO = RAIZ/"viabilidade/motor/exemplos/pilotos/SC-completo-25297.json"
+PILOTO_GERADO = RAIZ/"viabilidade/motor/exemplos/pilotos/SC-completo-22421.json"
+CAMPOS = ("quantity_kind", "assumptions", "source_version", "confidence", "engine_version")
 SEM = {"sondagem": False, "metodo_estrutural": None, "revisao_profissional": {"estrutural": None, "geotecnico": None}}
 PRO = {"nome": "Fulana de Tal", "conselho": "CREA-SP", "registro": "0000000000"}
 COM = {"sondagem": True, "metodo_estrutural": "faixas preliminares, concreto armado",
@@ -143,6 +149,74 @@ def test_sem_viavel_e_com_aviso():
     except ValueError:
         return
     raise AssertionError("Escopo inválido deveria ser recusado")
+
+
+@functools.cache
+def _gerada():
+    estudo, site, regras = estudo_para_site(PILOTO_GERADO)
+    r = gerar_pavimento(site, regras, {"unidades": 6}, None, estudo)
+    assert r["outcome"] == "gerado", r["outcome"]
+    return r["revisoes"][0]
+
+
+def gerada():
+    return copy.deepcopy(_gerada())
+
+
+def test_avaliacao_ligada_a_revisao():
+    rev = gerada()
+    a = avaliar(rev)
+    assert avaliacao_valida(a, rev) == (True, "")
+    assert a["revision_id"] == rev["revision_id"] and a["revision_sha256"] == rev["content_sha256"]
+    assert "sintese" not in rev and "avaliacao_sha256" not in rev  # arquivo à parte
+    mexida = copy.deepcopy(rev)
+    mexida["unit_types"][0]["outline_m"][2][0] += 0.05
+    assert avaliacao_valida(a, selar(mexida)) == (False, "geometria mudou")
+    assert avaliacao_valida(a, mexida) == (False, "geometria mudou")  # mexida sem selar de novo também cai
+    outra = copy.deepcopy(rev)
+    outra["revision_id"] = "rev_outra"
+    assert avaliacao_valida(a, selar(outra)) == (False, "outra revisão")
+
+
+def test_selo_e_versao_do_metodo():
+    rev = gerada()
+    a = avaliar(rev)
+    adulterada = copy.deepcopy(a)
+    adulterada["sintese"]["sintese"] = VERIFICADO
+    assert avaliacao_valida(adulterada, rev) == (False, "selo")
+    velha = copy.deepcopy(a)
+    velha["method_version"] = "sintese/0.0.9"
+    assert avaliacao_valida(selar_avaliacao(velha), rev) == (False, "versão do método mudou")
+
+
+def test_campos_de_grandeza():
+    a = avaliar(gerada())
+    achados = a["sintese"]["achados"]
+    assert achados and all(f["engine_version"] == ENGINE_VERSION == "projetista/0.1.0+sintese/0.1.0" for f in achados)
+    nao_conferidas = 0
+    for f in achados:
+        assert set(CAMPOS) <= f.keys() and "calculated_at" not in f, f["rule_id"]
+        assert {"scope", "reason", "required_actions"} <= f.keys()
+        assert isinstance(f["assumptions"], list)
+        for campo in CAMPOS:
+            assert f[campo] is not None or f["null_reasons"].get(campo), (f["rule_id"], campo)
+        if f["source"].get("verified") is not True:
+            nao_conferidas += 1
+            assert f["confidence"] in ("premissa", "sem_fonte"), f
+        if f["source"].get("kind") == "premissa":
+            assert f["confidence"] == "premissa" and f["assumptions"] == [f["source"]["reference"]]
+    assert nao_conferidas
+    kinds = {f["rule_id"]: f["quantity_kind"] for f in achados}
+    assert kinds["areas.privativa"] == "area" and kinds["fachada"] == "comprimento"
+    assert kinds["geometria.poligono"] is None
+    # Fonte sem nada vira sem_fonte, com motivo para a versão nula.
+    c = classificar([achado("geometria.laje", source={})])[0]
+    assert c["confidence"] == "sem_fonte" and c["source_version"] is None and c["null_reasons"]["source_version"]
+
+
+def test_avaliacao_mesmos_bytes():
+    rev = gerada()
+    assert serializar(avaliar(rev)) == serializar(avaliar(copy.deepcopy(rev)))
 
 
 def main():

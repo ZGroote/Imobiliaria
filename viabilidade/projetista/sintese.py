@@ -5,7 +5,12 @@ Não existe campo `viavel`: o resultado é um estado por domínio e uma síntese
 """
 import copy
 
+from viabilidade.projetista.esquema import SCHEMA_VERSION, _canonico, selar, sha256
+from viabilidade.projetista.validador import validar
+
 METHOD_VERSION = "sintese/0.1.0"
+ENGINE_VERSION = f"{SCHEMA_VERSION}+{METHOD_VERSION}"
+ESCOPO_PADRAO = ("geometrico", "urbanistico", "arquitetonico")
 DOMINIOS = ("geometrico", "urbanistico", "arquitetonico", "estrutural", "geotecnico", "economico")
 ESTADOS = ("conforme", "violacao", "nao_verificado", "erro_tecnico", "nao_aplicavel")
 INCONSISTENTE = "INCONSISTENTE_NOS_DOMINIOS_VERIFICADOS"
@@ -26,6 +31,9 @@ PREFIXOS = (
     ("acesso", "arquitetonico"), ("fachada", "arquitetonico"), ("dimensao", "arquitetonico"),
     ("areas.privativa", "geometrico"), ("areas.util", "geometrico"),
 )
+# Unidade do achado -> grandeza. Unidade vazia (ex.: polígono válido ou não) não é grandeza.
+GRANDEZAS = {"m²": "area", "m2": "area", "m": "comprimento", "pavimento": "contagem", "un": "contagem",
+             "%": "razao", "razao": "razao"}
 ACOES = {"areas.util": ["Modelar as divisórias internas para medir a área útil final"],
          "areas.varanda_computavel": ["Confirmação jurídica do cômputo da varanda"]}
 
@@ -62,7 +70,35 @@ def _acoes(f, status):
     return acoes + ACOES.get(rule, []) or [f"Executar a verificação de {rule}"]
 
 
-def classificar(achados, escopo=DOMINIOS):
+def _grandeza(f, versao_regras):
+    """Campos de grandeza (PRD seção 7). Faltou? null e o motivo em `null_reasons`; nada inventado."""
+    fonte = f.get("source") if isinstance(f.get("source"), dict) else {}
+    ref, kind, unit = _texto(fonte.get("reference")), fonte.get("kind"), f.get("unit")
+    faltas = {}
+    qk = GRANDEZAS.get(unit) if isinstance(unit, str) else None
+    if qk is None:
+        faltas["quantity_kind"] = f"Unidade {unit!r} não corresponde a uma grandeza"
+    if _texto(fonte.get("version")):
+        versao = fonte["version"]
+    elif kind == "geometria":
+        versao = SCHEMA_VERSION  # a fonte é o próprio contrato de geometria do validador
+    elif versao_regras and fonte:
+        versao = f"rules_version {versao_regras}"
+    else:
+        versao = None
+        faltas["source_version"] = "Fonte sem versão e conjunto de regras sem rules_version" if fonte else "Achado sem fonte"
+    if kind == "premissa" and ref:
+        confianca = "premissa"
+    elif fonte.get("verified") is True and ref:
+        confianca = "fonte_conferida"
+    else:
+        confianca = "sem_fonte"
+    return {"quantity_kind": qk, "assumptions": [ref] if kind == "premissa" and ref else [],
+            "source_version": versao, "confidence": confianca, "engine_version": ENGINE_VERSION,
+            "null_reasons": faltas}
+
+
+def classificar(achados, escopo=DOMINIOS, versao_regras=None):
     """Cópia dos achados com domínio e proveniência; nada é descartado."""
     saida = []
     for f in copy.deepcopy(list(achados)):
@@ -79,7 +115,7 @@ def classificar(achados, escopo=DOMINIOS):
             f["status_original"], f["status"], f["severity"] = f.get("status"), status, "erro"
         f.update({"domain": d, "method_version": METHOD_VERSION,
                   "scope": "no_escopo" if d in escopo else "fora_do_escopo",
-                  "reason": reason, "required_actions": _acoes(f, status)})
+                  "reason": reason, "required_actions": _acoes(f, status), **_grandeza(f, versao_regras)})
         saida.append(f)
     return saida
 
@@ -88,14 +124,18 @@ def _revisao_valida(r):
     return isinstance(r, dict) and all(_texto(r.get(k)) for k in ("nome", "conselho", "registro"))
 
 
-def sintetizar(achados, escopo, evidencias):
-    """Assessment determinístico; a primeira regra da precedência que bater vale."""
+def normalizar_escopo(escopo):
     if not isinstance(escopo, (list, tuple)) or not escopo or len(set(escopo)) != len(escopo) \
             or any(d not in DOMINIOS for d in escopo):
         raise ValueError(f"Escopo inválido: use domínios distintos de {DOMINIOS}")
-    escopo = [d for d in DOMINIOS if d in escopo]
+    return [d for d in DOMINIOS if d in escopo]
+
+
+def sintetizar(achados, escopo, evidencias, versao_regras=None):
+    """Assessment determinístico; a primeira regra da precedência que bater vale."""
+    escopo = normalizar_escopo(escopo)
     evidencias = evidencias if isinstance(evidencias, dict) else {}
-    ach = classificar(achados, escopo)
+    ach = classificar(achados, escopo, versao_regras)
 
     dominios = {}
     for d in DOMINIOS:
@@ -141,3 +181,41 @@ def sintetizar(achados, escopo, evidencias):
                                 "contagem": dominios[d]["contagem"]} for d in DOMINIOS if d not in escopo],
             "regras_sem_dominio": [f["rule_id"] for f in ach if f["domain"] is None],
             "achados": ach, "aviso": AVISO}
+
+
+def selar_avaliacao(avaliacao):
+    """Cópia canônica com `avaliacao_sha256` (o selo cobre todo o resto)."""
+    a = _canonico(avaliacao)
+    a.pop("avaliacao_sha256", None)
+    a["avaliacao_sha256"] = sha256(a)
+    return a
+
+
+def avaliar(revisao, escopo=ESCOPO_PADRAO, evidencias=None):
+    """Avaliação selada e ligada à revisão (decisão 4). Arquivo à parte: nunca entra na DesignRevision."""
+    rules = revisao["rules_ref"]
+    evidencias = copy.deepcopy(evidencias) if isinstance(evidencias, dict) else {}
+    s = sintetizar(validar(revisao, revisao["site"], rules), escopo, evidencias, rules.get("rules_version"))
+    return selar_avaliacao({"revision_id": revisao["revision_id"], "revision_sha256": revisao["content_sha256"],
+                            "escopo": s["escopo"], "evidencias": evidencias, "method_version": METHOD_VERSION,
+                            "engine_version": ENGINE_VERSION, "sintese": s})
+
+
+def avaliacao_valida(avaliacao, revisao):
+    """(True, "") ou (False, motivo). A revisão é conferida pelo conteúdo, não só pelo selo que ela carrega."""
+    try:
+        if selar_avaliacao(avaliacao)["avaliacao_sha256"] != avaliacao.get("avaliacao_sha256"):
+            return False, "selo"
+    except (ValueError, AttributeError):
+        return False, "selo"
+    if avaliacao.get("method_version") != METHOD_VERSION or avaliacao.get("engine_version") != ENGINE_VERSION:
+        return False, "versão do método mudou"
+    try:
+        conteudo = selar(revisao)["content_sha256"]
+    except (ValueError, KeyError, TypeError, AttributeError):
+        return False, "revisão malformada"
+    if avaliacao.get("revision_id") != revisao.get("revision_id"):
+        return False, "outra revisão"
+    if conteudo != avaliacao.get("revision_sha256") or revisao.get("content_sha256") != conteudo:
+        return False, "geometria mudou"
+    return True, ""

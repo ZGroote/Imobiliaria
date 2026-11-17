@@ -397,7 +397,14 @@ def main(argv=None):
     ap.add_argument("--saida", type=Path, required=True)
     ap.add_argument("--max-nos", type=int, default=LIMITES["max_nos"])
     ap.add_argument("--revisoes", type=int, default=LIMITES["max_revisoes"])
+    from viabilidade.projetista.sintese import ESCOPO_PADRAO, avaliar, normalizar_escopo, selar_avaliacao
+    ap.add_argument("--escopo", default=",".join(ESCOPO_PADRAO),
+                    help="domínios da avaliação, separados por vírgula (padrão: %(default)s)")
     a = ap.parse_args(argv)
+    try:
+        escopo = normalizar_escopo([d.strip() for d in a.escopo.split(",")])
+    except ValueError as erro:
+        ap.error(str(erro))
     from viabilidade.projetista.adaptador import estudo_para_site
     estudo, site, regras = estudo_para_site(a.estudo)
     r = gerar_pavimento(site, regras, {"unidades": a.unidades}, {"max_nos": a.max_nos, "max_revisoes": a.revisoes}, estudo)
@@ -415,6 +422,9 @@ def main(argv=None):
     a.saida.mkdir(parents=True, exist_ok=True)
     for i, rev in enumerate(r["revisoes"], 1):
         gravar(a.saida / f"revisao-{i:02d}.json", rev)
+        av = gravar(a.saida / f"avaliacao-{i:02d}.json", avaliar(rev, escopo, {}), selador=selar_avaliacao)
+        if i == 1:
+            s1 = av["sintese"]
     m = r["revisoes"][0]["metrics_summary"]
     g = m["geracao"]
     print(f"melhor: {m['unidades']} unidades por pavimento, corredor {g['layout']}, núcleo na posição {g['posicao_nucleo']}")
@@ -422,7 +432,9 @@ def main(argv=None):
           f"({_virgula(m['privativa_min_m2'])} a {_virgula(m['privativa_max_m2'])}); total {_virgula(m['privativa_total_m2'])} m²")
     print(f"resíduo da laje: {_virgula(m['residuo_m2'])} m²; achados nao_verificado: {m['achados_nao_verificado']} "
           f"({', '.join(m['regras_nao_verificadas'])})")
-    print(f"{len(r['revisoes'])} revisão(ões) gravada(s) em {a.saida}")
+    print(f"síntese da melhor ({', '.join(s1['escopo'])}; sem evidências): {s1['sintese']}, "
+          f"regra {s1['regra_da_precedencia']} da precedência")
+    print(f"{len(r['revisoes'])} revisão(ões) gravada(s) em {a.saida}, cada uma com a sua avaliacao-NN.json")
     return 0
 
 
