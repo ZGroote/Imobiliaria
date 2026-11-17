@@ -185,14 +185,15 @@ def test_selo_e_versao_do_metodo():
     adulterada["sintese"]["sintese"] = VERIFICADO
     assert avaliacao_valida(adulterada, rev) == (False, "selo")
     velha = copy.deepcopy(a)
-    velha["method_version"] = "sintese/0.0.9"
+    velha["method_version"] = "sintese/0.1.0"  # as avaliações da tarefa 5
     assert avaliacao_valida(selar_avaliacao(velha), rev) == (False, "versão do método mudou")
 
 
 def test_campos_de_grandeza():
     a = avaliar(gerada())
     achados = a["sintese"]["achados"]
-    assert achados and all(f["engine_version"] == ENGINE_VERSION == "projetista/0.1.0+sintese/0.1.0" for f in achados)
+    fonte = {id(f): a["fontes"][f["source_ref"]] for f in achados}
+    assert achados and all(f["engine_version"] == ENGINE_VERSION == "projetista/0.1.0+sintese/0.2.0" for f in achados)
     nao_conferidas = 0
     for f in achados:
         assert set(CAMPOS) <= f.keys() and "calculated_at" not in f, f["rule_id"]
@@ -200,11 +201,11 @@ def test_campos_de_grandeza():
         assert isinstance(f["assumptions"], list)
         for campo in CAMPOS:
             assert f[campo] is not None or f["null_reasons"].get(campo), (f["rule_id"], campo)
-        if f["source"].get("verified") is not True:
+        if fonte[id(f)].get("verified") is not True:
             nao_conferidas += 1
             assert f["confidence"] in ("premissa", "sem_fonte"), f
-        if f["source"].get("kind") == "premissa":
-            assert f["confidence"] == "premissa" and f["assumptions"] == [f["source"]["reference"]]
+        if fonte[id(f)].get("kind") == "premissa":
+            assert f["confidence"] == "premissa" and f["assumptions"] == [fonte[id(f)]["reference"]]
     assert nao_conferidas
     kinds = {f["rule_id"]: f["quantity_kind"] for f in achados}
     assert kinds["areas.privativa"] == "area" and kinds["fachada"] == "comprimento"
@@ -212,6 +213,26 @@ def test_campos_de_grandeza():
     # Fonte sem nada vira sem_fonte, com motivo para a versão nula.
     c = classificar([achado("geometria.laje", source={})])[0]
     assert c["confidence"] == "sem_fonte" and c["source_version"] is None and c["null_reasons"]["source_version"]
+
+
+def test_fontes_uma_vez_so():
+    rev = gerada()
+    a = avaliar(rev)
+    achados = a["sintese"]["achados"]
+    citadas = {f["source_ref"] for f in achados}
+    assert all("source" not in f for f in achados)
+    assert citadas == set(a["fontes"]) and len(a["fontes"]) < len(achados)  # nada órfão, nada faltando
+    # Reconstrução: fonte de volta pela citação = achados como a 0.1.0 gravava (fonte inteira em cada um).
+    antes = sintetizar(validar(rev, rev["site"], rev["rules_ref"]), a["escopo"], {}, rev["rules_ref"]["rules_version"])
+    refeitos = []
+    for f in copy.deepcopy(achados):
+        f["source"] = a["fontes"][f.pop("source_ref")]
+        refeitos.append(f)
+    assert serializar(refeitos) == serializar(antes["achados"])
+    # As chaves que o painel do Visual lê não mudaram.
+    for k in ("sintese", "regra_da_precedencia", "dominios", "motivos_trava", "fora_do_escopo", "aviso"):
+        assert serializar(a["sintese"][k]) == serializar(antes[k]), k
+    assert len(serializar(a)) < len(serializar({**a, "sintese": antes}))
 
 
 def test_avaliacao_mesmos_bytes():

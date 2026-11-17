@@ -8,7 +8,7 @@ import copy
 from viabilidade.projetista.esquema import SCHEMA_VERSION, _canonico, selar, sha256
 from viabilidade.projetista.validador import validar
 
-METHOD_VERSION = "sintese/0.1.0"
+METHOD_VERSION = "sintese/0.2.0"
 ENGINE_VERSION = f"{SCHEMA_VERSION}+{METHOD_VERSION}"
 ESCOPO_PADRAO = ("geometrico", "urbanistico", "arquitetonico")
 DOMINIOS = ("geometrico", "urbanistico", "arquitetonico", "estrutural", "geotecnico", "economico")
@@ -196,9 +196,16 @@ def avaliar(revisao, escopo=ESCOPO_PADRAO, evidencias=None):
     rules = revisao["rules_ref"]
     evidencias = copy.deepcopy(evidencias) if isinstance(evidencias, dict) else {}
     s = sintetizar(validar(revisao, revisao["site"], rules), escopo, evidencias, rules.get("rules_version"))
+    # 0.2.0: a fonte sai do achado e entra uma vez em `fontes`; os campos de grandeza já foram calculados dela.
+    fontes = {}
+    for f in s["achados"]:
+        fonte = f.pop("source", None)
+        if fonte is not None:
+            f["source_ref"] = sha256(fonte)[:16]
+            fontes[f["source_ref"]] = fonte
     return selar_avaliacao({"revision_id": revisao["revision_id"], "revision_sha256": revisao["content_sha256"],
                             "escopo": s["escopo"], "evidencias": evidencias, "method_version": METHOD_VERSION,
-                            "engine_version": ENGINE_VERSION, "sintese": s})
+                            "engine_version": ENGINE_VERSION, "fontes": fontes, "sintese": s})
 
 
 def avaliacao_valida(avaliacao, revisao):
