@@ -390,6 +390,38 @@ async function checkPriceSimulation(page) {
       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
 
+      if (!mobile) {
+        const previa = '../projetista/exemplo-22421/estudo-previa.json';
+        await page.goto(new URL('?estudo=' + encodeURIComponent(previa), url).href);
+        await page.waitForFunction(() => !document.querySelector('#erro').hidden || document.querySelector('#opcoes button')?.textContent === 'Opção projetista');
+        assert.equal(await page.locator('#erro').isVisible(), false, await page.locator('#erro').innerText());
+        assert.equal(await page.locator('#painel-avaliacao').isVisible(), false);
+        for (const label of ['Unidade', 'Circulação', 'Núcleo']) assert((await page.locator('#legenda-usos').innerText()).includes(label));
+        await page.screenshot({ path: path.join(output, 'tarefa21-22421-sem-avaliacao.png'), fullPage: true });
+        await page.goto(new URL('?estudo=' + encodeURIComponent(previa) + '&avaliacao=' + encodeURIComponent('avaliacao-01.json'), url).href);
+        await page.getByText('Selo não conferido aqui; confira com avaliacao_valida').waitFor();
+        assert.equal(await page.locator('#sintese-avaliacao').innerText(), 'HIPOTESE_PRELIMINAR');
+        assert(await page.locator('#dominios-avaliacao tr').count() > 0);
+        assert.equal(await page.locator('#painel-avaliacao').getByText('Resultado preliminar e automático', { exact: false }).count(), 1);
+        assert.equal(await page.locator('#painel-avaliacao').getByText(/viável|aprovado/i).count(), 0);
+        await page.screenshot({ path: path.join(output, 'tarefa21-22421-com-avaliacao.png'), fullPage: true });
+        await page.goto(new URL('?estudo=' + encodeURIComponent(previa) + '&avaliacao=' + encodeURIComponent('https://example.invalid/avaliacao.json'), url).href);
+        await page.waitForFunction(() => document.querySelector('#erro').textContent.includes('Avaliação não carregada'));
+        assert.match(await page.locator('#erro').innerText(), /use um caminho relativo/);
+        assert.equal(await page.locator('#painel-avaliacao').isVisible(), false);
+        await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+        await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+        const motorAtual = await page.locator('canvas').first().screenshot();
+        await page.screenshot({ path: path.join(output, 'tarefa21-estudo-motor.png'), fullPage: true });
+        await page.goto(new URL('.tarefa21-baseline.html?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+        await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+        await page.waitForFunction(() => window.__maquetePronta);
+        assert(pixelDifference(motorAtual, await page.locator('canvas').first().screenshot()) < .001,
+          'O canvas do estudo Motor antigo deve manter a imagem do HTML anterior (diferença inferior a 0,1%).');
+        await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
+        await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
+      }
+
       await page.locator('canvas').first().waitFor();
       const contrasts = await checkAccessibility(page);
       fs.writeFileSync(path.join(output, `${profile}-contraste.json`), JSON.stringify(contrasts, null, 2) + '\n');

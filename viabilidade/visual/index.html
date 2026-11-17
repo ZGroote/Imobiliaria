@@ -8,7 +8,8 @@
   <style>
     :root{color-scheme:dark;font:15px/1.5 system-ui,sans-serif;--page:#0e151b;--surface:#131c23;--raised:#212c34;--line:#40505c;--ink:#e5eaee;--muted:#abb8c1;--accent:#91dcba;--gold:#f3d397;color:var(--ink);background:var(--page)}
     *{box-sizing:border-box}body{margin:0}main,header{max-width:1560px;margin:auto;padding:24px}header{display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line)}h1{font-size:26px;line-height:1.2;margin:4px 0 8px;letter-spacing:-.5px}h2{font-size:19px;margin:0}h3{font-size:15px;margin:16px 0 8px}p{margin:8px 0}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}.muted,.help{color:var(--muted);font-size:13px}.actions,nav,.legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center}button{font:inherit;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:6px;background:var(--raised);color:var(--ink);cursor:pointer}button:hover{border-color:var(--accent)}button[aria-pressed=true]{background:#244336;border-color:var(--accent);color:#e9fff2}button:focus-visible,summary:focus-visible,canvas:focus-visible{outline:3px solid var(--accent);outline-offset:3px}button:disabled{opacity:.5;cursor:default}#status{overflow-wrap:anywhere}#erro,.notice{padding:12px 16px;border:1px solid #826c44;border-radius:6px;background:#322c20;color:var(--gold)}#erro{border-color:#da9b86;color:#ffd6c8;background:#412b25}#resumo{margin-bottom:20px}#lote{font-size:19px;font-weight:600;overflow-wrap:anywhere}.legend{font-size:12px;color:var(--muted);margin:16px 0}.legend span{display:inline-flex;gap:8px;align-items:center;margin-right:12px}.swatch{display:inline-block;width:16px;height:12px;background:#8a9e84}.swatch.box{background:transparent;border:1px solid #f3d397}.swatch.volume{background:#96c5b9}.swatch.garagem{background:#b0a8c5}nav{margin:16px 0}.cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr))}.option{min-width:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}.option>h2{padding:16px;border-bottom:1px solid var(--line)}.viewport{height:340px;position:relative;background:#e1e5e2}.single .option-body{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr)}.single .viewport{height:540px}.viewport canvas{display:block;width:100%;height:100%;touch-action:none}.view-actions{position:absolute;bottom:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap}.view-actions button{font-size:12px;padding:8px 12px;background:#18252bec;border-color:#6b7b80}.metrics{padding:16px}.highlights{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px}.highlights div{border-bottom:1px solid var(--line);padding-bottom:12px}.highlights dt{font-size:12px;color:var(--muted)}.highlights dd{margin:4px 0 0;font-size:21px;font-weight:600;overflow-wrap:anywhere}.highlights .sem-preco{font-size:14px;line-height:21px;white-space:nowrap}.recuos dd{max-width:55%}.details{margin:0}.details div{display:flex;justify-content:space-between;gap:16px;padding:6px 0;border-bottom:1px solid #303b43;font-size:13px}.details dt{color:var(--muted)}.details dd{margin:0;text-align:right}.alerts{font-size:13px;color:var(--gold);padding-left:20px;margin:8px 0}.alerts li{margin:8px 0}details.context{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}summary{cursor:pointer;min-height:44px;display:list-item}.context ul{padding-left:20px;color:var(--muted);font-size:13px}.context li{margin:8px 0;overflow-wrap:anywhere}#premissas{max-width:800px}footer{padding:12px 24px;background:#1c292ff5;border-top:1px solid #5b707c;color:var(--gold);font-size:13px;text-align:center}.drop{outline:3px dashed var(--accent);outline-offset:-8px}[hidden]{display:none!important}
-    .conferencia-item{display:block}.swatch.cega{background:#729bbd;border:1px dashed #bddff4}.parede-cega{padding:8px;border-left:3px solid #9ec8e6;color:#c2e0f5;font-size:13px}.critical{border:1px solid #da9b86;border-left:4px solid #ff9a7a;border-radius:6px;padding:12px 16px;background:#412b25;color:#ffe0d5}.critical li{font-weight:600}.button{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:6px;background:var(--raised);color:var(--ink);text-decoration:none}.button:hover{border-color:var(--accent)}.button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+    .conferencia-item{display:block}.swatch.cega{background:#729bbd;border:1px dashed #bddff4}.swatch.unidade{background:#96c5b9}.swatch.circulacao{background:#c5b896}.swatch.nucleo{background:#b8a6c9}.swatch.hall{background:#d2b49a}.swatch.embasamento{background:#c2c8c1}.parede-cega{padding:8px;border-left:3px solid #9ec8e6;color:#c2e0f5;font-size:13px}.critical{border:1px solid #da9b86;border-left:4px solid #ff9a7a;border-radius:6px;padding:12px 16px;background:#412b25;color:#ffe0d5}.critical li{font-weight:600}.button{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:6px;background:var(--raised);color:var(--ink);text-decoration:none}.button:hover{border-color:var(--accent)}.button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+    .avaliacao{margin:20px 0;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}.avaliacao h2{margin-bottom:10px}.sintese-avaliacao{padding:14px;border-left:4px solid var(--gold);background:#302a20;font-size:18px;font-weight:700;overflow-wrap:anywhere}.tabela-scroll{overflow-x:auto}#painel-avaliacao table{width:100%;border-collapse:collapse;font-size:13px}#painel-avaliacao th,#painel-avaliacao td{padding:8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;overflow-wrap:anywhere}#painel-avaliacao ul{margin:4px 0;padding-left:20px}
     @media(max-width:760px){header{align-items:flex-start;flex-direction:column;gap:12px}main,header{padding:16px}h1{font-size:24px}.single .option-body{grid-template-columns:1fr}.single .viewport{height:360px}.actions button{flex:1}.cards{grid-template-columns:1fr}footer{padding:12px 16px}.details{font-size:12px}}
     .volume-warning{position:sticky;top:0;z-index:2;margin:0 0 12px;padding:10px 16px;border:2px solid #8d6321;border-radius:6px;background:#fff0c2;color:#30220a;font-weight:700;line-height:1.35}
     .domain-badge,.domain-alert{margin:8px 0;padding:8px 12px;border-radius:6px;font-size:13px;line-height:1.35}.domain-badge{border-left:3px solid #53a677;background:#172c24;color:#aee4c1}.domain-alert{border:1px solid #da9b86;border-left:4px solid #ff9a7a;background:#412b25;color:#ffe0d5}.domain-alert ul{margin:4px 0 0;padding-left:18px}.domain-alert li{margin:2px 0;overflow-wrap:anywhere}
@@ -38,7 +39,8 @@
       <div id="resumo"><p id="lote"></p><p id="zona" class="muted"></p><div id="dominio" hidden></div><p id="conferencia" class="notice" role="note"></p></div>
       <div class="simulacao"><label for="preco-tela">Preço por m² privativo (R$)</label><input id="preco-tela" inputmode="decimal" autocomplete="off" placeholder="ex.: 8.500" aria-describedby="preco-ajuda"><span id="preco-ajuda" class="help" aria-live="polite">Simulação: preço digitado na tela × área privativa de cada opção. O estudo não é alterado.</span></div>
       <nav id="opcoes" aria-label="Escolha uma opção"></nav>
-      <div class="legend" aria-label="Legenda da maquete"><span><i class="swatch"></i>Lote</span><span><i class="swatch box"></i>Caixa máxima</span><span><i class="swatch volume"></i>Volume da opção</span><span><i class="swatch garagem"></i>Garagem / subsolo</span><span id="legenda-parede-cega" hidden><i class="swatch cega"></i><span id="texto-parede-cega"></span></span></div>
+      <section id="painel-avaliacao" class="avaliacao" aria-labelledby="titulo-avaliacao" hidden><h2 id="titulo-avaliacao">Avaliação da revisão</h2><p id="sintese-avaliacao" class="sintese-avaliacao"></p><p><strong>Regra da precedência:</strong> <span id="regra-precedencia"></span></p><div class="tabela-scroll"><table><thead><tr><th>Domínio</th><th>Estado</th><th>No escopo</th><th>Pendentes</th><th>Ações necessárias</th></tr></thead><tbody id="dominios-avaliacao"></tbody></table></div><div id="travas-avaliacao"></div><div id="fora-escopo"></div><p id="aviso-avaliacao" class="notice"></p><p class="help">Selo não conferido aqui; confira com <code>avaliacao_valida</code>.</p></section>
+      <div class="legend" aria-label="Legenda da maquete"><span><i class="swatch"></i>Lote</span><span><i class="swatch box"></i>Caixa máxima</span><span id="legenda-usos"></span><span id="legenda-garagem" hidden><i class="swatch garagem"></i><span>Garagem / subsolo</span></span><span id="legenda-embasamento" hidden><i class="swatch embasamento"></i><span>Embasamento</span></span><span id="legenda-parede-cega" hidden><i class="swatch cega"></i><span id="texto-parede-cega"></span></span></div>
       <p class="help" id="ajuda-maquete">Arraste para girar; use a roda ou dois dedos para aproximar. Com foco na maquete, use as setas para girar e + ou − para aproximar ou afastar. Comparação com escala e vista inicial iguais. No celular, as opções ficam uma abaixo da outra.</p>
       <div id="cards" class="cards single"></div>
       <details class="context" open><summary>Incertezas e origem dos dados</summary><ul id="incertezas"></ul></details>
@@ -129,7 +131,27 @@
       if (d.opcoes_ausentes !== undefined && (!Array.isArray(d.opcoes_ausentes) || d.opcoes_ausentes.some(o => !o || typeof o !== 'object' || !['impossivel', 'busca_inconclusiva', 'dados_insuficientes', 'erro'].includes(o.motivo)))) throw Error('Opções ausentes devem informar um motivo reconhecido.');
       return d;
     }
-    async function carregar(origem, arquivo = false) {
+    function validarAvaliacao(d) {
+      const obj = v => v !== null && typeof v === 'object' && !Array.isArray(v), lista = v => Array.isArray(v) && v.length <= 1000 && v.every(x => typeof x === 'string' && x.length <= 2000);
+      if (!obj(d) || !obj(d.sintese)) throw Error('Avaliação inválida: esperado um objeto com síntese.');
+      const s = d.sintese;
+      if (typeof s.sintese !== 'string' || !s.sintese.trim() || !(typeof s.regra_da_precedencia === 'string' || finito(s.regra_da_precedencia)) || !obj(s.dominios) || !lista(s.motivos_trava) || !lista(s.aviso) && typeof s.aviso !== 'string') throw Error('Avaliação inválida: confira sintese, regra_da_precedencia, dominios, motivos_trava e aviso.');
+      for (const [nome, dominio] of Object.entries(s.dominios)) if (!obj(dominio) || typeof dominio.estado !== 'string' || typeof dominio.no_escopo !== 'boolean' || !obj(dominio.contagem) || !lista(dominio.pendentes) || !lista(dominio.required_actions)) throw Error(`Avaliação inválida: domínio ${nome} deve ter estado, no_escopo, contagem, pendentes e required_actions válidos.`);
+      if (s.fora_do_escopo !== undefined && !Array.isArray(s.fora_do_escopo)) throw Error('Avaliação inválida: fora_do_escopo deve ser uma lista.');
+      return s;
+    }
+    function apresentarAvaliacao(a) {
+      const box = $('painel-avaliacao'); box.hidden = !a; if (!a) return;
+      $('sintese-avaliacao').textContent = a.sintese;
+      $('regra-precedencia').textContent = String(a.regra_da_precedencia);
+      const linhas = Object.entries(a.dominios).map(([nome, d]) => { const tr = el('tr'); for (const valor of [nome, d.estado, d.no_escopo ? 'Sim' : 'Não', d.pendentes.join(', ') || 'Nenhum', d.required_actions.join('; ') || 'Nenhuma']) tr.append(el('td', valor)); return tr; });
+      $('dominios-avaliacao').replaceChildren(...linhas);
+      const lista = (titulo, valores) => { if (!valores?.length) return null; const sec = el('section'), ul = el('ul'); sec.append(el('h3', titulo)); valores.forEach(v => ul.append(el('li', typeof v === 'string' ? v : JSON.stringify(v)))); sec.append(ul); return sec; };
+      $('travas-avaliacao').replaceChildren(...(lista('Motivos de trava', a.motivos_trava) ? [lista('Motivos de trava', a.motivos_trava)] : []));
+      const fora = lista('Fora do escopo', a.fora_do_escopo); $('fora-escopo').replaceChildren(...(fora ? [fora] : []));
+      $('aviso-avaliacao').textContent = typeof a.aviso === 'string' ? a.aviso : JSON.stringify(a.aviso);
+    }
+    async function carregar(origem, arquivo = false, arquivoAvaliacao = null) {
       const atual = ++pedido;
       fonte = arquivo ? null : decodeURIComponent(String(origem).split('?')[0].split('/').pop().replace(/\.json$/, ''));
       $('status').textContent = 'Lendo estudo…'; $('erro').hidden = true;
@@ -150,7 +172,22 @@
         const novo = validar(JSON.parse(texto));
         const sha = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(v => v.toString(16).padStart(2, '0')).join('');
         if (atual !== pedido) return;
-        estudo = novo; estudoSha = sha; origemUrl = arquivo ? null : new URL(origem, location.href); selecionada = 0; comparar = false; apresentar();
+        estudo = novo; estudoSha = sha; origemUrl = arquivo ? null : new URL(origem, location.href); selecionada = 0; comparar = false;
+        let sintese = null;
+        if (arquivoAvaliacao) {
+          try {
+            if (!origemUrl || /^([a-z][a-z0-9+.-]*:|[\\/]{2})/i.test(arquivoAvaliacao.trim())) throw Error('use um caminho relativo ao estudo.');
+            const urlAvaliacao = new URL(arquivoAvaliacao, origemUrl);
+            if (urlAvaliacao.origin !== location.origin) throw Error('o arquivo precisa estar no mesmo endereço.');
+            const respostaAvaliacao = await fetch(urlAvaliacao, { signal: AbortSignal.timeout(15000) });
+            if (!respostaAvaliacao.ok) throw Error('HTTP ' + respostaAvaliacao.status + '.');
+            const bytesAvaliacao = await respostaAvaliacao.arrayBuffer();
+            if (bytesAvaliacao.byteLength > 10 * 1024 * 1024) throw Error('o arquivo deve ter até 10 MB.');
+            sintese = validarAvaliacao(JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytesAvaliacao)));
+          } catch (erroAvaliacao) { falha('Avaliação não carregada: ' + (erroAvaliacao instanceof SyntaxError ? 'JSON inválido.' : erroAvaliacao.message)); }
+        }
+        if (atual !== pedido) return;
+        apresentarAvaliacao(sintese); apresentar();
         $('status').textContent = (arquivo ? origem.name : origem) + ' · Motor ' + (estudo.versao_motor || 'não informado');
       } catch (erro) {
         if (atual !== pedido) return;
@@ -253,6 +290,11 @@
         $('resumo').prepend($('conferencia'));
       } else $('dominio').after($('conferencia'));
       const faixaCega = temFaixaCega(estudo.caixa_maxima);
+      const usos = new Set(estudo.opcoes.flatMap(o => o.volumes.map(v => v.uso || '')).map(u => u.toLowerCase()));
+      const legendaUsos = $('legenda-usos'); legendaUsos.replaceChildren();
+      for (const [uso, nome, cor] of [['unidade','Unidade','unidade'],['circulacao','Circulação','circulacao'],['nucleo','Núcleo','nucleo'],['hall','Hall','hall']]) if (usos.has(uso)) { const item = el('span'); item.append(el('i', undefined, 'swatch ' + cor), document.createTextNode(nome)); legendaUsos.append(item); }
+      $('legenda-garagem').hidden = ![...usos].some(u => /garagem|subsolo/i.test(u) || estudo.opcoes.some(o => o.volumes.some(v => v.uso?.toLowerCase() === u && v.z0_m < 0)));
+      $('legenda-embasamento').hidden = !usos.has('embasamento');
       $('legenda-parede-cega').hidden = !faixaCega && !estudo.opcoes.some(o => o.volumes.some(v => v.parede_cega === true));
       $('texto-parede-cega').textContent = faixaCega ? 'Parede cega: faixa tracejada até ' + formatar(estudo.caixa_maxima.parede_cega_ate_m, ' m') + '; volumes em azul' : 'Volumes com parede cega em azul';
       const motivoAusencia = { impossivel: 'impossível pelas regras informadas', busca_inconclusiva: 'a busca não encontrou (não está provado que não existe)', dados_insuficientes: 'faltam dados', erro: 'erro de cálculo' };
@@ -385,7 +427,7 @@
         const faixa = new THREE.LineSegments(edges, new THREE.LineDashedMaterial({ color: 0x28648a, dashSize: 1, gapSize: .5 }));
         faixa.computeLineDistances(); scene.add(faixa);
       }
-      opcao.volumes.forEach(v => solido(geometria(v.base_utm, v.altura_m, v.z0_m), v.parede_cega === true ? 0x729bbd : v.z0_m < 0 || /garagem|subsolo/i.test(v.uso || '') ? 0xb0a8c5 : v.uso === 'embasamento' ? 0xc2c8c1 : 0x96c5b9, v.z0_m < 0 ? .75 : 1));
+      opcao.volumes.forEach(v => { const uso = (v.uso || '').toLowerCase(), cor = v.parede_cega === true ? 0x729bbd : v.z0_m < 0 || /garagem|subsolo/i.test(uso) ? 0xb0a8c5 : uso === 'embasamento' ? 0xc2c8c1 : ({ unidade: 0x96c5b9, circulacao: 0xc5b896, nucleo: 0xb8a6c9, hall: 0xd2b49a }[uso] || 0x96c5b9); solido(geometria(v.base_utm, v.altura_m, v.z0_m), cor, v.z0_m < 0 ? .75 : 1); });
       let topo = Math.max(caixa.altura_m, temFaixaCega(caixa) ? caixa.parede_cega_ate_m : 0), base = 0;
       estudo.opcoes.forEach(o => o.volumes.forEach(v => { topo = Math.max(topo, v.z0_m + v.altura_m); base = Math.min(base, v.z0_m); }));
       const tamanho = Math.max(maxX - minX, maxY - minY, topo - base, 1), alvo = new THREE.Vector3(0, (topo + base) / 2, 0);
@@ -420,7 +462,7 @@
     document.addEventListener('drop', e => { e.preventDefault(); document.body.classList.remove('drop'); if (e.dataTransfer.files[0]) carregar(e.dataTransfer.files[0], true); });
     try { ({ THREE, OrbitControls } = await import('viabilidade-three')); }
     catch { falha('Não foi possível carregar o 3D pela CDN. As métricas do estudo ainda podem ser consultadas.'); }
-    if (pedido === 0) await carregar(new URLSearchParams(location.search).get('estudo') || exemplo);
+    if (pedido === 0) { const params = new URLSearchParams(location.search); await carregar(params.get('estudo') || exemplo, false, params.get('avaliacao')); }
     else if (estudo) mostrar();
   </script>
 </body>
