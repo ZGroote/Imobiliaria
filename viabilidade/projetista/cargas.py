@@ -7,21 +7,25 @@ ambiente, com valores ESCRITOS a partir da NBR 6120:2019 como premissa, sem afir
 Fora daqui, de propósito: carga em pilar, dimensionamento, combinação de ações (NBR 8681), capacidade de
 fundação e comparação com sondagem. O total da torre não é carga na fundação (ver AVISO).
 Vínculo (decisão 4): `revision_id` + `content_sha256` + `element_ids`; geometria mudou, cargas caducam.
+0.2.0: o vão do elevador e do shaft não leva o g da laje (só o da laje; vigas, pilares, paredes e piso seguem
+espalhados pelo contorno inteiro).
 """
 import copy
 
 from shapely.geometry import Polygon
+from shapely.ops import unary_union
 
 from viabilidade.projetista.esquema import _canonico, selar, sha256
 from viabilidade.projetista.sintese import _revisao_valida
 from viabilidade.projetista.validador import _posicionar
 
-METHOD_VERSION = "cargas/0.1.0"
+METHOD_VERSION = "cargas/0.2.0"
 KN, KN_M2, M2 = "kN", "kN/m²", "m²"
 SELO = "cargas_sha256"
 AVISO = ("Estimativa preliminar em faixa, com premissas não conferidas por engenheiro calculista. "
          "O total da torre não é carga na fundação: aqui não há carga por apoio, combinação de ações (NBR 8681), "
          "dimensionamento, capacidade de fundação nem comparação com sondagem.")
+LAJE = "g.laje"  # a única parcela g que desconta o vão
 PILHA_AUSENTE = "pilha de pavimentos ausente: a estimativa cobre só o pavimento que está na revisão"
 
 
@@ -82,10 +86,16 @@ def _soma(faixas, unidade):
 
 def _pavimento(rev, f, premissas):
     tipos = {t["id"]: t for t in rev["unit_types"]}
-    area = Polygon(f["outline_m"]).area
-    parcelas = [{"tipo": "g", "premissa": p["id"], "element_ids": [f["id"]], "area": {"valor": area, "unidade": M2},
-                 "taxa": _faixa(p["valor"], 1, KN_M2), "carga": _faixa(p["valor"], area, KN)}
-                for p in premissas if p["tipo"] == "g"]
+    laje = Polygon(f["outline_m"])
+    area = laje.area
+    vaos_ids = [e["id"] for e in f["cores"] if AMBIENTE.get(e["kind"], "") is None]
+    vao = unary_union([Polygon(e["polygon_m"]) for e in f["cores"] if e["id"] in vaos_ids]).intersection(laje).area
+    parcelas = []
+    for p in (p for p in premissas if p["tipo"] == "g"):
+        a = area - vao if p["id"] == LAJE else area
+        parcelas.append({"tipo": "g", "premissa": p["id"], "element_ids": [f["id"]], "area": {"valor": a, "unidade": M2},
+                         "taxa": _faixa(p["valor"], 1, KN_M2), "carga": _faixa(p["valor"], a, KN)}
+                        | ({"vao_descontado": {"valor": vao, "unidade": M2, "element_ids": vaos_ids}} if p["id"] == LAJE else {}))
     q = {p["ambiente"]: p for p in premissas if p["tipo"] == "q"}
     elementos = [(u["id"], "unidade", _posicionar(Polygon(tipos[u["unit_type_id"]]["outline_m"]), u).area)
                  for u in f["unit_placements"]]

@@ -17,7 +17,7 @@ from viabilidade.projetista.esquema import _canonico, carregar_json, gravar, sel
 from viabilidade.projetista.sintese import avaliacao_valida
 from viabilidade.projetista.sondagem import SELO as SELO_SONDAGEM, motivo_trava
 
-METHOD_VERSION = "pacote/0.1.0"
+METHOD_VERSION = "pacote/0.2.0"  # 0.2.0: a sondagem citada na avaliação tem que ser a do pacote
 SELO = "pacote_sha256"
 PECAS = ("revisao", "avaliacao", "sondagem", "cargas")
 
@@ -46,6 +46,20 @@ def _sondagem(s, rev):
     return ""
 
 
+def _avaliacao(a, revisao, sondagem):
+    """`avaliacao_valida` e, se a avaliação cita uma sondagem, a citada tem que ser a do pacote (id e sha)."""
+    ok, motivo = avaliacao_valida(a, revisao)
+    citada = (a.get("evidencias") or {}).get("sondagem")
+    if not ok or not isinstance(citada, dict):
+        return motivo
+    if not isinstance(sondagem, dict):
+        return f"avaliação cita a sondagem {citada.get('investigation_id')}, ausente no pacote"
+    if (citada.get("investigation_id"), citada.get("sha256")) != (sondagem.get("investigation_id"), sondagem.get(SELO_SONDAGEM)):
+        return (f"avaliação cita outra sondagem: {citada.get('investigation_id')} ({str(citada.get('sha256'))[:12]}), "
+                f"o pacote tem {sondagem.get('investigation_id')} ({str(sondagem.get(SELO_SONDAGEM))[:12]})")
+    return ""
+
+
 def _pecas(revisao, avaliacao, sondagem, cargas):
     """id e sha que cada peça carrega + estado conferido agora."""
     def ref(peca, id_, sha, conferir):
@@ -57,7 +71,7 @@ def _pecas(revisao, avaliacao, sondagem, cargas):
     return {
         "revisao": ref(revisao, "revision_id", "content_sha256", _revisao),
         # Avaliação e cargas não têm id próprio: o id é a revisão a que elas dizem pertencer.
-        "avaliacao": ref(avaliacao, "revision_id", "avaliacao_sha256", lambda a: avaliacao_valida(a, revisao)[1]),
+        "avaliacao": ref(avaliacao, "revision_id", "avaliacao_sha256", lambda a: _avaliacao(a, revisao, sondagem)),
         "sondagem": ref(sondagem, "investigation_id", SELO_SONDAGEM, lambda s: _sondagem(s, revisao)),
         "cargas": ref(cargas, "revision_id", SELO_CARGAS, lambda c: cargas_validas(c, revisao)[1]),
     }
