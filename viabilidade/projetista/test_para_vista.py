@@ -27,7 +27,7 @@ INDEX = RAIZ / "viabilidade" / "visual" / "index.html"
 # sha256 da saída da tarefa 6 (22421, sem térreo, revisão rev_gerada_01 fdccaf794c32), com o piloto COMMITADO
 # (sha abaixo). Piloto ou revisão mudou? Rode a para_vista.py do commit 91fa3ad6 na mesma entrada e regrave.
 PILOTO_22421_SHA = "0589d1266844c33175ff77f0dec78d2c93435c0780fdbc51cd25bfeb5a30bee0"  # com fim de linha LF (o git no Windows pode entregar CRLF)
-SHA_TAREFA_6 = "f90003d179b6448bc3f90de1261b56cbb7f155f4b3123c64102ce8839847a589"
+SHA_TAREFA_6 = "a7911ddd52e965a171249ddc42fa6c336b6483fc7256a5423c08faa185cbba9f"
 _cache = {}
 
 

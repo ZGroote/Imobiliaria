@@ -985,16 +985,16 @@
     "area_garagem_m2": 305.7799
    },
    "alertas": [
-    "Prévia esquemática do projetista (revisão rev_e05e5b744cb4): preliminar, não é projeto aprovado nem estudo do motor.",
+    "Prévia esquemática do projetista (revisão rev_92f590a24728): preliminar, não é projeto aprovado nem estudo do motor.",
     "Térreo de 3 m (hall e garagem) e 6 unidades por andar, empilhadas em 1 andar(es) tipo de 3 m; parou em 1 porque o andar (z 6 a 9 m) sai do envelope dessa altura: 15.55 m² para fora.",
     "Zona do terreno não conferida: a prévia herda o envelope do estudo e não vale como verificação da lei.",
-    "Regras com fonte não verificada na revisão: areas.computavel, areas.privativa, areas.util, dimensao, norma.envelope.",
+    "Regras com fonte não verificada na revisão: areas.computavel, areas.privativa, areas.util, dimensao, norma.envelope, torre.altura, torre.ca, torre.permeabilidade, torre.to.",
     "Vagas por área bruta (premissa de 25 m² por vaga com circulação), não desenhadas nem conferidas pela lei.",
     "Hall = faixa de 3 m ao redor do núcleo; garagem = resto da laje do térreo: premissas, sem rampa, pilar nem acesso desenhados. Sem recuos por volume nem relevo."
    ],
    "fonte": {
-    "revision_id": "rev_e05e5b744cb4",
-    "content_sha256": "7af93406d852ae9c9d46aa79c66b17202e316c72ae6a59259f89ba7354b30cf2"
+    "revision_id": "rev_92f590a24728",
+    "content_sha256": "fecfc20a1917ed4389a9b141d257882cf3f08e258093ec59652f780ba13758f9"
    }
   }
  ],

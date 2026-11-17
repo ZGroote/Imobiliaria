@@ -1031,15 +1031,15 @@
     "vgv_estimado": null
    },
    "alertas": [
-    "Prévia esquemática do projetista (revisão rev_327273213b5e): preliminar, não é projeto aprovado nem estudo do motor.",
+    "Prévia esquemática do projetista (revisão rev_b72d3651c73f): preliminar, não é projeto aprovado nem estudo do motor.",
     "6 unidades por andar, empilhadas em 2 pavimento(s) de 3 m; parou em 2 porque o andar (z 6 a 9 m) sai do envelope dessa altura: 15.55 m² para fora.",
     "Zona do terreno não conferida: a prévia herda o envelope do estudo e não vale como verificação da lei.",
-    "Regras com fonte não verificada na revisão: areas.computavel, areas.privativa, areas.util, dimensao, norma.envelope.",
+    "Regras com fonte não verificada na revisão: areas.computavel, areas.privativa, areas.util, dimensao, norma.envelope, torre.altura, torre.ca, torre.permeabilidade, torre.to.",
     "Sem vagas, garagem, recuos por volume nem relevo: a prévia só mostra o pavimento tipo repetido."
    ],
    "fonte": {
-    "revision_id": "rev_327273213b5e",
-    "content_sha256": "fc40f83ce05c0f971b97ce9ea504c4b5198c878e82f285872cc979f9490d333d"
+    "revision_id": "rev_b72d3651c73f",
+    "content_sha256": "2063d026030493ca43a6bcbfecbab3fc67946106ab17282c2699709d37e4deaf"
    }
   }
  ],

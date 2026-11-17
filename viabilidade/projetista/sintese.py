@@ -9,7 +9,7 @@ from viabilidade.projetista.esquema import SCHEMA_VERSION, _canonico, selar, sha
 from viabilidade.projetista.sondagem import motivo_trava
 from viabilidade.projetista.validador import validar
 
-METHOD_VERSION = "sintese/0.3.0"
+METHOD_VERSION = "sintese/0.4.0"  # 0.4.0: domínio das regras torre.* (PA-G3)
 GEOTECNICO_SEM_METODO = "Falta método de cálculo geotécnico validado por engenheiro (PVF-G4)"
 ENGINE_VERSION = f"{SCHEMA_VERSION}+{METHOD_VERSION}"
 ESCOPO_PADRAO = ("geometrico", "urbanistico", "arquitetonico")
@@ -29,6 +29,7 @@ PREFIXOS = (
     ("norma.", "urbanistico"), ("areas.computavel", "urbanistico"), ("areas.varanda_computavel", "urbanistico"),
     ("arquitetura.", "arquitetonico"), ("estrutura.", "estrutural"), ("geotecnia.", "geotecnico"),
     ("economia.", "economico"),
+    ("torre.continuidade", "geometrico"), ("torre.", "urbanistico"),
     # O validador 0.1.0 emite estes sem prefixo de domínio; fora daqui todo piloto viraria erro_tecnico.
     ("acesso", "arquitetonico"), ("fachada", "arquitetonico"), ("dimensao", "arquitetonico"),
     ("areas.privativa", "geometrico"), ("areas.util", "geometrico"),

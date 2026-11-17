@@ -2,7 +2,9 @@
 
 Balanço usa polígonos nominais pelos eixos. Áreas de faces são medidas à parte.
 Sem compartimentação interna, a útil é a área livre do invólucro, não área útil final.
+PA-G3: limites do prédio inteiro (`torre.*`) contra `rules_ref.params.motor`; limite nulo nunca vira conforme.
 """
+import copy
 import math
 from itertools import combinations
 
@@ -106,16 +108,110 @@ def _trecho(a, b, tol):
                 zip(list(l.simplify(tol).coords), list(l.simplify(tol).coords)[1:])), default=0.0)
 
 
+LIMITES = {"torre.altura": "altura_max_m", "torre.ca": "ca_maximo", "torre.to": "taxa_ocupacao",
+           "torre.permeabilidade": "taxa_permeabilidade", "torre.vagas": "vagas_min_por_unidade"}
+PILHA_AUSENTE = "pilha de pavimentos ausente"
+SEM_LIMITE = "limite não informado"
+SEM_PERMEAVEL = "a revisão não modela área permeável"
+
+
+def _fonte(regras, rule):
+    """Fonte própria da regra; para os limites da torre sem fonte própria, a da zona (documentos e `verified` de
+    `norma.envelope`, de onde vêm os `params.motor`). Nada inventado: sem nenhuma das duas, fonte vazia."""
+    fontes = regras.get("sources", {})
+    if rule in fontes or rule not in LIMITES or "norma.envelope" not in fontes:
+        return fontes.get(rule, {})
+    zona = fontes["norma.envelope"]
+    return {"reference": f"rules_ref.params.motor.{LIMITES[rule]} (zona {regras.get('zone_id')})",
+            "verified": zona.get("verified") is True, "kind": "norma", "documents": copy.deepcopy(zona.get("documents", []))}
+
+
+def _limites_da_torre(revisao, site, motor, computaveis, add):
+    """Altura, CA, TO, permeabilidade, vagas (só se houver mínimo) e continuidade vertical do prédio inteiro."""
+    placas = sorted(revisao["floor_plates"], key=lambda f: f["z0_m"])
+    ids = [f["id"] for f in placas]
+    regras = ["torre.altura", "torre.ca", "torre.to", "torre.permeabilidade", "torre.continuidade"]
+    if motor.get("vagas_min_por_unidade") is not None:
+        regras.append("torre.vagas")
+    unidade = {"torre.altura": "m", "torre.vagas": "vagas", "torre.continuidade": "un"}
+    if not (revisao.get("metrics_summary") or {}).get("torre") and len(placas) < 2:
+        for r in regras:
+            add(r, False, None, motor.get(LIMITES.get(r)), unidade.get(r, "razao"), ids, PILHA_AUSENTE, pendente=True)
+        return
+    tol = revisao["tolerances"]
+    tg = tol["tol_geom_m"]
+    lote = site.get("area_m2") or Polygon(site["polygon_utm"]).area
+    eps = tol["tol_area_m2"] / lote
+
+    def contra(r, medido, limite, unid, sugestao):
+        add(r, limite is not None and medido <= limite + eps, medido, limite, unid, ids,
+            SEM_LIMITE if limite is None else sugestao, pendente=limite is None)
+
+    altura = max(f["z0_m"] + f["height_m"] for f in placas) - placas[0]["z0_m"]
+    contra("torre.altura", altura, motor.get("altura_max_m"), "m", "Do piso do pavimento mais baixo ao topo do mais alto")
+
+    basico, maximo = motor.get("ca_basico"), motor.get("ca_maximo")
+    if None in computaveis:
+        add("torre.ca", False, None, maximo, "razao", ids, "Computável incompleto: há pavimento com elemento inválido", pendente=True)
+    else:
+        ca = sum(computaveis) / lote
+        if maximo is not None and ca > maximo + eps:
+            add("torre.ca", False, ca, maximo, "razao", ids, "Computável total ÷ área do lote acima do CA máximo")
+        elif basico is not None and ca <= basico + eps:
+            add("torre.ca", True, ca, basico, "razao", ids, "Computável total ÷ área do lote até o CA básico")
+        elif basico is None or maximo is None:
+            add("torre.ca", False, ca, None, "razao", ids, SEM_LIMITE, pendente=True)
+        else:  # o validador não tem "condicionado": o mais próximo é pendência, com o motivo dito
+            add("torre.ca", False, ca, basico, "razao", ids,
+                f"condicionado: acima do CA básico ({basico}) e até o máximo ({maximo}), depende de outorga onerosa", pendente=True)
+
+    garagem_conta = motor.get("garagem_conta_na_taxa_ocupacao") is not False  # ausente: conta (conservador)
+    projecao = unary_union([Polygon(f["outline_m"]).difference(unary_union(
+        [Polygon(e["polygon_m"]) for e in f["shared_spaces"] if e["kind"] == "garagem" and not garagem_conta]))
+        for f in placas])
+    contra("torre.to", projecao.area / lote, motor.get("taxa_ocupacao"), "razao",
+           "Projeção das lajes ÷ área do lote" + ("" if garagem_conta else ", sem a garagem"))
+
+    add("torre.permeabilidade", False, None, motor.get("taxa_permeabilidade"), "razao", ids, SEM_PERMEAVEL, pendente=True)
+
+    if "torre.vagas" in regras:
+        T = (revisao.get("metrics_summary") or {}).get("torre") or {}
+        vagas, unidades = (T.get("vagas") or {}).get("valor"), (T.get("unidades") or {}).get("valor")
+        if vagas is None or unidades is None:
+            add("torre.vagas", False, None, None, "vagas", ids, "A revisão não informa vagas ou unidades da torre", pendente=True)
+        else:
+            minimo = motor["vagas_min_por_unidade"] * unidades
+            add("torre.vagas", vagas >= minimo, vagas, minimo, "vagas", ids, "Vagas declaradas na torre (premissa m²/vaga)")
+
+    def nucleo(f):
+        k = {}
+        for e in f["cores"]:
+            k.setdefault(e["kind"], []).append(Polygon(e["polygon_m"]))
+        return {kind: unary_union(v) for kind, v in k.items()}
+
+    falhas, base = [], nucleo(placas[0])
+    for baixo, f in zip(placas, placas[1:]):
+        topo = baixo["z0_m"] + baixo["height_m"]
+        if abs(f["z0_m"] - topo) > tg:
+            falhas.append(f"{f['id']} começa em {f['z0_m']} m; o topo de {baixo['id']} é {topo} m")
+        aqui = nucleo(f)
+        for k in sorted(set(base) | set(aqui)):
+            if k not in base or k not in aqui or aqui[k].hausdorff_distance(base[k]) > tg:
+                falhas.append(f"núcleo {k} de {f['id']} fora da projeção de {placas[0]['id']}")
+    add("torre.continuidade", not falhas, len(falhas), 0, "un", ids,
+        "; ".join(falhas) or "Andares encostados e núcleo na mesma projeção")
+
+
 def validar(revisao, site, regras):
     """Retorna achados determinísticos, inclusive erros de dados, sem reparar entrada."""
     achados = []
     fonte_geo = {"reference": SCHEMA_VERSION + " / PA-G0 4.1", "verified": True, "kind": "geometria"}
 
     def add(rule, ok, medido, limite, unidade, ids, sugestao="", tecnico=False, pendente=False):
-        source = fonte_geo if rule.startswith(("geometria.", "balanco", "contrato", "areas.faces", "areas.declaradas", "areas.varanda_limite")) else regras.get("sources", {}).get(rule, {})
+        source = fonte_geo if rule.startswith(("geometria.", "balanco", "contrato", "areas.faces", "areas.declaradas", "areas.varanda_limite", "torre.continuidade")) else _fonte(regras, rule)
         source = dict(source)
         verificado = source.get("verified") is True and bool(source.get("reference"))
-        if rule in ("norma.envelope", "areas.computavel"):
+        if rule in ("norma.envelope", "areas.computavel") or rule in LIMITES:
             verificado = verificado and regras.get("zone_verified") is True and regras.get("lot_zone_verified") is True and regras.get("params", {}).get("zone_matches_lot") is True
         status = "erro_tecnico" if tecnico else "nao_verificado" if pendente or not verificado else "conforme" if ok else "violacao"
         achados.append({"rule_id": rule, "status": status,
@@ -161,6 +257,7 @@ def validar(revisao, site, regras):
                     add("areas.faces", True, None, None, "m²", [t["id"]])
                 except ValueError as erro:
                     add("areas.faces", False, None, None, "m²", [t["id"]], str(erro))
+        computaveis = []
         faixas, fim = [], 0
         for i, b in enumerate(site["envelope_by_height"]):
             z0, z1 = numero(b["z0_m"], "z0_m", 0), numero(b["z1_m"], "z1_m", 0)
@@ -251,11 +348,14 @@ def validar(revisao, site, regras):
                 vazio = laje.difference(unary_union([g for _, g, _ in elementos])).area
                 add("balanco.residuo", abs(vazio - f["residuals_m2"]) <= ta, vazio, f["residuals_m2"], "m²", [f["id"]])
                 total["computavel_m2"] += f["residuals_m2"]  # inclusão conservadora, sem isenção inventada
+                computaveis.append(total["computavel_m2"])
                 for k, area in total.items():
                     add("areas." + k.removesuffix("_m2"), True, area, None, "m²", [f["id"]],
                         "Soma das instâncias deste pavimento; resíduo computável por premissa" if k == "computavel_m2" else "Soma das instâncias deste pavimento", pendente=k == "util_m2")
             else:
+                computaveis.append(None)
                 add("balanco", False, None, None, "m²", [f["id"]], "Não é possível fechar áreas com elementos inválidos", tecnico=True)
+        _limites_da_torre(revisao, site, params.get("motor") or {}, computaveis, add)
     except (ValueError, KeyError, TypeError, IndexError, GEOSException) as erro:
         add("contrato", False, None, None, "", [revisao.get("revision_id", "revisao") if isinstance(revisao, dict) else "revisao"], str(erro), tecnico=True)
     return achados

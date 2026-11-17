@@ -198,7 +198,7 @@ def test_campos_de_grandeza():
     a = avaliar(gerada())
     achados = a["sintese"]["achados"]
     fonte = {id(f): a["fontes"][f["source_ref"]] for f in achados}
-    assert achados and all(f["engine_version"] == ENGINE_VERSION == "projetista/0.1.0+sintese/0.3.0" for f in achados)
+    assert achados and all(f["engine_version"] == ENGINE_VERSION == "projetista/0.1.0+sintese/0.4.0" for f in achados)
     nao_conferidas = 0
     for f in achados:
         assert set(CAMPOS) <= f.keys() and "calculated_at" not in f, f["rule_id"]
