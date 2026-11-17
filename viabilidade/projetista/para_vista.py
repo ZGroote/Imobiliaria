@@ -16,20 +16,15 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ))
-from shapely.geometry import LineString, Polygon
-from shapely.ops import split, unary_union
+from shapely.geometry import Polygon
+from shapely.ops import unary_union
 
 from viabilidade.projetista.adaptador import estudo_para_site
-from viabilidade.projetista.esquema import TOLERANCIAS, carregar_json, conferir_estrutura
+from viabilidade.projetista.esquema import carregar_json, conferir_estrutura
+from viabilidade.projetista.torre import PADROES_TERREO, _montar, _partes, nucleo_fundido  # noqa: F401 (PADROES_TERREO é reexportado)
 from viabilidade.projetista.validador import _posicionar
 
 MAX_VOLUMES = 200  # limite do visualizador por opção
-# Premissas do térreo e das vagas (não são norma conferida; ficam ditas nos alertas)
-PADROES_TERREO = {
-    "pe_direito_m": 3.0,    # altura do térreo; os andares tipo começam em cima dele
-    "hall_largura_m": 3.0,  # faixa de hall ao redor do núcleo (cortada pela laje)
-    "m2_por_vaga": 25.0,    # área bruta de garagem por vaga, já com circulação
-}
 USOS = {"unidade": "unidade", "circulacao": "circulacao", "nucleo": "nucleo"}
 
 
@@ -40,32 +35,6 @@ def _estudo(entrada):
     return carregar_json(raw.encode("utf-8") if isinstance(raw, str) else raw)
 
 
-def _envelope(faixas, z0, z1):
-    """Mesma regra do validador: interseção das faixas que tocam [z0, z1); None se passa do topo."""
-    g = None
-    for b in faixas:
-        if b["z0_m"] < z1 and b["z1_m"] > z0:
-            p = Polygon(b["polygon_m"]) if len(b["polygon_m"]) >= 3 else Polygon()
-            if not p.is_valid:
-                raise ValueError(f"faixa do envelope em z={b['z0_m']:g}..{b['z1_m']:g} m é inválida")
-            g = p if g is None else g.intersection(p)
-    if g is None or not faixas or z1 > faixas[-1]["z1_m"] + 1e-9:
-        return None
-    return g
-
-
-def _cabe(laje, faixas, z0, z1, tg):
-    """(cabe, motivo). `laje` já vem engordada pela meia espessura externa (a face física)."""
-    env = _envelope(faixas, z0, z1)
-    if env is None:
-        topo = faixas[-1]["z1_m"] if faixas else 0
-        return False, f"o andar (z {z0:g} a {z1:g} m) passa da altura máxima da caixa ({topo:g} m)"
-    fora = laje.difference(env.buffer(tg, join_style="mitre")).area
-    if fora > TOLERANCIAS["tol_overlap_m2"]:
-        return False, f"o andar (z {z0:g} a {z1:g} m) sai do envelope dessa altura: {fora:.2f} m² para fora"
-    return True, None
-
-
 def _unidos(pecas, tol=0.0006):
     """Junta peças encostadas (vão de décimos de mm) num polígono só; se não der sem buraco, mantém separadas."""
     if len(pecas) < 2:
@@ -74,40 +43,6 @@ def _unidos(pecas, tol=0.0006):
     if g.geom_type == "Polygon" and not g.interiors:
         return [g]
     return pecas
-
-
-def _partes(g, rotulo, laje):
-    """Polígonos simples e sem buraco (o visualizador não aceita buraco). Anel (hall em volta do núcleo,
-    garagem em volta do bloco) é cortado ao meio por uma reta que atravessa o buraco, perpendicular ao lado longo da laje."""
-    (ax, ay), (bx, by), (cx, cy) = list(laje.minimum_rotated_rectangle.exterior.coords)[:3]
-    lx, ly = (bx - ax, by - ay) if math.hypot(bx - ax, by - ay) >= math.hypot(cx - bx, cy - by) else (cx - bx, cy - by)
-    n = math.hypot(lx, ly) or 1.0
-    ux, uy = lx / n, ly / n  # lado longo
-    saida = []
-    for p in getattr(g, "geoms", [g]):
-        if p.geom_type != "Polygon" or p.area <= 1e-6:
-            continue
-        if p.interiors:  # um corte só: serve para anel com um buraco
-            hx, hy = Polygon(p.interiors[0]).centroid.coords[0]
-            r = 4 * math.hypot(*laje.bounds[2:]) + 1000
-            p = [q for q in split(p, LineString([(hx - r * uy, hy + r * ux), (hx + r * uy, hy - r * ux)])).geoms if q.area > 1e-6]
-        for q in (p if isinstance(p, list) else [p]):
-            if q.interiors:
-                raise ValueError(f"{rotulo} com buraco: o visualizador não desenha buraco")
-            saida.append(q)
-    return saida
-
-
-def _terreo(placa, nucleo, P):
-    """Peças do térreo em coordenadas locais: (núcleo, hall, garagem), sem sobrepor e cobrindo a laje."""
-    laje = Polygon(placa["outline_m"])
-    if not nucleo:
-        raise ValueError("a revisão não tem núcleo: o térreo precisa dele para o hall")
-    tol = 0.0006  # fecha o vão de décimos de mm entre as peças do núcleo
-    nuc = unary_union([g.buffer(tol, join_style="mitre") for _, g in nucleo]).buffer(-tol, join_style="mitre").intersection(laje)
-    zona_hall = nuc.buffer(P["hall_largura_m"], join_style="mitre").intersection(laje)
-    return (_partes(nuc, "núcleo do térreo", laje), _partes(zona_hall.difference(nuc), "hall", laje),
-            _partes(laje.difference(zona_hall), "garagem", laje))
 
 
 def _anel_utm(poly, frame):
@@ -121,92 +56,77 @@ def _anel_utm(poly, frame):
 
 
 def revisao_para_estudo(revisao, estudo_json, pavimentos=None, terreo=False, premissas_terreo=None):
-    """Estudo (dict) com uma opção `projetista`. `pavimentos=None` empilha até onde cada andar cabe.
+    """Estudo (dict) com uma opção `projetista`.
 
-    `terreo=True` põe um térreo (núcleo, hall, garagem) em z = 0 e começa os andares tipo em cima dele;
-    `pavimentos` conta só os andares tipo. Sem `terreo` a saída é a da tarefa 6, byte a byte.
+    Revisão que já é torre (`metrics_summary.torre`, de `torre.compor`): desenha o que está em `floor_plates`, sem
+    recalcular; `pavimentos`, `terreo` e `premissas_terreo` não valem aqui, valem na `compor`.
+    Revisão de um pavimento: empilha até onde cada andar cabe INTEIRO (regra das tarefas 6 e 8; o escalonamento
+    por unidade é da `compor`). `terreo=True` põe núcleo, hall e garagem em z = 0 e começa os andares tipo em cima
+    dele; `pavimentos` conta só os andares tipo. Sem `terreo` a saída é a da tarefa 6, byte a byte.
     """
     conferir_estrutura(revisao)
-    if len(revisao["floor_plates"]) != 1:
-        raise ValueError("a prévia espera uma revisão com um só pavimento tipo")
-    if pavimentos is not None and (type(pavimentos) is not int or pavimentos < 1):
-        raise ValueError("pavimentos deve ser inteiro >= 1")
     ref, _, _ = estudo_para_site(estudo_json)
     # dict não guarda os bytes do arquivo, então o hash dele não bate com o da revisão: compara só o id
     chave = "study_id" if isinstance(estudo_json, dict) else "study_sha256"
     if ref[chave] != revisao["study_ref"][chave]:
         raise ValueError(f"a revisão foi gerada de outro estudo ({chave} diferente)")
     base = _estudo(estudo_json)
-    placa, site, tg = revisao["floor_plates"][0], revisao["site"], TOLERANCIAS["tol_geom_m"]
-    tipos = {t["id"]: t for t in revisao["unit_types"]}
-    h, z0 = placa["height_m"], placa["z0_m"]
+    m = revisao["metrics_summary"]
+    if "torre" in m:
+        if terreo or pavimentos is not None or premissas_terreo:
+            raise ValueError("a revisão já tem a torre: terreo e pavimentos valem na torre.compor, não na prévia")
+        placas, T = revisao["floor_plates"], m["torre"]
+    else:
+        if len(revisao["floor_plates"]) != 1:
+            raise ValueError("a prévia espera uma revisão com um só pavimento tipo")
+        placas, T = _montar(revisao, terreo, pavimentos, premissas_terreo, escalonar=False)
+    tipos, site = {t["id"]: t for t in revisao["unit_types"]}, revisao["site"]
+    terr = next((p for p in placas if p["id"] == "terreo"), None)
+    andares = [p for p in placas if p["id"] != "terreo"]
+    n, h, ht, PT, parou = len(andares), andares[0]["height_m"], (terr["height_m"] if terr else 0.0), T["premissas_terreo"], T["parou"]
 
-    # 1. Quantos andares cabem
-    meia = max(t["thickness_m"]["externa"] for t in tipos.values()) / 2
-    laje = Polygon(placa["outline_m"]).buffer(meia, join_style="mitre")
-    faixas, parou, n = site["envelope_by_height"], None, 0
-    PT = {**PADROES_TERREO, **(premissas_terreo or {})}
-    ht = PT["pe_direito_m"] if terreo else 0.0
-    if terreo:
-        if not (ht > 0 and PT["hall_largura_m"] > 0 and PT["m2_por_vaga"] > 0):
-            raise ValueError("premissas do térreo devem ser positivas")
-        cabe, motivo = _cabe(laje, faixas, z0, z0 + ht, tg)
-        if not cabe:
-            raise ValueError(f"o térreo não cabe: {motivo}")
-        z0 += ht  # os andares tipo começam em cima do térreo
-    limite = pavimentos if pavimentos is not None else 1000
-    while n < limite:
-        cabe, motivo = _cabe(laje, faixas, z0 + n * h, z0 + (n + 1) * h, tg)
-        if not cabe:
-            parou = motivo
-            break
-        n += 1
-    if pavimentos is not None and n < pavimentos:
-        raise ValueError(f"não cabem {pavimentos} pavimentos: andar {n + 1}: {parou}")
-    if n == 0:
-        raise ValueError(f"nem o primeiro andar cabe: {parou}")
+    # 1. Peças de cada andar (e do térreo), em coordenadas locais
+    def pecas(pl):
+        return [("unidade", [(p["id"], _posicionar(Polygon(tipos[p["unit_type_id"]]["outline_m"]), p)) for p in pl["unit_placements"]]),
+                ("circulacao", [(e["id"], Polygon(e["polygon_m"])) for e in pl["shared_spaces"]]),
+                ("nucleo", [(e["id"], Polygon(e["polygon_m"])) for e in pl["cores"]])]
 
-    # 2. Peças de um andar, em coordenadas locais
-    unidades = [(p["id"], _posicionar(Polygon(tipos[p["unit_type_id"]]["outline_m"]), p)) for p in placa["unit_placements"]]
-    comuns = [(e["id"], Polygon(e["polygon_m"])) for e in placa["shared_spaces"]]
-    nucleo = [(e["id"], Polygon(e["polygon_m"])) for e in placa["cores"]]
-    t_nuc, t_hall, t_gar = _terreo(placa, nucleo, PT) if terreo else ([], [], [])
-    n_terreo = len(t_nuc) + len(t_hall) + len(t_gar)
-    juntou = n * (len(unidades) + len(comuns) + len(nucleo)) + n_terreo > MAX_VOLUMES
-    por_andar = [("unidade", unidades), ("circulacao", comuns), ("nucleo", nucleo)]
-    if juntou:  # passa de 200: circulação e núcleo viram um volume cada, por andar
-        por_andar = [("unidade", unidades)] + [
-            (uso, [(f"{uso}_unido", g) for g in _unidos([g for _, g in pecas])]) for uso, pecas in por_andar[1:]]
+    t_vol = []  # térreo: (uso, [polígonos]); o núcleo é a fusão dos três cores, como na tarefa 8
+    if terr:
+        laje = Polygon(terr["outline_m"])
+        t_vol = [("nucleo", _partes(nucleo_fundido(laje, [Polygon(e["polygon_m"]) for e in terr["cores"]]), "núcleo do térreo", laje))]
+        t_vol += [(k, [Polygon(e["polygon_m"]) for e in terr["shared_spaces"] if e["kind"] == k]) for k in ("hall", "garagem")]
+    total = sum(len(g) for _, g in t_vol) + sum(len(x) for pl in andares for _, x in pecas(pl))
+    juntou = total > MAX_VOLUMES
     volumes = []
-    if terreo:
-        for uso, pecas in (("nucleo", t_nuc), ("hall", t_hall), ("garagem", t_gar)):
-            for i, g in enumerate(pecas, 1):
-                volumes.append({"id": f"{uso}_terreo_{i:02d}", "base_utm": _anel_utm(g, site["local_frame"]),
-                                "z0_m": round(z0 - ht, 4), "altura_m": round(ht, 4), "pavimentos": 1, "uso": uso})
-    for k in range(n):
-        for uso, pecas in por_andar:
-            for pid, g in pecas:
-                volumes.append({"id": f"{pid}_andar_{k + 1:02d}", "base_utm": _anel_utm(g, site["local_frame"]),
-                                "z0_m": round(z0 + k * h, 4), "altura_m": round(h, 4), "pavimentos": 1, "uso": USOS[uso]})
+    for uso, gs in t_vol:
+        for i, g in enumerate(gs, 1):
+            volumes.append({"id": f"{uso}_terreo_{i:02d}", "base_utm": _anel_utm(g, site["local_frame"]),
+                            "z0_m": round(float(terr["z0_m"]), 4), "altura_m": round(float(ht), 4), "pavimentos": 1, "uso": uso})
+    for pl in andares:
+        grupos = pecas(pl)
+        if juntou:  # passa de 200: circulação e núcleo viram um volume cada, por andar
+            grupos = grupos[:1] + [(uso, [(f"{uso}_unido_{pl['id']}", g) for g in _unidos([g for _, g in x])]) for uso, x in grupos[1:]]
+        for uso, x in grupos:
+            for pid, g in x:
+                volumes.append({"id": pid, "base_utm": _anel_utm(g, site["local_frame"]), "z0_m": round(pl["z0_m"], 4),
+                                "altura_m": round(pl["height_m"], 4), "pavimentos": 1, "uso": USOS[uso]})
     if len(volumes) > MAX_VOLUMES:
         raise ValueError(f"{len(volumes)} volumes: passa do limite de {MAX_VOLUMES} do visualizador mesmo juntando por andar")
 
-    # 3. Métricas: só as que o visualizador lê; a área privativa vem da revisão
-    m = revisao["metrics_summary"]
-    if not isinstance(m.get("privativa_total_m2"), (int, float)):
-        raise ValueError("a revisão não traz metrics_summary.privativa_total_m2")
-    metricas = {"unidades_estimadas": len(unidades) * n, "area_privativa_m2": round(m["privativa_total_m2"] * n, 4),
-                "pavimentos": n + (1 if terreo else 0), "vagas": None, "area_nao_computavel_m2": None, "vgv_estimado": None}
-    if terreo:  # vagas por área bruta (premissa), não por desenho
-        a_gar = round(sum(g.area for g in t_gar), 4)
-        metricas["area_garagem_m2"] = a_gar
-        metricas["vagas"] = int(a_gar // PT["m2_por_vaga"])
+    # 2. Métricas: só as que o visualizador lê; tudo vem do resumo da torre
+    metricas = {"unidades_estimadas": T["unidades"]["valor"], "area_privativa_m2": T["privativa_total"]["valor"],
+                "pavimentos": T["pavimentos"]["valor"], "vagas": T["vagas"]["valor"], "area_nao_computavel_m2": None, "vgv_estimado": None}
+    if terr:
+        metricas["area_garagem_m2"] = T["area_garagem"]["valor"]
 
-    # 4. Alertas (texto simples; o que não foi conferido fica dito)
+    # 3. Alertas (texto simples; o que não foi conferido fica dito)
     zona_ok = base["lote"].get("zona_conferida") is True and base["zona"].get("conferido") is True
+    por = {len(pl["unit_placements"]) for pl in andares}
+    quant = f"{por.pop()} unidades por andar" if len(por) == 1 else f"{T['unidades']['valor']} unidades no total (andares escalonados)"
     alertas = [f"Prévia esquemática do projetista (revisão {revisao['revision_id']}): preliminar, não é projeto aprovado nem estudo do motor.",
-               (f"Térreo de {ht:g} m (hall e garagem) e {len(unidades)} unidades por andar, empilhadas em {n} andar(es) tipo de {h:g} m"
-                if terreo else f"{len(unidades)} unidades por andar, empilhadas em {n} pavimento(s) de {h:g} m")
+               (f"Térreo de {ht:g} m (hall e garagem) e {quant}, empilhadas em {n} andar(es) tipo de {h:g} m"
+                if terr else f"{quant}, empilhadas em {n} pavimento(s) de {h:g} m")
                + (f"; parou em {n} porque {parou}." if parou else f"; pedido: {n} pavimento(s).")]
     if not zona_ok:
         alertas.append("Zona do terreno não conferida: a prévia herda o envelope do estudo e não vale como verificação da lei.")
@@ -214,7 +134,7 @@ def revisao_para_estudo(revisao, estudo_json, pavimentos=None, terreo=False, pre
         alertas.append("Regras com fonte não verificada na revisão: " + ", ".join(m["regras_nao_verificadas"]) + ".")
     if juntou:
         alertas.append(f"Passaria de {MAX_VOLUMES} volumes: circulação e núcleo foram juntos por andar.")
-    if terreo:
+    if terr:
         alertas.append(f"Vagas por área bruta (premissa de {PT['m2_por_vaga']:g} m² por vaga com circulação), não desenhadas nem conferidas pela lei.")
         alertas.append(f"Hall = faixa de {PT['hall_largura_m']:g} m ao redor do núcleo; garagem = resto da laje do térreo: premissas, sem rampa, pilar nem acesso desenhados. Sem recuos por volume nem relevo.")
     else:
@@ -223,7 +143,7 @@ def revisao_para_estudo(revisao, estudo_json, pavimentos=None, terreo=False, pre
              "metricas": metricas, "alertas": alertas,
              "fonte": {"revision_id": revisao["revision_id"], "content_sha256": revisao["content_sha256"]}}
 
-    # 5. Estudo: mantém lote, zona, caixa máxima; troca opcoes; sem opcoes_ausentes (eram das opções do motor)
+    # 4. Estudo: mantém lote, zona, caixa máxima; troca opcoes; sem opcoes_ausentes (eram das opções do motor)
     saida = {}
     for k, v in base.items():
         if k == "opcoes":

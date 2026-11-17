@@ -22,7 +22,7 @@ from viabilidade.projetista.esquema import _canonico, selar, sha256, texto
 from viabilidade.projetista.gerador import FOLGA, _recusas
 from viabilidade.projetista.validador import _posicionar, medir_areas, validar
 
-OPERACOES = ("mover_divisa", "juntar_unidades", "dividir_unidade", "renomear")
+OPERACOES = ("mover_divisa", "juntar_unidades", "dividir_unidade", "renomear", "compor_torre")  # a última vem de torre.py
 CONTATO_MIN_M = 0.1  # trecho mínimo de parede comum para duas unidades serem vizinhas
 
 

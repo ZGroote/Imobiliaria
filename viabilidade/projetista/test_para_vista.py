@@ -17,7 +17,8 @@ from shapely.ops import unary_union
 from viabilidade.projetista.adaptador import estudo_para_site
 from viabilidade.projetista.esquema import carregar_json
 from viabilidade.projetista.gerador import gerar_pavimento
-from viabilidade.projetista.para_vista import PADROES_TERREO, _terreo, revisao_para_estudo, serializar
+from viabilidade.projetista.para_vista import PADROES_TERREO, revisao_para_estudo, serializar
+from viabilidade.projetista.torre import _terreo
 from viabilidade.projetista.validador import _posicionar
 
 PILOTOS = RAIZ / "viabilidade" / "motor" / "exemplos" / "pilotos"
