@@ -45,6 +45,13 @@ def test_indice_e_pastas():
     for nome in (r["estudo"], r["estudo_terreo"]):  # caminhos relativos ao resumo
         assert (pasta / "terreno-1" / nome).is_file()
     assert a["volumes_wgs84"] and a["volumes_terreo_wgs84"]
+    # o terreno 6 (garagem do térreo que se cruzava) sai ok; 2 e 3 não cabem e dizem por quê, em português simples
+    s6 = por_lote["SC-completo-q1382-11984-11988"]
+    assert s6["status"] == "ok" and s6["volumes_terreo_wgs84"] and s6["id"] == "terreno-6"
+    for k in ("SC-completo-22426", "SC-completo-25297"):
+        t = por_lote[k]
+        assert t["status"] == "falhou" and " m²)" in t["motivo"] and "pavimento" in t["motivo"], t["motivo"]
+        assert "geometria." not in t["motivo"] and t["lote_wgs84"] and t["resumo"] is None
 
 
 def test_conversao_utm_wgs84():

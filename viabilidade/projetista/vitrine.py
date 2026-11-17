@@ -126,32 +126,37 @@ def _lote(poligono_utm):
     return _anel(poligono_utm), para_wgs84(p.x, p.y)
 
 
-_EM_PORTUGUES = {"laje não cabe no envelope": "o pavimento não cabe dentro da área em que se pode construir",
+_EM_PORTUGUES = {"laje não cabe no envelope": "o pavimento mínimo do gerador não cabe dentro da área em que se pode construir",
                  "núcleo não cabe na profundidade da unidade": "escada e elevador não cabem na profundidade do terreno"}
+
+
+class SemPavimento(ValueError):
+    """O gerador não achou nem um pavimento; a mensagem já vem em português simples, com a área do terreno."""
 
 
 def _motivo(erro):
     texto = str(erro)
+    if isinstance(erro, SemPavimento):
+        return texto
     if isinstance(erro, EdicaoRecusada):
-        if "Self-intersection" in texto:
-            return ("O térreo deste terreno não saiu: o contorno da garagem se cruza. "
-                    "A vitrine precisa das duas versões (sem e com térreo), então o terreno ficou de fora.")
         return f"A torre deste terreno foi recusada pelas regras: {texto}"
-    for tecnico, simples in _EM_PORTUGUES.items():
-        texto = texto.replace(tecnico, simples)
     return f"Não foi possível montar este terreno: {texto}"
 
 
 def _gerar(caminho):
     """Revisão de um pavimento, com o menor recuo de programa que couber. Devolve (revisão, unidades por andar)."""
     estudo, site, regras = estudo_para_site(caminho)
-    motivos = []
+    ultimo = None
     for n in PROGRAMAS:
         r = gerar_pavimento(site, regras, {"unidades": n}, None, estudo)
         if r["outcome"] == "gerado":
             return r["revisoes"][0], n
-        motivos.append(r["motivo"] or ("o terreno não comporta um pavimento com essas regras" if r["outcome"] == "inviavel" else r["outcome"]))
-    raise ValueError(f"o gerador não achou desenho de pavimento ({motivos[-1]})")
+        ultimo = r
+    area = f"{site['area_m2']:.0f} m²"
+    if ultimo["outcome"] == "inviavel":
+        raise SemPavimento(f"O terreno ({area}) é pequeno demais para o pavimento mínimo do gerador.")
+    simples = _EM_PORTUGUES.get(ultimo["motivo"], ultimo["motivo"])
+    raise SemPavimento(f"Neste terreno ({area}) {simples}.")
 
 
 def _terreno(caminho, numero, pasta):

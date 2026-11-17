@@ -22,6 +22,7 @@ RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ))
 from shapely.geometry import LineString, Polygon
 from shapely.ops import split, unary_union
+from shapely.validation import make_valid
 
 from viabilidade.projetista.editor import EdicaoRecusada, _conferir, _explicar, _id_revisao, _metricas, _residuo
 from viabilidade.projetista.esquema import TOLERANCIAS, _canonico, selar
@@ -84,8 +85,19 @@ def _partes(g, rotulo, laje):
         for q in (p if isinstance(p, list) else [p]):
             if q.interiors:
                 raise ValueError(f"{rotulo} com buraco: o visualizador não desenha buraco")
-            saida.append(q)
+            saida += _sem_cruzar(q)
     return saida
+
+
+def _sem_cruzar(q):
+    """O selo arredonda a 4 casas. Se o contorno se cruza depois disso (vértice quase encostado na própria borda,
+    como a garagem do piloto q1382), refaz o polígono já arredondado e separa nos pontos de encosto.
+    Contorno que continua válido passa intacto: os bytes de quem já funcionava não mudam."""
+    r = Polygon([(round(x, 4), round(y, 4)) for x, y in q.exterior.coords])
+    if r.is_valid:
+        return [q]
+    v = make_valid(r)
+    return [p for p in getattr(v, "geoms", [v]) if p.geom_type == "Polygon" and p.area > 1e-3]  # descarta a lasca de ~0,2 cm² do encosto
 
 
 def nucleo_fundido(laje, cores):

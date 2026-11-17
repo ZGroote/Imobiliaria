@@ -15,7 +15,7 @@ from viabilidade.projetista.esquema import selar, serializar
 from viabilidade.projetista.para_vista import revisao_para_estudo
 from viabilidade.projetista.sintese import avaliacao_valida, avaliar
 from viabilidade.projetista.test_editor import P22421, base
-from viabilidade.projetista.torre import compor
+from viabilidade.projetista.torre import _sem_cruzar, compor
 from viabilidade.projetista.validador import _posicionar, validar
 
 
@@ -143,6 +143,38 @@ def test_previa_da_torre_igual_a_de_hoje():
         assert False
     except ValueError as e:
         assert "já tem a torre" in str(e)
+
+
+# garagem do piloto q1382: um vértice cai em cima da própria borda; arredondada a 4 casas, o contorno se cruza
+GARAGEM_ENCOSTADA = [(-6.5237, 4.2367), (-9.0072, 20.2458), (22.8157, 25.1826), (25.2992, 9.1735), (8.695177, 6.597659),
+                     (7.468846, 14.502882), (7.468826, 14.502879), (6.870858, 18.356769), (-1.528108, 17.053686),
+                     (-0.807704, 12.410699), (-0.010478, 7.271433), (-0.010448, 7.271437), (0.296208, 5.294697),
+                     (5.594126, 6.116582)]
+
+
+def _arredondado(g):
+    return Polygon([(round(x, 4), round(y, 4)) for x, y in g.exterior.coords])
+
+
+def test_contorno_que_encosta_na_propria_borda():
+    g = Polygon(GARAGEM_ENCOSTADA)
+    assert g.is_valid and not _arredondado(g).is_valid  # o defeito de verdade
+    partes = _sem_cruzar(g)
+    assert partes and all(_arredondado(q).is_valid and q.area > 1e-3 for q in partes)
+    assert abs(sum(q.area for q in partes) - g.area) < 0.01  # só some a lasca do encosto (~0,2 cm²)
+    ok = Polygon([(0, 0), (4, 0), (4, 3), (0, 3)])
+    assert _sem_cruzar(ok) == [ok]  # quem já era válido passa intacto
+    # de ponta a ponta, no piloto q1382: o térreo sai e nenhum contorno se cruza depois do selo
+    from viabilidade.projetista.adaptador import estudo_para_site
+    from viabilidade.projetista.gerador import gerar_pavimento
+    est, site, regras = estudo_para_site(RAIZ / "viabilidade/motor/exemplos/pilotos/SC-completo-q1382-11984-11988.json")
+    rev = gerar_pavimento(site, regras, {"unidades": 6}, None, est)["revisoes"][0]
+    t = compor(rev, terreo=True)
+    terreo = t["floor_plates"][0]
+    assert terreo["id"] == "terreo" and any(e["kind"] == "garagem" for e in terreo["shared_spaces"])
+    for e in terreo["shared_spaces"] + terreo["cores"]:
+        assert Polygon(e["polygon_m"]).is_valid, e["id"]
+    assert t["metrics_summary"]["torre"]["vagas"]["valor"] > 0
 
 
 def test_suites_anteriores():
