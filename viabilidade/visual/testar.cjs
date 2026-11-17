@@ -317,6 +317,33 @@ async function checkPriceSimulation(page) {
   await avisoVisivel(1); // o preço do estudo continua com a frase
 }
 
+async function checkVitrine(page, mobile, errors) {
+  await page.goto(new URL('vitrine.html', url).href);
+  await page.locator('.card').nth(6).waitFor();
+  await page.locator('#fiche-title').getByText('Terreno 1').waitFor();
+  await page.locator('#limitantes').waitFor({ state: 'visible' });
+  assert.equal(await page.locator('.card').count(), 7);
+  let ficha = await page.locator('.fiche').innerText();
+  assert.match(ficha, /O recuo cresce com a altura: o andar entre .* não cabe/);
+  assert.match(ficha, /O gerador desenha um núcleo só.*unidades por andar/);
+  assert.match(ficha, /Vagas\s+.*sem garagem/i);
+  assert.doesNotMatch(ficha, /\b(?:null|NaN)\b/i);
+  const vagas = page.locator('.number').filter({ hasText: /^Vagas/ }).locator('strong');
+  if (!mobile) await page.screenshot({ path: path.join(output, 'tarefa24-ficha.png'), fullPage: true });
+  await page.locator('#modo').click();
+  assert.match(await vagas.innerText(), /^\d+(?:[,.]\d+)?\s*vagas?$/i);
+  ficha = await page.locator('.fiche').innerText();
+  assert.doesNotMatch(ficha, /\b(?:null|NaN)\b/i);
+  await page.getByRole('button', { name: /Terreno 6/ }).click();
+  await page.locator('#fiche-title').getByText('Terreno 6').waitFor();
+  assert.match(await page.locator('#limitantes').innerText(), /Chegou na altura máxima do terreno \(.*\): o próximo andar passaria dela\./);
+  await page.getByRole('button', { name: /Terreno 2/ }).click();
+  await page.locator('#fiche-title').getByText('Terreno 2').waitFor();
+  assert.equal(await page.locator('#limitantes').isVisible(), false, 'Sem resumo/limitante, o bloco não aparece.');
+  assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Vitrine sem rolagem lateral.');
+  assert.deepEqual(errors, [], 'Vitrine sem erros de console ou JavaScript.');
+}
+
 (async () => {
   fs.mkdirSync(output, { recursive: true });
   fs.writeFileSync(baselineT22, execFileSync('git', ['show', 'HEAD:viabilidade/visual/index.html']));
@@ -348,6 +375,12 @@ async function checkPriceSimulation(page) {
           errors.push('Recurso fora da origem: ' + request.url());
         }
       });
+      await checkVitrine(page, mobile, errors);
+      if (process.env.VISUAL_T24_ONLY === '1') {
+        report.push({ perfil: profile, tarefa24: true, errosConsole: errors });
+        await page.close();
+        continue;
+      }
       await page.goto(new URL('?estudo=../motor/exemplos/estudo-exemplo.json', url).href);
       await page.getByRole('button', { name: 'Opção A', exact: true }).waitFor();
       const payload = '</title><img src=x onerror=alert(1)><svg>';
