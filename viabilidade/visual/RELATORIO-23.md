@@ -1,10 +1,12 @@
 # Relatório 23 — vitrine de terrenos
 
 - A vitrine usa `../projetista/vitrine/indice.json` e os resumos reais de cada terreno. O fundo é carregado de `fundo.json` quando existe; sem ele, usa OpenStreetMap. Atribuição fica visível nos dois casos. `fundo.json` está ignorado pelo Git e `fundo.exemplo.json` não contém chave.
-- A vista pede uma grade 3 × 3, até 9 ladrilhos por terreno selecionado, no zoom 17. Não carrega fundos dos outros terrenos; ao selecionar outro, cancela as imagens pendentes. A aproximadamente 22° S, um ladrilho de 256 px mede `40.075.016,686 × cos(22°) / 2^17 = 283,5 m`; a resolução nominal é cerca de 1,11 m por pixel. O enquadramento mostra quadras e ruas ao redor, e o mapa ocupa no máximo 68% da altura da janela no desktop.
+- A vista pede uma grade 5 × 5, até 25 ladrilhos por terreno selecionado, no zoom 18. Não carrega fundos dos outros terrenos; ao selecionar outro, cancela as imagens pendentes. A aproximadamente 22° S, um ladrilho de 256 px mede `40.075.016,686 × cos(22°) / 2^18 = 141,7 m`; a resolução nominal é cerca de 0,55 m por pixel. O enquadramento mostra quadras e ruas ao redor, e o mapa ocupa no máximo 68% da altura da janela no desktop.
 - A projeção do contorno e dos volumes usa a mesma conversão local de Web Mercator que posiciona os ladrilhos. A conversão acrescenta menos de 1 cm de desvio local; as coordenadas de origem, arredondadas a 7 casas decimais, implicam incerteza de arredondamento da ordem de 0,8 cm. A resolução da imagem e a precisão geográfica do próprio OSM são limitações maiores; isto não é conferência cadastral.
 - No print `evidencias/tarefa23-terreno-6.png`, o contorno acompanha o lote e envolve a implantação no quarteirão mostrado pelas ruas próximas. No print do terreno 1, o mapa não apresenta ruas visíveis, então aquela imagem não permite confirmar visualmente a quadra do terreno 1; não inferi alinhamento onde a base não o mostra.
 - Os volumes usam faces claras, linhas de pavimento e faixas de janela nas faces externas. A câmera enquadra o lote e o volume completo do terreno 6. O aviso de estudo preliminar fica após o conteúdo, sem cobrir o mapa.
 - `node viabilidade/visual/testar.cjs`: passou em desktop e celular. No teste automático, os pedidos de ladrilho são interceptados; verifiquei 7 cartões, 5 terrenos com resumo e 2 falhas com motivo, atualização de números e volume, atribuição, faixa de aviso e largura móvel. Os quatro prints foram refeitos em `evidencias/`.
+
+- Ajuste de nitidez: z18 cobre 5 × 5 ladrilhos (25 pedidos por terreno selecionado), 16 a mais que os 9 ladrilhos da grade anterior z17; com zoom_max inferior a 18, usa o nível configurado e grade 3 × 3.
 
 Não publiquei nem commitei.

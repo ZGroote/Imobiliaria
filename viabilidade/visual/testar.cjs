@@ -340,7 +340,7 @@ async function checkPriceSimulation(page) {
       page.on('dialog', async dialog => { dialogs.push(dialog.message()); await dialog.dismiss(); });
       page.on('pageerror', error => errors.push(error.message));
       page.on('console', message => { if (message.type() === 'error' && !message.text().includes('net::ERR_FAILED')) errors.push(message.text()); });
-      await page.route('**/fundo.json', route => route.fulfill({ status: 200, contentType: 'application/json', body: '{}' }));
+      await page.route('**/fundo.json', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(mobile ? { url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', atribuicao: '© colaboradores do OpenStreetMap', zoom_max: 17 } : {}) }));
       await page.route('https://tile.openstreetmap.org/**', route => captureTiles ? route.continue() : route.abort());
       page.on('request', request => {
         const requestUrl = new URL(request.url());
@@ -816,12 +816,14 @@ async function checkPriceSimulation(page) {
       captureTiles = process.env.VISUAL_CAPTURE_MAP === '1' && !mobile;
       await page.getByRole('button', { name: /Terreno 6/ }).click();
       await page.locator('#fiche-title').getByText('Terreno 6').waitFor();
+      assert.equal(await page.locator('#map').getAttribute('data-zoom'), mobile ? '17' : '18');
+      assert.equal(await page.locator('#map').getAttribute('data-tiles-requested'), mobile ? '9' : '25');
       assert.match(await page.locator('#numbers').innerText(), /93 un/);
       await page.locator('#modo').click();
       assert.match(await page.locator('#numbers').innerText(), /87 un/);
       if (process.env.VISUAL_CAPTURE_MAP !== '1' || mobile) assert.match(await page.locator('#map-state').innerText(), /mapa indisponível/);
-      else await page.waitForFunction(() => Number(document.querySelector('#map').dataset.tilesLoaded) >= 9 || !document.querySelector('#map-state').hidden, { timeout: 20000 });
-      if (process.env.VISUAL_CAPTURE_MAP === '1' && !mobile) assert.equal(Number(await page.locator('#map').getAttribute('data-tiles-loaded')), 9, 'O print deve carregar os nove ladrilhos OSM.');
+      else await page.waitForFunction(() => Number(document.querySelector('#map').dataset.tilesLoaded) >= 25 || !document.querySelector('#map-state').hidden, { timeout: 30000 });
+      if (process.env.VISUAL_CAPTURE_MAP === '1' && !mobile) assert.equal(Number(await page.locator('#map').getAttribute('data-tiles-loaded')), 25, 'O print deve carregar os 25 ladrilhos OSM.');
       if (mobile) {
         await page.screenshot({ path: path.join(output, 'tarefa23-celular.png'), fullPage: true });
         await page.screenshot({ path: path.join(output, 'tarefa23-sem-mapa.png'), fullPage: true });
@@ -829,8 +831,8 @@ async function checkPriceSimulation(page) {
       if (!mobile) {
         await page.getByRole('button', { name: /Terreno 1/ }).click();
         if (process.env.VISUAL_CAPTURE_MAP === '1') {
-          await page.waitForFunction(() => Number(document.querySelector('#map').dataset.tilesLoaded) >= 9 || !document.querySelector('#map-state').hidden, { timeout: 20000 });
-          assert.equal(Number(await page.locator('#map').getAttribute('data-tiles-loaded')), 9, 'Terreno 1 deve carregar os nove ladrilhos OSM.');
+          await page.waitForFunction(() => Number(document.querySelector('#map').dataset.tilesLoaded) >= 25 || !document.querySelector('#map-state').hidden, { timeout: 30000 });
+          assert.equal(Number(await page.locator('#map').getAttribute('data-tiles-loaded')), 25, 'Terreno 1 deve carregar os 25 ladrilhos OSM.');
         }
         if (process.env.VISUAL_CAPTURE_MAP === '1') await page.screenshot({ path: path.join(output, 'tarefa23-desktop.png'), fullPage: true });
         await page.setViewportSize({ width: 390, height: 844 });
