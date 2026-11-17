@@ -6,9 +6,11 @@ Não existe campo `viavel`: o resultado é um estado por domínio e uma síntese
 import copy
 
 from viabilidade.projetista.esquema import SCHEMA_VERSION, _canonico, selar, sha256
+from viabilidade.projetista.sondagem import motivo_trava
 from viabilidade.projetista.validador import validar
 
-METHOD_VERSION = "sintese/0.2.0"
+METHOD_VERSION = "sintese/0.3.0"
+GEOTECNICO_SEM_METODO = "Falta método de cálculo geotécnico validado por engenheiro (PVF-G4)"
 ENGINE_VERSION = f"{SCHEMA_VERSION}+{METHOD_VERSION}"
 ESCOPO_PADRAO = ("geometrico", "urbanistico", "arquitetonico")
 DOMINIOS = ("geometrico", "urbanistico", "arquitetonico", "estrutural", "geotecnico", "economico")
@@ -131,8 +133,11 @@ def normalizar_escopo(escopo):
     return [d for d in DOMINIOS if d in escopo]
 
 
-def sintetizar(achados, escopo, evidencias, versao_regras=None):
-    """Assessment determinístico; a primeira regra da precedência que bater vale."""
+def sintetizar(achados, escopo, evidencias, versao_regras=None, sondagem=None):
+    """Assessment determinístico; a primeira regra da precedência que bater vale.
+
+    `sondagem` é o cadastro selado (sondagem.py) que `evidencias["sondagem"]` referencia.
+    """
     escopo = normalizar_escopo(escopo)
     evidencias = evidencias if isinstance(evidencias, dict) else {}
     ach = classificar(achados, escopo, versao_regras)
@@ -147,9 +152,13 @@ def sintetizar(achados, escopo, evidencias, versao_regras=None):
             estado = next(e for e, ok in (("violacao", cont["violacao"]), ("erro_tecnico", cont["erro_tecnico"]),
                                           ("nao_verificado", cont["nao_verificado"] or not fs),
                                           ("conforme", cont["conforme"]), ("nao_aplicavel", True)) if ok)
+        acoes = [] if fs else [f"Nenhuma verificação {d} implementada nesta versão"]
+        if d == "geotecnico" and estado == "conforme":  # PVF-G3: sondagem é dado, não conclusão
+            estado = "nao_verificado"
+            acoes.append(GEOTECNICO_SEM_METODO)
         dominios[d] = {"no_escopo": d in escopo, "estado": estado, "contagem": cont,
                        "pendentes": sorted({f["rule_id"] for f in fs if f["status"] == "nao_verificado"}),
-                       "required_actions": [] if fs else [f"Nenhuma verificação {d} implementada nesta versão"]}
+                       "required_actions": acoes}
 
     no = [dominios[d] for d in escopo]
     if any(x["contagem"]["violacao"] for x in no):
@@ -163,8 +172,9 @@ def sintetizar(achados, escopo, evidencias, versao_regras=None):
 
     motivos = []
     if {"estrutural", "geotecnico"} & set(escopo):  # decisão 5
-        if evidencias.get("sondagem") is not True:
-            motivos.append("Falta sondagem do terreno")
+        m = motivo_trava(evidencias.get("sondagem"), sondagem)
+        if m:
+            motivos.append(m)
         if not _texto(evidencias.get("metodo_estrutural")):
             motivos.append("Falta método estrutural habilitado")
         revisoes = evidencias.get("revisao_profissional")
@@ -191,11 +201,11 @@ def selar_avaliacao(avaliacao):
     return a
 
 
-def avaliar(revisao, escopo=ESCOPO_PADRAO, evidencias=None):
+def avaliar(revisao, escopo=ESCOPO_PADRAO, evidencias=None, sondagem=None):
     """Avaliação selada e ligada à revisão (decisão 4). Arquivo à parte: nunca entra na DesignRevision."""
     rules = revisao["rules_ref"]
     evidencias = copy.deepcopy(evidencias) if isinstance(evidencias, dict) else {}
-    s = sintetizar(validar(revisao, revisao["site"], rules), escopo, evidencias, rules.get("rules_version"))
+    s = sintetizar(validar(revisao, revisao["site"], rules), escopo, evidencias, rules.get("rules_version"), sondagem)
     # 0.2.0: a fonte sai do achado e entra uma vez em `fontes`; os campos de grandeza já foram calculados dela.
     fontes = {}
     for f in s["achados"]:

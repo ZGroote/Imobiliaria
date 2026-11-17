@@ -11,8 +11,9 @@ sys.path.insert(0, str(RAIZ))
 from viabilidade.projetista.adaptador import estudo_para_site
 from viabilidade.projetista.esquema import selar, serializar
 from viabilidade.projetista.gerador import gerar_pavimento
-from viabilidade.projetista.sintese import (CONDICIONAL, ENGINE_VERSION, HIPOTESE, INCONSISTENTE, VERIFICADO, avaliacao_valida,
-                                            avaliar, classificar, selar_avaliacao, sintetizar)
+from viabilidade.projetista.sintese import (CONDICIONAL, ENGINE_VERSION, GEOTECNICO_SEM_METODO, HIPOTESE, INCONSISTENTE,
+                                            VERIFICADO, avaliacao_valida, avaliar, classificar, selar_avaliacao, sintetizar)
+from viabilidade.projetista.sondagem import ler_sondagem, referencia, selo
 from viabilidade.projetista.test_projetista import bom, ret
 from viabilidade.projetista.validador import validar
 
@@ -21,7 +22,8 @@ PILOTO_GERADO = RAIZ/"viabilidade/motor/exemplos/pilotos/SC-completo-22421.json"
 CAMPOS = ("quantity_kind", "assumptions", "source_version", "confidence", "engine_version")
 SEM = {"sondagem": False, "metodo_estrutural": None, "revisao_profissional": {"estrutural": None, "geotecnico": None}}
 PRO = {"nome": "Fulana de Tal", "conselho": "CREA-SP", "registro": "0000000000"}
-COM = {"sondagem": True, "metodo_estrutural": "faixas preliminares, concreto armado",
+CAD = ler_sondagem(Path(__file__).with_name("exemplo-sondagem-ficticia.json"))
+COM = {"sondagem": referencia(CAD), "metodo_estrutural": "faixas preliminares, concreto armado",
        "revisao_profissional": {"estrutural": dict(PRO), "geotecnico": dict(PRO)}}
 
 
@@ -88,17 +90,20 @@ def test_estrutural_sem_regra():
 
 def test_trava():
     a = sintetizar(TODOS, ESCOPO5, SEM)
-    assert a["sintese"] == CONDICIONAL and a["regra_da_precedencia"] == 4
+    # 0.3.0: regra 3, não 4. O geotécnico nunca fica conforme, então a trava já não é a única a segurar.
+    assert a["sintese"] == CONDICIONAL and a["regra_da_precedencia"] == 3
     assert "Falta sondagem do terreno" in a["motivos_trava"] and len(a["motivos_trava"]) == 4
-    assert sintetizar(TODOS, ESCOPO5, COM)["sintese"] == VERIFICADO
+    # Era VERIFICADO até a 0.2.0. Agora, mesmo com tudo cadastrado, fica CONDICIONAL (geotécnico sem método).
+    assert sintetizar(TODOS, ESCOPO5, COM, sondagem=CAD)["sintese"] == CONDICIONAL
+    assert sintetizar(TODOS, ["geometrico", "estrutural"], COM, sondagem=CAD)["sintese"] == VERIFICADO
     sem_registro = copy.deepcopy(COM)
     sem_registro["revisao_profissional"]["geotecnico"]["registro"] = "  "
-    b = sintetizar(TODOS, ESCOPO5, sem_registro)
+    b = sintetizar(TODOS, ESCOPO5, sem_registro, sondagem=CAD)
     assert b["sintese"] == CONDICIONAL and b["motivos_trava"] == ["Falta revisão profissional geotecnico com nome, conselho e registro"]
     for chave in ("sondagem", "metodo_estrutural"):
         e = copy.deepcopy(COM)
         e[chave] = None
-        assert sintetizar(TODOS, ESCOPO5, e)["sintese"] == CONDICIONAL
+        assert sintetizar(TODOS, ["geometrico", "estrutural"], e, sondagem=CAD)["sintese"] == CONDICIONAL
     # Sem estrutural/geotécnico no escopo a trava não se aplica.
     assert sintetizar(TODOS, ["geometrico", "urbanistico"], SEM)["sintese"] == VERIFICADO
 
@@ -185,7 +190,7 @@ def test_selo_e_versao_do_metodo():
     adulterada["sintese"]["sintese"] = VERIFICADO
     assert avaliacao_valida(adulterada, rev) == (False, "selo")
     velha = copy.deepcopy(a)
-    velha["method_version"] = "sintese/0.1.0"  # as avaliações da tarefa 5
+    velha["method_version"] = "sintese/0.2.0"  # as avaliações da tarefa 7, de antes da sondagem
     assert avaliacao_valida(selar_avaliacao(velha), rev) == (False, "versão do método mudou")
 
 
@@ -193,7 +198,7 @@ def test_campos_de_grandeza():
     a = avaliar(gerada())
     achados = a["sintese"]["achados"]
     fonte = {id(f): a["fontes"][f["source_ref"]] for f in achados}
-    assert achados and all(f["engine_version"] == ENGINE_VERSION == "projetista/0.1.0+sintese/0.2.0" for f in achados)
+    assert achados and all(f["engine_version"] == ENGINE_VERSION == "projetista/0.1.0+sintese/0.3.0" for f in achados)
     nao_conferidas = 0
     for f in achados:
         assert set(CAMPOS) <= f.keys() and "calculated_at" not in f, f["rule_id"]
@@ -233,6 +238,40 @@ def test_fontes_uma_vez_so():
     for k in ("sintese", "regra_da_precedencia", "dominios", "motivos_trava", "fora_do_escopo", "aviso"):
         assert serializar(a["sintese"][k]) == serializar(antes[k]), k
     assert len(serializar(a)) < len(serializar({**a, "sintese": antes}))
+
+
+def test_sondagem_na_sintese():
+    def motivos(ev, cad=CAD, escopo=ESCOPO5):
+        return sintetizar(TODOS, escopo, ev, sondagem=cad)["motivos_trava"]
+    # `True` antigo trava com o motivo novo.
+    assert motivos({**COM, "sondagem": True}) == ["sondagem declarada sem cadastro"]
+    # Referência com sha errado trava; cadastro mexido sem selar de novo também.
+    assert motivos({**COM, "sondagem": {**COM["sondagem"], "sha256": "0" * 64}}) == ["Selo da sondagem não bate com a referência"]
+    mexido = copy.deepcopy(CAD)
+    mexido["furos"][0]["spt"][0]["segmentos"][2]["golpes"] += 1
+    assert motivos(COM, mexido) == ["Selo da sondagem não bate com a referência"]
+    assert motivos(COM, None) == ["Sondagem referenciada não está no cadastro"]
+    # Cadastro com selo refeito mas profissional incompleto trava.
+    sem_pro = copy.deepcopy(CAD)
+    sem_pro["profissional"]["registro"] = ""
+    sem_pro["investigation_sha256"] = selo(sem_pro)
+    m = motivos({**COM, "sondagem": referencia(sem_pro)}, sem_pro)
+    assert len(m) == 1 and m[0].startswith("Sondagem com erro no cadastro") and "registro" in m[0]
+    # Referência válida tira só o motivo da sondagem.
+    sem_sond = motivos({**SEM, "sondagem": False})
+    com_sond = motivos({**SEM, "sondagem": referencia(CAD)})
+    assert sem_sond == ["Falta sondagem do terreno"] + com_sond and len(com_sond) == 3
+    # Adversário: sondagem válida, achado geotécnico conforme, tudo completo -> geotécnico nunca conforme.
+    for escopo in (ESCOPO5, ["geotecnico"]):
+        a = sintetizar(TODOS, escopo, COM, sondagem=CAD)
+        g = a["dominios"]["geotecnico"]
+        assert not a["motivos_trava"] and g["contagem"]["conforme"] == 1
+        assert g["estado"] == "nao_verificado" and GEOTECNICO_SEM_METODO in g["required_actions"]
+        assert a["sintese"] == CONDICIONAL, a["sintese"]
+    rev = gerada()
+    av = avaliar(rev, ESCOPO5, COM, CAD)
+    assert av["evidencias"]["sondagem"] == referencia(CAD) and av["sintese"]["sintese"] != VERIFICADO
+    assert avaliacao_valida(av, rev) == (True, "")
 
 
 def test_avaliacao_mesmos_bytes():
