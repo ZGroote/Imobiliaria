@@ -75,6 +75,7 @@
   "viabilidade/terreno/evidencias/t29/folha-29.jpg": "041f8b34e477045b1cdc1838743277e465bc9d203c3580462fb776d82114a66a",
   "viabilidade/terreno/evidencias/t30/folha-30.jpg": "bf512fd9bcb4c9f2bbc2c9c897d1ebfa990d447e25fb13604473becab7843516",
   "viabilidade/terreno/evidencias/t31/folha-31.jpg": "8f67a28226c0347df4e2bf012cd0f804a29d9176e8be413c2068a8bf7dfa0f7d",
+  "viabilidade/terreno/evidencias/t32/vagos-32.jpg": "dd962beb43c141b22a2a16e2663d0ca4a8a27ee624fdedc502e41989cfa1a2bc",
   "viabilidade/visual/evidencias/celular-A.png": "134314415d43f129912608a8550e900070e948091d8ae5b153b7aa00f8a3c16b",
   "viabilidade/visual/evidencias/celular-B.png": "905c5055385424627d0d99c06289d7926f1efe00f6a57031adb44540f3e98384",
   "viabilidade/visual/evidencias/celular-C.png": "f3a6b4c63b9b99a9ff2ad87fa5c785d01fabd70ab0f77b26ee9cdd8c259e2ef8",
@@ -131,6 +132,12 @@
    "quem": "central (Claude Code)",
    "arquivos": "terreno/evidencias/t24..t31 (11) e visual/evidencias/t21..t22 (11)",
    "o_que_e": "recortes do Anexo 02 e de satélite com o contorno do lote (conferência da varredura do Terreno) e prints do estudo e da varredura (código do lote, leis, premissas, sem preço); vistos um a um, sem dado pessoal nem de cliente"
+  },
+  {
+   "data": "2026-11-17",
+   "quem": "central (Claude Code)",
+   "arquivos": "viabilidade/terreno/evidencias/t32/vagos-32.jpg",
+   "o_que_e": "folha de prova da tarefa 32: recortes de satélite Esri z18 com o contorno dos lotes vazios escolhidos e dos rejeitados; vista inteira, sem dado pessoal nem de cliente"
   }
  ]
 }

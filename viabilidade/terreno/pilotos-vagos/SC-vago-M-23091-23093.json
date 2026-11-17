@@ -1,0 +1,5379 @@
+{
+  "id": "SC-completo-23091-23092-23093",
+  "poligono_utm": [
+    [
+      198846.138787,
+      7562156.035722
+    ],
+    [
+      198846.004543,
+      7562146.662825
+    ],
+    [
+      198813.007878,
+      7562147.13542
+    ],
+    [
+      198813.194009,
+      7562160.131039
+    ],
+    [
+      198813.380139,
+      7562173.126657
+    ],
+    [
+      198813.380139,
+      7562173.126657
+    ],
+    [
+      198813.566269,
+      7562186.122276
+    ],
+    [
+      198846.562934,
+      7562185.64968
+    ],
+    [
+      198846.491061,
+      7562180.631492
+    ],
+    [
+      198846.376804,
+      7562172.654062
+    ],
+    [
+      198846.190673,
+      7562159.658443
+    ],
+    [
+      198846.138787,
+      7562156.035722
+    ]
+  ],
+  "frente": [
+    [
+      198846.376804,
+      7562172.654062
+    ],
+    [
+      198846.190673,
+      7562159.658443
+    ]
+  ],
+  "area_m2": 1286.7,
+  "crs": "EPSG:31983",
+  "zona_id": "SC-Z2",
+  "zona_origem": "sugerida_pelo_mapa",
+  "zona_conferida": false,
+  "conferido": false,
+  "relevo": {
+    "fonte": "Copernicus DEM GLO-30 / COG público AWS; DSM, alturas EGM2008",
+    "resolucao_m": 30,
+    "cota_min_m": 807.3,
+    "cota_max_m": 809.5,
+    "declividade_pct": 5.5,
+    "desnivel_lote_rua_m": 0.8,
+    "metodo_desnivel": "Copernicus GLO-30 (DSM de ~30 m: mede topo de prédio e árvore): cota no centroide do lote menos a mediana das cotas do asfalto da malha a até 25 m da frente principal (grade de 3 m mais um ponto por pedaço). Só triagem: entre fontes a diferença lote-rua variou mediana 0,6 m e p90 1,5 m (T26); não substitui levantamento planialtimétrico."
+  },
+  "fonte": {
+    "base": "completo",
+    "arquivo": "sao-carlos/dados/lotes_saocarlos_completo.geojson",
+    "indices_feicoes_zero_based": [
+      23091,
+      23092,
+      23093
+    ]
+  },
+  "qualidade": {
+    "frentes": [
+      {
+        "aresta": 9,
+        "pontos": [
+          [
+            198846.37680357217,
+            7562172.654061529
+          ],
+          [
+            198846.19067341555,
+            7562159.658443093
+          ]
+        ],
+        "comprimento_m": 12.997,
+        "distancia_max_asfalto_m": 5.933
+      },
+      {
+        "aresta": 0,
+        "pontos": [
+          [
+            198846.1387868821,
+            7562156.035722223
+          ],
+          [
+            198846.00454325898,
+            7562146.662824659
+          ]
+        ],
+        "comprimento_m": 9.374,
+        "distancia_max_asfalto_m": 5.868
+      }
+    ],
+    "esquina_indicada_pela_malha": false,
+    "sobreposicao_asfalto_m2": 0.0,
+    "maior_sobreposicao_vizinho_m2": 0.0
+  },
+  "observacoes": "Geometria de ensaio derivada do cadastro/maquete, sem vistoria. Zona sugerida pelo mapa, não conferida. Frente inferida da malha de asfalto, por comprimento decrescente e índice da aresta. Áreas especiais: triagem raster dos Anexos 05/06/07, confirmar incidências e pendências em areas_especiais. Restrições do loteamento não verificadas. Há mais de uma frente candidata; as demais constam em qualidade.frentes. Relevo: estimativa DSM Copernicus GLO-30 (~30 m), não conferida em campo. Cotas interpoladas nos vértices e centroide; declividade do DSM no entorno do centroide, por diferenças centrais de 30 m. Árvores/prédios podem afetar os valores; não usar para terraplenagem ou regra legal de declividade.",
+  "zona_sugestao": {
+    "metodo": "Anexo 02 verificado por SHA256; afim direta EPSG:31983→pixel por 21 cruzamentos de rua; centros de todos os pixels interiores (~1,4 m), RGB da legenda (tolerância 18); cor ambígua (empate a menos de 3) não decide; traços recuperados até 3 pixels; divisa conservadora >=10 m; busca 250 m; Eixo (traço de 3x3 px ou mais) a <=60 m recusa. RMSE 2,9 m (máx. 6,2) nos cruzamentos não é acurácia cadastral.",
+    "pontos": [
+      {
+        "utm": [
+          198814.161,
+          7562184.879
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.575,
+          7562184.905
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.989,
+          7562184.932
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.403,
+          7562184.959
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.817,
+          7562184.985
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.231,
+          7562185.012
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.646,
+          7562185.038
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.06,
+          7562185.065
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.474,
+          7562185.092
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.888,
+          7562185.118
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.302,
+          7562185.145
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.717,
+          7562185.171
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.131,
+          7562185.198
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.545,
+          7562185.225
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198833.959,
+          7562185.251
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.373,
+          7562185.278
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198836.787,
+          7562185.304
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.202,
+          7562185.331
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.616,
+          7562185.358
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.03,
+          7562185.384
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198842.444,
+          7562185.411
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198843.858,
+          7562185.437
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.273,
+          7562185.464
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.188,
+          7562183.473
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.602,
+          7562183.5
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.016,
+          7562183.526
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.43,
+          7562183.553
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.844,
+          7562183.579
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.259,
+          7562183.606
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.673,
+          7562183.633
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.087,
+          7562183.659
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.501,
+          7562183.686
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.915,
+          7562183.712
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.33,
+          7562183.739
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.744,
+          7562183.766
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198831.158,
+          7562183.792
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.572,
+          7562183.819
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198833.986,
+          7562183.845
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.4,
+          7562183.872
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198836.815,
+          7562183.899
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.229,
+          7562183.925
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.643,
+          7562183.952
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.057,
+          7562183.978
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198842.471,
+          7562184.005
+        ],
+        "zona_id": null,
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198843.886,
+          7562184.032
+        ],
+        "zona_id": null,
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198845.3,
+          7562184.058
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.215,
+          7562182.067
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.629,
+          7562182.094
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.043,
+          7562182.12
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.457,
+          7562182.147
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.872,
+          7562182.174
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.286,
+          7562182.2
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.7,
+          7562182.227
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.114,
+          7562182.253
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.528,
+          7562182.28
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.943,
+          7562182.307
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.357,
+          7562182.333
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.771,
+          7562182.36
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198831.185,
+          7562182.386
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.599,
+          7562182.413
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.014,
+          7562182.44
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.428,
+          7562182.466
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198836.842,
+          7562182.493
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198838.256,
+          7562182.519
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198839.67,
+          7562182.546
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.084,
+          7562182.573
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198842.499,
+          7562182.599
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198843.913,
+          7562182.626
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.327,
+          7562182.652
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.242,
+          7562180.661
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.656,
+          7562180.688
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.071,
+          7562180.715
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.485,
+          7562180.741
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.899,
+          7562180.768
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.313,
+          7562180.794
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.727,
+          7562180.821
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.141,
+          7562180.848
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.556,
+          7562180.874
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.97,
+          7562180.901
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.384,
+          7562180.927
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.798,
+          7562180.954
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.212,
+          7562180.981
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.627,
+          7562181.007
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.041,
+          7562181.034
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198835.455,
+          7562181.06
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198836.869,
+          7562181.087
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198838.283,
+          7562181.114
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.697,
+          7562181.14
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.112,
+          7562181.167
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198842.526,
+          7562181.194
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198843.94,
+          7562181.22
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.354,
+          7562181.247
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.269,
+          7562179.256
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.684,
+          7562179.282
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.098,
+          7562179.309
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.512,
+          7562179.335
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.926,
+          7562179.362
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.34,
+          7562179.389
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.754,
+          7562179.415
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.169,
+          7562179.442
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.583,
+          7562179.469
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.997,
+          7562179.495
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.411,
+          7562179.522
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.825,
+          7562179.548
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.24,
+          7562179.575
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.654,
+          7562179.602
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.068,
+          7562179.628
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198835.482,
+          7562179.655
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198836.896,
+          7562179.681
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198838.31,
+          7562179.708
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.725,
+          7562179.735
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.139,
+          7562179.761
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198842.553,
+          7562179.788
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198843.967,
+          7562179.814
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.381,
+          7562179.841
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.297,
+          7562177.85
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.711,
+          7562177.877
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.125,
+          7562177.903
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.539,
+          7562177.93
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.953,
+          7562177.956
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.368,
+          7562177.983
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.782,
+          7562178.01
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.196,
+          7562178.036
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.61,
+          7562178.063
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.024,
+          7562178.089
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.438,
+          7562178.116
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.853,
+          7562178.143
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.267,
+          7562178.169
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.681,
+          7562178.196
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.095,
+          7562178.222
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198835.509,
+          7562178.249
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198836.924,
+          7562178.276
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.338,
+          7562178.302
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.752,
+          7562178.329
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.166,
+          7562178.355
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198842.58,
+          7562178.382
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198843.994,
+          7562178.409
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.409,
+          7562178.435
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.324,
+          7562176.444
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.738,
+          7562176.471
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.152,
+          7562176.497
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.566,
+          7562176.524
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.981,
+          7562176.551
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.395,
+          7562176.577
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.809,
+          7562176.604
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.223,
+          7562176.63
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.637,
+          7562176.657
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.051,
+          7562176.684
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.466,
+          7562176.71
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.88,
+          7562176.737
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.294,
+          7562176.763
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.708,
+          7562176.79
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.122,
+          7562176.817
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.537,
+          7562176.843
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198836.951,
+          7562176.87
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.365,
+          7562176.896
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.779,
+          7562176.923
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.193,
+          7562176.95
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198842.607,
+          7562176.976
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198844.022,
+          7562177.003
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198845.436,
+          7562177.029
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.351,
+          7562175.038
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.765,
+          7562175.065
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.179,
+          7562175.092
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.594,
+          7562175.118
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.008,
+          7562175.145
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.422,
+          7562175.171
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.836,
+          7562175.198
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.25,
+          7562175.225
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.664,
+          7562175.251
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.079,
+          7562175.278
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.493,
+          7562175.304
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.907,
+          7562175.331
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.321,
+          7562175.358
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.735,
+          7562175.384
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.15,
+          7562175.411
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.564,
+          7562175.437
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198836.978,
+          7562175.464
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.392,
+          7562175.491
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.806,
+          7562175.517
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.221,
+          7562175.544
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198842.635,
+          7562175.57
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198844.049,
+          7562175.597
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198845.463,
+          7562175.624
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.378,
+          7562173.633
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.792,
+          7562173.659
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.207,
+          7562173.686
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.621,
+          7562173.712
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.035,
+          7562173.739
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.449,
+          7562173.766
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.863,
+          7562173.792
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.278,
+          7562173.819
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.692,
+          7562173.845
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.106,
+          7562173.872
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.52,
+          7562173.899
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.934,
+          7562173.925
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.348,
+          7562173.952
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.763,
+          7562173.978
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.177,
+          7562174.005
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.591,
+          7562174.032
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.005,
+          7562174.058
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.419,
+          7562174.085
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.834,
+          7562174.112
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.248,
+          7562174.138
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198842.662,
+          7562174.165
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198844.076,
+          7562174.191
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198845.49,
+          7562174.218
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.405,
+          7562172.227
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.82,
+          7562172.253
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.234,
+          7562172.28
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.648,
+          7562172.307
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.062,
+          7562172.333
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.476,
+          7562172.36
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.891,
+          7562172.386
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.305,
+          7562172.413
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.719,
+          7562172.44
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.133,
+          7562172.466
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.547,
+          7562172.493
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.961,
+          7562172.52
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198831.376,
+          7562172.546
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.79,
+          7562172.573
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.204,
+          7562172.599
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.618,
+          7562172.626
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.032,
+          7562172.653
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.447,
+          7562172.679
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.861,
+          7562172.706
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198841.275,
+          7562172.732
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198842.689,
+          7562172.759
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198844.103,
+          7562172.786
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.517,
+          7562172.812
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.433,
+          7562170.821
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.847,
+          7562170.848
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.261,
+          7562170.874
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.675,
+          7562170.901
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.089,
+          7562170.928
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.504,
+          7562170.954
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.918,
+          7562170.981
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.332,
+          7562171.007
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.746,
+          7562171.034
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.16,
+          7562171.061
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.575,
+          7562171.087
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.989,
+          7562171.114
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198831.403,
+          7562171.14
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.817,
+          7562171.167
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.231,
+          7562171.194
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.645,
+          7562171.22
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.06,
+          7562171.247
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.474,
+          7562171.273
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.888,
+          7562171.3
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198841.302,
+          7562171.327
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198842.716,
+          7562171.353
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198844.131,
+          7562171.38
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.545,
+          7562171.406
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.46,
+          7562169.415
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.874,
+          7562169.442
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.288,
+          7562169.469
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.702,
+          7562169.495
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.117,
+          7562169.522
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.531,
+          7562169.548
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.945,
+          7562169.575
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.359,
+          7562169.602
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.773,
+          7562169.628
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.188,
+          7562169.655
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.602,
+          7562169.681
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.016,
+          7562169.708
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198831.43,
+          7562169.735
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.844,
+          7562169.761
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.258,
+          7562169.788
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.673,
+          7562169.814
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198837.087,
+          7562169.841
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198838.501,
+          7562169.868
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198839.915,
+          7562169.894
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.329,
+          7562169.921
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198842.744,
+          7562169.947
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198844.158,
+          7562169.974
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.572,
+          7562170.001
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.487,
+          7562168.01
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.901,
+          7562168.036
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.315,
+          7562168.063
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.73,
+          7562168.089
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.144,
+          7562168.116
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.558,
+          7562168.143
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.972,
+          7562168.169
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.386,
+          7562168.196
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.801,
+          7562168.222
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.215,
+          7562168.249
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.629,
+          7562168.276
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.043,
+          7562168.302
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.457,
+          7562168.329
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.871,
+          7562168.355
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.286,
+          7562168.382
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198835.7,
+          7562168.409
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198837.114,
+          7562168.435
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198838.528,
+          7562168.462
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.942,
+          7562168.488
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.357,
+          7562168.515
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198842.771,
+          7562168.542
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198844.185,
+          7562168.568
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.599,
+          7562168.595
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.514,
+          7562166.604
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.929,
+          7562166.63
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.343,
+          7562166.657
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.757,
+          7562166.684
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.171,
+          7562166.71
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.585,
+          7562166.737
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198822.999,
+          7562166.763
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.414,
+          7562166.79
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.828,
+          7562166.817
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.242,
+          7562166.843
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.656,
+          7562166.87
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.07,
+          7562166.896
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.485,
+          7562166.923
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.899,
+          7562166.95
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.313,
+          7562166.976
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198835.727,
+          7562167.003
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198837.141,
+          7562167.029
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.555,
+          7562167.056
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.97,
+          7562167.083
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.384,
+          7562167.109
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198842.798,
+          7562167.136
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198844.212,
+          7562167.163
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.626,
+          7562167.189
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.542,
+          7562165.198
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.956,
+          7562165.225
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.37,
+          7562165.251
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.784,
+          7562165.278
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.198,
+          7562165.304
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.612,
+          7562165.331
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.027,
+          7562165.358
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.441,
+          7562165.384
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.855,
+          7562165.411
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.269,
+          7562165.437
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.683,
+          7562165.464
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.098,
+          7562165.491
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.512,
+          7562165.517
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.926,
+          7562165.544
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.34,
+          7562165.571
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198835.754,
+          7562165.597
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198837.168,
+          7562165.624
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.583,
+          7562165.65
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198839.997,
+          7562165.677
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.411,
+          7562165.704
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198842.825,
+          7562165.73
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198844.239,
+          7562165.757
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.654,
+          7562165.783
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.569,
+          7562163.792
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198815.983,
+          7562163.819
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.397,
+          7562163.846
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.811,
+          7562163.872
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.226,
+          7562163.899
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.64,
+          7562163.925
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.054,
+          7562163.952
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.468,
+          7562163.979
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.882,
+          7562164.005
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.296,
+          7562164.032
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.711,
+          7562164.058
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198830.125,
+          7562164.085
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.539,
+          7562164.112
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.953,
+          7562164.138
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.367,
+          7562164.165
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198835.782,
+          7562164.191
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198837.196,
+          7562164.218
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.61,
+          7562164.245
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198840.024,
+          7562164.271
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.438,
+          7562164.298
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198842.852,
+          7562164.324
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198844.267,
+          7562164.351
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.681,
+          7562164.378
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198814.596,
+          7562162.387
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.01,
+          7562162.413
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.424,
+          7562162.44
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.839,
+          7562162.466
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.253,
+          7562162.493
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.667,
+          7562162.52
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.081,
+          7562162.546
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.495,
+          7562162.573
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.909,
+          7562162.599
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.324,
+          7562162.626
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.738,
+          7562162.653
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.152,
+          7562162.679
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.566,
+          7562162.706
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198832.98,
+          7562162.732
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.395,
+          7562162.759
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.809,
+          7562162.786
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.223,
+          7562162.812
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.637,
+          7562162.839
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198840.051,
+          7562162.865
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.465,
+          7562162.892
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198842.88,
+          7562162.919
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198844.294,
+          7562162.945
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.708,
+          7562162.972
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198813.209,
+          7562160.954
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198814.623,
+          7562160.981
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.037,
+          7562161.007
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.452,
+          7562161.034
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.866,
+          7562161.061
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.28,
+          7562161.087
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.694,
+          7562161.114
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.108,
+          7562161.14
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.522,
+          7562161.167
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.937,
+          7562161.194
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.351,
+          7562161.22
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.765,
+          7562161.247
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.179,
+          7562161.273
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.593,
+          7562161.3
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198833.008,
+          7562161.327
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.422,
+          7562161.353
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.836,
+          7562161.38
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.25,
+          7562161.406
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.664,
+          7562161.433
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198840.078,
+          7562161.46
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198841.493,
+          7562161.486
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198842.907,
+          7562161.513
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198844.321,
+          7562161.539
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198845.735,
+          7562161.566
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198813.236,
+          7562159.548
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198814.65,
+          7562159.575
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.065,
+          7562159.602
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.479,
+          7562159.628
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.893,
+          7562159.655
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.307,
+          7562159.681
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.721,
+          7562159.708
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.136,
+          7562159.735
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.55,
+          7562159.761
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.964,
+          7562159.788
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.378,
+          7562159.814
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.792,
+          7562159.841
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.206,
+          7562159.868
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198831.621,
+          7562159.894
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198833.035,
+          7562159.921
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.449,
+          7562159.947
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.863,
+          7562159.974
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.277,
+          7562160.001
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.692,
+          7562160.027
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198840.106,
+          7562160.054
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198841.52,
+          7562160.08
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198842.934,
+          7562160.107
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198844.348,
+          7562160.134
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.762,
+          7562160.16
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198813.263,
+          7562158.143
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198814.678,
+          7562158.169
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.092,
+          7562158.196
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.506,
+          7562158.222
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.92,
+          7562158.249
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.334,
+          7562158.276
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.749,
+          7562158.302
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.163,
+          7562158.329
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.577,
+          7562158.355
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198825.991,
+          7562158.382
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.405,
+          7562158.409
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.819,
+          7562158.435
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.234,
+          7562158.462
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198831.648,
+          7562158.489
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198833.062,
+          7562158.515
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.476,
+          7562158.542
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.89,
+          7562158.568
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.305,
+          7562158.595
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.719,
+          7562158.622
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198840.133,
+          7562158.648
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198841.547,
+          7562158.675
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198842.961,
+          7562158.701
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198844.375,
+          7562158.728
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.79,
+          7562158.755
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198813.291,
+          7562156.737
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198814.705,
+          7562156.763
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.119,
+          7562156.79
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.533,
+          7562156.817
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.947,
+          7562156.843
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.362,
+          7562156.87
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.776,
+          7562156.897
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.19,
+          7562156.923
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.604,
+          7562156.95
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.018,
+          7562156.976
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.433,
+          7562157.003
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.847,
+          7562157.03
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.261,
+          7562157.056
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198831.675,
+          7562157.083
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198833.089,
+          7562157.109
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198834.503,
+          7562157.136
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.918,
+          7562157.163
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198837.332,
+          7562157.189
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198838.746,
+          7562157.216
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198840.16,
+          7562157.242
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198841.574,
+          7562157.269
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198842.989,
+          7562157.296
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198844.403,
+          7562157.322
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.817,
+          7562157.349
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198813.318,
+          7562155.331
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198814.732,
+          7562155.358
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.146,
+          7562155.384
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.56,
+          7562155.411
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198818.975,
+          7562155.438
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.389,
+          7562155.464
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.803,
+          7562155.491
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.217,
+          7562155.517
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.631,
+          7562155.544
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.046,
+          7562155.571
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.46,
+          7562155.597
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.874,
+          7562155.624
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.288,
+          7562155.65
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198831.702,
+          7562155.677
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198833.116,
+          7562155.704
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198834.531,
+          7562155.73
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198835.945,
+          7562155.757
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198837.359,
+          7562155.783
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198838.773,
+          7562155.81
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198840.187,
+          7562155.837
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198841.602,
+          7562155.863
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198843.016,
+          7562155.89
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198844.43,
+          7562155.916
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.844,
+          7562155.943
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198813.345,
+          7562153.925
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198814.759,
+          7562153.952
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.173,
+          7562153.979
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.588,
+          7562154.005
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.002,
+          7562154.032
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.416,
+          7562154.058
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.83,
+          7562154.085
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.244,
+          7562154.112
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.659,
+          7562154.138
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.073,
+          7562154.165
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.487,
+          7562154.191
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.901,
+          7562154.218
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.315,
+          7562154.245
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198831.729,
+          7562154.271
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198833.144,
+          7562154.298
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198834.558,
+          7562154.324
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.972,
+          7562154.351
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.386,
+          7562154.378
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.8,
+          7562154.404
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198840.215,
+          7562154.431
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.629,
+          7562154.457
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198843.043,
+          7562154.484
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198844.457,
+          7562154.511
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.871,
+          7562154.537
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198813.372,
+          7562152.52
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198814.787,
+          7562152.546
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.201,
+          7562152.573
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.615,
+          7562152.599
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.029,
+          7562152.626
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.443,
+          7562152.653
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.857,
+          7562152.679
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.272,
+          7562152.706
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.686,
+          7562152.732
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.1,
+          7562152.759
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.514,
+          7562152.786
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.928,
+          7562152.812
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.343,
+          7562152.839
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198831.757,
+          7562152.865
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198833.171,
+          7562152.892
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.585,
+          7562152.919
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198835.999,
+          7562152.945
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.413,
+          7562152.972
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.828,
+          7562152.998
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198840.242,
+          7562153.025
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.656,
+          7562153.052
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198843.07,
+          7562153.078
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198844.484,
+          7562153.105
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.899,
+          7562153.132
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198813.4,
+          7562151.114
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198814.814,
+          7562151.14
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.228,
+          7562151.167
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.642,
+          7562151.194
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.056,
+          7562151.22
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.47,
+          7562151.247
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.885,
+          7562151.273
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.299,
+          7562151.3
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.713,
+          7562151.327
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.127,
+          7562151.353
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.541,
+          7562151.38
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.956,
+          7562151.406
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.37,
+          7562151.433
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.784,
+          7562151.46
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198833.198,
+          7562151.486
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.612,
+          7562151.513
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198836.026,
+          7562151.54
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.441,
+          7562151.566
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.855,
+          7562151.593
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198840.269,
+          7562151.619
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.683,
+          7562151.646
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198843.097,
+          7562151.673
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198844.512,
+          7562151.699
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198845.926,
+          7562151.726
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198813.427,
+          7562149.708
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198814.841,
+          7562149.735
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.255,
+          7562149.761
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.669,
+          7562149.788
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.084,
+          7562149.814
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.498,
+          7562149.841
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.912,
+          7562149.868
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.326,
+          7562149.894
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.74,
+          7562149.921
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.154,
+          7562149.948
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.569,
+          7562149.974
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198828.983,
+          7562150.001
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198830.397,
+          7562150.027
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.811,
+          7562150.054
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198833.225,
+          7562150.081
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.64,
+          7562150.107
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198836.054,
+          7562150.134
+        ],
+        "zona_id": null,
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198837.468,
+          7562150.16
+        ],
+        "zona_id": null,
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198838.882,
+          7562150.187
+        ],
+        "zona_id": null,
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198840.296,
+          7562150.214
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.71,
+          7562150.24
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198843.125,
+          7562150.267
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198844.539,
+          7562150.293
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198845.953,
+          7562150.32
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198813.454,
+          7562148.302
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198814.868,
+          7562148.329
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198816.282,
+          7562148.356
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198817.697,
+          7562148.382
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198819.111,
+          7562148.409
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.525,
+          7562148.435
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.939,
+          7562148.462
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.353,
+          7562148.489
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.767,
+          7562148.515
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.182,
+          7562148.542
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.596,
+          7562148.568
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.01,
+          7562148.595
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198830.424,
+          7562148.622
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.838,
+          7562148.648
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198833.253,
+          7562148.675
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.667,
+          7562148.701
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198836.081,
+          7562148.728
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.495,
+          7562148.755
+        ],
+        "zona_id": null,
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198838.909,
+          7562148.781
+        ],
+        "zona_id": null,
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198840.323,
+          7562148.808
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.738,
+          7562148.834
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198843.152,
+          7562148.861
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198844.566,
+          7562148.888
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198845.98,
+          7562148.914
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198820.552,
+          7562147.03
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198821.966,
+          7562147.056
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198823.38,
+          7562147.083
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198824.795,
+          7562147.109
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198826.209,
+          7562147.136
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198827.623,
+          7562147.163
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198829.037,
+          7562147.189
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198830.451,
+          7562147.216
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198831.866,
+          7562147.242
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198833.28,
+          7562147.269
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198834.694,
+          7562147.296
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198836.108,
+          7562147.322
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198837.522,
+          7562147.349
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198838.936,
+          7562147.375
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198840.351,
+          7562147.402
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198841.765,
+          7562147.429
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198843.179,
+          7562147.455
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": true
+      },
+      {
+        "utm": [
+          198844.593,
+          7562147.482
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      },
+      {
+        "utm": [
+          198846.007,
+          7562147.508
+        ],
+        "zona_id": "SC-Z2",
+        "cor_recuperada": false
+      }
+    ],
+    "proporcao_por_zona": {
+      "nao_classificada": 0.010769230769230769,
+      "SC-Z2": 0.9892307692307692
+    },
+    "distancia_divisa_m": 147.49,
+    "alternativas": [],
+    "motivo_duvida": null
+  },
+  "areas_especiais": [
+    {
+      "tipo": "nao_verificada",
+      "nome": "Áreas especiais do Anexo 05: não verificada",
+      "incidencia": "nao_verificada",
+      "conferido": false,
+      "fonte": "Lei 18.053/2016, Anexo 05, p. 1; raster conferido por SHA256 quando disponível",
+      "observacoes": "Cor encoberta/sem correspondência segura no lote ou margem de ~10 m, ou resolução insuficiente; confirmar no cadastro e no órgão competente; sem altura numérica aplicada.",
+      "evidencia": "dados/zonas-mapas/anexo05.jpg; centros dos pixels do lote e margem de 10 m + 4 pixels",
+      "anexo": "05"
+    },
+    {
+      "tipo": "nao_verificada",
+      "nome": "Áreas especiais do Anexo 06: não verificada",
+      "incidencia": "nao_verificada",
+      "conferido": false,
+      "fonte": "Lei 18.053/2016, Anexo 06, p. 1; raster conferido por SHA256 quando disponível",
+      "observacoes": "Cor encoberta/sem correspondência segura no lote ou margem de ~10 m, ou resolução insuficiente; confirmar no cadastro e no órgão competente; sem altura numérica aplicada.",
+      "evidencia": "dados/zonas-mapas/anexo06.jpg; centros dos pixels do lote e margem de 10 m + 4 pixels",
+      "anexo": "06"
+    },
+    {
+      "tipo": "nao_verificada",
+      "nome": "Áreas especiais do Anexo 07: não verificada",
+      "incidencia": "nao_verificada",
+      "conferido": false,
+      "fonte": "Lei 18.053/2016, Anexo 07, p. 1; raster conferido por SHA256 quando disponível",
+      "observacoes": "Cor encoberta/sem correspondência segura no lote ou margem de ~10 m, ou resolução insuficiente; confirmar no cadastro e no órgão competente; sem altura numérica aplicada.",
+      "evidencia": "dados/zonas-mapas/anexo07.jpg; centros dos pixels do lote e margem de 10 m + 4 pixels",
+      "anexo": "07"
+    },
+    {
+      "tipo": "nao_verificada",
+      "nome": "Leis posteriores aos mapas de dez/2016 (19.166/2019 e 18.927/2018): não desenhadas",
+      "incidencia": "nao_verificada",
+      "conferido": false,
+      "fonte": "Lei 19.166/2019 (https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_339); Lei 18.927/2018 (https://cidadao.saocarlos.sp.gov.br/servicos/consultaleis/index.php?acao=14&lei=1_754; PDF https://www.saocarlos.sp.gov.br/images/stories/pdf/conselhos/lei18927-digital.pdf)",
+      "observacoes": "Os mapas lidos (Anexos 05, 06 e 07 da Lei 18.053/2016) são de dez/2016 e não trazem estas alterações, que não estão desenhadas aqui: Lei 19.166/2019, AEI de Interesse Industrial e de Serviços 44 e 45 (Anexo 6), áreas N e O do Anexo 9-A e ZUPI-II, na SP-318 km 236, com perímetro só em texto (rumos e distâncias, sem coordenadas); Lei 18.927/2018, Zona 6E (Santa Eudóxia), sem mapa. O Anexo 9-A (áreas compatíveis com usos incômodos) não é lido por nenhum módulo: não verificado. Confirmar na Prefeitura, sobretudo perto da SP-318 km 236; sem altura numérica aplicada.",
+      "evidencia": "AUDITORIA-6b: a legenda do anexo06.jpg lista AEI só até o item 43; o Anexo 9-A de 2016 vai de A a M; os textos das leis não trazem coordenadas",
+      "anexo": "06/09-A"
+    }
+  ]
+}
