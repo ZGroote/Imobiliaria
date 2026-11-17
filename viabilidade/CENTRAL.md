@@ -218,7 +218,7 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 
 ## Pré-viabilidade física (PVF-G0)
 
-PRD 0.1 recebido em 16/11 (`viabilidade/PRD-PRE-VIABILIDADE-FISICA-0.1.md` no galho `projetista-g0`, `a5471fef`). Só autoriza revisão do PRD e o inventário PVF-G0: nada de implementação. Produto (Antigravity) faz o `PVF-G0.md`. **`viabilidade/pre-fisica/` nesta worktree é cópia temporária** (para o Antigravity não travar pedindo permissão fora daqui): não commitar aqui; a entrega vai para o galho `projetista-g0` e esta pasta é apagada. (O "AI: Out of credits" na barra do Antigravity é o saldo de créditos avulsos; o plano Google AI Pro continua valendo, e o Produto trabalha com o mesmo aviso nos outros.)
+PRD 0.1 recebido em 16/11 (`viabilidade/PRD-PRE-VIABILIDADE-FISICA-0.1.md` no galho `projetista-g0`, `a5471fef`). Só autoriza revisão do PRD e o inventário PVF-G0: nada de implementação. Produto (Antigravity) faz o `PVF-G0.md`. **`viabilidade/pre-fisica/` e `viabilidade/projetista-copia/` nesta worktree são cópias temporárias** (a segunda: Auditor revisando o PA-G0) (para o Antigravity não travar pedindo permissão fora daqui): não commitar aqui; a entrega vai para o galho `projetista-g0` e esta pasta é apagada. (O "AI: Out of credits" na barra do Antigravity é o saldo de créditos avulsos; o plano Google AI Pro continua valendo, e o Produto trabalha com o mesmo aviso nos outros.)
 
 ## Projetista arquitetônico (PA-G0)
 
