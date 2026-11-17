@@ -240,3 +240,4 @@ PRD 0.1 recebido em 16/11 (`viabilidade/PRD-PRE-VIABILIDADE-FISICA-0.1.md` no ga
 - Visual TAREFA-25 entregue (W2 `7e133441`): `testar.cjs` confere o texto dos arquivos (sem número nem terreno fixo); `index.html` aceita `vagas.valor` null só com `nota`.
 - Republicado no `vitrine-20261117` (vence 24/11 18h29): 5 sha256 batem, oficial em 404, print no ar com satélite mostra o terreno 1 vazio.
 - Pendente: o estudo completo lista 84 volumes "Não informado" (página longa); lotes pequenos sem estudo (gerador só faz torre). `projetista/exemplo-22421/` solto na W2, de origem desconhecida, não commitado.
+- **Retomada 17/11 noite:** amostra ok (5 provedores); conferir 8/8; sem entrega nova (soltos = evidências do visual e fim de linha dos exemplos do motor, regerados pelo conferir; `projetista/` na W1 é a cópia de trabalho do Motor, já levada à W2).
