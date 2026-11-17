@@ -89,17 +89,46 @@ def test_resumo_com_unidade_e_igual_a_torre():
         r = ler(pasta / t["resumo"])
         for chave, arq in (("numeros", r["estudo"]), ("numeros_terreo", r["estudo_terreo"])):
             n = r[chave]
-            assert set(n) == {"andares", "unidades", "vagas", "area_privativa", "area_computavel", "area_lote"}
-            for medida in n.values():
+            assert set(n) == {"andares", "unidades", "vagas", "area_privativa", "area_computavel", "area_lote", "limitante"}
+            for k, medida in n.items():
+                if k == "limitante" or (k == "vagas" and chave == "numeros"):
+                    continue  # texto; e vagas sem térreo (null + nota) tem teste próprio
                 assert set(medida) == {"valor", "unidade"} and medida["unidade"] and medida["valor"] is not None
             # os mesmos números que a prévia (que vem do metrics_summary.torre) mostra
             m = next(o for o in ler(pasta / t["id"] / arq)["opcoes"] if o["id"] == "projetista")["metricas"]
             assert n["unidades"]["valor"] == m["unidades_estimadas"] and n["andares"]["valor"] == m["pavimentos"]
-            assert n["area_privativa"]["valor"] == m["area_privativa_m2"] and n["vagas"]["valor"] == (m["vagas"] or 0)
+            assert n["area_privativa"]["valor"] == m["area_privativa_m2"] and n["vagas"]["valor"] == ((m["vagas"] or 0) if chave == "numeros_terreo" else None)
         assert r["numeros"]["area_computavel"]["valor"] > r["numeros"]["area_privativa"]["valor"]
     r = ler(pasta / "terreno-1" / "resumo.json")
     assert r["numeros"]["area_computavel"] == {"valor": 772.2862, "unidade": "m²"}
     assert r["numeros_terreo"]["area_computavel"] == {"valor": 461.226, "unidade": "m²"}
+
+
+# números de hoje (17/11), antes do `limitante`: nada pode mexer neles. (andares, unidades) sem térreo | com térreo + vagas
+HOJE = {"terreno-1": ((2, 12), (2, 6, 12)), "terreno-4": ((5, 12), (5, 9, 9)), "terreno-5": ((2, 12), (2, 6, 15)),
+        "terreno-6": ((21, 93), (21, 87, 16)), "terreno-7": ((6, 30), (6, 24, 15))}
+
+
+def test_limitante_vagas_e_numeros_de_hoje():
+    pasta, _, itens = rodada()
+    for t in itens:
+        if t["status"] != "ok":
+            continue
+        r = ler(pasta / t["resumo"])
+        for chave in ("numeros", "numeros_terreo"):
+            lim = r[chave]["limitante"]
+            assert set(lim) == {"andares", "unidades"}
+            assert all(isinstance(x, str) and x.strip() for x in lim.values()), (t["id"], chave)
+        assert r["numeros"]["vagas"] == {"valor": None, "unidade": "vagas", "nota": "estudo sem térreo: sem garagem"}
+        assert set(r["numeros_terreo"]["vagas"]) == {"valor", "unidade"}  # com térreo: como antes
+        (a, u), (at, ut, v) = HOJE[t["id"]]
+        n, nt = r["numeros"], r["numeros_terreo"]
+        assert (n["andares"]["valor"], n["unidades"]["valor"]) == (a, u), t["id"]
+        assert (nt["andares"]["valor"], nt["unidades"]["valor"], nt["vagas"]["valor"]) == (at, ut, v), t["id"]
+    # o motivo vem do que a torre já sabia, e o 3 por andar do terreno 4 aparece
+    r4 = ler(pasta / "terreno-4" / "resumo.json")["numeros"]["limitante"]
+    assert "15 e 18 m" in r4["andares"] and "até 3 unidades" in r4["unidades"]
+    assert "altura máxima" in ler(pasta / "terreno-6" / "resumo.json")["numeros"]["limitante"]["andares"]
 
 
 def test_piloto_quebrado_nao_derruba_os_outros():

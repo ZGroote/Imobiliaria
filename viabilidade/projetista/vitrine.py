@@ -10,6 +10,7 @@ import argparse
 import json
 import math
 import os
+import re
 import sys
 import tempfile
 from pathlib import Path
@@ -101,16 +102,47 @@ def _gravar(caminho, dado):
             tmp.unlink(missing_ok=True)
 
 
-def _numeros(T, area_lote):
+def _br(x):
+    return f"{x:g}".replace(".", ",")
+
+
+def _por_que_parou(parou):
+    """O `parou` da torre em português simples para a tela; sem `parou`, diz isso."""
+    if not parou:
+        return "A torre não registrou motivo para parar."
+    m = re.search(r"passa da altura máxima da caixa \(([\d.]+) m\)", parou)
+    if m:
+        return f"Chegou na altura máxima do terreno ({_br(float(m[1]))} m): o próximo andar passaria dela."
+    m = re.search(r"\(z ([\d.]+) a ([\d.]+) m\) sai do envelope dessa altura: ([\d.]+) m² para fora", parou)
+    if m:
+        return (f"O recuo cresce com a altura: o andar entre {_br(float(m[1]))} e {_br(float(m[2]))} m não cabe "
+                f"({_br(float(m[3]))} m² ficariam fora da área em que se pode construir).")
+    return parou
+
+
+def _por_que_unidades(por_andar, n):
+    """Unidades por andar: o que o gerador faz (um núcleo, até n unidades) e o que a torre perde nos andares de cima."""
+    tipo = [u for k, u in por_andar.items() if k != "terreo"]
+    texto = f"O gerador desenha um núcleo só (escada, elevador e shaft), com até {n} unidades por andar."
+    if n < PROGRAMAS[0]:
+        texto += f" Com {PROGRAMAS[0]} unidades por andar não coube neste terreno."
+    if tipo and min(tipo) < max(tipo):
+        texto += f" Nos andares de cima o recuo tira unidades: de {max(tipo)} caem para {min(tipo)}."
+    return texto
+
+
+def _numeros(T, area_lote, n, terreo):
     def med(valor, unidade):
         return {"valor": valor, "unidade": unidade}
 
     def v(chave):
         return T[chave]["valor"] or 0
 
+    vagas = med(v("vagas"), "vagas") if terreo else {**med(None, "vagas"), "nota": "estudo sem térreo: sem garagem"}
     return {"andares": med(v("pavimentos"), "pav"), "unidades": med(v("unidades"), "un"),
-            "vagas": med(v("vagas"), "vagas"), "area_privativa": med(v("privativa_total"), "m²"),
-            "area_computavel": med(v("computavel_total"), "m²"), "area_lote": med(area_lote, "m²")}
+            "vagas": vagas, "area_privativa": med(v("privativa_total"), "m²"),
+            "area_computavel": med(v("computavel_total"), "m²"), "area_lote": med(area_lote, "m²"),
+            "limitante": {"andares": _por_que_parou(T["parou"]), "unidades": _por_que_unidades(T["unidades_por_andar"], n)}}
 
 
 def _volumes_wgs84(estudo):
@@ -170,7 +202,8 @@ def _terreno(caminho, numero, pasta):
     area = rev["site"]["area_m2"]
     contorno, centro = _lote(rev["site"]["polygon_utm"])
     resumo = {"id": id_, "nome": f"Terreno {numero}", "estudo": "estudo-previa.json", "estudo_terreo": "estudo-previa-terreo.json",
-              "numeros": _numeros(versoes["sem"][0], area), "numeros_terreo": _numeros(versoes["com"][0], area)}
+              "numeros": _numeros(versoes["sem"][0], area, n, False),
+              "numeros_terreo": _numeros(versoes["com"][0], area, n, True)}
     # tudo calculado: só agora grava, para um terreno que falha não deixar pasta pela metade
     _gravar(pasta / id_ / "estudo-previa.json", serializar_estudo(versoes["sem"][1]))
     _gravar(pasta / id_ / "estudo-previa-terreo.json", serializar_estudo(versoes["com"][1]))

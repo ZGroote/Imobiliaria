@@ -20,13 +20,18 @@
    "unidade": "m²",
    "valor": 2237.9
   },
+  "limitante": {
+   "andares": "O recuo cresce com a altura: o andar entre 18 e 21 m não cabe (24,51 m² ficariam fora da área em que se pode construir).",
+   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 6 unidades por andar. Nos andares de cima o recuo tira unidades: de 6 caem para 3."
+  },
   "unidades": {
    "unidade": "un",
    "valor": 30
   },
   "vagas": {
+   "nota": "estudo sem térreo: sem garagem",
    "unidade": "vagas",
-   "valor": 0
+   "valor": null
   }
  },
  "numeros_terreo": {
@@ -45,6 +50,10 @@
   "area_privativa": {
    "unidade": "m²",
    "valor": 1790.32
+  },
+  "limitante": {
+   "andares": "O recuo cresce com a altura: o andar entre 18 e 21 m não cabe (24,51 m² ficariam fora da área em que se pode construir).",
+   "unidades": "O gerador desenha um núcleo só (escada, elevador e shaft), com até 6 unidades por andar. Nos andares de cima o recuo tira unidades: de 6 caem para 3."
   },
   "unidades": {
    "unidade": "un",
