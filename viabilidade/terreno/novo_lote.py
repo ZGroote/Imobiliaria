@@ -217,7 +217,9 @@ class Cadastro:
         d = float(self.tree_ruas.query_nearest(g, return_distance=True)[1][0])
         return ("Lote sem frente para rua: nenhum lado de pelo menos 8 m a até 6 m do asfalto (nem juntando arestas "
                 f"colineares, nem até {gl.TOLERANCIA_M} m sem lote no meio, nem pela borda da quadra com vão de 8 a 30 m "
-                f"até a quadra da frente ligado ao asfalto, nem por rua do OSM a até {gl.OSM_EIXO_M} m e paralela); o asfalto mais próximo da malha está a {d:.1f} m. "
+                f"até a quadra da frente ligado ao asfalto, nem por rua do OSM a até {gl.OSM_EIXO_M} m e paralela, {gl.OSM_EIXO_LARGA_M} m em avenida; "
+                f"nem lado de {gl.FRENTE_ESTREITA_M} a 8 m com metade da largura média do lote, nem pedaços na mesma via somando 8 m); "
+                f"o asfalto mais próximo da malha está a {d:.1f} m. "
                 "A malha de ruas tem buracos: se o lote dá pra rua, informe outro lote ou confira a base")
 
     def gerar(self, indices, zona):
@@ -274,7 +276,13 @@ class Cadastro:
                "Restrições do loteamento não verificadas. ")
         if len(qualidade["frentes"]) > 1:
             obs += "Há mais de uma frente candidata; as demais constam em qualidade.frentes. "
-        if escolhida.get("regra") == "arestas_colineares":
+        if escolhida.get("frente_curta") == "juntada":
+            obs += (f"AVISO: frente quebrada no cadastro, somando {len(escolhida['pedacos_m'])} pedaços na mesma via "
+                    f"({' + '.join(f'{p:g}' for p in escolhida['pedacos_m'])} m), nenhum de 8 m sozinho. Conferir a testada na matrícula. ")
+        elif escolhida.get("frente_curta") == "estreita":
+            obs += (f"AVISO: frente estreita de {escolhida['comprimento_m']:g} m (menos de 8 m; aceita por ter os 5 m da Lei 6.766/79 "
+                    f"e pelo menos metade da largura média do lote, {escolhida['largura_media_m']:g} m). Conferir a testada na matrícula. ")
+        if escolhida.get("regra") == "arestas_colineares" and escolhida.get("frente_curta") != "juntada":
             obs += f"Frente juntando {len(arestas)} arestas colineares contíguas ({arestas}), a até 6 m do asfalto. "
         elif escolhida.get("regra") == "borda_de_quadra":
             obs += (f"AVISO: frente presumida pela borda da quadra (sem asfalto no mapa): o lado dá para um vão de "

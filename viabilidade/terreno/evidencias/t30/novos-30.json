@@ -1,0 +1,93 @@
+[
+ {
+  "lote": 68151,
+  "zona_codigo": "SC-Z1",
+  "zona_a_olho_T29": "SC-Z1",
+  "categoria_T29": "texto por cima",
+  "bate": true
+ },
+ {
+  "lote": 72288,
+  "zona_codigo": "SC-Z1",
+  "zona_a_olho_T29": "SC-Z1",
+  "categoria_T29": "texto por cima",
+  "bate": true
+ },
+ {
+  "lote": 12545,
+  "zona_codigo": "SC-Z2",
+  "zona_a_olho_T29": "SC-Z2",
+  "categoria_T29": "texto por cima",
+  "bate": true
+ },
+ {
+  "lote": 21498,
+  "zona_codigo": "SC-Z2",
+  "zona_a_olho_T29": "SC-Z2",
+  "categoria_T29": "texto por cima",
+  "bate": true
+ },
+ {
+  "lote": 22356,
+  "zona_codigo": "SC-Z2",
+  "zona_a_olho_T29": "SC-Z2",
+  "categoria_T29": "texto por cima",
+  "bate": true
+ },
+ {
+  "lote": 23086,
+  "zona_codigo": "SC-Z2",
+  "zona_a_olho_T29": "SC-Z2",
+  "categoria_T29": "texto por cima",
+  "bate": true
+ },
+ {
+  "lote": 51670,
+  "zona_codigo": "SC-Z2",
+  "zona_a_olho_T29": "SC-Z2",
+  "categoria_T29": "texto por cima",
+  "bate": true
+ },
+ {
+  "lote": 55625,
+  "zona_codigo": "SC-Z2",
+  "zona_a_olho_T29": "SC-Z2",
+  "categoria_T29": "texto por cima",
+  "bate": true
+ },
+ {
+  "lote": 57190,
+  "zona_codigo": "SC-Z2",
+  "zona_a_olho_T29": "SC-Z2",
+  "categoria_T29": "córrego por cima",
+  "bate": true
+ },
+ {
+  "lote": 60197,
+  "zona_codigo": "SC-Z2",
+  "zona_a_olho_T29": "SC-Z2",
+  "categoria_T29": "córrego por cima",
+  "bate": true
+ },
+ {
+  "lote": 62964,
+  "zona_codigo": "SC-Z2",
+  "zona_a_olho_T29": "SC-Z2",
+  "categoria_T29": "texto por cima",
+  "bate": true
+ },
+ {
+  "lote": 75478,
+  "zona_codigo": "SC-Z2",
+  "zona_a_olho_T29": "SC-Z2",
+  "categoria_T29": "texto por cima",
+  "bate": true
+ },
+ {
+  "lote": 81626,
+  "zona_codigo": "SC-Z3",
+  "zona_a_olho_T29": "SC-Z3",
+  "categoria_T29": "córrego por cima",
+  "bate": true
+ }
+]

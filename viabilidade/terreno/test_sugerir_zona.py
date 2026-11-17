@@ -51,8 +51,22 @@ def testar_cores(mapa):
                 rgb[:, 4500-x0:4502-x0] = mapa.paleta[7]
             elif self.modo == "divisa_parque":  # T25: parque de verdade é mancha grande e continua divisa
                 rgb[:, :max(0, 4500-x0)] = mapa.paleta[7]
+            elif self.modo == "divisa_texto":  # T31: limite Z1|Z2 em x=4500 escondido debaixo de nome de rua de 16 px
+                rgb[:, 4500-x0:] = mapa.paleta[1]
+                rgb[:, 4485-x0:4501-x0] = (0, 0, 0)
             elif self.modo == "texto_fino":
                 rgb[:, 4530-x0:4532-x0] = (0, 0, 0)
+            elif self.modo.startswith("z2_"):  # T30: lote de Z2 com algo por cima, dentro do lote (4520-4540 x 6000-6030)
+                rgb[:] = mapa.paleta[1]
+                cor, (a, b, c, d) = {"z2_texto": ((0, 0, 0), (4527, 4535, 6005, 6025)),  # 8 px: 2 px longe de cor
+                                     "z2_texto_grosso": ((0, 0, 0), (4500, 4560, 6000, 6030)),
+                                     "z2_branco": ((255, 255, 255), (4530, 4534, 6010, 6014)),
+                                     "z2_branco_solto": ((255, 255, 255), (4530, 4532, 6010, 6012)),
+                                     "z2_parque_solto": (mapa.paleta[7], (4530, 4532, 6010, 6012)),
+                                     "z2_parque_4x4": (mapa.paleta[7], (4530, 4534, 6010, 6014)),
+                                     "z2_campus": (mapa.paleta[6], (4530, 4534, 6010, 6014)),
+                                     "z2_campus_solto": (mapa.paleta[6], (4530, 4532, 6010, 6012))}[self.modo]
+                rgb[c-y0:d-y0, a-x0:b-x0] = cor
             return Image.fromarray(rgb)
 
     raster = Raster()
@@ -97,9 +111,30 @@ def testar_cores(mapa):
         raster.modo = "divisa"
         z, s = mapa.sugerir(lote(4520, 4540))
         assert z == "SC-Z2" and s["distancia_divisa_m"] >= 10
-        for modo in ("desconhecida", "campus"):
+        raster.modo = "desconhecida"
+        recusar(lote(4520, 4540), "Cor sem correspondência")
+        raster.modo = "campus"  # T30: motivo próprio, sem repetir o genérico
+        assert "Cor sem" not in recusar(lote(4520, 4540), "Campus universitário: não é zona do art. 25")["motivo_duvida"]
+        # T30: texto que sobra sem cor (2 px no meio da faixa de 8) e parque solto não recusam; branco, campus,
+        # parque em mancha 4x4 e lote quase todo sem cor continuam recusando; branco/campus de 2x2 recusam com o genérico.
+        for modo in ("z2_texto", "z2_parque_solto"):
             raster.modo = modo
-            recusar(lote(4520, 4540), "Cor sem correspondência")
+            z, s = mapa.sugerir(lote(4520, 4540))
+            assert z == "SC-Z2" and s["proporcao_por_zona"].get("nao_classificada", 0) > 0, (modo, s["proporcao_por_zona"])
+        for modo, motivo in (("z2_branco", "Fora do perímetro urbano do Anexo 02"),
+                             ("z2_campus", "Campus universitário"), ("z2_parque_4x4", "Cor sem correspondência"),
+                             ("z2_texto_grosso", "Cor sem correspondência"), ("z2_branco_solto", "Cor sem correspondência"),
+                             ("z2_campus_solto", "Cor sem correspondência")):
+            raster.modo = modo
+            recusar(lote(4520, 4540), motivo)
+        # T31: lote no meio do texto que esconde o limite recusa (menos da metade com cor). O que entra 3-4 px além do
+        # limite e passava pela P1 (a T30 aceitava como Z2, divisa 10,6-12,0 m) recusa: a divisa mede também da mancha
+        # sem cor que sai do lote, e o Z1 aparece colado ao outro lado do texto.
+        raster.modo = "divisa_texto"
+        recusar(lote(4491, 4495), "Cor sem correspondência")
+        for x0 in (4496, 4497):
+            s = recusar(lote(x0, 4520), "Divisa/cor não zonal a menos de 10 m")
+            assert s["divisa_mancha_ignorada_m"] < 10 and "SC-Z1" in s["candidatas"], s
         raster.modo = "eixo"  # AUDITORIA-6 achado 1: Eixo a <=60 m recusa, com fundo + Eixo nas alternativas
         s = recusar(lote(4520, 4540), "Traço de Eixo a até 60 m")
         assert s["alternativas"] == ["SC-Z1", "SC-EIXO"], s["alternativas"]
@@ -116,11 +151,17 @@ def testar_cores(mapa):
         raster.modo = "texto_fino"
         z, s = mapa.sugerir(lote(4520, 4540))
         assert z == "SC-Z1" and any(p["cor_recuperada"] for p in s["pontos"])
-        recusar(lote(100, 120), "Fora do quadro")
-        recusar(gl.Polygon(mapa.utm([(500, 10300), (550, 10300), (550, 10350), (500, 10350)])), "Fora do quadro")
+        # T30: a oeste do quadro fica Ibaté (T29); no encarte, não.
+        recusar(gl.Polygon(mapa.utm([(-3000, 6000), (-2980, 6000), (-2980, 6030), (-3000, 6030)])),
+                "Fora do mapa do Anexo 02 (borda, legenda ou encarte) (a oeste fica Ibaté: lote provavelmente fora do "
+                "município de São Carlos)")
+        for pixels in ([(100, 6000), (300, 6000), (300, 6030), (100, 6030)],  # cruza a borda: não é Ibaté com certeza
+                       [(500, 10300), (550, 10300), (550, 10350), (500, 10350)],
+                       [(8800, 6000), (8820, 6000), (8820, 6030), (8800, 6030)]):  # a leste
+            assert "Ibaté" not in recusar(gl.Polygon(mapa.utm(pixels)), "Fora do mapa do Anexo 02")["motivo_duvida"]
     finally:
         mapa.imagem = original
-    print("OK: cores desconhecidas/campus, traços, lote multizona, divisa de 10 m e Eixo a 60 m recusa, linha fina de Z5B/parque não é divisa nem alternativa, parque grande e branco recusam, borda fina não é Eixo, Represa e cor ambígua recusam, lote grande demais.", flush=True)
+    print("OK: cores desconhecidas/campus, texto/parque solto no lote passam e branco/campus/parque 4x4/lote quase sem cor recusam (T30), Ibaté só a oeste, limite escondido debaixo do texto recusa (T31), traços, lote multizona, divisa de 10 m e Eixo a 60 m recusa, linha fina de Z5B/parque não é divisa nem alternativa, parque grande e branco recusam, borda fina não é Eixo, Represa e cor ambígua recusam, lote grande demais.", flush=True)
 
 
 # Tarefa 17: 8 cruzamentos de rua fora do ajuste (UTM 31983 do cadastro/malha; pixel = centro do cruzamento
