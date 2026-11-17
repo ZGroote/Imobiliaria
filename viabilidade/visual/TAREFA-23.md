@@ -61,3 +61,15 @@ O usuário vai mostrar a ideia para uma pessoa. A página atual (`index.html`) �
 - Não toque em `motor/`, `terreno/`, `projetista/`, `relatorio/`, painel, `.github/`, config nem hook.
 - Nada de dependência nova.
 - **Não publique nada.** Publicar depende do usuário.
+
+## Adendo (17/11): o fundo vai ser satélite
+
+O usuário escolheu o **satélite** e a publicação num **link de prévia que vence sozinho**. A publicação é feita pela central, não por você. Satélite de alta resolução de uso livre não existe sem chave: a Esri diz que o World Imagery sem chave não vale para uso comercial. Então:
+
+- **Não use ladrilho de satélite sem chave**, nem nos prints.
+- **Fundo em arquivo opcional:** a página lê `viabilidade/visual/fundo.json`, se ele existir, no formato `{"url": "...{z}/{x}/{y}...", "atribuicao": "...", "zoom_max": 19}`. Se ele não existir, usa o OSM de ruas da constante, como está na tarefa.
+  - Ponha `fundo.json` no `.gitignore` de `viabilidade/visual/`: a chave nunca entra no git.
+  - Deixe um `fundo.exemplo.json` sem chave, para mostrar o formato.
+- **A ordem `{z}/{x}/{y}` pode vir trocada** (`{z}/{y}/{x}` no ArcGIS). Aceite as duas pelos marcadores.
+- **Atribuição:** use a do `fundo.json` quando ele existir.
+- **Testes e prints:** continuam com o OSM ou com os ladrilhos bloqueados.
