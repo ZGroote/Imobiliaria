@@ -216,6 +216,10 @@ Rodar `python -I -X utf8 viabilidade/conferir.py` (testes de todas as frentes + 
 - **Terreno T31 entregue:** o alerta procedia. O caso adversário aceitava com a T30 (lote 3–4 px além do limite escondido). Conserto: a divisa de 10 m também mede da mancha ignorada. Sorteio de 500: 319 → 318. Em 3.000: 105 lotes da P1, 8 viram "só divisa" (2 reais, 6 por sombra de letra, conservador). conferir 8/8.
 - **Revisor T15 entregue:** sem achados. 4 variações adversárias próprias (texto inclinado, limite em diagonal, córrego, ponta da faixa) recusam; 5 aceitos iguais; conferir 8/8. `cor-quadro` (#128) fechado à espera do merge em ordem.
 
+## Pré-viabilidade física (PVF-G0)
+
+PRD 0.1 recebido em 16/11 (`viabilidade/PRD-PRE-VIABILIDADE-FISICA-0.1.md` no galho `projetista-g0`, `a5471fef`). Só autoriza revisão do PRD e o inventário PVF-G0: nada de implementação. Produto (Antigravity) faz o `PVF-G0.md`. **`viabilidade/pre-fisica/` nesta worktree é cópia temporária** (para o Antigravity não travar pedindo permissão fora daqui): não commitar aqui; a entrega vai para o galho `projetista-g0` e esta pasta é apagada. Auditor está sem crédito.
+
 ## Projetista arquitetônico (PA-G0)
 
 - **16/11:** o usuário aprovou **só o PA-G0** (descoberta e contratos, só documento) do PRD `PRD-PROJETISTA-0.1.md`. Worktree separada `Desktop/imobiliaria-projetista`, galho `viabilidade/projetista-g0` (da main `633ddaeb`), para não misturar com a pilha #125–#128.
