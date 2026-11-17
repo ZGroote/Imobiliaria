@@ -1,0 +1,58 @@
+{
+ "estudo": "estudo-previa.json",
+ "estudo_terreo": "estudo-previa-terreo.json",
+ "id": "terreno-5",
+ "nome": "Terreno 5",
+ "numeros": {
+  "andares": {
+   "unidade": "pav",
+   "valor": 2
+  },
+  "area_computavel": {
+   "unidade": "m²",
+   "valor": 1020.6145
+  },
+  "area_lote": {
+   "unidade": "m²",
+   "valor": 2684.9419
+  },
+  "area_privativa": {
+   "unidade": "m²",
+   "valor": 895.16
+  },
+  "unidades": {
+   "unidade": "un",
+   "valor": 12
+  },
+  "vagas": {
+   "unidade": "vagas",
+   "valor": 0
+  }
+ },
+ "numeros_terreo": {
+  "andares": {
+   "unidade": "pav",
+   "valor": 2
+  },
+  "area_computavel": {
+   "unidade": "m²",
+   "valor": 614.703
+  },
+  "area_lote": {
+   "unidade": "m²",
+   "valor": 2684.9419
+  },
+  "area_privativa": {
+   "unidade": "m²",
+   "valor": 447.58
+  },
+  "unidades": {
+   "unidade": "un",
+   "valor": 6
+  },
+  "vagas": {
+   "unidade": "vagas",
+   "valor": 15
+  }
+ }
+}
