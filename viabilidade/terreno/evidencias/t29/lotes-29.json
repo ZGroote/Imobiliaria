@@ -1,0 +1,382 @@
+{
+ "cor_insegura": [
+  {
+   "lote": 1782,
+   "categoria": "branco: fora do perímetro",
+   "zona_a_olho": null,
+   "inequivoca": false,
+   "P1": null,
+   "P1_sem_piso": null
+  },
+  {
+   "lote": 2032,
+   "categoria": "borda do perímetro",
+   "zona_a_olho": null,
+   "inequivoca": false,
+   "P1": null,
+   "P1_sem_piso": null
+  },
+  {
+   "lote": 2369,
+   "categoria": "branco: fora do perímetro",
+   "zona_a_olho": null,
+   "inequivoca": false,
+   "P1": null,
+   "P1_sem_piso": null
+  },
+  {
+   "lote": 12545,
+   "categoria": "texto por cima",
+   "zona_a_olho": "SC-Z2",
+   "inequivoca": true,
+   "P1": "SC-Z2",
+   "P1_sem_piso": "SC-Z2"
+  },
+  {
+   "lote": 21498,
+   "categoria": "texto por cima",
+   "zona_a_olho": "SC-Z2",
+   "inequivoca": true,
+   "P1": "SC-Z2",
+   "P1_sem_piso": "SC-Z2"
+  },
+  {
+   "lote": 22356,
+   "categoria": "texto por cima",
+   "zona_a_olho": "SC-Z2",
+   "inequivoca": true,
+   "P1": "SC-Z2",
+   "P1_sem_piso": "SC-Z2"
+  },
+  {
+   "lote": 23086,
+   "categoria": "texto por cima",
+   "zona_a_olho": "SC-Z2",
+   "inequivoca": true,
+   "P1": "SC-Z2",
+   "P1_sem_piso": "SC-Z2"
+  },
+  {
+   "lote": 39961,
+   "categoria": "campus (não é zona)",
+   "zona_a_olho": null,
+   "inequivoca": false,
+   "P1": null,
+   "P1_sem_piso": null
+  },
+  {
+   "lote": 51670,
+   "categoria": "texto por cima",
+   "zona_a_olho": "SC-Z2",
+   "inequivoca": true,
+   "P1": "SC-Z2",
+   "P1_sem_piso": "SC-Z2"
+  },
+  {
+   "lote": 55625,
+   "categoria": "texto por cima",
+   "zona_a_olho": "SC-Z2",
+   "inequivoca": true,
+   "P1": "SC-Z2",
+   "P1_sem_piso": "SC-Z2"
+  },
+  {
+   "lote": 57190,
+   "categoria": "córrego por cima",
+   "zona_a_olho": "SC-Z2",
+   "inequivoca": true,
+   "P1": "SC-Z2",
+   "P1_sem_piso": "SC-Z2"
+  },
+  {
+   "lote": 60197,
+   "categoria": "córrego por cima",
+   "zona_a_olho": "SC-Z2",
+   "inequivoca": true,
+   "P1": "SC-Z2",
+   "P1_sem_piso": "SC-Z2"
+  },
+  {
+   "lote": 62964,
+   "categoria": "texto por cima",
+   "zona_a_olho": "SC-Z2",
+   "inequivoca": true,
+   "P1": "SC-Z2",
+   "P1_sem_piso": "SC-Z2"
+  },
+  {
+   "lote": 63932,
+   "categoria": "sombra do rótulo",
+   "zona_a_olho": "SC-Z3",
+   "inequivoca": true,
+   "P1": null,
+   "P1_sem_piso": "SC-Z3"
+  },
+  {
+   "lote": 64640,
+   "categoria": "campus (não é zona)",
+   "zona_a_olho": null,
+   "inequivoca": false,
+   "P1": null,
+   "P1_sem_piso": null
+  },
+  {
+   "lote": 64897,
+   "categoria": "campus (não é zona)",
+   "zona_a_olho": null,
+   "inequivoca": false,
+   "P1": null,
+   "P1_sem_piso": null
+  },
+  {
+   "lote": 68151,
+   "categoria": "texto por cima",
+   "zona_a_olho": "SC-Z1",
+   "inequivoca": true,
+   "P1": "SC-Z1",
+   "P1_sem_piso": "SC-Z1"
+  },
+  {
+   "lote": 72288,
+   "categoria": "texto por cima",
+   "zona_a_olho": "SC-Z1",
+   "inequivoca": true,
+   "P1": "SC-Z1",
+   "P1_sem_piso": "SC-Z1"
+  },
+  {
+   "lote": 75478,
+   "categoria": "texto por cima",
+   "zona_a_olho": "SC-Z2",
+   "inequivoca": true,
+   "P1": "SC-Z2",
+   "P1_sem_piso": "SC-Z2"
+  },
+  {
+   "lote": 81626,
+   "categoria": "córrego por cima",
+   "zona_a_olho": "SC-Z3",
+   "inequivoca": true,
+   "P1": "SC-Z3",
+   "P1_sem_piso": "SC-Z3"
+  },
+  {
+   "lote": 90722,
+   "categoria": "sombra do rótulo",
+   "zona_a_olho": "SC-Z4",
+   "inequivoca": true,
+   "P1": null,
+   "P1_sem_piso": "SC-Z4"
+  },
+  {
+   "lote": 97953,
+   "categoria": "branco: fora do perímetro",
+   "zona_a_olho": null,
+   "inequivoca": false,
+   "P1": null,
+   "P1_sem_piso": null
+  },
+  {
+   "lote": 102806,
+   "categoria": "branco: fora do perímetro",
+   "zona_a_olho": null,
+   "inequivoca": false,
+   "P1": null,
+   "P1_sem_piso": null
+  },
+  {
+   "lote": 105161,
+   "categoria": "branco: fora do perímetro",
+   "zona_a_olho": null,
+   "inequivoca": false,
+   "P1": null,
+   "P1_sem_piso": null
+  },
+  {
+   "lote": 107324,
+   "categoria": "branco: fora do perímetro",
+   "zona_a_olho": null,
+   "inequivoca": false,
+   "P1": null,
+   "P1_sem_piso": null
+  }
+ ],
+ "fora_do_quadro": [
+  {
+   "lote": 96352,
+   "lonlat": [
+    -48.00492,
+    -21.95724
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 96707,
+   "lonlat": [
+    -48.00486,
+    -21.95326
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 97072,
+   "lonlat": [
+    -47.99243,
+    -21.95425
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 97088,
+   "lonlat": [
+    -47.99243,
+    -21.95454
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 97912,
+   "lonlat": [
+    -48.01602,
+    -21.95905
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 98029,
+   "lonlat": [
+    -48.01521,
+    -21.95726
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 98537,
+   "lonlat": [
+    -47.99917,
+    -21.96503
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 98779,
+   "lonlat": [
+    -48.01509,
+    -21.95613
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 99123,
+   "lonlat": [
+    -47.99213,
+    -21.95735
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 99627,
+   "lonlat": [
+    -48.00496,
+    -21.95184
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 99865,
+   "lonlat": [
+    -48.00029,
+    -21.9647
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 101835,
+   "lonlat": [
+    -48.00015,
+    -21.95267
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 102506,
+   "lonlat": [
+    -48.00017,
+    -21.95362
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 104037,
+   "lonlat": [
+    -47.98698,
+    -21.95877
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 105611,
+   "lonlat": [
+    -48.00958,
+    -21.95217
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 105740,
+   "lonlat": [
+    -48.00948,
+    -21.96546
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 106790,
+   "lonlat": [
+    -48.0024,
+    -21.9508
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 106930,
+   "lonlat": [
+    -48.00962,
+    -21.95866
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 107862,
+   "lonlat": [
+    -48.00352,
+    -21.95915
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 108170,
+   "lonlat": [
+    -48.01482,
+    -21.95853
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 108515,
+   "lonlat": [
+    -48.0045,
+    -21.9557
+   ],
+   "categoria": "fora do município (Ibaté)"
+  },
+  {
+   "lote": 109782,
+   "lonlat": [
+    -47.98806,
+    -21.95533
+   ],
+   "categoria": "fora do município (Ibaté)"
+  }
+ ]
+}
