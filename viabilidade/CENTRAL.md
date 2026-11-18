@@ -244,3 +244,9 @@ PRD 0.1 recebido em 16/11 (`viabilidade/PRD-PRE-VIABILIDADE-FISICA-0.1.md` no ga
 - **Retomada 17/11 noite (2):** amostra ok (5 provedores); conferir 8/8; sem entrega nova.
 - **Retomada 17/11 noite (3):** amostra ok (5 provedores); conferir 8/8; sem entrega nova nas duas worktrees.
 - **Retomada 17/11 noite (4):** amostra ok (5 provedores); conferir 8/8; sem entrega nova.
+
+## 17/11 noite: PROJETO PARADO a pedido do usuário
+
+- Nenhuma tarefa nova despachada; nenhuma frente com tarefa aberta. Agentes não foram interrompidos (estavam ociosos).
+- Canais que vencem sozinhos: `viabilidade-1e` (22/11, renovação só com OK) e `vitrine-20261117` (24/11).
+- Ao retomar: ler a seção "17/11 à tarde" (pendências: estudo completo com 84 volumes "Não informado", lote pequeno sem estudo, `projetista/exemplo-22421/` solto na W2, imagens novas na trava quando for para a main).
