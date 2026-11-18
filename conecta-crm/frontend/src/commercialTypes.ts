@@ -1,0 +1,9 @@
+export type CompanyRef={id:string;name:string};
+export type Association={id:string;thread_id:string;company_id:string;company_name:string;opportunity_id:string|null;opportunity_title:string|null;subject:string;account_id:string;last_at:string};
+export type CommercialEvent={id:number;action:string;occurred_at:string;actor:string;payload:Record<string,unknown>};
+export type Opportunity={id:string;company_id:string;company_name:string;title:string;stage:string;amount_minor:number|null;currency:'BRL'|'USD'|null;next_step:string;due_on:string|null;notes:string;version:number;overdue?:number;links:Association[];history:CommercialEvent[]};
+export type OpportunityIntent={id?:string;company?:CompanyRef;tab?:'data'|'proposals'|'project'};
+export const stageLabels:Record<string,string>={qualification:'Qualificação',contact:'Contato em andamento',demo:'Demonstração',proposal:'Proposta',negotiation:'Negociação',won:'Ganha',lost:'Perdida'};
+export const eventLabels:Record<string,string>={contact_saved:'Contato profissional salvo',development_saved:'Empreendimento pesquisado salvo',project_created:'Acompanhamento de projeto criado',project_updated:'Acompanhamento de projeto atualizado',proposal_saved:'Proposta salva',proposal_approved:'Revisão interna da proposta registrada',proposal_exported:'Proposta exportada',opportunity_created:'Oportunidade criada',opportunity_updated:'Oportunidade atualizada',conversation_linked:'Conversa vinculada',conversation_unlinked:'Vínculo removido',thread_links_merged:'Vínculo preservado no agrupamento da conversa'};
+export const calendarDate=(value:string)=>value.split('-').reverse().join('/');
+export const money=(amount:number|null,currency:string|null)=>amount===null||!currency?'Valor não informado':new Intl.NumberFormat('pt-BR',{style:'currency',currency}).format(amount/100);

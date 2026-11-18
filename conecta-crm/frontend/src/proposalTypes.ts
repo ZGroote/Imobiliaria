@@ -1,0 +1,3 @@
+export type ProposalPayload={profile_id:'BR'|'US';project_name:string;contact_name:string;sender_name:string;scope:string;deliverables:string;materials:string;timeline:string;revisions:string;support:string;payment_terms:string;exclusions:string;amount_minor:number|null;currency:'BRL'|'USD'|null;valid_until:string|null};
+type Snapshot={company_name:string;opportunity_title:string;opportunity_version:number;estimate_minor:number|null;estimate_currency:'BRL'|'USD'|null};
+export type Proposal={id:string;opportunity_id:string;version:number;selected_version:number;status:string;content_hash:string;payload:ProposalPayload;snapshot:Snapshot;current_opportunity:Snapshot;approval_current:boolean;review_errors:string[];versions:{version:number;created_at:string}[]};
